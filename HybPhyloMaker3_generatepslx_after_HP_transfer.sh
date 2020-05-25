@@ -102,11 +102,11 @@ else
 fi
 
 #Copy script for correcting pslx files
-cp -r $source/correct_pslx.py .
+cp -r $source/correct_pslx.py
 
 #Make a new folder for results
 mkdir $path/$type/50pslx
-mkdir $PBS_O_WORKDIR/$otherpslx
+mkdir /storage/$server/home/$LOGNAME/$otherpslx
 
 #Make a list of all files with contigs
 ls *.fas > contig_names.txt
