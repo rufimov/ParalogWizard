@@ -6,24 +6,6 @@ path_to_data_HP = sys.argv[1]
 path_to_data_HPM = sys.argv[2]
 probe_HP_one_repr = sys.argv[3]
 
-os.system(
-    'echo "**********************************************************************************************************"\n'
-    'echo "\nCollecting raw contigs..."\n'
-    'cd %s\n'
-    'for folder in $(find . -maxdepth 1 -type d | sed \'s/.\///\' | tail -n +2); do\n'
-    'cd $folder\n'
-    'echo "\tProcessing ${folder}"\n'
-    'for gene in $(find . -maxdepth 1 -type d | sed \'s/.\///\' | tail -n +2); do\n'
-    'locus=$gene\n'
-    'if test -f "$locus/${locus}_contigs.fasta"; then\n'
-    'cat $locus/${locus}_contigs.fasta | sed "s/>/>${locus}_/g" >> ../${folder}_contigs.fasta\n'
-    'fi\n'
-    'done\n'
-    'cd ..\n'
-    'echo "\tOK"\n'
-    'done\n'
-    'echo "Done"\n'
-    'echo \n' % path_to_data_HP)
 os.system('mkdir -p %(path_to_data_HPM)s/exons/40contigs\n'
           'mv %(path_to_data_HP)s/*contigs.fasta %(path_to_data_HPM)s/exons/40contigs\n'
           'cd %(path_to_data_HPM)s/exons/40contigs\n'

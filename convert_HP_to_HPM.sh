@@ -28,8 +28,7 @@ probe_HP="${probe_HP_one_repr}"
 echo
 
 echo 'Going to scratch'
-#Move to scratch
-cd ${SCRATCHDIR}
+
 #Add necessary modules
 module add blast+-2.8.0a
 
@@ -37,8 +36,22 @@ echo
 
 echo 'Copying data to scratch'
 #Copy data to scratch
-mkdir -p ${path_to_data_HP}
-cp -r ${path_HP}/*.dedup ${path_to_data_HP}
+mkdir -p ${SCRATCHDIR}/${path_to_data_HP}
+cd $path_HP
+for folder in $(find . -maxdepth 1 -type d | sed \'s/.\///\' | tail -n +2); do
+cd $folder
+echo "\tProcessing ${folder}"\n
+for gene in $(find . -maxdepth 1 -type d | sed \'s/.\///\' | tail -n +2); do
+locus=$gene
+if test -f "$locus/${locus}_contigs.fasta"; then
+cat $locus/${locus}_contigs.fasta | sed "s/>/>${locus}_/g" >> ${SCRATCHDIR}/${path_to_data_HP}/${folder}_contigs.fasta
+fi\
+done
+cd ..
+done
+
+#Move to scratch
+cd ${SCRATCHDIR}
 
 #Copy script and reference to scratch
 cp ${source}/${probe_HP} .
