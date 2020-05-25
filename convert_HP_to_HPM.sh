@@ -37,7 +37,7 @@ echo
 
 echo 'Copying data to scratch'
 #Copy data to scratch
-mkdir ${path_to_data_HP}
+mkdir -p ${path_to_data_HP}
 cp -r ${path_HP}/*.dedup ${path_to_data_HP}
 
 #Copy script and reference to scratch
