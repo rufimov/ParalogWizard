@@ -40,7 +40,7 @@ mkdir -p ${SCRATCHDIR}/${path_to_data_HP}
 cd $path_HP
 for folder in $(find . -maxdepth 1 -type d | sed 's/.\///' | tail -n +2); do
   cd $folder
-  echo "\tProcessing ${folder}"\n
+  echo 'Processing ${folder}'
   for gene in $(find . -maxdepth 1 -type d | sed 's/.\///' | tail -n +2); do
      locus=$gene
      if test -f "$locus/${locus}_contigs.fasta"; then
