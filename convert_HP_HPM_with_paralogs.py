@@ -23,7 +23,7 @@ with open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM) as list_of_
                   'makeblastdb -in %(path_to_data_HPM)s/exons/40contigs/%(file)s -parse_seqids -dbtype nucl '
                   '-out %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s\n'
                   'echo "\tRunning BLAST..."\n'
-                  'blastn -task blastn -evalue 1e-50 -db '
+                  'blastn -task blastn -evalue 1e-5 -db '
                   '%(path_to_data_HPM)s/exons/40contigs/%(blast_database)s -query '
                   '%(probe_HP_one_repr)s '
                   '-out %(path_to_data_HPM)s/exons/40contigs/reference_in_%(sample)s_contigs.txt  -outfmt "6 '
@@ -34,8 +34,10 @@ with open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM) as list_of_
                                    'probe_HP_one_repr': probe_HP_one_repr})
 
 print('Done\n\nCorrecting contigs..')
+statistics = {}
 for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).read().splitlines():
     print(' Processing ' + sample)
+    statistics[sample[:-6]] = {}
     with open('%s/exons/40contigs/' % path_to_data_HPM + 'reference_in_' + sample[:-6] + '_contigs'
                                                                                          '.txt') as \
             blast_results, open('%s/exons/40contigs/' % path_to_data_HPM + sample[:-6] + '.fas',
@@ -56,9 +58,9 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
         for line in blast_results.read().splitlines():
             if line.split()[1].split('_NODE_')[0] == line.split()[0].split('-')[1] and int(line.split()[3]) >= 70:
                 hits.append(line)
-            hits.sort(key=lambda x: float(x.split()[2]), reverse=True)
-            hits.sort(key=lambda x: float(x.split()[3]), reverse=True)
-            hits.sort(key=lambda x: x.split()[1])
+        hits.sort(key=lambda x: float(x.split()[2]), reverse=True)
+        hits.sort(key=lambda x: float(x.split()[3]), reverse=True)
+        hits.sort(key=lambda x: x.split()[1])
         contig_hits = set()
         for hit in hits:
             if hit.split()[1] not in contig_hits:
@@ -74,8 +76,56 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
                 contig_hits.add(hit.split()[1])
             else:
                 pass
+        hits.sort(key=lambda x: float(x.split()[3]), reverse=True)
+        hits.sort(key=lambda x: float(x.split()[2]), reverse=True)
+        hits.sort(key=lambda x: x.split()[0].split('-')[1])
+        #print(hits)
+        hits_loci_contigs = set()
+        hits_dedup = []
+        for hit in hits:
+            if str(hit.split()[0].split('-')[1] + ' ' + hit.split()[1]) not in hits_loci_contigs:
+                hits_dedup.append(hit)
+            else:
+                pass
+            hits_loci_contigs.add(hit.split()[0].split('-')[1] + ' ' + hit.split()[1])
+        #print(hits_dedup)
+        hits_loci = set()
+        for hit_dedup in hits_dedup:
+            if hit_dedup.split()[0].split('-')[1] not in hits_loci:
+                statistics[sample[:-6]][hit_dedup.split()[0].split('-')[1]] = 1
+            else:
+                statistics[sample[:-6]][hit_dedup.split()[0].split('-')[1]] += 1
+            hits_loci.add(hit_dedup.split()[0].split('-')[1])
     print(' OK')
 print('All contigs were successfully corrected!\n')
+print('Writing statistics...')
+with open('%s/exons/40contigs/statistics.csv' % path_to_data_HPM, 'w') as stats, open('%s' % probe_HP_one_repr) as \
+        reference:
+    stats_dict = dict([('gene\t', '')])
+    loci = set()
+    samples = []
+    for line in reference.read().splitlines():
+        if line.startswith('>'):
+            loci.add(line[1:].split('-')[1])
+    for key in statistics.keys():
+        samples.append(key)
+    samples.sort()
+    for sample in samples:
+        stats_dict['gene\t'] = stats_dict['gene\t'] + sample + '\t'
+    for locus in loci:
+        stats_dict[locus+'\t'] = ''
+        for sample in samples:
+            loci_in_sample = set(statistics[sample].keys())
+            if locus in loci_in_sample:
+                stats_dict[locus+'\t'] = stats_dict[locus+'\t'] + str(statistics[sample][locus]) + '\t'
+            else:
+                stats_dict[locus+'\t'] = stats_dict[locus+'\t'] + '0' + '\t'
+    #print(stats_dict)
+    stats.write('gene\t' + stats_dict['gene\t'] + '\n')
+    del stats_dict['gene\t']
+    for key in sorted(list(stats_dict.keys())):
+        stats.write(key + stats_dict[key] + '\n')
+print('Statistics file created!\n')
 print('Renaming contigs...')
 for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).read().splitlines():
     print(' Processing ' + sample)
@@ -99,7 +149,7 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
 print('All contigs were successfully renamed!\n')
 print('Removing temporary files...')
 os.system('cd %s/exons/40contigs\n'
-          'rm *.fasta *.txt *.n*\n' % path_to_data_HPM)
+          '#rm *.fasta *.txt *.n*\n' % path_to_data_HPM)
 print('Done\n')
 print('**********************************************************************************************************')
 print('\nData was successfully converted!')
