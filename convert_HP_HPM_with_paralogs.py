@@ -23,7 +23,7 @@ with open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM) as list_of_
                   'makeblastdb -in %(path_to_data_HPM)s/exons/40contigs/%(file)s -parse_seqids -dbtype nucl '
                   '-out %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s\n'
                   'echo "\tRunning BLAST..."\n'
-                  'blastn -task blastn'
+                  'blastn -task blastn '
                   '%(path_to_data_HPM)s/exons/40contigs/%(blast_database)s -query '
                   '%(probe_HP_one_repr)s '
                   '-out %(path_to_data_HPM)s/exons/40contigs/reference_in_%(sample)s_contigs.txt  -outfmt "6 '
