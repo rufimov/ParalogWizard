@@ -149,7 +149,7 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
 print('All contigs were successfully renamed!\n')
 print('Removing temporary files...')
 os.system('cd %s/exons/40contigs\n'
-          '#rm *.fasta *.txt *.n*\n' % path_to_data_HPM)
+          'rm *.fasta *.txt *.n*\n' % path_to_data_HPM)
 print('Done\n')
 print('**********************************************************************************************************')
 print('\nData was successfully converted!')
