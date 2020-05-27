@@ -24,11 +24,10 @@ with open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM) as list_of_
                   '-out %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s\n'
                   'echo "\tRunning BLAST..."\n'
                   'blastn -task blastn '
-                  '%(path_to_data_HPM)s/exons/40contigs/%(blast_database)s -query '
-                  '%(probe_HP_one_repr)s '
-                  '-out %(path_to_data_HPM)s/exons/40contigs/reference_in_%(sample)s_contigs.txt  -outfmt "6 '
-                  'qaccver saccver pident qcovs '
-                  'evalue bitscore sstart send"\n'
+                  '-db %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s '
+                  '-query %(probe_HP_one_repr)s '
+                  '-out %(path_to_data_HPM)s/exons/40contigs/reference_in_%(sample)s_contigs.txt '
+                  '-outfmt "6 qaccver saccver pident qcovs evalue bitscore sstart send"\n'
                   'echo "\tOK"' % {'file': file, 'sample': sample, 'blast_database': file[:-6],
                                    'path_to_data_HPM': path_to_data_HPM,
                                    'probe_HP_one_repr': probe_HP_one_repr})
@@ -58,6 +57,8 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
         for line in blast_results.read().splitlines():
             if line.split()[1].split('_NODE_')[0] == line.split()[0].split('-')[1] and int(line.split()[3]) >= 85:
                 hits.append(line)
+        hits.sort(key=lambda x: float(x.split()[5]), reverse=True)
+        hits.sort(key=lambda x: float(x.split()[4]))
         hits.sort(key=lambda x: float(x.split()[2]), reverse=True)
         hits.sort(key=lambda x: float(x.split()[3]), reverse=True)
         hits.sort(key=lambda x: x.split()[1])
@@ -76,6 +77,8 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
                 contig_hits.add(hit.split()[1])
             else:
                 pass
+        hits.sort(key=lambda x: float(x.split()[5]), reverse=True)
+        hits.sort(key=lambda x: float(x.split()[4]))
         hits.sort(key=lambda x: float(x.split()[3]), reverse=True)
         hits.sort(key=lambda x: float(x.split()[2]), reverse=True)
         hits.sort(key=lambda x: x.split()[0].split('-')[1])
