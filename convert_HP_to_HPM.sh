@@ -59,7 +59,8 @@ cp ${source}/convert_HP_HPM_with_paralogs.py .
 
 echo
 
-echo 'Running script'
+echo 'Running script...'
+echo
 
 python3 convert_HP_HPM_with_paralogs.py ${path_to_data_HP} ${path_to_data_HPM} ${probe_HP_one_repr} | tee convert_HP_HPM.log
 echo
