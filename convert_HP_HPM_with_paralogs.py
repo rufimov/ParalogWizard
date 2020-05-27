@@ -23,7 +23,7 @@ with open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM) as list_of_
                   'makeblastdb -in %(path_to_data_HPM)s/exons/40contigs/%(file)s -parse_seqids -dbtype nucl '
                   '-out %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s\n'
                   'echo "\tRunning BLAST..."\n'
-                  'blastn -task blastn -evalue 1e-5 -db '
+                  'blastn -task blastn'
                   '%(path_to_data_HPM)s/exons/40contigs/%(blast_database)s -query '
                   '%(probe_HP_one_repr)s '
                   '-out %(path_to_data_HPM)s/exons/40contigs/reference_in_%(sample)s_contigs.txt  -outfmt "6 '
@@ -56,7 +56,7 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
             contigs_fasta_parsed[corrected_contigs_fasta[i]] = corrected_contigs_fasta[i + 1]
         hits = []
         for line in blast_results.read().splitlines():
-            if line.split()[1].split('_NODE_')[0] == line.split()[0].split('-')[1] and int(line.split()[3]) >= 70:
+            if line.split()[1].split('_NODE_')[0] == line.split()[0].split('-')[1] and int(line.split()[3]) >= 85:
                 hits.append(line)
         hits.sort(key=lambda x: float(x.split()[2]), reverse=True)
         hits.sort(key=lambda x: float(x.split()[3]), reverse=True)
@@ -149,7 +149,7 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
 print('All contigs were successfully renamed!\n')
 print('Removing temporary files...')
 os.system('cd %s/exons/40contigs\n'
-          'rm *.fasta *.txt *.n*\n' % path_to_data_HPM)
+          '#rm *.fasta *.txt *.n*\n' % path_to_data_HPM)
 print('Done\n')
 print('**********************************************************************************************************')
 print('\nData was successfully converted!')
