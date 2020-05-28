@@ -12,6 +12,7 @@ os.system('mkdir -p %(path_to_data_HPM)s/exons/40contigs\n'
           'mv %(path_to_data_HP)s/*contigs.fasta %(path_to_data_HPM)s/exons/40contigs\n'
           'cd %(path_to_data_HPM)s/exons/40contigs\n'
           'for file in $(ls *.fasta); do\n'
+          'sed -i "s/NODE/N/g" "$file"\n'
           'sed -i "s/_length.\+\(_cov.\+\...\).\+$/\\1/g" "$file"\n'
           'mv $file $(echo $file | sed \'s/dedup_contigs.//g\')\n'
           'ls *.fasta > list_of_files.txt\n'
@@ -57,7 +58,7 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
             contigs_fasta_parsed[corrected_contigs_fasta[i]] = corrected_contigs_fasta[i + 1]
         hits = []
         for line in blast_results.read().splitlines():
-            if line.split()[1].split('_NODE_')[0] == line.split()[0].split('-')[1] and int(line.split()[3]) >= \
+            if line.split()[1].split('_N_')[0] == line.split()[0].split('-')[1] and int(line.split()[3]) >= \
                     length_cover and float(line.split()[1].split('_cov_')[1]) >= spades_cover:
                 hits.append(line)
         hits.sort(key=lambda x: float(x.split()[5]), reverse=True)
