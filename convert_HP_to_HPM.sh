@@ -77,4 +77,4 @@ echo
 
 echo 'Transfering finished!'
 
-EXIT
+exit
