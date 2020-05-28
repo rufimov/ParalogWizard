@@ -6,7 +6,7 @@ path_to_data_HP = sys.argv[1]
 path_to_data_HPM = sys.argv[2]
 probe_HP_one_repr = sys.argv[3]
 length_cover = int(sys.argv[4])
-spades_cover = int(sys.argv[5])
+spades_cover = float(sys.argv[5])
 
 os.system('mkdir -p %(path_to_data_HPM)s/exons/40contigs\n'
           'mv %(path_to_data_HP)s/*contigs.fasta %(path_to_data_HPM)s/exons/40contigs\n'
@@ -155,7 +155,9 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
 print('All contigs were successfully renamed!\n')
 print('Removing temporary files...')
 os.system('cd %s/exons/40contigs\n'
-          'rm *.fasta *.txt *.n*\n' % path_to_data_HPM)
+          'rm *.fasta\n'
+          'rm *.txt\n'
+          'rm *.n*\n' % path_to_data_HPM)
 print('Done\n')
 print('**********************************************************************************************************')
 print('\nData was successfully converted!')
