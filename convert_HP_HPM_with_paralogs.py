@@ -126,7 +126,7 @@ with open('%s/exons/40contigs/statistics.csv' % path_to_data_HPM, 'w') as stats,
             if locus in loci_in_sample:
                 stats_dict[locus + '\t'] = stats_dict[locus + '\t'] + str(statistics[sample][locus]) + '\t'
             else:
-                stats_dict[locus + '\t'] = stats_dict[locus + '\t'] + '0' + '\t'
+                stats_dict[locus + '\t'] = stats_dict[locus + '\t'] + 'NA' + '\t'
     # print(stats_dict)
     stats.write('gene\t' + stats_dict['gene\t'] + '\n')
     del stats_dict['gene\t']
