@@ -62,7 +62,7 @@ echo
 echo 'Running script...'
 echo
 
-python3 convert_HP_HPM_with_paralogs.py ${path_to_data_HP} ${path_to_data_HPM} ${probe_HP_one_repr} ${length_cut} ${spandes_cover_cut} | tee convert_HP_HPM.log
+python3 convert_HP_HPM_with_paralogs.py ${path_to_data_HP} ${path_to_data_HPM} ${probe_HP_one_repr} ${length_cut} ${spandes_cover_cut} | tee convert_HP_HPM.log || exit 1
 echo
 
 echo 'Copying results back to working directory'
@@ -76,3 +76,5 @@ echo
 echo
 
 echo 'Transfering finished!'
+
+EXIT
