@@ -55,7 +55,8 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
             contigs_fasta_parsed[corrected_contigs_fasta[i]] = corrected_contigs_fasta[i + 1]
         hits = []
         for line in blast_results.read().splitlines():
-            if line.split()[1].split('_NODE_')[0] == line.split()[0].split('-')[1] and int(line.split()[3]) >= 85:
+            if line.split()[1].split('_NODE_')[0] == line.split()[0].split('-')[1] and int(line.split()[3]) >= 85 and \
+                    float(line.split()[1].split('_cov_')[1]) >= 10:
                 hits.append(line)
         hits.sort(key=lambda x: float(x.split()[5]), reverse=True)
         hits.sort(key=lambda x: float(x.split()[4]))
@@ -82,7 +83,7 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
         hits.sort(key=lambda x: float(x.split()[3]), reverse=True)
         hits.sort(key=lambda x: float(x.split()[2]), reverse=True)
         hits.sort(key=lambda x: x.split()[0].split('-')[1])
-        #print(hits)
+        # print(hits)
         hits_loci_contigs = set()
         hits_dedup = []
         for hit in hits:
@@ -91,7 +92,7 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
             else:
                 pass
             hits_loci_contigs.add(hit.split()[0].split('-')[1] + ' ' + hit.split()[1])
-        #print(hits_dedup)
+        # print(hits_dedup)
         hits_loci = set()
         for hit_dedup in hits_dedup:
             if hit_dedup.split()[0].split('-')[1] not in hits_loci:
@@ -116,14 +117,14 @@ with open('%s/exons/40contigs/statistics.csv' % path_to_data_HPM, 'w') as stats,
     for sample in samples:
         stats_dict['gene\t'] = stats_dict['gene\t'] + sample + '\t'
     for locus in loci:
-        stats_dict[locus+'\t'] = ''
+        stats_dict[locus + '\t'] = ''
         for sample in samples:
             loci_in_sample = set(statistics[sample].keys())
             if locus in loci_in_sample:
-                stats_dict[locus+'\t'] = stats_dict[locus+'\t'] + str(statistics[sample][locus]) + '\t'
+                stats_dict[locus + '\t'] = stats_dict[locus + '\t'] + str(statistics[sample][locus]) + '\t'
             else:
-                stats_dict[locus+'\t'] = stats_dict[locus+'\t'] + '0' + '\t'
-    #print(stats_dict)
+                stats_dict[locus + '\t'] = stats_dict[locus + '\t'] + '0' + '\t'
+    # print(stats_dict)
     stats.write('gene\t' + stats_dict['gene\t'] + '\n')
     del stats_dict['gene\t']
     for key in sorted(list(stats_dict.keys())):
