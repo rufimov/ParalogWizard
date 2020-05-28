@@ -5,6 +5,8 @@ import sys
 path_to_data_HP = sys.argv[1]
 path_to_data_HPM = sys.argv[2]
 probe_HP_one_repr = sys.argv[3]
+length_cover = int(sys.argv[4])
+spades_cover = int(sys.argv[5])
 
 os.system('mkdir -p %(path_to_data_HPM)s/exons/40contigs\n'
           'mv %(path_to_data_HP)s/*contigs.fasta %(path_to_data_HPM)s/exons/40contigs\n'
@@ -55,8 +57,8 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
             contigs_fasta_parsed[corrected_contigs_fasta[i]] = corrected_contigs_fasta[i + 1]
         hits = []
         for line in blast_results.read().splitlines():
-            if line.split()[1].split('_NODE_')[0] == line.split()[0].split('-')[1] and int(line.split()[3]) >= 85 and \
-                    float(line.split()[1].split('_cov_')[1]) >= 10:
+            if line.split()[1].split('_NODE_')[0] == line.split()[0].split('-')[1] and int(line.split()[3]) >= \
+                    length_cover and float(line.split()[1].split('_cov_')[1]) >= spades_cover:
                 hits.append(line)
         hits.sort(key=lambda x: float(x.split()[5]), reverse=True)
         hits.sort(key=lambda x: float(x.split()[4]))
