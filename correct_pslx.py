@@ -8,7 +8,7 @@ def aln_similarity(y):
 
 
 def number_locus_for_sort(z):
-    return int(z.split()[13].split('_')[1])
+    return z.split()[13].split('_')[1]
 
 
 def number_exon_for_sort(a):
