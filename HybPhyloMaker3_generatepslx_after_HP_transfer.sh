@@ -154,7 +154,6 @@ done
 
 #Correct pslx files and copy results
 python3 correct_pslx.py $probes
-cp -r ${probes}.pslx corrected/
 cp -r corrected/* /storage/$server/home/$LOGNAME/$otherpslx
 
 #Clean scratch/work directory
