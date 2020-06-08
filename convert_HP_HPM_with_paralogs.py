@@ -30,13 +30,14 @@ with open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM) as list_of_
                   '-db %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s '
                   '-query %(probe_HP_one_repr)s '
                   '-out %(path_to_data_HPM)s/exons/40contigs/reference_in_%(sample)s_contigs.txt '
-                  '-outfmt "6 qaccver saccver pident qcovs evalue bitscore sstart send"\n'
+                  '-outfmt "6 qaccver saccver pident qcovhsp evalue bitscore sstart send qstart qend"\n'
                   'echo "\tOK"' % {'file': file, 'sample': sample, 'blast_database': file[:-6],
                                    'path_to_data_HPM': path_to_data_HPM,
                                    'probe_HP_one_repr': probe_HP_one_repr})
 
 print('Done\n\nCorrecting contigs..')
 statistics = {}
+all_hits_for_reference = []
 for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).read().splitlines():
     print(' Processing ' + sample)
     statistics[sample[:-6]] = {}
@@ -73,11 +74,19 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
                     result_fasta.write('>' + hit.split()[1] + '\n' + contigs_fasta_parsed['>' + hit.split()[1]][
                                                                      int(hit.split()[7]) - 1:int(
                                                                          hit.split()[6])] + '\n')
+                    all_hits_for_reference.append(
+                        '{0}\t{1}\t{2}'.format(hit, sample[:-6], contigs_fasta_parsed['>' + hit.split()[1]][
+                                                                         int(hit.split()[7]) - 1:int(
+                                                                             hit.split()[6])]))
 
                 else:
                     result_fasta.write('>' + hit.split()[1] + '\n' + contigs_fasta_parsed['>' + hit.split()[1]][
                                                                      int(hit.split()[6]) - 1:int(
                                                                          hit.split()[7])] + '\n')
+                    all_hits_for_reference.append(
+                        '{0}\t{1}\t{2}'.format(hit, sample[:-6], contigs_fasta_parsed['>' + hit.split()[1]][
+                                                                         int(hit.split()[6]) - 1:int(
+                                                                             hit.split()[7])]))
                 contig_hits.add(hit.split()[1])
             else:
                 pass
@@ -133,6 +142,21 @@ with open('%s/exons/40contigs/statistics.csv' % path_to_data_HPM, 'w') as stats,
     for key in sorted(list(stats_dict.keys())):
         stats.write(key + stats_dict[key] + '\n')
 print('Statistics file created!\n')
+print('Creating new reference...')
+all_hits_for_reference.sort(key=lambda x: float(x.split()[5]), reverse=True)
+all_hits_for_reference.sort(key=lambda x: float(x.split()[4]))
+all_hits_for_reference.sort(key=lambda x: float(x.split()[2]), reverse=True)
+all_hits_for_reference.sort(key=lambda x: float(x.split()[3]), reverse=True)
+all_hits_for_reference.sort(key=lambda x: x.split()[0])
+exons = set()
+with open('%s/exons/40contigs/new_reference.fas' % path_to_data_HPM,'w') as new_reference:
+    for hit in all_hits_for_reference:
+        if hit.split()[0] not in exons:
+            new_reference.write('>' + hit.split()[0] + '_' + hit.split()[-2] + '\n' + hit.split()[-1] + '\n')
+        else:
+            pass
+        exons.add(hit.split()[0])
+print('New reference created!\n')
 print('Renaming contigs...')
 for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).read().splitlines():
     print(' Processing ' + sample)
