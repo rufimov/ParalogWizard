@@ -152,7 +152,7 @@ exons = set()
 with open('%s/exons/40contigs/new_reference.fas' % path_to_data_HPM,'w') as new_reference:
     for hit in all_hits_for_reference:
         if hit.split()[0] not in exons:
-            new_reference.write('>' + hit.split()[0] + '_' + hit.split()[-2] + '\n' + hit.split()[-1] + '\n')
+            new_reference.write('>Assembly_' + hit.split()[0] + '_' + hit.split()[-2] + '\n' + hit.split()[-1] + '\n')
         else:
             pass
         exons.add(hit.split()[0])
