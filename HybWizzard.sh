@@ -62,7 +62,7 @@ echo
 echo 'Running script...'
 echo
 
-python3 HybWizzard-convert.py ${path_to_data_HP} ${path_to_data_HPM} ${probe_HP_one_repr} ${length_cut} ${spandes_cover_cut} | tee HybWizzard-convert.log || exit 1
+python3 HybWizzard-convert.py ${path_to_data_HP} ${path_to_data_HPM} ${probe_HP_one_repr} ${length_cut} ${spades_cover_cut} | tee HybWizzard-convert.log || exit 1
 echo
 
 echo 'Copying results back to working directory'
