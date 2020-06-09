@@ -55,14 +55,14 @@ cd ${SCRATCHDIR}
 
 #Copy script and reference to scratch
 cp ${source}/${probe_HP} .
-cp ${source}/HybWizzard-convert.py .
+cp ${source}/HybWizzard-CastConvert.py .
 
 echo
 
 echo 'Running script...'
 echo
 
-python3 HybWizzard-convert.py ${path_to_data_HP} ${path_to_data_HPM} ${probe_HP_one_repr} ${length_cut} ${spades_cover_cut} | tee HybWizzard-convert.log || exit 1
+python3 HybWizzard-CastConvert.py ${path_to_data_HP} ${path_to_data_HPM} ${probe_HP_one_repr} ${length_cut} ${spades_cover_cut} | tee HybWizzard-CastConvert.log || exit 1
 echo
 
 echo 'Copying results back to working directory'
@@ -70,7 +70,7 @@ echo 'Copying results back to working directory'
 #Copy results back
 mkdir ${path_HPM}
 cp -r ${path_to_data_HPM}/* ${path_HPM}
-cp HybWizzard-convert.log ${PBS_O_WORKDIR}
+cp HybWizzard-CastConvert.log ${PBS_O_WORKDIR}
 
 echo
 echo
