@@ -44,9 +44,12 @@ for file in list_to_process:
             list_to_work_cleaned2 = []
             hits2 = set()
             for line in list_to_work_cleaned1:
-                if line.split()[9] not in hits2:
+                if 'Prunus' not in line.split()[9].split('_')[1]:
+                    if line.split()[9] not in hits2:
+                        list_to_work_cleaned2.append(line)
+                        hits2.add(line.split()[9])
+                else:
                     list_to_work_cleaned2.append(line)
-                    hits2.add(line.split()[9])
             for line in head:
                 corrected_pslx_file.write(line + '\n')
             for line in list_to_work_cleaned2:

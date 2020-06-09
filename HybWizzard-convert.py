@@ -41,6 +41,7 @@ all_hits_for_reference = []
 for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).read().splitlines():
     print(' Processing ' + sample)
     statistics[sample[:-6]] = {}
+    hits = []
     with open('%s/exons/40contigs/' % path_to_data_HPM + 'reference_in_' + sample[:-6] + '_contigs'
                                                                                          '.txt') as \
             blast_results, open('%s/exons/40contigs/' % path_to_data_HPM + sample[:-6] + '.fas',
@@ -57,7 +58,6 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
         contigs_fasta_parsed = dict()
         for i in range(0, len(corrected_contigs_fasta), 2):
             contigs_fasta_parsed[corrected_contigs_fasta[i]] = corrected_contigs_fasta[i + 1]
-        hits = []
         for line in blast_results.read().splitlines():
             if line.split()[1].split('_N_')[0] == line.split()[0].split('-')[1] and int(line.split()[3]) >= \
                     length_cover and float(line.split()[1].split('_cov_')[1]) >= spades_cover:
@@ -92,8 +92,8 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
                 pass
         hits.sort(key=lambda x: float(x.split()[5]), reverse=True)
         hits.sort(key=lambda x: float(x.split()[4]))
-        hits.sort(key=lambda x: float(x.split()[3]), reverse=True)
         hits.sort(key=lambda x: float(x.split()[2]), reverse=True)
+        hits.sort(key=lambda x: float(x.split()[3]), reverse=True)
         hits.sort(key=lambda x: x.split()[0].split('-')[1])
         # print(hits)
         hits_loci_contigs = set()
@@ -104,7 +104,11 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
             else:
                 pass
             hits_loci_contigs.add(hit.split()[0].split('-')[1] + ' ' + hit.split()[1])
-        # print(hits_dedup)
+        hits_dedup.sort(key=lambda x: float(x.split()[5]), reverse=True)
+        hits_dedup.sort(key=lambda x: float(x.split()[4]))
+        hits_dedup.sort(key=lambda x: float(x.split()[3]), reverse=True)
+        hits_dedup.sort(key=lambda x: float(x.split()[2]), reverse=True)
+        hits_dedup.sort(key=lambda x: x.split()[0].split('-')[1])
         hits_loci = set()
         for hit_dedup in hits_dedup:
             if hit_dedup.split()[0].split('-')[1] not in hits_loci:
@@ -112,6 +116,10 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
             else:
                 statistics[sample[:-6]][hit_dedup.split()[0].split('-')[1]] += 1
             hits_loci.add(hit_dedup.split()[0].split('-')[1])
+    with open('%s/exons/40contigs/' % path_to_data_HPM + 'reference_against_' + sample[:-6] + '_contigs.txt', 'w') as \
+            hittable:
+        for hit in hits:
+            hittable.write(hit+'\n')
     print(' OK')
 print('All contigs were successfully corrected!\n')
 print('Writing statistics...')
@@ -181,7 +189,7 @@ print('All contigs were successfully renamed!\n')
 print('Removing temporary files...')
 os.system('cd %s/exons/40contigs\n'
           'rm *.fasta\n'
-          'rm *.txt\n'
+          '#rm *.txt\n'
           'rm *.n*\n' % path_to_data_HPM)
 print('Done\n')
 print('**********************************************************************************************************')

@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -l walltime=4:0:0
 #PBS -l select=1:ncpus=1:mem=4gb:scratch_local=2gb
-#PBS -N Convert_HP_HPM
+#PBS -N HybWizzard
 #PBS -m abe
 #PBS -j oe
 
@@ -55,14 +55,14 @@ cd ${SCRATCHDIR}
 
 #Copy script and reference to scratch
 cp ${source}/${probe_HP} .
-cp ${source}/convert_HP_HPM_with_paralogs.py .
+cp ${source}/HybWizzard-convert.py .
 
 echo
 
 echo 'Running script...'
 echo
 
-python3 convert_HP_HPM_with_paralogs.py ${path_to_data_HP} ${path_to_data_HPM} ${probe_HP_one_repr} ${length_cut} ${spades_cover_cut} | tee convert_HP_HPM.log || exit 1
+python3 HybWizzard-convert.py ${path_to_data_HP} ${path_to_data_HPM} ${probe_HP_one_repr} ${length_cut} ${spandes_cover_cut} | tee HybWizzard-convert.log || exit 1
 echo
 
 echo 'Copying results back to working directory'
@@ -70,7 +70,7 @@ echo 'Copying results back to working directory'
 #Copy results back
 mkdir ${path_HPM}
 cp -r ${path_to_data_HPM}/* ${path_HPM}
-cp convert_HP_HPM.log ${PBS_O_WORKDIR}
+cp HybWizzard-convert.log ${PBS_O_WORKDIR}
 
 echo
 echo
