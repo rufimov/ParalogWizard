@@ -15,30 +15,29 @@ os.system('mkdir -p %(path_to_data_HPM)s/exons/40contigs\n'
           'sed -i "s/NODE/N/g" "$file"\n'
           'sed -i "s/_length.\+\(_cov.\+\...\).\+$/\\1/g" "$file"\n'
           'mv $file $(echo $file | sed \'s/dedup_contigs.//g\')\n'
-          'ls *.fasta > list_of_files.txt\n'
           'done\n'
           'echo "Creating hit table for each sample..."' % {'path_to_data_HP': path_to_data_HP,
                                                             'path_to_data_HPM': path_to_data_HPM})
-with open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM) as list_of_files:
-    for file in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
-        sample = file[:-6]
-        os.system('echo "\n\tProcessing %(sample)s"\n'
-                  'makeblastdb -in %(path_to_data_HPM)s/exons/40contigs/%(file)s -parse_seqids -dbtype nucl '
-                  '-out %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s\n'
-                  'echo "\tRunning BLAST..."\n'
-                  'blastn -task blastn '
-                  '-db %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s '
-                  '-query %(probe_HP_one_repr)s '
-                  '-out %(path_to_data_HPM)s/exons/40contigs/reference_in_%(sample)s_contigs.txt '
-                  '-outfmt "6 qaccver saccver pident qcovhsp evalue bitscore sstart send"\n'
-                  'echo "\tOK"' % {'file': file, 'sample': sample, 'blast_database': file[:-6],
-                                   'path_to_data_HPM': path_to_data_HPM,
-                                   'probe_HP_one_repr': probe_HP_one_repr})
+
+for file in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
+    sample = file[:-6]
+    os.system('echo "\n\tProcessing %(sample)s"\n'
+              'makeblastdb -in %(path_to_data_HPM)s/exons/40contigs/%(file)s -parse_seqids -dbtype nucl '
+              '-out %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s\n'
+              'echo "\tRunning BLAST..."\n'
+              'blastn -task blastn '
+              '-db %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s '
+              '-query %(probe_HP_one_repr)s '
+              '-out %(path_to_data_HPM)s/exons/40contigs/reference_in_%(sample)s_contigs.txt '
+              '-outfmt "6 qaccver saccver pident qcovhsp evalue bitscore sstart send"\n'
+              'echo "\tOK"' % {'file': file, 'sample': sample, 'blast_database': file[:-6],
+                               'path_to_data_HPM': path_to_data_HPM,
+                               'probe_HP_one_repr': probe_HP_one_repr})
 
 print('Done\n\nCorrecting contigs..')
 statistics = {}
 all_hits_for_reference = []
-for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).read().splitlines():
+for sample in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
     print(' Processing ' + sample)
     statistics[sample[:-6]] = {}
     hits = []
@@ -153,7 +152,7 @@ all_hits_for_reference.sort(key=lambda x: float(x.split()[2]), reverse=True)
 all_hits_for_reference.sort(key=lambda x: float(x.split()[3]), reverse=True)
 all_hits_for_reference.sort(key=lambda x: x.split()[0])
 exons = set()
-with open('%s/exons/new_reference.fas' % path_to_data_HPM,'w') as new_reference:
+with open('%s/exons/new_reference_for_HybPhyloMaker.fas' % path_to_data_HPM,'w') as new_reference:
     for hit in all_hits_for_reference:
         if hit.split()[0] not in exons:
             name_of_locus = hit.split()[0].split('-')[1]
