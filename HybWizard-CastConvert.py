@@ -43,15 +43,15 @@ for file in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
 print('Done\n\nCorrecting contigs..')
 statistics = {}
 all_hits_for_reference = []
-for sample in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
+for sample in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
     sample = sample.split('/')[-1]
     print(' Processing ' + sample)
     statistics[sample[:-6]] = {}
     hits = []
-    with open('%s/exons/40contigs/' % path_to_data_HPM + 'reference_in_' + sample[:-6] + '_contigs.txt') \
+    with open(path_to_data_HPM + '/exons/40contigs/' + 'reference_in_' + sample[:-6] + '_contigs.txt') \
             as blast_results, \
-            open('%s/exons/40contigs/' % path_to_data_HPM + sample[:-6] + '.fas', 'w') as result_fasta, \
-            open('%s/exons/40contigs/' % path_to_data_HPM + sample) as contigs:
+            open(path_to_data_HPM + '/exons/40contigs/' + sample[:-6] + '.fas', 'w') as result_fasta, \
+            open(path_to_data_HPM + '/exons/40contigs/' + sample) as contigs:
         corrected_contigs_fasta = []
         for line in contigs.read().splitlines():
             if line.startswith('>'):
@@ -119,14 +119,14 @@ for sample in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
             else:
                 statistics[sample[:-6]][hit_dedup.split()[0].split('-')[1]] += 1
             hits_loci.add(hit_dedup.split()[0].split('-')[1])
-    with open('%s/exons/40contigs/' % path_to_data_HPM + 'reference_against_' + sample[:-6] + '_contigs.txt', 'w') as \
+    with open(path_to_data_HPM + '/exons/40contigs/' + 'reference_against_' + sample[:-6] + '_contigs.txt', 'w') as \
             hittable:
         for hit in hits:
             hittable.write(hit + '\n')
     print(' OK')
 print('All contigs were successfully corrected!\n')
 print('Writing statistics...')
-with open('%s/exons/40contigs/statistics.csv' % path_to_data_HPM, 'w') as stats, open('%s' % probe_HP_one_repr) as \
+with open(path_to_data_HPM + '/exons/40contigs/statistics.csv', 'w') as stats, open('%s' % probe_HP_one_repr) as \
         reference:
     stats_dict = dict([('gene\t', '')])
     loci = set()
@@ -160,7 +160,7 @@ if new_reference_bool == 'yes':
     all_hits_for_reference.sort(key=lambda x: float(x.split()[3]), reverse=True)
     all_hits_for_reference.sort(key=lambda x: x.split()[0])
     exons = set()
-    with open('%s/exons/new_reference_for_HybPhyloMaker.fas' % path_to_data_HPM, 'w') as new_reference:
+    with open(path_to_data_HPM + '/exons/new_reference_for_HybPhyloMaker.fas', 'w') as new_reference:
         for hit in all_hits_for_reference:
             if hit.split()[0] not in exons:
                 name_of_locus = hit.split()[0].split('-')[1].replace('exon', 'Contig').replace('Exon', 'Contig') \
@@ -172,7 +172,7 @@ if new_reference_bool == 'yes':
             exons.add(hit.split()[0])
     print('New reference created!\n')
 print('Renaming contigs...')
-for sample in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
+for sample in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
     sample = sample.split('/')[-1]
     print(' Processing ' + sample)
     with open('%s/exons/40contigs/' % path_to_data_HPM + sample[:-6] + '.fas') as result_fasta:
@@ -188,16 +188,16 @@ for sample in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
             fasta_to_write.append('>Contig' + str(counter) + '_' + sample[:-6] + '\n')
             fasta_to_write.append(fasta_parsed[line] + '\n')
             counter += 1
-    with open('%s/exons/40contigs/' % path_to_data_HPM + sample[:-6] + '.fas', 'w') as result_fasta:
+    with open(path_to_data_HPM + '/exons/40contigs/' + sample[:-6] + '.fas', 'w') as result_fasta:
         result_fasta.writelines(fasta_to_write)
     print(' OK')
 print('All contigs were successfully renamed!\n')
 print('Removing temporary files...')
-for file in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
+for file in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
     os.remove(file)
-for file in glob.glob('%s/exons/40contigs/reference_in*' % path_to_data_HPM):
+for file in glob.glob(path_to_data_HPM + '/exons/40contigs/reference_in*'):
     os.remove(file)
-for file in glob.glob('%s/exons/40contigs/*.n*' % path_to_data_HPM):
+for file in glob.glob(path_to_data_HPM + '/exons/40contigs/*.n*'):
     os.remove(file)
 print('Done\n')
 print('**********************************************************************************************************')
