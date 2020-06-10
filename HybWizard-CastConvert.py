@@ -1,36 +1,42 @@
 import os
 import glob
 import sys
+import shutil
+import re
 
 path_to_data_HP = sys.argv[1]
 path_to_data_HPM = sys.argv[2]
 probe_HP_one_repr = sys.argv[3]
 length_cover = int(sys.argv[4])
 spades_cover = float(sys.argv[5])
+new_reference_bool = sys.argv[6]
 
-os.system('mkdir -p %(path_to_data_HPM)s/exons/40contigs\n'
-          'mv %(path_to_data_HP)s/*contigs.fasta %(path_to_data_HPM)s/exons/40contigs\n'
-          'cd %(path_to_data_HPM)s/exons/40contigs\n'
-          'for file in $(ls *.fasta); do\n'
-          '     sed -i "s/NODE/N/g" "${file}"\n'
-          '     sed -i "s/_length.\+\(_cov.\+\...\).\+$/\\1/g" "${file}"\n'
-          '     mv "${file}" $(echo "${file}" | sed \'s/dedup_contigs.//g\')\n'
-          'done\n'
-          'echo -e "Creating hit table for each sample..."' % {'path_to_data_HP': path_to_data_HP,
-                                                               'path_to_data_HPM': path_to_data_HPM})
-
+os.makedirs(path_to_data_HPM + '/exons/40contigs')
+for file in glob.glob(path_to_data_HP + '/*contigs.fasta'):
+    shutil.move(file, path_to_data_HPM + '/exons/40contigs/' + file.split('/')[-1])
+os.chdir(path_to_data_HPM + '/exons/40contigs')
+for file in glob.glob('*.fasta'):
+    with open(file, 'r') as fasta:
+        lines = fasta.readlines()
+    with open(file, 'w') as fasta:
+        for line in lines:
+            fasta.write(re.sub(r'length_([0-9]+)_cov_([0-9]+\.[0-9][0-9]).*', r'\1_c_\2', line.replace('NODE', 'N')))
+    os.rename(file, file.split('.')[0] + '.fasta')
+os.chdir('../../..')
 for file in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
+    file = file.split('/')[-1]
     sample = file[:-6]
     os.system('echo -e "\n\tProcessing %(sample)s"\n'
               'makeblastdb -in %(path_to_data_HPM)s/exons/40contigs/%(file)s -parse_seqids -dbtype nucl '
-              '-out %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s\n'
+              '-out %(path_to_data_HPM)s/exons/40contigs/%(sample)s || exit 1\n'
               'echo -e "\tRunning BLAST..."\n'
               'blastn -task blastn '
-              '-db %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s '
+              '-db %(path_to_data_HPM)s/exons/40contigs/%(sample)s '
               '-query %(probe_HP_one_repr)s '
               '-out %(path_to_data_HPM)s/exons/40contigs/reference_in_%(sample)s_contigs.txt '
-              '-outfmt "6 qaccver saccver pident qcovhsp evalue bitscore sstart send"\n'
-              'echo -e "\tOK"' % {'file': file, 'sample': sample, 'blast_database': file[:-6],
+              '-outfmt "6 qaccver saccver pident qcovhsp evalue bitscore sstart send" || exit 1\n'
+              'echo -e "\tOK"' % {'file': file,
+                                  'sample': sample,
                                   'path_to_data_HPM': path_to_data_HPM,
                                   'probe_HP_one_repr': probe_HP_one_repr})
 
@@ -38,6 +44,7 @@ print('Done\n\nCorrecting contigs..')
 statistics = {}
 all_hits_for_reference = []
 for sample in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
+    sample = sample.split('/')[-1]
     print(' Processing ' + sample)
     statistics[sample[:-6]] = {}
     hits = []
@@ -57,7 +64,7 @@ for sample in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
             contigs_fasta_parsed[corrected_contigs_fasta[i]] = corrected_contigs_fasta[i + 1]
         for line in blast_results.read().splitlines():
             if line.split()[1].split('_N_')[0] == line.split()[0].split('-')[1] and int(line.split()[3]) >= \
-                    length_cover and float(line.split()[1].split('_cov_')[1]) >= spades_cover:
+                    length_cover and float(line.split()[1].split('_c_')[1]) >= spades_cover:
                 hits.append(line)
         hits.sort(key=lambda x: float(x.split()[5]), reverse=True)
         hits.sort(key=lambda x: float(x.split()[4]))
@@ -145,29 +152,28 @@ with open('%s/exons/40contigs/statistics.csv' % path_to_data_HPM, 'w') as stats,
     for key in sorted(list(stats_dict.keys())):
         stats.write(key + stats_dict[key] + '\n')
 print('Statistics file created!\n')
-print('Creating new reference...')
-all_hits_for_reference.sort(key=lambda x: float(x.split()[5]), reverse=True)
-all_hits_for_reference.sort(key=lambda x: float(x.split()[4]))
-all_hits_for_reference.sort(key=lambda x: float(x.split()[2]), reverse=True)
-all_hits_for_reference.sort(key=lambda x: float(x.split()[3]), reverse=True)
-all_hits_for_reference.sort(key=lambda x: x.split()[0])
-exons = set()
-with open('%s/exons/new_reference_for_HybPhyloMaker.fas' % path_to_data_HPM, 'w') as new_reference:
-    for hit in all_hits_for_reference:
-        if hit.split()[0] not in exons:
-            name_of_locus = hit.split()[0].split('-')[1]
-            name_of_locus.replace('exon', 'Contig')
-            name_of_locus.replace('Exon', 'Contig')
-            name_of_locus.replace('_', '')
-            name_of_locus.replace('Contig', '_Contig_')
-            new_reference.write('>' + name_of_locus + '_' + hit.split()[-2] + '\n' + hit.split()[-1] +
-                                '\n')
-        else:
-            pass
-        exons.add(hit.split()[0])
-print('New reference created!\n')
+if new_reference_bool == 'yes':
+    print('Creating new reference...')
+    all_hits_for_reference.sort(key=lambda x: float(x.split()[5]), reverse=True)
+    all_hits_for_reference.sort(key=lambda x: float(x.split()[4]))
+    all_hits_for_reference.sort(key=lambda x: float(x.split()[2]), reverse=True)
+    all_hits_for_reference.sort(key=lambda x: float(x.split()[3]), reverse=True)
+    all_hits_for_reference.sort(key=lambda x: x.split()[0])
+    exons = set()
+    with open('%s/exons/new_reference_for_HybPhyloMaker.fas' % path_to_data_HPM, 'w') as new_reference:
+        for hit in all_hits_for_reference:
+            if hit.split()[0] not in exons:
+                name_of_locus = hit.split()[0].split('-')[1].replace('exon', 'Contig').replace('Exon', 'Contig') \
+                    .replace('_', '').replace('Contig', '_Contig_')
+                new_reference.write('>' + name_of_locus + '_' + hit.split()[-2] + '\n' + hit.split()[-1] +
+                                    '\n')
+            else:
+                pass
+            exons.add(hit.split()[0])
+    print('New reference created!\n')
 print('Renaming contigs...')
 for sample in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
+    sample = sample.split('/')[-1]
     print(' Processing ' + sample)
     with open('%s/exons/40contigs/' % path_to_data_HPM + sample[:-6] + '.fas') as result_fasta:
         fasta_as_list = result_fasta.read().splitlines()
@@ -187,11 +193,12 @@ for sample in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
     print(' OK')
 print('All contigs were successfully renamed!\n')
 print('Removing temporary files...')
-os.system('cd %s/exons/40contigs\n'
-          'rm *.fasta\n'
-          'rm reference_in*.txt\n'
-          'rm list_of_files.txt\n'
-          'rm *.n*\n' % path_to_data_HPM)
+for file in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
+    os.remove(file)
+for file in glob.glob('%s/exons/40contigs/reference_in*' % path_to_data_HPM):
+    os.remove(file)
+for file in glob.glob('%s/exons/40contigs/*.n*' % path_to_data_HPM):
+    os.remove(file)
 print('Done\n')
 print('**********************************************************************************************************')
 print('\nData was successfully converted!')
