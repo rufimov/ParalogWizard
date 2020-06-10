@@ -71,7 +71,6 @@ env echo 'Copying results back to working directory'
 #Copy results back
 mkdir "${path_HPM}"
 cp -r "${path_to_data_HPM}"/* "${path_HPM}"
-cp HybWizard-CastConvert.log "${PBS_O_WORKDIR}"
 
 env echo
 env echo
