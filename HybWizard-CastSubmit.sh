@@ -15,7 +15,7 @@ env echo
 
 #Copy file with settings from home and set variables from settings.cfg
 env echo 'Setting variables'
-cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/settings_transfer.cfg .
+cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/HybWizard-Settings.cfg .
 . settings.cfg
 . HybWizard-Settings.cfg
 path_HP=/storage/"${server_HP}"/home/"${LOGNAME}"/"${data_HybPiper}"
