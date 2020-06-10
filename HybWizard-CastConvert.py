@@ -12,27 +12,27 @@ os.system('mkdir -p %(path_to_data_HPM)s/exons/40contigs\n'
           'mv %(path_to_data_HP)s/*contigs.fasta %(path_to_data_HPM)s/exons/40contigs\n'
           'cd %(path_to_data_HPM)s/exons/40contigs\n'
           'for file in $(ls *.fasta); do\n'
-          'sed -i "s/NODE/N/g" "$file"\n'
-          'sed -i "s/_length.\+\(_cov.\+\...\).\+$/\\1/g" "$file"\n'
-          'mv $file $(echo $file | sed \'s/dedup_contigs.//g\')\n'
+          '     sed -i "s/NODE/N/g" "${file}"\n'
+          '     sed -i "s/_length.\+\(_cov.\+\...\).\+$/\\1/g" "${file}"\n'
+          '     mv "${file}" $(echo "${file}" | sed \'s/dedup_contigs.//g\')\n'
           'done\n'
-          'echo "Creating hit table for each sample..."' % {'path_to_data_HP': path_to_data_HP,
-                                                            'path_to_data_HPM': path_to_data_HPM})
+          'echo -e "Creating hit table for each sample..."' % {'path_to_data_HP': path_to_data_HP,
+                                                               'path_to_data_HPM': path_to_data_HPM})
 
 for file in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
     sample = file[:-6]
-    os.system('echo "\n\tProcessing %(sample)s"\n'
+    os.system('echo -e "\n\tProcessing %(sample)s"\n'
               'makeblastdb -in %(path_to_data_HPM)s/exons/40contigs/%(file)s -parse_seqids -dbtype nucl '
               '-out %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s\n'
-              'echo "\tRunning BLAST..."\n'
+              'echo -e "\tRunning BLAST..."\n'
               'blastn -task blastn '
               '-db %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s '
               '-query %(probe_HP_one_repr)s '
               '-out %(path_to_data_HPM)s/exons/40contigs/reference_in_%(sample)s_contigs.txt '
               '-outfmt "6 qaccver saccver pident qcovhsp evalue bitscore sstart send"\n'
-              'echo "\tOK"' % {'file': file, 'sample': sample, 'blast_database': file[:-6],
-                               'path_to_data_HPM': path_to_data_HPM,
-                               'probe_HP_one_repr': probe_HP_one_repr})
+              'echo -e "\tOK"' % {'file': file, 'sample': sample, 'blast_database': file[:-6],
+                                  'path_to_data_HPM': path_to_data_HPM,
+                                  'probe_HP_one_repr': probe_HP_one_repr})
 
 print('Done\n\nCorrecting contigs..')
 statistics = {}
@@ -73,8 +73,8 @@ for sample in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
                                                                          hit.split()[6])] + '\n')
                     all_hits_for_reference.append(
                         '{0}\t{1}\t{2}'.format(hit, sample[:-6], contigs_fasta_parsed['>' + hit.split()[1]][
-                                                                         int(hit.split()[7]) - 1:int(
-                                                                             hit.split()[6])]))
+                                                                 int(hit.split()[7]) - 1:int(
+                                                                     hit.split()[6])]))
 
                 else:
                     result_fasta.write('>' + hit.split()[1] + '\n' + contigs_fasta_parsed['>' + hit.split()[1]][
@@ -82,8 +82,8 @@ for sample in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
                                                                          hit.split()[7])] + '\n')
                     all_hits_for_reference.append(
                         '{0}\t{1}\t{2}'.format(hit, sample[:-6], contigs_fasta_parsed['>' + hit.split()[1]][
-                                                                         int(hit.split()[6]) - 1:int(
-                                                                             hit.split()[7])]))
+                                                                 int(hit.split()[6]) - 1:int(
+                                                                     hit.split()[7])]))
                 contig_hits.add(hit.split()[1])
             else:
                 pass
@@ -115,7 +115,7 @@ for sample in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
     with open('%s/exons/40contigs/' % path_to_data_HPM + 'reference_against_' + sample[:-6] + '_contigs.txt', 'w') as \
             hittable:
         for hit in hits:
-            hittable.write(hit+'\n')
+            hittable.write(hit + '\n')
     print(' OK')
 print('All contigs were successfully corrected!\n')
 print('Writing statistics...')
@@ -152,7 +152,7 @@ all_hits_for_reference.sort(key=lambda x: float(x.split()[2]), reverse=True)
 all_hits_for_reference.sort(key=lambda x: float(x.split()[3]), reverse=True)
 all_hits_for_reference.sort(key=lambda x: x.split()[0])
 exons = set()
-with open('%s/exons/new_reference_for_HybPhyloMaker.fas' % path_to_data_HPM,'w') as new_reference:
+with open('%s/exons/new_reference_for_HybPhyloMaker.fas' % path_to_data_HPM, 'w') as new_reference:
     for hit in all_hits_for_reference:
         if hit.split()[0] not in exons:
             name_of_locus = hit.split()[0].split('-')[1]
@@ -167,7 +167,7 @@ with open('%s/exons/new_reference_for_HybPhyloMaker.fas' % path_to_data_HPM,'w')
         exons.add(hit.split()[0])
 print('New reference created!\n')
 print('Renaming contigs...')
-for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).read().splitlines():
+for sample in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
     print(' Processing ' + sample)
     with open('%s/exons/40contigs/' % path_to_data_HPM + sample[:-6] + '.fas') as result_fasta:
         fasta_as_list = result_fasta.read().splitlines()
@@ -183,7 +183,6 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
             fasta_to_write.append(fasta_parsed[line] + '\n')
             counter += 1
     with open('%s/exons/40contigs/' % path_to_data_HPM + sample[:-6] + '.fas', 'w') as result_fasta:
-        result_fasta.truncate(0)
         result_fasta.writelines(fasta_to_write)
     print(' OK')
 print('All contigs were successfully renamed!\n')
