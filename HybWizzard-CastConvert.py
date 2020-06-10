@@ -189,7 +189,8 @@ print('All contigs were successfully renamed!\n')
 print('Removing temporary files...')
 os.system('cd %s/exons/40contigs\n'
           'rm *.fasta\n'
-          '#rm *.txt\n'
+          'rm reference_in*.txt\n'
+          'rm list_of_files.txt\n'
           'rm *.n*\n' % path_to_data_HPM)
 print('Done\n')
 print('**********************************************************************************************************')
