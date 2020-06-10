@@ -164,7 +164,7 @@ if new_reference_bool == 'yes':
         for hit in all_hits_for_reference:
             if hit.split()[0] not in exons:
                 name_of_locus = hit.split()[0].split('-')[1].replace('exon', 'Contig').replace('Exon', 'Contig') \
-                    .replace('_', '').replace('Contig', '_Contig_')
+                    .replace('contig', 'Contig').replace('_', '').replace('Contig', '_Contig_')
                 new_reference.write('>' + name_of_locus + '_' + hit.split()[-2] + '\n' + hit.split()[-1] +
                                     '\n')
             else:
