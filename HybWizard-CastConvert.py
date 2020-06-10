@@ -1,5 +1,5 @@
 import os
-
+import glob
 import sys
 
 path_to_data_HP = sys.argv[1]
@@ -20,7 +20,7 @@ os.system('mkdir -p %(path_to_data_HPM)s/exons/40contigs\n'
           'echo "Creating hit table for each sample..."' % {'path_to_data_HP': path_to_data_HP,
                                                             'path_to_data_HPM': path_to_data_HPM})
 with open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM) as list_of_files:
-    for file in list_of_files.read().splitlines():
+    for file in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
         sample = file[:-6]
         os.system('echo "\n\tProcessing %(sample)s"\n'
                   'makeblastdb -in %(path_to_data_HPM)s/exons/40contigs/%(file)s -parse_seqids -dbtype nucl '
@@ -30,7 +30,7 @@ with open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM) as list_of_
                   '-db %(path_to_data_HPM)s/exons/40contigs/%(blast_database)s '
                   '-query %(probe_HP_one_repr)s '
                   '-out %(path_to_data_HPM)s/exons/40contigs/reference_in_%(sample)s_contigs.txt '
-                  '-outfmt "6 qaccver saccver pident qcovhsp evalue bitscore sstart send qstart qend"\n'
+                  '-outfmt "6 qaccver saccver pident qcovhsp evalue bitscore sstart send"\n'
                   'echo "\tOK"' % {'file': file, 'sample': sample, 'blast_database': file[:-6],
                                    'path_to_data_HPM': path_to_data_HPM,
                                    'probe_HP_one_repr': probe_HP_one_repr})
@@ -42,12 +42,10 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
     print(' Processing ' + sample)
     statistics[sample[:-6]] = {}
     hits = []
-    with open('%s/exons/40contigs/' % path_to_data_HPM + 'reference_in_' + sample[:-6] + '_contigs'
-                                                                                         '.txt') as \
-            blast_results, open('%s/exons/40contigs/' % path_to_data_HPM + sample[:-6] + '.fas',
-                                'w') as result_fasta, open(
-        '%s/exons/40contigs/' % path_to_data_HPM + sample) \
-            as contigs:
+    with open('%s/exons/40contigs/' % path_to_data_HPM + 'reference_in_' + sample[:-6] + '_contigs.txt') \
+            as blast_results, \
+            open('%s/exons/40contigs/' % path_to_data_HPM + sample[:-6] + '.fas', 'w') as result_fasta, \
+            open('%s/exons/40contigs/' % path_to_data_HPM + sample) as contigs:
         corrected_contigs_fasta = []
         for line in contigs.read().splitlines():
             if line.startswith('>'):
@@ -95,7 +93,6 @@ for sample in open('%s/exons/40contigs/list_of_files.txt' % path_to_data_HPM).re
         hits.sort(key=lambda x: float(x.split()[2]), reverse=True)
         hits.sort(key=lambda x: float(x.split()[3]), reverse=True)
         hits.sort(key=lambda x: x.split()[0].split('-')[1])
-        # print(hits)
         hits_loci_contigs = set()
         hits_dedup = []
         for hit in hits:
@@ -144,7 +141,6 @@ with open('%s/exons/40contigs/statistics.csv' % path_to_data_HPM, 'w') as stats,
                 stats_dict[locus + '\t'] = stats_dict[locus + '\t'] + str(statistics[sample][locus]) + '\t'
             else:
                 stats_dict[locus + '\t'] = stats_dict[locus + '\t'] + 'NA' + '\t'
-    # print(stats_dict)
     stats.write('gene\t' + stats_dict['gene\t'] + '\n')
     del stats_dict['gene\t']
     for key in sorted(list(stats_dict.keys())):
@@ -160,7 +156,13 @@ exons = set()
 with open('%s/exons/new_reference.fas' % path_to_data_HPM,'w') as new_reference:
     for hit in all_hits_for_reference:
         if hit.split()[0] not in exons:
-            new_reference.write('>' + hit.split()[0].split('-')[1] + '_' + hit.split()[-2] + '\n' + hit.split()[-1] + '\n')
+            name_of_locus = hit.split()[0].split('-')[1]
+            name_of_locus.replace('exon', 'Contig')
+            name_of_locus.replace('Exon', 'Contig')
+            name_of_locus.replace('_', '')
+            name_of_locus.replace('Contig', '_Contig_')
+            new_reference.write('>' + name_of_locus + '_' + hit.split()[-2] + '\n' + hit.split()[-1] +
+                                '\n')
         else:
             pass
         exons.add(hit.split()[0])
