@@ -26,4 +26,4 @@
 # Let's bring the power of de novo assembly to HybPhyloMaker!
 ___
 
-HybWizard is a set of scripts dedicated to transfer the output created by HybPiper to HybPhyloMaker workflow. It allows to start analysing your data with HybPiper and then continue with HybPyloMaker.   
+HybWizard is a set of scripts dedicated to transfer the output created by HybPiper to HybPhyloMaker workflow. It allows to start analysing your data with HybPiper and then continue with HybPyloMaker.
