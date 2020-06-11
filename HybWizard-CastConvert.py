@@ -14,16 +14,16 @@ new_reference_bool = sys.argv[6]
 os.makedirs(path_to_data_HPM + '/exons/40contigs')
 for file in glob.glob(path_to_data_HP + '/*contigs.fasta'):
     shutil.move(file, path_to_data_HPM + '/exons/40contigs/' + file.split('/')[-1])
-os.chdir(path_to_data_HPM + '/exons/40contigs')
-for file in glob.glob('*.fasta'):
+for file in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
     with open(file, 'r') as fasta:
         lines = fasta.readlines()
     with open(file, 'w') as fasta:
         for line in lines:
             fasta.write(re.sub(r'length_([0-9]+)_cov_([0-9]+\.[0-9][0-9]).*', r'\1_c_\2', line.replace('NODE', 'N')))
-    os.rename(file, file.split('.')[0] + '.fasta')
-os.chdir('../../..')
-for file in glob.glob('%s/exons/40contigs/*.fasta' % path_to_data_HPM):
+    name_of_file = file.split('/')[-1]
+    path_to_file = file.split('/')[:-1]
+    os.rename(file, path_to_file + name_of_file.split('.')[0] + '.fasta')
+for file in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
     file = file.split('/')[-1]
     sample = file[:-6]
     os.system('echo -e "\n\tProcessing %(sample)s"\n'
@@ -175,7 +175,7 @@ print('Renaming contigs...')
 for sample in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
     sample = sample.split('/')[-1]
     print(' Processing ' + sample)
-    with open('%s/exons/40contigs/' % path_to_data_HPM + sample[:-6] + '.fas') as result_fasta:
+    with open(path_to_data_HPM + '/exons/40contigs/' + sample[:-6] + '.fas') as result_fasta:
         fasta_as_list = result_fasta.read().splitlines()
         fasta_parsed = dict()
         for i in range(0, len(fasta_as_list), 2):
