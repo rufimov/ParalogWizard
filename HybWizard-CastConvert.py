@@ -126,7 +126,7 @@ for sample in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
     print(' OK')
 print('All contigs were successfully corrected!\n')
 print('Writing statistics...')
-with open(path_to_data_HPM + '/exons/40contigs/statistics.csv', 'w') as stats, open('%s' % probe_HP_one_repr) as \
+with open(path_to_data_HPM + '/exons/40contigs/statistics.csv', 'w') as stats, open(probe_HP_one_repr) as \
         reference:
     stats_dict = dict([('gene\t', '')])
     loci = set()
