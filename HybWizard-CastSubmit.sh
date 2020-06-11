@@ -69,7 +69,7 @@ env echo
 env echo 'Copying results back to working directory'
 
 #Copy results back
-mkdir "${path_HPM}"
+mkdir -p "${path_HPM}"
 cp -r "${path_to_data_HPM}"/* "${path_HPM}"
 
 env echo
