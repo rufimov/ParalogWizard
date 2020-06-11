@@ -165,7 +165,7 @@ if new_reference_bool == 'yes':
             if hit.split()[0] not in exons:
                 name_of_locus = hit.split()[0].split('-')[1].replace('exon', 'Contig').replace('Exon', 'Contig') \
                     .replace('contig', 'Contig').replace('_', '').replace('Contig', '_Contig_')
-                new_reference.write('>' + name_of_locus + '_' + hit.split()[-2] + '\n' + hit.split()[-1] +
+                new_reference.write('>Assembly_' + name_of_locus + '_' + hit.split()[-2] + '\n' + hit.split()[-1] +
                                     '\n')
             else:
                 pass
