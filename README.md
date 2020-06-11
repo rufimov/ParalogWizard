@@ -23,4 +23,7 @@
                                                      '-  ()_.\,\,   -</pre>
 
 
-# HybWizard brings the power of HybPiper's de novo assembly to HybPhyloMaker workflow.
+# Let's bring the power of de novo assembly to HybPhyloMaker workflow.
+___
+
+HybWizard is a set of scripts dedicated to transfer the output created by HybPiper to HybPhyloMaker.  
