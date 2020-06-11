@@ -1,4 +1,4 @@
-<pre>
+<pre> 
        _    _       _ __          ___                  _ 
       | |  | |     | |\ \        / (_)                | |   
       | |__| |_   _| |_\ \  /\  / / _ ______ _ _ __ __| |                          /\
@@ -20,8 +20,7 @@
           ||\ /|||\|||\ /|||\|||\ /|||\|||\ /|           (        '  )        '-'   '-'
           |||\|||/ \|||\|||/ \|||\|||/ \|||\||        ( -   .00.   - _
           `-~ `-~   `-~ `-`   `-~ `-`   `-~ `-       (    .'  _ )     )
-                                                     '-  ()_.\,\,   -
-<pre/>
+                                                     '-  ()_.\,\,   -</pre>
 
 
-HybWizard brings the power of HybPiper's de novo assembly to HybPhyloMaker workflow. 
+# HybWizard brings the power of HybPiper's de novo assembly to HybPhyloMaker workflow.
