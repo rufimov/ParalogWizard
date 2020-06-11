@@ -22,7 +22,7 @@ for file in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
             fasta.write(re.sub(r'length_([0-9]+)_cov_([0-9]+\.[0-9][0-9]).*', r'\1_c_\2', line.replace('NODE', 'N')))
     name_of_file = file.split('/')[-1]
     path_to_file = file.split('/')[:-1]
-    os.rename(file, path_to_file + name_of_file.split('.')[0] + '.fasta')
+    os.rename(file, '/'.join(path_to_file) + '/' + name_of_file.split('.')[0] + '.fasta')
 for file in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
     file = file.split('/')[-1]
     sample = file[:-6]
