@@ -3,13 +3,26 @@ import glob
 import sys
 import shutil
 import re
+from Bio import pairwise2
+from Bio.Seq import Seq
+from Bio.Alphabet import generic_dna
 
-path_to_data_HP = sys.argv[1]
-path_to_data_HPM = sys.argv[2]
-probe_HP_one_repr = sys.argv[3]
-length_cover = int(sys.argv[4])
-spades_cover = float(sys.argv[5])
-new_reference_bool = sys.argv[6]
+path_to_data_HP = sys.argv[1].strip()
+path_to_data_HPM = sys.argv[2].strip()
+probe_HP_one_repr = sys.argv[3].strip()
+length_cover = int(sys.argv[4].strip())
+spades_cover = float(sys.argv[5].strip())
+new_reference_bool = sys.argv[6].strip()
+if new_reference_bool == 'yes':
+    blacklist = set(sys.argv[7].split(','))
+    paralogs_bool = sys.argv[8].strip()
+    if paralogs_bool == 'yes':
+        paralog_divergence = int(sys.argv[9].strip())
+
+
+def percent_dissimilarity(seq1, seq2):
+    return 100 - (pairwise2.align.globalxx(seq1, seq2)[0][2] / min(len(seq1), len(seq2))) * 100
+
 
 os.makedirs(path_to_data_HPM + '/exons/40contigs')
 for file in glob.glob(path_to_data_HP + '/*contigs.fasta'):
@@ -20,14 +33,14 @@ for file in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
     with open(file, 'w') as fasta:
         for line in lines:
             fasta.write(re.sub(r'length_([0-9]+)_cov_([0-9]+\.[0-9][0-9]).*', r'\1_c_\2', line.replace('NODE', 'N')))
-    name_of_file = file.split('/')[-1]
-    path_to_file = file.split('/')[:-1]
-    os.rename(file, '/'.join(path_to_file) + '/' + name_of_file.split('.')[0] + '.fasta')
+    name_of_file = '_'.join(file.split('/')[-1].split('.')[0].split('_')[0:2])
+    path_to_file = '/'.join(file.split('/')[:-1])
+    os.rename(file, path_to_file + '/' + name_of_file + '.fasta')
 for file in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
     file = file.split('/')[-1]
     sample = file[:-6]
-    os.system('echo -e "\n\tProcessing %(sample)s"\n'
-              'makeblastdb -in %(path_to_data_HPM)s/exons/40contigs/%(file)s -parse_seqids -dbtype nucl '
+    print('\n\tProcessing' + sample)
+    os.system('makeblastdb -in %(path_to_data_HPM)s/exons/40contigs/%(file)s -parse_seqids -dbtype nucl '
               '-out %(path_to_data_HPM)s/exons/40contigs/%(sample)s || exit 1\n'
               'echo -e "\tRunning BLAST..."\n'
               'blastn -task blastn '
@@ -35,11 +48,11 @@ for file in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
               '-query %(probe_HP_one_repr)s '
               '-out %(path_to_data_HPM)s/exons/40contigs/reference_in_%(sample)s_contigs.txt '
               '-outfmt "6 qaccver saccver pident qcovhsp evalue bitscore sstart send" || exit 1\n'
-              'echo -e "\tOK"' % {'file': file,
-                                  'sample': sample,
-                                  'path_to_data_HPM': path_to_data_HPM,
-                                  'probe_HP_one_repr': probe_HP_one_repr})
-
+              % {'file': file,
+                 'sample': sample,
+                 'path_to_data_HPM': path_to_data_HPM,
+                 'probe_HP_one_repr': probe_HP_one_repr})
+    print('\tOK')
 print('Done\n\nCorrecting contigs..')
 statistics = {}
 all_hits_for_reference = []
@@ -70,34 +83,6 @@ for sample in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
         hits.sort(key=lambda x: float(x.split()[4]))
         hits.sort(key=lambda x: float(x.split()[2]), reverse=True)
         hits.sort(key=lambda x: float(x.split()[3]), reverse=True)
-        hits.sort(key=lambda x: x.split()[1])
-        contig_hits = set()
-        for hit in hits:
-            if hit.split()[1] not in contig_hits:
-                if int(hit.split()[6]) > int(hit.split()[7]):
-                    result_fasta.write('>' + hit.split()[1] + '\n' + contigs_fasta_parsed['>' + hit.split()[1]][
-                                                                     int(hit.split()[7]) - 1:int(
-                                                                         hit.split()[6])] + '\n')
-                    all_hits_for_reference.append(
-                        '{0}\t{1}\t{2}'.format(hit, sample[:-6], contigs_fasta_parsed['>' + hit.split()[1]][
-                                                                 int(hit.split()[7]) - 1:int(
-                                                                     hit.split()[6])]))
-
-                else:
-                    result_fasta.write('>' + hit.split()[1] + '\n' + contigs_fasta_parsed['>' + hit.split()[1]][
-                                                                     int(hit.split()[6]) - 1:int(
-                                                                         hit.split()[7])] + '\n')
-                    all_hits_for_reference.append(
-                        '{0}\t{1}\t{2}'.format(hit, sample[:-6], contigs_fasta_parsed['>' + hit.split()[1]][
-                                                                 int(hit.split()[6]) - 1:int(
-                                                                     hit.split()[7])]))
-                contig_hits.add(hit.split()[1])
-            else:
-                pass
-        hits.sort(key=lambda x: float(x.split()[5]), reverse=True)
-        hits.sort(key=lambda x: float(x.split()[4]))
-        hits.sort(key=lambda x: float(x.split()[2]), reverse=True)
-        hits.sort(key=lambda x: float(x.split()[3]), reverse=True)
         hits.sort(key=lambda x: x.split()[0].split('-')[1])
         hits_loci_contigs = set()
         hits_dedup = []
@@ -107,6 +92,31 @@ for sample in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
             else:
                 pass
             hits_loci_contigs.add(hit.split()[0].split('-')[1] + ' ' + hit.split()[1])
+        hits_dedup.sort(key=lambda x: float(x.split()[5]), reverse=True)
+        hits_dedup.sort(key=lambda x: float(x.split()[4]))
+        hits_dedup.sort(key=lambda x: float(x.split()[2]), reverse=True)
+        hits_dedup.sort(key=lambda x: float(x.split()[3]), reverse=True)
+        hits_dedup.sort(key=lambda x: x.split()[1])
+        contig_hits = set()
+        for hit_dedup in hits_dedup:
+            if hit_dedup.split()[1] not in contig_hits:
+                if int(hit_dedup.split()[6]) > int(hit_dedup.split()[7]):
+                    sequence = str(Seq(contigs_fasta_parsed['>' + hit_dedup.split()[1]]
+                                       [int(hit_dedup.split()[7]) - 1:int(hit_dedup.split()[6])], generic_dna).
+                                   reverse_complement())
+                    result_fasta.write('>' + hit_dedup.split()[1] + '\n'
+                                       + sequence + '\n')
+                    all_hits_for_reference.append('{0}\t{1}\t{2}'.format(hit_dedup, sample[:-6], sequence))
+
+                else:
+                    sequence = contigs_fasta_parsed['>' + hit_dedup.split()[1]][int(hit_dedup.split()[6]) - 1:
+                                                                                int(hit_dedup.split()[7])]
+                    result_fasta.write('>' + hit_dedup.split()[1] + '\n'
+                                       + sequence + '\n')
+                    all_hits_for_reference.append('{0}\t{1}\t{2}'.format(hit_dedup, sample[:-6], sequence))
+                contig_hits.add(hit_dedup.split()[1])
+            else:
+                pass
         hits_dedup.sort(key=lambda x: float(x.split()[5]), reverse=True)
         hits_dedup.sort(key=lambda x: float(x.split()[4]))
         hits_dedup.sort(key=lambda x: float(x.split()[3]), reverse=True)
@@ -123,7 +133,12 @@ for sample in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
             hittable:
         for hit in hits:
             hittable.write(hit + '\n')
-    print(' OK')
+    # with open(path_to_data_HPM + '/exons/40contigs/' + 'reference_against_' + sample[:-6] + '_contigs_dedup.txt',
+    #           'w') as \
+    #         hittable_dedup:
+    #     for hit_dedup in hits_dedup:
+    #         hittable_dedup.write(hit_dedup + '\n')
+print(' OK')
 print('All contigs were successfully corrected!\n')
 print('Writing statistics...')
 with open(path_to_data_HPM + '/exons/40contigs/statistics.csv', 'w') as stats, open(probe_HP_one_repr) as \
@@ -158,18 +173,35 @@ if new_reference_bool == 'yes':
     all_hits_for_reference.sort(key=lambda x: float(x.split()[4]))
     all_hits_for_reference.sort(key=lambda x: float(x.split()[2]), reverse=True)
     all_hits_for_reference.sort(key=lambda x: float(x.split()[3]), reverse=True)
-    all_hits_for_reference.sort(key=lambda x: x.split()[0])
-    exons = set()
+    all_hits_for_reference.sort(key=lambda x: x.split()[0].split('-')[1])
     with open(path_to_data_HPM + '/exons/new_reference_for_HybPhyloMaker.fas', 'w') as new_reference:
+        num_paralog = 0
+        cover_best_seq = 0
+        best_seq = ''
+        exons = set()
         for hit in all_hits_for_reference:
-            if hit.split()[0] not in exons:
-                name_of_locus = hit.split()[0].split('-')[1].replace('exon', 'Contig').replace('Exon', 'Contig') \
-                    .replace('contig', 'Contig').replace('_', '').replace('Contig', '_Contig_')
-                new_reference.write('>Assembly_' + name_of_locus + '_' + hit.split()[-2] + '\n' + hit.split()[-1] +
-                                    '\n')
-            else:
-                pass
-            exons.add(hit.split()[0])
+            if hit.split()[-2] not in blacklist:
+                if hit.split()[0].split('-')[1] not in exons:
+                    name_of_locus = hit.split()[0].split('-')[1].replace('exon', 'Contig').replace('Exon', 'Contig') \
+                        .replace('contig', 'Contig').replace('_', '').replace('Contig', '_Contig_')
+                    new_reference.write('>Assembly_' + name_of_locus + '_' + hit.split()[-2] + '\n' + hit.split()[-1] +
+                                        '\n')
+                    num_paralog = 2
+                    best_seq = hit.split()[-1]
+                    exons.add(hit.split()[0].split('-')[1])
+                else:
+                    if paralogs_bool == 'yes' and num_paralog == 2:
+                        current_seq = hit.split()[-1]
+                        if percent_dissimilarity(current_seq, best_seq) > paralog_divergence:
+                            print('Paralog detected for ' + hit.split()[0].split('-')[1])
+                            name_of_locus = hit.split()[0].split('-')[1].replace('exon', 'Contig'). \
+                                replace('Exon', 'Contig').replace('contig', 'Contig').replace('_', ''). \
+                                replace('Contig', '_Contig_')
+                            name_of_locus = '_'.join([name_of_locus.split('_')[0] + 'par2'] +
+                                                     name_of_locus.split('_')[1:])
+                            new_reference.write('>Assembly_' + name_of_locus + '_' + hit.split()[-2] + '\n' +
+                                                hit.split()[-1] + '\n')
+                            num_paralog += 1
     print('New reference created!\n')
 print('Renaming contigs...')
 for sample in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
@@ -185,7 +217,8 @@ for sample in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
         fasta_parsed_as_list = list(fasta_parsed.keys())
         fasta_parsed_as_list = sorted(fasta_parsed_as_list)
         for line in fasta_parsed_as_list:
-            fasta_to_write.append('>Contig' + str(counter) + '_' + sample[:-6] + '\n')
+            fasta_to_write.append('>Contig' + str(counter) + '_' + sample[:-6] + '-' + line[1:].replace('_', '-')
+                                  + '\n')
             fasta_to_write.append(fasta_parsed[line] + '\n')
             counter += 1
     with open(path_to_data_HPM + '/exons/40contigs/' + sample[:-6] + '.fas', 'w') as result_fasta:
