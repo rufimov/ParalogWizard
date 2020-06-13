@@ -33,5 +33,5 @@ ___
   * Python 3
   * [BIOPYTHON](https://biopython.org)
 ___
-**Input**
-
+**Input and prior requirements**
+One of the most important step is to run HybPiper with proper reference, before switching to HybWizard. Since HybPhyloMaker works with a reference where single exons are separated into individual sequences, it is needed to have separate exons as separate "loci" in HybPiper.  
