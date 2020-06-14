@@ -5,7 +5,6 @@ import shutil
 import re
 import Bio
 from Bio import pairwise2, SeqRecord, SeqIO
-from Bio.Seq import Seq
 from Bio.Alphabet import generic_dna
 from typing import List, Dict, Set
 from Bio.Blast.Applications import NcbimakeblastdbCommandline, NcbiblastnCommandline
@@ -43,22 +42,28 @@ def contig_locus(string: str) -> str:
 
 
 def slicing(dictionary: Dict[str, Bio.SeqRecord.SeqRecord], current_string: str, key_column: int, start_column: int,
-            end_column: int) -> str:
-    return str(dictionary[current_string.split()[key_column - 1]].seq)[int(hit_dedup.split()[start_column - 1]) - 1:
-                                                                       int(hit_dedup.split()[end_column - 1])]
+            end_column: int, rev: str) -> str:
+    if rev == 'no':
+        return str(dictionary[current_string.split()[key_column]].seq)[int(current_string.split()[start_column]) - 1:
+                                                                       int(current_string.split()[end_column])]
+    elif rev == 'yes':
+        return str(dictionary[current_string.split()[key_column]].seq.
+                   reverse_complement())[-int(current_string.split()[start_column]):
+                                         -int(current_string.split()[end_column]) - 1:-1][::-1]
 
 
 def percent_dissimilarity(seq1: str, seq2: str) -> float:
     return 100 - (pairwise2.align.globalxx(seq1, seq2)[0][2] / min(len(seq1), len(seq2))) * 100
 
 
-print('Converting data..\n')
+print('Converting data...\n')
 print('**********************************************************************************************************')
 print('\n')
 main_path: str = path_to_data_HPM + '/exons/40contigs/'
-os.makedirs(main_path)
+if not os.path.exists(main_path):
+    os.makedirs(main_path)
 for file in glob.glob(path_to_data_HP + '/*contigs.fasta'):
-    shutil.move(file, main_path + file.split('/')[-1])
+    shutil.copy(file, main_path + file.split('/')[-1])
 for file in glob.glob(main_path + '*.fasta'):
     with open(file, 'r') as fasta:
         lines: List[str] = fasta.readlines()
@@ -72,7 +77,7 @@ print('Creating hit tables...')
 for file in glob.glob(main_path + '*.fasta'):
     file: str = file.split('/')[-1]
     sample: str = file[:-6]
-    print('\tProcessing' + sample)
+    print('\tProcessing ' + sample)
     NcbimakeblastdbCommandline(dbtype='nucl', input_file=main_path + file,
                                out=main_path + sample, parse_seqids=True)()
     print('\tRunning BLAST...')
@@ -112,16 +117,12 @@ for file in glob.glob(main_path + '*.fasta'):
         for hit_dedup in hits_dedup:
             if contig(hit_dedup) not in hits_contigs:
                 if int(hit_dedup.split()[6]) > int(hit_dedup.split()[7]):
-                    sequence: str = str(Seq(slicing(contigs_fasta_parsed, hit_dedup, 2, 8, 7), generic_dna).
-                                        reverse_complement())
-                    result_fasta.write('>' + contig(hit_dedup) + '\n'
-                                       + sequence + '\n')
+                    sequence: str = slicing(contigs_fasta_parsed, hit_dedup, 1, 7, 6, 'yes')
+                    result_fasta.write('>' + contig(hit_dedup) + '\n' + sequence + '\n')
                     all_hits_for_reference.append('{0}\t{1}\t{2}'.format(hit_dedup, sample, sequence))
-
                 else:
-                    sequence: str = slicing(contigs_fasta_parsed, hit_dedup, 2, 7, 8)
-                    result_fasta.write('>' + hit_dedup.split()[1] + '\n'
-                                       + sequence + '\n')
+                    sequence: str = slicing(contigs_fasta_parsed, hit_dedup, 1, 6, 7, 'no')
+                    result_fasta.write('>' + hit_dedup.split()[1] + '\n' + sequence + '\n')
                     all_hits_for_reference.append('{0}\t{1}\t{2}'.format(hit_dedup, sample, sequence))
                 hits_contigs.add(contig(hit_dedup))
             else:
