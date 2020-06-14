@@ -46,12 +46,12 @@ if [[ "$collect_contigs" =~ "yes" ]]; then
     for gene in $(find . -maxdepth 1 -type d | sed 's/.\///' | tail -n +2); do
        locus=$gene
        if test -f "$locus/${locus}_contigs.fasta"; then
-       sed "s/>/>${locus}_/g" < "${locus}"/"${locus}"_contigs.fasta >> "${SCRATCHDIR}"/HybPiperr_contigs/"${folder}"_contigs.fasta
+       sed "s/>/>${locus}_/g" < "${locus}"/"${locus}"_contigs.fasta >> "${SCRATCHDIR}"/HybPiper_contigs/"${folder}"_contigs.fasta
        fi
      done
      cd ..
   done
-  cp -r "${SCRATCHDIR}"/HybPiperr_contigs /storage/"${server}"/home/"${LOGNAME}"/
+  cp -r "${SCRATCHDIR}"/HybPiper_contigs /storage/"${server}"/home/"${LOGNAME}"/
 else
   cp -r /storage/"${server}"/home/"${LOGNAME}"/HybPiperr_contigs "${SCRATCHDIR}"
 fi
