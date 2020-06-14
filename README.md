@@ -30,7 +30,7 @@ HybWizard is a set of scripts dedicated to transfer the output created by HybPip
 ___
 **Dependencies**
   * [BLAST command line tools](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
-  * Python 3
+  * [Python 3.6 or later](https://www.python.org/downloads/)
   * [BIOPYTHON](https://biopython.org)
 ___
 **Input and prior requirements**
