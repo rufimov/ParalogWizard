@@ -16,7 +16,8 @@ spades_cover: float = float(sys.argv[5].strip())
 new_reference_bool: str = sys.argv[6].strip()
 blacklist: set = set([x.strip() for x in sys.argv[7].split(',')])
 paralogs_bool: str = sys.argv[8].strip()
-paralog_divergence: int = int(sys.argv[9].strip())
+paralog_min_divergence: int = int(sys.argv[9].strip())
+paralog_max_divergence: int = int(sys.argv[10].strip())
 
 
 def locus(string: str) -> str:
@@ -200,7 +201,8 @@ if new_reference_bool == 'yes':
                 else:
                     if paralogs_bool == 'yes' and num_paralog == 1:
                         current_seq: str = hit.split()[-1]
-                        if percent_dissimilarity(current_seq, best_seq) > paralog_divergence:
+                        if paralog_max_divergence > percent_dissimilarity(current_seq, best_seq) > \
+                                paralog_min_divergence:
                             print('Paralog detected for ' + hit.split()[0].split('-')[1])
                             name_of_locus: str = locus(hit).replace('exon', 'Contig'). \
                                 replace('Exon', 'Contig').replace('contig', 'Contig').replace('_', ''). \

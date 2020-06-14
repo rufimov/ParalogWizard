@@ -69,7 +69,7 @@ env echo 'Running script...'
 env echo
 
 # shellcheck disable=SC2086
-python3 HybWizard-CastConvert.py HybPiperr_contigs "${path_to_data_HPM}" "${probe_HP_one_repr}" "${length_cut}" "${spades_cover_cut}" "${new_reference}" "${blacklist}" "${paralogs}" "${paralog_divergence}" || exit 1
+python3 HybWizard-CastConvert.py HybPiperr_contigs "${path_to_data_HPM}" "${probe_HP_one_repr}" "${length_cut}" "${spades_cover_cut}" "${new_reference}" "${blacklist}" "${paralogs}" "${paralog_min_divergence}" "${paralog_max_divergence}" || exit 1
 env echo
 
 env echo 'Copying results back to working directory'
