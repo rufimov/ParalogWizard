@@ -22,6 +22,14 @@ paralog_min_divergence: int = int(sys.argv[9].strip())
 paralog_max_divergence: int = int(sys.argv[10].strip())
 
 
+def sort_hit_table_cover(hittable_as_list: List[str], primary_field: str):
+    hittable_as_list.sort(key=lambda x: float(x.split()[5]), reverse=True)
+    hittable_as_list.sort(key=lambda x: float(x.split()[4]))
+    hittable_as_list.sort(key=lambda x: float(x.split()[2]), reverse=True)
+    hittable_as_list.sort(key=lambda x: float(x.split()[3]), reverse=True)
+    hittable_as_list.sort(key=globals()[primary_field])
+
+
 def locus(string: str) -> str:
     return string.split()[0].split('-')[1]
 
@@ -38,14 +46,6 @@ def slicing(dictionary: Dict[str, Bio.SeqRecord.SeqRecord], current_string: str,
             end_column: int) -> str:
     return str(dictionary[current_string.split()[key_column - 1]].seq)[int(hit_dedup.split()[start_column - 1]) - 1:
                                                                        int(hit_dedup.split()[end_column - 1])]
-
-
-def sort_hit_table_cover(hittable_as_list: List[str], primary_field: str):
-    hittable_as_list.sort(key=lambda x: float(x.split()[5]), reverse=True)
-    hittable_as_list.sort(key=lambda x: float(x.split()[4]))
-    hittable_as_list.sort(key=lambda x: float(x.split()[2]), reverse=True)
-    hittable_as_list.sort(key=lambda x: float(x.split()[3]), reverse=True)
-    hittable_as_list.sort(key=globals()[primary_field])
 
 
 def percent_dissimilarity(seq1: str, seq2: str) -> float:
