@@ -6,134 +6,146 @@ import re
 from Bio import pairwise2
 from Bio.Seq import Seq
 from Bio.Alphabet import generic_dna
+from typing import List, Dict, Set
 
-path_to_data_HP = sys.argv[1].strip()
-path_to_data_HPM = sys.argv[2].strip()
-probe_HP_one_repr = sys.argv[3].strip()
-length_cover = int(sys.argv[4].strip())
-spades_cover = float(sys.argv[5].strip())
-new_reference_bool = sys.argv[6].strip()
-if new_reference_bool == 'yes':
-    blacklist = set(sys.argv[7].split(','))
-    paralogs_bool = sys.argv[8].strip()
-    if paralogs_bool == 'yes':
-        paralog_divergence = int(sys.argv[9].strip())
+path_to_data_HP: str = sys.argv[1].strip()
+path_to_data_HPM: str = sys.argv[2].strip()
+probe_HP_one_repr: str = sys.argv[3].strip()
+length_cover: int = int(sys.argv[4].strip())
+spades_cover: float = float(sys.argv[5].strip())
+new_reference_bool: str = sys.argv[6].strip()
+blacklist: set = set([x.strip() for x in sys.argv[7].split(',')])
+paralogs_bool: str = sys.argv[8].strip()
+paralog_divergence: int = int(sys.argv[9].strip())
 
 
-def percent_dissimilarity(seq1, seq2):
+def locus(string: str) -> str:
+    return string.split()[0].split('-')[1]
+
+
+def contig(string: str) -> str:
+    return string.split()[1]
+
+
+def contig_locus(string: str) -> str:
+    return string.split()[1].split('_N_')[0]
+
+
+def slicing(dictionary: Dict[str, str], current_string: str, key_column: int, start_column: int, end_column: int) \
+        -> str:
+    return dictionary['>' + current_string.split()[key_column]][int(hit_dedup.split()[start_column]) - 1:
+                                                                int(hit_dedup.split()[end_column])]
+
+
+def sort_hit_table_cover(hittable_as_list: List[str], primary_field: str):
+    hittable_as_list.sort(key=lambda x: float(x.split()[5]), reverse=True)
+    hittable_as_list.sort(key=lambda x: float(x.split()[4]))
+    hittable_as_list.sort(key=lambda x: float(x.split()[2]), reverse=True)
+    hittable_as_list.sort(key=lambda x: float(x.split()[3]), reverse=True)
+    hittable_as_list.sort(key=globals()[primary_field])
+
+
+def percent_dissimilarity(seq1: str, seq2: str) -> float:
     return 100 - (pairwise2.align.globalxx(seq1, seq2)[0][2] / min(len(seq1), len(seq2))) * 100
 
 
-os.makedirs(path_to_data_HPM + '/exons/40contigs')
+main_path: str = path_to_data_HPM + '/exons/40contigs/'
+os.makedirs(main_path)
 for file in glob.glob(path_to_data_HP + '/*contigs.fasta'):
-    shutil.move(file, path_to_data_HPM + '/exons/40contigs/' + file.split('/')[-1])
-for file in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
+    shutil.move(file, main_path + file.split('/')[-1])
+for file in glob.glob(main_path + '*.fasta'):
     with open(file, 'r') as fasta:
-        lines = fasta.readlines()
+        lines: List[str] = fasta.readlines()
     with open(file, 'w') as fasta:
         for line in lines:
             fasta.write(re.sub(r'length_([0-9]+)_cov_([0-9]+\.[0-9][0-9]).*', r'\1_c_\2', line.replace('NODE', 'N')))
-    name_of_file = '_'.join(file.split('/')[-1].split('.')[0].split('_')[0:2])
-    path_to_file = '/'.join(file.split('/')[:-1])
+    name_of_file: str = '_'.join(file.split('/')[-1].split('.')[0].split('_')[0:2])
+    path_to_file: str = '/'.join(file.split('/')[:-1])
     os.rename(file, path_to_file + '/' + name_of_file + '.fasta')
-for file in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
-    file = file.split('/')[-1]
-    sample = file[:-6]
+for file in glob.glob(main_path + '*.fasta'):
+    file: str = file.split('/')[-1]
+    sample: str = file[:-6]
     print('\n\tProcessing' + sample)
-    os.system('makeblastdb -in %(path_to_data_HPM)s/exons/40contigs/%(file)s -parse_seqids -dbtype nucl '
-              '-out %(path_to_data_HPM)s/exons/40contigs/%(sample)s || exit 1\n'
+    os.system('makeblastdb -in %(main_path)s%(file)s -parse_seqids -dbtype nucl '
+              '-out %(main_path)s%(sample)s || exit 1\n'
               'echo -e "\tRunning BLAST..."\n'
               'blastn -task blastn '
-              '-db %(path_to_data_HPM)s/exons/40contigs/%(sample)s '
+              '-db %(main_path)s%(sample)s '
               '-query %(probe_HP_one_repr)s '
-              '-out %(path_to_data_HPM)s/exons/40contigs/reference_in_%(sample)s_contigs.txt '
+              '-out %(main_path)sreference_in_%(sample)s_contigs.txt '
               '-outfmt "6 qaccver saccver pident qcovhsp evalue bitscore sstart send" || exit 1\n'
               % {'file': file,
                  'sample': sample,
-                 'path_to_data_HPM': path_to_data_HPM,
+                 'main_path': main_path,
                  'probe_HP_one_repr': probe_HP_one_repr})
     print('\tOK')
 print('Done\n\nCorrecting contigs..')
-statistics = {}
-all_hits_for_reference = []
-for sample in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
-    sample = sample.split('/')[-1]
+statistics: Dict[str, dict] = dict()
+all_hits_for_reference: List[str] = list()
+for file in glob.glob(main_path + '*.fasta'):
+    sample: str = file.split('/')[-1][:-6]
     print(' Processing ' + sample)
-    statistics[sample[:-6]] = {}
-    hits = []
-    with open(path_to_data_HPM + '/exons/40contigs/' + 'reference_in_' + sample[:-6] + '_contigs.txt') \
+    statistics[sample]: Dict[str, int] = dict()
+    hits: List[str] = list()
+    with open(main_path + 'reference_in_' + sample + '_contigs.txt') \
             as blast_results, \
-            open(path_to_data_HPM + '/exons/40contigs/' + sample[:-6] + '.fas', 'w') as result_fasta, \
-            open(path_to_data_HPM + '/exons/40contigs/' + sample) as contigs:
-        corrected_contigs_fasta = []
+            open(main_path + sample + '.fas', 'w') as result_fasta, \
+            open(file) as contigs:
+        corrected_contigs_fasta: List[str] = list()
         for line in contigs.read().splitlines():
             if line.startswith('>'):
                 corrected_contigs_fasta.append(line)
                 corrected_contigs_fasta.append('')
             else:
                 corrected_contigs_fasta[-1] = corrected_contigs_fasta[-1] + line
-        contigs_fasta_parsed = dict()
+        contigs_fasta_parsed: Dict[str, str] = dict()
         for i in range(0, len(corrected_contigs_fasta), 2):
             contigs_fasta_parsed[corrected_contigs_fasta[i]] = corrected_contigs_fasta[i + 1]
         for line in blast_results.read().splitlines():
-            if line.split()[1].split('_N_')[0] == line.split()[0].split('-')[1] and int(line.split()[3]) >= \
+            if contig_locus(line) == locus(line) and int(line.split()[3]) >= \
                     length_cover and float(line.split()[1].split('_c_')[1]) >= spades_cover:
                 hits.append(line)
-        hits.sort(key=lambda x: float(x.split()[5]), reverse=True)
-        hits.sort(key=lambda x: float(x.split()[4]))
-        hits.sort(key=lambda x: float(x.split()[2]), reverse=True)
-        hits.sort(key=lambda x: float(x.split()[3]), reverse=True)
-        hits.sort(key=lambda x: x.split()[0].split('-')[1])
-        hits_loci_contigs = set()
-        hits_dedup = []
+        sort_hit_table_cover(hits, 'locus')
+        hits_loci_contigs: Set[str] = set()
+        hits_dedup: List[str] = list()
         for hit in hits:
-            if str(hit.split()[0].split('-')[1] + ' ' + hit.split()[1]) not in hits_loci_contigs:
+            if str(locus(hit) + ' ' + contig(hit)) not in hits_loci_contigs:
                 hits_dedup.append(hit)
             else:
                 pass
-            hits_loci_contigs.add(hit.split()[0].split('-')[1] + ' ' + hit.split()[1])
-        hits_dedup.sort(key=lambda x: float(x.split()[5]), reverse=True)
-        hits_dedup.sort(key=lambda x: float(x.split()[4]))
-        hits_dedup.sort(key=lambda x: float(x.split()[2]), reverse=True)
-        hits_dedup.sort(key=lambda x: float(x.split()[3]), reverse=True)
-        hits_dedup.sort(key=lambda x: x.split()[1])
-        contig_hits = set()
+            hits_loci_contigs.add(locus(hit) + ' ' + contig(hit))
+        sort_hit_table_cover(hits_dedup, 'contig')
+        hits_contigs: Set[str] = set()
         for hit_dedup in hits_dedup:
-            if hit_dedup.split()[1] not in contig_hits:
+            if contig(hit_dedup) not in hits_contigs:
                 if int(hit_dedup.split()[6]) > int(hit_dedup.split()[7]):
-                    sequence = str(Seq(contigs_fasta_parsed['>' + hit_dedup.split()[1]]
-                                       [int(hit_dedup.split()[7]) - 1:int(hit_dedup.split()[6])], generic_dna).
-                                   reverse_complement())
-                    result_fasta.write('>' + hit_dedup.split()[1] + '\n'
+                    sequence: str = str(Seq(slicing(contigs_fasta_parsed, hit_dedup, 1, 7, 6), generic_dna).
+                                        reverse_complement())
+                    result_fasta.write('>' + contig(hit_dedup) + '\n'
                                        + sequence + '\n')
-                    all_hits_for_reference.append('{0}\t{1}\t{2}'.format(hit_dedup, sample[:-6], sequence))
+                    all_hits_for_reference.append('{0}\t{1}\t{2}'.format(hit_dedup, sample, sequence))
 
                 else:
-                    sequence = contigs_fasta_parsed['>' + hit_dedup.split()[1]][int(hit_dedup.split()[6]) - 1:
-                                                                                int(hit_dedup.split()[7])]
+                    sequence: str = slicing(contigs_fasta_parsed, hit_dedup, 1, 6, 7)
                     result_fasta.write('>' + hit_dedup.split()[1] + '\n'
                                        + sequence + '\n')
-                    all_hits_for_reference.append('{0}\t{1}\t{2}'.format(hit_dedup, sample[:-6], sequence))
-                contig_hits.add(hit_dedup.split()[1])
+                    all_hits_for_reference.append('{0}\t{1}\t{2}'.format(hit_dedup, sample, sequence))
+                hits_contigs.add(contig(hit_dedup))
             else:
                 pass
-        hits_dedup.sort(key=lambda x: float(x.split()[5]), reverse=True)
-        hits_dedup.sort(key=lambda x: float(x.split()[4]))
-        hits_dedup.sort(key=lambda x: float(x.split()[3]), reverse=True)
-        hits_dedup.sort(key=lambda x: float(x.split()[2]), reverse=True)
-        hits_dedup.sort(key=lambda x: x.split()[0].split('-')[1])
-        hits_loci = set()
+        sort_hit_table_cover(hits_dedup, 'locus')
+        hits_loci: Set[str] = set()
         for hit_dedup in hits_dedup:
-            if hit_dedup.split()[0].split('-')[1] not in hits_loci:
-                statistics[sample[:-6]][hit_dedup.split()[0].split('-')[1]] = 1
+            if locus(hit_dedup) not in hits_loci:
+                statistics[sample][locus(hit_dedup)] = 1
             else:
-                statistics[sample[:-6]][hit_dedup.split()[0].split('-')[1]] += 1
-            hits_loci.add(hit_dedup.split()[0].split('-')[1])
-    with open(path_to_data_HPM + '/exons/40contigs/' + 'reference_against_' + sample[:-6] + '_contigs.txt', 'w') as \
+                statistics[sample][locus(hit_dedup)] += 1
+            hits_loci.add(locus(hit_dedup))
+    with open(main_path + 'reference_against_' + sample + '_contigs.txt', 'w') as \
             hittable:
         for hit in hits:
             hittable.write(hit + '\n')
-    # with open(path_to_data_HPM + '/exons/40contigs/' + 'reference_against_' + sample[:-6] + '_contigs_dedup.txt',
+    # with open(main_path + 'reference_against_' + sample + '_contigs_dedup.txt',
     #           'w') as \
     #         hittable_dedup:
     #     for hit_dedup in hits_dedup:
@@ -141,27 +153,27 @@ for sample in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
 print(' OK')
 print('All contigs were successfully corrected!\n')
 print('Writing statistics...')
-with open(path_to_data_HPM + '/exons/40contigs/statistics.csv', 'w') as stats, open(probe_HP_one_repr) as \
+with open(main_path + 'statistics.csv', 'w') as stats, open(probe_HP_one_repr) as \
         reference:
-    stats_dict = dict([('gene\t', '')])
-    loci = set()
-    samples = []
+    stats_dict: Dict[str, str] = dict([('gene\t', '')])
+    loci: Set[str] = set()
+    samples: List[str] = list()
     for line in reference.read().splitlines():
         if line.startswith('>'):
-            loci.add(line[1:].split('-')[1])
+            loci.add(line.split('-')[1])
     for key in statistics.keys():
         samples.append(key)
     samples.sort()
     for sample in samples:
-        stats_dict['gene\t'] = stats_dict['gene\t'] + sample + '\t'
-    for locus in loci:
-        stats_dict[locus + '\t'] = ''
+        stats_dict['gene\t']: str = stats_dict['gene\t'] + sample + '\t'
+    for loc in loci:
+        stats_dict[loc + '\t']: str = ''
         for sample in samples:
-            loci_in_sample = set(statistics[sample].keys())
-            if locus in loci_in_sample:
-                stats_dict[locus + '\t'] = stats_dict[locus + '\t'] + str(statistics[sample][locus]) + '\t'
+            loci_in_sample: Set[str] = set(statistics[sample].keys())
+            if loc in loci_in_sample:
+                stats_dict[loc + '\t']: str = stats_dict[loc + '\t'] + str(statistics[sample][loc]) + '\t'
             else:
-                stats_dict[locus + '\t'] = stats_dict[locus + '\t'] + 'NA' + '\t'
+                stats_dict[loc + '\t']: str = stats_dict[loc + '\t'] + 'NA' + '\t'
     stats.write('gene\t' + stats_dict['gene\t'] + '\n')
     del stats_dict['gene\t']
     for key in sorted(list(stats_dict.keys())):
@@ -169,68 +181,64 @@ with open(path_to_data_HPM + '/exons/40contigs/statistics.csv', 'w') as stats, o
 print('Statistics file created!\n')
 if new_reference_bool == 'yes':
     print('Creating new reference...')
-    all_hits_for_reference.sort(key=lambda x: float(x.split()[5]), reverse=True)
-    all_hits_for_reference.sort(key=lambda x: float(x.split()[4]))
-    all_hits_for_reference.sort(key=lambda x: float(x.split()[2]), reverse=True)
-    all_hits_for_reference.sort(key=lambda x: float(x.split()[3]), reverse=True)
-    all_hits_for_reference.sort(key=lambda x: x.split()[0].split('-')[1])
+    sort_hit_table_cover(all_hits_for_reference, 'locus')
     with open(path_to_data_HPM + '/exons/new_reference_for_HybPhyloMaker.fas', 'w') as new_reference:
-        num_paralog = 0
-        cover_best_seq = 0
-        best_seq = ''
-        exons = set()
+        num_paralog: int = 0
+        cover_best_seq: int = 0
+        best_seq: str = ''
+        exons: Set[str] = set()
         for hit in all_hits_for_reference:
             if hit.split()[-2] not in blacklist:
-                if hit.split()[0].split('-')[1] not in exons:
-                    name_of_locus = hit.split()[0].split('-')[1].replace('exon', 'Contig').replace('Exon', 'Contig') \
+                if locus(hit) not in exons:
+                    name_of_locus = locus(hit).replace('exon', 'Contig').replace('Exon', 'Contig') \
                         .replace('contig', 'Contig').replace('_', '').replace('Contig', '_Contig_')
                     new_reference.write('>Assembly_' + name_of_locus + '_' + hit.split()[-2] + '\n' + hit.split()[-1] +
                                         '\n')
-                    num_paralog = 2
-                    best_seq = hit.split()[-1]
-                    exons.add(hit.split()[0].split('-')[1])
+                    best_seq: str = hit.split()[-1]
+                    exons.add(locus(hit))
+                    num_paralog: int = 1
                 else:
-                    if paralogs_bool == 'yes' and num_paralog == 2:
-                        current_seq = hit.split()[-1]
+                    if paralogs_bool == 'yes' and num_paralog == 1:
+                        current_seq: str = hit.split()[-1]
                         if percent_dissimilarity(current_seq, best_seq) > paralog_divergence:
                             print('Paralog detected for ' + hit.split()[0].split('-')[1])
-                            name_of_locus = hit.split()[0].split('-')[1].replace('exon', 'Contig'). \
+                            name_of_locus: str = locus(hit).replace('exon', 'Contig'). \
                                 replace('Exon', 'Contig').replace('contig', 'Contig').replace('_', ''). \
                                 replace('Contig', '_Contig_')
-                            name_of_locus = '_'.join([name_of_locus.split('_')[0] + 'par2'] +
-                                                     name_of_locus.split('_')[1:])
+                            name_of_locus: str = '_'.join([name_of_locus.split('_')[0] + 'par2'] +
+                                                          name_of_locus.split('_')[1:])
                             new_reference.write('>Assembly_' + name_of_locus + '_' + hit.split()[-2] + '\n' +
                                                 hit.split()[-1] + '\n')
                             num_paralog += 1
     print('New reference created!\n')
 print('Renaming contigs...')
-for sample in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
-    sample = sample.split('/')[-1]
+for file in glob.glob(main_path + '*.fas'):
+    sample = file.split('/')[-1][:-4]
     print(' Processing ' + sample)
-    with open(path_to_data_HPM + '/exons/40contigs/' + sample[:-6] + '.fas') as result_fasta:
-        fasta_as_list = result_fasta.read().splitlines()
-        fasta_parsed = dict()
+    with open(file) as result_fasta:
+        fasta_as_list: List[str] = result_fasta.read().splitlines()
+        fasta_parsed: Dict[str, str] = dict()
         for i in range(0, len(fasta_as_list), 2):
             fasta_parsed[fasta_as_list[i]] = fasta_as_list[i + 1]
-        counter = 1
-        fasta_to_write = []
-        fasta_parsed_as_list = list(fasta_parsed.keys())
-        fasta_parsed_as_list = sorted(fasta_parsed_as_list)
+        counter: int = 1
+        fasta_to_write: List[str] = list()
+        fasta_parsed_as_list: List[str] = list(fasta_parsed.keys())
+        fasta_as_list.sort()
         for line in fasta_parsed_as_list:
-            fasta_to_write.append('>Contig' + str(counter) + '_' + sample[:-6] + '-' + line[1:].replace('_', '-')
+            fasta_to_write.append('>Contig' + str(counter) + '_' + sample + '-' + line[1:].replace('_', '-')
                                   + '\n')
             fasta_to_write.append(fasta_parsed[line] + '\n')
             counter += 1
-    with open(path_to_data_HPM + '/exons/40contigs/' + sample[:-6] + '.fas', 'w') as result_fasta:
+    with open(file, 'w') as result_fasta:
         result_fasta.writelines(fasta_to_write)
     print(' OK')
 print('All contigs were successfully renamed!\n')
 print('Removing temporary files...')
-for file in glob.glob(path_to_data_HPM + '/exons/40contigs/*.fasta'):
+for file in glob.glob(main_path + '*.fasta'):
     os.remove(file)
-for file in glob.glob(path_to_data_HPM + '/exons/40contigs/reference_in*'):
+for file in glob.glob(main_path + 'reference_in*'):
     os.remove(file)
-for file in glob.glob(path_to_data_HPM + '/exons/40contigs/*.n*'):
+for file in glob.glob(main_path + '*.n*'):
     os.remove(file)
 print('Done\n')
 print('**********************************************************************************************************')
