@@ -12,7 +12,7 @@ from Bio.Blast.Applications import NcbimakeblastdbCommandline, NcbiblastnCommand
 path_to_data_HP: str = sys.argv[1].strip()
 path_to_data_HPM: str = sys.argv[2].strip()
 probe_HP_one_repr: str = sys.argv[3].strip()
-length_cover: int = int(sys.argv[4].strip())
+length_cover: float = float(sys.argv[4].strip())
 spades_cover: float = float(sys.argv[5].strip())
 new_reference_bool: str = sys.argv[6].strip()
 blacklist: set = set([x.strip() for x in sys.argv[7].split(',')])
@@ -82,7 +82,7 @@ for file in glob.glob(main_path + '*.fasta'):
                                out=main_path + sample, parse_seqids=True)()
     print('\tRunning BLAST...')
     NcbiblastnCommandline(task='blastn', query=probe_HP_one_repr, db=main_path + sample,
-                          out=main_path + 'reference_in_' + sample + '_contigs.txt',
+                          out=main_path + 'reference_in_' + sample + '_contigs.txt', qcov_hsp_perc=length_cover,
                           outfmt='6 qaccver saccver pident qcovhsp evalue bitscore sstart send')()
     print('\tOK')
 print('Done\n')
@@ -100,8 +100,7 @@ for file in glob.glob(main_path + '*.fasta'):
             open(file) as contigs:
         contigs_fasta_parsed = SeqIO.to_dict(SeqIO.parse(contigs, 'fasta', generic_dna))
         for line in blast_results.readlines():
-            if contig_locus(line) == locus(line) and int(line.split()[3]) >= \
-                    length_cover and float(line.split()[1].split('_c_')[1]) >= spades_cover:
+            if contig_locus(line) == locus(line) and float(line.split()[1].split('_c_')[1]) >= spades_cover:
                 hits.append(line)
         sort_hit_table_cover(hits, 'locus')
         hits_loci_contigs: Set[str] = set()
