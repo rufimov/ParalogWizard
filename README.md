@@ -29,7 +29,7 @@
 HybWizard is a set of scripts dedicated to transfer the output created by HybPiper to HybPhyloMaker workflow. It allows to start analysing your data with [HybPiper](https://github.com/mossmatters/HybPiper) and then continue with [HybPyloMaker](https://github.com/tomas-fer/HybPhyloMaker). It is expected that user knows how to use both of the pipelines and well familiar with its data stracure and requirments. The current version is optimized for Metacentrum only. Local run may be implemented in the future.
 ___
 **Dependencies**
-  * [BLAST command line tools](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download)
+  * [BLAST command line tools 2.2.30 and later](https://www.ncbi.nlm.nih.gov/books/NBK131777/#_Blast_ReleaseNotes_BLAST_2_2_30_October_)
   * [Python 3.6 or later](https://www.python.org/downloads/)
   * [BIOPYTHON](https://biopython.org)
 ___
