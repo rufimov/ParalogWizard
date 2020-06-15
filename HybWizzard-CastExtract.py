@@ -7,10 +7,10 @@ gff = sys.argv[1]
 fasta_file = sys.argv[2]
 result_fasta = sys.argv[3]
 concatenated_fasta = sys.argv[4]
-# print('Creating gff database...')
-# db = gffutils.create_db(gff, dbfn=gff[:-4], force=True, keep_order=True,
-#                         merge_strategy='merge', sort_attribute_values=True)
-# print('Done')
+print('Creating gff database...')
+db = gffutils.create_db(gff, dbfn=gff[:-4], force=True, keep_order=True,
+                        merge_strategy='merge', sort_attribute_values=True)
+print('Done')
 print('Creating feature database...')
 db = gffutils.FeatureDB(gff[:-4], keep_order=True)
 genes = list(db.features_of_type('gene'))
