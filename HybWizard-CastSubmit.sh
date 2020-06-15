@@ -38,7 +38,7 @@ env echo
 #Copy data to scratch
 env echo 'Copying data to scratch'
 if [[ "$collect_contigs" =~ "yes" ]]; then
-  mkdir -p "${SCRATCHDIR}"/HybPiperr_contigs
+  mkdir -p "${SCRATCHDIR}"/HybPiper_contigs
   cd "${path_HP}" || exit 1
   for folder in $(find . -maxdepth 1 -type d | sed 's/.\///' | tail -n +2); do
     cd "${folder}" || exit 1
