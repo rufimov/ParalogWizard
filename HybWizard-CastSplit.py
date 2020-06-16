@@ -3,12 +3,12 @@ from Bio import SeqIO
 from Bio.Alphabet import generic_dna
 import os
 import glob
-
-concat_exons = 'concatenated_exons_HanXRQr1.0.fasta'
-separat_exons = 'all_exons_HanXRQr1.0.fasta'
-probes = 'cos_ref_sunf.fasta'
-best_separate_exons = 'best_hits_HanXRQr1.0_as_exons.fasta'
-result_file = 'cos_ref_HanXRQr1.0_exons.fasta'
+import sys
+concat_exons = sys.argv[1]  # 'concatenated_exons_Lsat_Salinas_v7.fasta'
+separat_exons = sys.argv[2]  # 'all_exons_Lsat_Salinas_v7.fasta'
+probes = sys.argv[3]  # 'cos_ref_lett.fasta'
+best_separate_exons = sys.argv[4]  # 'best_hits_Lsat_Salinas_v7_as_exons.fasta'
+result_file = sys.argv[5]  # 'cos_ref_Lsat_Salinas_v7_exons.fasta'
 
 print('Building database for %s...' % concat_exons)
 NcbimakeblastdbCommandline(dbtype='nucl', input_file=concat_exons,
@@ -17,8 +17,9 @@ print('Done')
 print('Blasting %(probes)s against %(database)s' % {'probes': probes,
                                                     'database': concat_exons})
 NcbiblastnCommandline(task='blastn', query=probes, db=concat_exons,
-                      out=probes + '_against_' + concat_exons + '.txt', num_threads=4,
-                      outfmt='6 qaccver saccver pident qcovhsp evalue bitscore')()
+                      out=probes + '_against_' + concat_exons + '.txt',
+                      outfmt="6 qaccver saccver pident qcovhsp evalue bitscore",
+                      num_threads=4)()
 print('Done')
 print('Choosing the best hit...')
 with open(probes + '_against_' + concat_exons + '.txt') as blast_results:
@@ -72,6 +73,8 @@ with open(best_separate_exons + '_against_' + probes + '.txt') as new_blast_resu
         if cleaned_hit.split()[0] not in hits_exons:
             cleaned_dedup_hits.append(cleaned_hit)
             hits_exons.add(cleaned_hit.split()[0])
+    cleaned_dedup_hits.sort(key=lambda x: x.split()[0])
+    cleaned_dedup_hits.sort(key=lambda x: x.split()[1].split('-')[1])
     for cleaned_dedup_hit in cleaned_dedup_hits:
         name_of_locus = cleaned_dedup_hit.split()[1]
         num_exon = cleaned_dedup_hit.split()[0].split('_exon-')[1].split('-')[1]
