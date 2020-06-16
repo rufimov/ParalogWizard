@@ -9,6 +9,7 @@ separat_exons = sys.argv[2]  # 'all_exons_Lsat_Salinas_v7.fasta'
 probes = sys.argv[3]  # 'cos_ref_lett.fasta'
 best_separate_exons = sys.argv[4]  # 'best_hits_Lsat_Salinas_v7_as_exons.fasta'
 result_file = sys.argv[5]  # 'cos_ref_Lsat_Salinas_v7_exons.fasta'
+blast_task = sys.argv[6]  # 'blastn'
 
 print('Building database for %s...' % concat_exons)
 NcbimakeblastdbCommandline(dbtype='nucl', input_file=concat_exons,
@@ -16,7 +17,7 @@ NcbimakeblastdbCommandline(dbtype='nucl', input_file=concat_exons,
 print('Done')
 print('Blasting %(probes)s against %(database)s' % {'probes': probes,
                                                     'database': concat_exons})
-NcbiblastnCommandline(task='blastn', query=probes, db=concat_exons,
+NcbiblastnCommandline(task=blast_task, query=probes, db=concat_exons,
                       out=probes + '_against_' + concat_exons + '.txt',
                       outfmt="6 qaccver saccver pident qcovhsp evalue bitscore",
                       num_threads=4)()
@@ -50,7 +51,7 @@ with open(best_separate_exons, 'w') as best_exons:
             best_exons.write('>' + probe + '_' + name + '\n' + sequence + '\n')
 NcbimakeblastdbCommandline(dbtype='nucl', input_file=probes,
                            out=probes, parse_seqids=True)()
-NcbiblastnCommandline(task='blastn', query=best_separate_exons, db=probes,
+NcbiblastnCommandline(task=blast_task, query=best_separate_exons, db=probes,
                       out=best_separate_exons + '_against_' + probes + '.txt', num_threads=4,
                       outfmt='6 qaccver saccver pident qcovhsp evalue bitscore sstart send qstart qend')()
 with open(probes) as probes_to_parse:
