@@ -4,12 +4,12 @@ from Bio.Alphabet import generic_dna
 import os
 import glob
 import sys
-concat_exons = sys.argv[1]  # 'concatenated_exons_Lsat_Salinas_v7.fasta'
-separat_exons = sys.argv[2]  # 'all_exons_Lsat_Salinas_v7.fasta'
-probes = sys.argv[3]  # 'cos_ref_lett.fasta'
-best_separate_exons = sys.argv[4]  # 'best_hits_Lsat_Salinas_v7_as_exons.fasta'
-result_file = sys.argv[5]  # 'cos_ref_Lsat_Salinas_v7_exons.fasta'
-blast_task = sys.argv[6]  # 'blastn'
+concat_exons = sys.argv[1]  # concatenated exons
+separat_exons = sys.argv[2]  # separated exons
+probes = sys.argv[3]  # probe file
+best_separate_exons = 'best_hits_as_exons.fasta'
+result_file = sys.argv[4]  # final output file
+blast_task = sys.argv[5]  # blastn task ('megablast', 'dc-megablast', 'blastn')
 
 print('Building database for %s...' % concat_exons)
 NcbimakeblastdbCommandline(dbtype='nucl', input_file=concat_exons,
@@ -94,4 +94,5 @@ with open(best_separate_exons + '_against_' + probes + '.txt') as new_blast_resu
         result_file.write('>' + name_of_locus + '_exon_' + num_exon + '\n' + sequence + '\n')
 for file in glob.glob('*.n*'):
     os.remove(file)
+os.('best_hits_as_exons.fasta')
 print('Done')
