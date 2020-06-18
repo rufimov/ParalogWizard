@@ -29,6 +29,14 @@ def sort_hit_table_cover(hittable_as_list: List[str], primary_field: str):
     hittable_as_list.sort(key=globals()[primary_field])
 
 
+def sort_hit_table_ident(hittable_as_list: List[str], primary_field: str):
+    hittable_as_list.sort(key=lambda x: float(x.split()[5]), reverse=True)
+    hittable_as_list.sort(key=lambda x: float(x.split()[4]))
+    hittable_as_list.sort(key=lambda x: float(x.split()[3]), reverse=True)
+    hittable_as_list.sort(key=lambda x: float(x.split()[2]), reverse=True)
+    hittable_as_list.sort(key=globals()[primary_field])
+
+
 def locus(string: str) -> str:
     return string.split()[0].split('-')[1]
 
@@ -174,7 +182,7 @@ with open(main_path + 'statistics.csv', 'w') as stats, open(probe_HP_one_repr) a
 print('Statistics file created!\n')
 if new_reference_bool == 'yes':
     print('Creating new reference...')
-    sort_hit_table_cover(all_hits_for_reference, 'locus')
+    sort_hit_table_ident(all_hits_for_reference, 'locus')
     with open(path_to_data_HPM + '/exons/new_reference_for_HybPhyloMaker.fas', 'w') as new_reference:
         num_paralog: int = 0
         cover_best_seq: int = 0
