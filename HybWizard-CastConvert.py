@@ -189,7 +189,7 @@ if new_reference_bool == 'yes':
         best_seq: str = ''
         exons: Set[str] = set()
         for hit in all_hits_for_reference:
-            if hit.split()[-2] not in blacklist:
+            if hit.split()[-2] not in blacklist and int(hit.split()[3]) >= 75:
                 if locus(hit) not in exons:
                     name_of_locus = locus(hit).replace('exon', 'Contig').replace('Exon', 'Contig') \
                         .replace('contig', 'Contig').replace('_', '').replace('Contig', '_Contig_')
