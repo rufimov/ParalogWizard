@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -l walltime=4:0:0
-#PBS -l select=1:ncpus=1:mem=4gb:scratch_local=2gb
+#PBS -l select=1:ncpus=6:mem=1gb:scratch_local=2gb
 #PBS -N HybWizard
 #PBS -m abe
 #PBS -j oe
@@ -32,6 +32,12 @@ env echo 'Going to scratch'
 module add blast+-2.8.0a
 module add python-3.6.2-gcc
 module add python36-modules-gcc
+module add mafft-7.453
+module add trimal-1.4
+module add R
+
+#Set package library for R
+export R_LIBS="/storage/$server/home/$LOGNAME/Rpackages"
 
 env echo
 
@@ -56,31 +62,32 @@ else
   cp -r /storage/"${server}"/home/"${LOGNAME}"/HybPiper_contigs "${SCRATCHDIR}"
 fi
 
-#Move to scratch
-cd "${SCRATCHDIR}" || exit 1
+ #Move to scratch
+ cd "${SCRATCHDIR}" || exit 1
 
-#Copy script and reference to scratch
-cp "${source}/${probe_HP}" .
-cp "${source}"/HybWizard-CastConvert.py .
+ #Copy scripts and reference to scratch
+ cp "${source}/${probe_HP}" .
+ cp "${source}"/HybWizard-CastConvert.py .
+ cp "${source}"/find_peaks.R .
 
-env echo
+ env echo
 
-env echo 'Running script...'
-env echo
+ env echo 'Running script...'
+ env echo
 
 
-python3 HybWizard-CastConvert.py HybPiper_contigs "${path_to_data_HPM}" "${probe_HP_one_repr}" "${length_cut}" "${spades_cover_cut}" "${new_reference}" "${blacklist}" "${paralogs}" "${paralog_min_divergence}" "${paralog_max_divergence}" || exit 1
-env echo
+ python3 HybWizard-CastConvert.py HybPiper_contigs "${path_to_data_HPM}" "${probe_HP_one_repr}" "${length_cut}" "${spades_cover_cut}" "${new_reference}" "${blacklist}" "${paralogs}"  || exit 1
+ env echo
 
-env echo 'Copying results back to working directory'
+ env echo 'Copying results back to working directory'
 
-#Copy results back
-mkdir -p "${path_HPM}"
-cp -r "${path_to_data_HPM}"/* "${path_HPM}"
+ #Copy results back
+ mkdir -p "${path_HPM}"
+ cp -r "${path_to_data_HPM}"/* "${path_HPM}"
 
-env echo
-env echo
+ env echo
+ env echo
 
-env echo 'Transferring finished!'
+ env echo 'Transferring finished!'
 
-exit 0
+ exit 0
