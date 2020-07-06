@@ -70,16 +70,14 @@ def slicing(dictionary: Dict[str, Bio.SeqRecord.SeqRecord], current_string: str,
                                          -int(current_string.split()[end_column]) - 1:-1][::-1]
 
 
-def intersect_of_equal_length(str1, str2, mode):
-    lenmax = max(len(str1), len(str2))
-    match_ids = []
-    for i in range(lenmax):
-        if str1[i] != '-' and str2[i] != '-':
-            match_ids.append(i)
-    if mode == 'len':
-        return match_ids[-1] - match_ids[0] + 1
-    elif mode == 'ids':
-        return match_ids[0], match_ids[-1]
+def intersect_of_equal_length(str1, str2):
+    while (str1.startswith('-') or str2.startswith('-')) and str1[0] != str2[0]:
+        str1 = str1[1:]
+        str2 = str2[1:]
+    while (str1.endswith('-') or str2.endswith('-')) and str1[0] != str2[0]:
+        str1 = str1[:-1]
+        str2 = str2[:-1]
+    return len(str1)
 
 
 def percent_dissimilarity(seq1: str, seq2: str) -> float:
@@ -88,7 +86,7 @@ def percent_dissimilarity(seq1: str, seq2: str) -> float:
     for i in range(lenmax):
         if seq1[i] == seq2[i]:
             similarity += 1
-    distance = 100 - ((similarity / intersect_of_equal_length(seq1, seq2, 'len')) * 100)
+    distance = 100 - ((similarity / intersect_of_equal_length(seq1, seq2)) * 100)
     return distance
 
 
