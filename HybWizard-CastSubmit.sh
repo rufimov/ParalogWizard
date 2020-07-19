@@ -1,6 +1,6 @@
 #!/bin/bash
-#PBS -l walltime=4:0:0
-#PBS -l select=1:ncpus=6:mem=1gb:scratch_local=2gb
+#PBS -l walltime=8:0:0
+#PBS -l select=1:ncpus=4:mem=1gb:scratch_local=2gb
 #PBS -N HybWizard
 #PBS -m abe
 #PBS -j oe
@@ -34,10 +34,7 @@ module add python-3.6.2-gcc
 module add python36-modules-gcc
 module add mafft-7.453
 module add trimal-1.4
-module add R
 
-#Set package library for R
-export R_LIBS="/storage/$server/home/$LOGNAME/Rpackages"
 
 env echo
 
@@ -68,7 +65,6 @@ fi
  #Copy scripts and reference to scratch
  cp "${source}/${probe_HP}" .
  cp "${source}"/HybWizard-CastConvert.py .
- cp "${source}"/find_peaks.R .
 
  env echo
 
