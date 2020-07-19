@@ -11,11 +11,15 @@ from Bio.Alphabet import generic_dna
 from typing import List, Dict, Set
 from Bio.Blast.Applications import NcbimakeblastdbCommandline, NcbiblastnCommandline
 from Bio.Align.Applications import MafftCommandline
-# import matplotlib.pyplot
-# import seaborn
-# import numpy
-from multiprocessing.pool import ThreadPool
+import matplotlib.pyplot
+from scipy.stats import norm
+import numpy
 import itertools
+from sklearn.mixture import GaussianMixture, BayesianGaussianMixture
+from multiprocessing.pool import ThreadPool
+import random
+
+matplotlib.use('Agg')
 
 path_to_data_HP: str = sys.argv[1].strip()
 path_to_data_HPM: str = sys.argv[2].strip()
@@ -25,6 +29,8 @@ spades_cover: float = float(sys.argv[5].strip())
 new_reference_bool: str = sys.argv[6].strip()
 blacklist: set = set([x.strip() for x in sys.argv[7].split(',')])
 paralogs_bool: str = sys.argv[8].strip()
+paralog_min_divergence = float()
+paralog_max_divergence = float()
 
 
 def sort_hit_table_cover(hittable_as_list: List[str], primary_field: str):
@@ -86,12 +92,150 @@ def percent_dissimilarity(seq1: str, seq2: str) -> float:
     for i in range(lenmax):
         if seq1[i] == seq2[i]:
             similarity += 1
-    distance = 100 - ((similarity / intersect_of_equal_length(seq1, seq2, 'len')) * 100)
+    distance = 100 - ((similarity / intersect_of_equal_length(seq1, seq2)) * 100)
     return distance
 
 
 def percent_dissimilarity_pairwise2(seq1: str, seq2: str) -> float:
     return 100 - (pairwise2.align.globalxx(seq1, seq2)[0][2] / min(len(seq1), len(seq2))) * 100
+
+
+def get_best_model(array, num_comp):
+    # N = numpy.arange(1, num_comp + 1)
+    # models = [None for i in range(len(N))]
+    # for i in range(len(N)):
+    #     models[i] = GaussianMixture(n_components=N[i], max_iter=10000, n_init=10).fit(array)
+    # AIC = [m.aic(array) for m in models]
+    # BIC = [m.bic(array) for m in models]
+    # M_best = models[numpy.argmin(AIC)]
+    # return M_best
+    return BayesianGaussianMixture(n_components=num_comp, max_iter=10000, n_init=10).fit(array)
+
+
+def mix_pdf(x, loc, scale, weights):
+    d = numpy.zeros_like(x)
+    for mu, sigma, pi in zip(loc, scale, weights):
+        d += pi * norm.pdf(x, loc=mu, scale=sigma)
+    return d
+
+
+def individual_pdf(x, loc, scale, weights):
+    d = numpy.zeros_like(x)
+    d += weights * norm.pdf(x, loc=loc, scale=scale)
+    return d
+
+
+def get_plot(name: str, matrix: numpy.ndarray, mix: GaussianMixture, lines: Dict[str, float], num_contig, mode):
+    max_of_matrix = numpy.round(numpy.max(matrix)) + 1
+    fig, axis = matplotlib.pyplot.subplots(figsize=(15, 10))
+    axis.plot(matrix, [0] * matrix.shape[0], marker=2, color='k')
+    colors = random.sample(['r', 'g', 'b', 'c', 'm'], k=len(lines))
+    count = 0
+    for i in lines.keys():
+        axis.axvline(x=lines[i], label=f"{i} - {numpy.round(lines[i], 2)}", c=colors[count], lw=0.5, ls='--')
+        count += 1
+    axis.legend(loc='upper right')
+    axis.set_xlabel('Divergence (%)')
+    if num_contig == '':
+        fig.suptitle(f'{name}')
+    else:
+        fig.suptitle(f'{name} ({num_contig} contigs)')
+    # pi, mu, sigma = mix.weights_.flatten(), mix.means_.flatten(), numpy.sqrt(mix.covariances_.flatten())
+    # grid = numpy.arange(-1, max_of_matrix, 0.01)
+    # axis.hist(matrix, bins=numpy.arange(-1, max_of_matrix, 1), density=True, histtype='stepfilled', alpha=0.4)
+    # axis.plot(grid, mix_pdf(grid, mu, sigma, pi), '-k')
+    # for loc, scale, weights in zip(mu, sigma, pi):
+    #     axis.plot(grid, individual_pdf(grid, loc, scale, weights), '--k')
+    x = numpy.linspace(-1, max_of_matrix, 1000)
+    logprob = mix.score_samples(x.reshape(-1, 1))
+    responsibilities = mix.predict_proba(x.reshape(-1, 1))
+    pdf = numpy.exp(logprob)
+    axis.hist(matrix, bins=numpy.arange(-1, max_of_matrix, 1),
+              density=True, histtype='stepfilled', alpha=0.4)
+    axis.plot(x, pdf, '-k')
+    if mode == 'individual':
+        pdf_individual = responsibilities * pdf[:, numpy.newaxis]
+        axis.plot(x, pdf_individual, '--k')
+    elif mode == 'mix':
+        pass
+    fig.savefig(path_to_data_HPM + '/exons/aln_orth_par/' + name + '.png', dpi=300)
+    matplotlib.pyplot.close(fig)
+
+
+def get_distance_matrix(file_to_process, max_num_comp):
+    mafft_cline = MafftCommandline(input=file_to_process, adjustdirection=True)
+    stdout, stderr = mafft_cline()
+    with open(file_to_process + '.mafft.fas', "w") as aligned_to_write:
+        aligned_to_write.write(stdout)
+    os.system('trimal -automated1 -in ' + file_to_process + '.mafft.fas -out ' + file_to_process +
+              '.mafft.trim.fas -fasta')
+    file_to_process = file_to_process + '.mafft.trim.fas'
+    exon_name = file_to_process.split('/')[-1].split('.')[0]
+    current_distance_matrix = []
+    with open(file_to_process) as fasta_file:
+        sequences = SeqIO.to_dict(SeqIO.parse(fasta_file, 'fasta', generic_dna))
+        num_of_contigs = len(sequences)
+        for pair in list(itertools.combinations(sequences.keys(), 2)):
+            sequence1 = str(sequences[pair[0]].seq)
+            sequence2 = str(sequences[pair[1]].seq)
+            distance = percent_dissimilarity(sequence1, sequence2)
+            current_distance_matrix.append(distance)
+    with open(file_to_process + '.dist.txt', 'w') as dist_to_write:
+        for i in current_distance_matrix:
+            dist_to_write.write(str(i) + '\n')
+    if len(current_distance_matrix) < max_num_comp:
+        max_num_comp = len(current_distance_matrix)
+    if 1 < len(current_distance_matrix) != current_distance_matrix. \
+            count(current_distance_matrix[0]):
+        current_distance_matrix = list([[x] for x in current_distance_matrix])
+        current_distance_matrix = numpy.array(current_distance_matrix)
+        distribution_mix = get_best_model(current_distance_matrix, max_num_comp)
+        means = zip(distribution_mix.means_.flatten().tolist(), distribution_mix.weights_.flatten().tolist())
+        max_weight = distribution_mix.weights_.flatten().tolist()[0]
+        means = sorted([x[0] for x in means if max_weight/x[1] < 10])
+        first_peak = means[0]
+        if len(means) == 1:
+            get_plot(exon_name, current_distance_matrix, distribution_mix,
+                     {'single peak of pairwise distance distribution': numpy.round(first_peak, 2)},
+                     num_of_contigs, 'mix')
+        elif len(means) == 2:
+            second_peak = means[1]
+            if numpy.round(first_peak, 2) == numpy.round(second_peak, 2):
+                get_plot(exon_name, current_distance_matrix, distribution_mix,
+                         {'single peak of pairwise distance distribution': numpy.round(first_peak, 2)},
+                         num_of_contigs, 'mix')
+            else:
+                second_peaks.extend(means[1:])
+                get_plot(exon_name, current_distance_matrix, distribution_mix,
+                         {'first peak of pairwise distance distribution': numpy.round(first_peak, 2),
+                          'second peak of pairwise distance': numpy.round(second_peak, 2)}, num_of_contigs,
+                         'individual')
+        else:
+            second_peak = means[1]
+            third_peak = means[2]
+            if numpy.round(first_peak, 2) == numpy.round(second_peak, 2) == numpy.round(third_peak, 2):
+                get_plot(exon_name, current_distance_matrix, distribution_mix,
+                         {'single peak of pairwise distance distribution': numpy.round(first_peak, 2)},
+                         num_of_contigs, 'mix')
+            elif numpy.round(first_peak, 2) == numpy.round(second_peak, 2) != numpy.round(third_peak, 2):
+                second_peaks.extend(means[2:])
+                get_plot(exon_name, current_distance_matrix, distribution_mix,
+                         {'first peak of pairwise distance distribution': numpy.round(first_peak, 2),
+                          'second peak of pairwise distance': numpy.round(third_peak, 2)}, num_of_contigs,
+                         'mix')
+            elif numpy.round(first_peak, 2) != numpy.round(second_peak, 2) == numpy.round(third_peak, 2):
+                second_peaks.extend(means[1:2])
+                get_plot(exon_name, current_distance_matrix, distribution_mix,
+                         {'first peak of pairwise distance distribution': numpy.round(first_peak, 2),
+                          'second peak of pairwise distance': numpy.round(second_peak, 2)}, num_of_contigs,
+                         'mix')
+            elif numpy.round(first_peak, 2) != numpy.round(second_peak, 2) != numpy.round(third_peak, 2):
+                second_peaks.extend(means[1:])
+                get_plot(exon_name, current_distance_matrix, distribution_mix,
+                         {'first peak of pairwise distance distribution': numpy.round(first_peak, 2),
+                          'second peak of pairwise distance': numpy.round(second_peak, 2),
+                          'third peak of pairwise distance': numpy.round(third_peak, 2)}, num_of_contigs,
+                         'individual')
 
 
 print('Converting data...\n')
@@ -121,7 +265,7 @@ for file in glob.glob(main_path + '*.fasta'):
     print('\tRunning BLAST...')
     NcbiblastnCommandline(task='blastn', query=probe_HP_one_repr, db=main_path + sample,
                           out=main_path + 'reference_in_' + sample + '_contigs.txt', qcov_hsp_perc=length_cover,
-                          num_threads=6, outfmt='6 qaccver saccver pident qcovhsp evalue bitscore sstart send')()
+                          num_threads=4, outfmt='6 qaccver saccver pident qcovhsp evalue bitscore sstart send')()
     print('\tOK')
 print('Done\n')
 print('Correcting contigs...')
@@ -223,69 +367,27 @@ if new_reference_bool == 'yes':
         os.makedirs(path_to_data_HPM + '/exons/aln_orth_par', exist_ok=True)
         for key in exons.keys():
             SeqIO.write(exons[key], path_to_data_HPM + '/exons/aln_orth_par/' + key + '.fasta', 'fasta')
-
-
-        def get_distance_matrix(file_to_process):
-            mafft_cline = MafftCommandline(input=file_to_process, adjustdirection=True)
-            stdout, stderr = mafft_cline()
-            with open(file_to_process + '.mafft.fas', "w") as aligned_to_write:
-                aligned_to_write.write(stdout)
-            os.system('trimal -automated1 -in ' + file_to_process + '.mafft.fas -out ' + file_to_process +
-                      '.mafft.trim.fas -fasta')
-            file_to_process = file_to_process + '.mafft.trim.fas'
-            current_distance_matrix = []
-            with open(file_to_process) as fasta_file:
-                sequences = SeqIO.to_dict(SeqIO.parse(fasta_file, 'fasta', generic_dna))
-                for pair in list(itertools.combinations(sequences.keys(), 2)):
-                    sequence1 = str(sequences[pair[0]].seq)
-                    sequence2 = str(sequences[pair[1]].seq)
-                    current_distance_matrix.append(percent_dissimilarity(sequence1, sequence2))
-                # used_primary_key = set()
-                # for key1 in sequences.keys():
-                #     # # if float(key1.split('_')[5]) > 10:
-                #     # if float(key1.split('_')[5]) > 15 and (key1.split('_')[-2].split('-')[0] == 'Crataegus' or
-                #     #                                        key1.split('_')[-2].split('-')[0] == 'Malus' or
-                #     #                                        key1.split('_')[-2].split('-')[0] == 'Sorbus'):
-                #     for key2 in set(sequences.keys()) - {key1} - used_primary_key:
-                #         # # if float(key2.split('_')[5]) > 10:
-                #         # if float(key2.split('_')[5]) > 15 and (key2.split('_')[-2].split('-')[0] == 'Crataegus' or
-                #         #                                        key2.split('_')[-2].split('-')[0] == 'Malus' or
-                #         #                                        key2.split('_')[-2].split('-')[0] == 'Sorbus'):
-                #         sequence1 = str(sequences[key1].seq).replace('-', '')
-                #         sequence2 = str(sequences[key2].seq).replace('-', '')
-                #         current_distance_matrix.append(percent_dissimilarity(sequence1, sequence2))
-                #     used_primary_key.add(key1)
-            with open('/'.join(file_to_process.split('/')[:-1]) + '/dist/' + file_to_process.split('/')[-1] +
-                      '.dist.txt', 'w') as dist_to_write:
-                for i in current_distance_matrix:
-                    dist_to_write.write(str(i) + '\n')
-
-
-        os.makedirs(path_to_data_HPM + '/exons/aln_orth_par/dist', exist_ok=True)
-        pool = ThreadPool(4)
-        for file in glob.glob(path_to_data_HPM + '/exons/aln_orth_par/*.fasta'):
-            pool.apply_async(get_distance_matrix, (file,))
+        second_peaks = []
+        pool = ThreadPool(5)
+        for file in sorted(glob.glob(path_to_data_HPM + '/exons/aln_orth_par/*.fasta')):
+            pool.apply_async(get_distance_matrix, (file, 3))
         pool.close()
         pool.join()
-        os.system('cp find_peaks.R ' + path_to_data_HPM + '/exons/aln_orth_par/\n'
-                  'cd ' + path_to_data_HPM + '/exons/aln_orth_par/\n'
-                  'Rscript find_peaks.R > find_peaks.Rout\n'
-                  'rm find_peaks.R\n'
-                  'mv dist/* .\n'
-                  'rm -r dist')
-        # for file in glob.glob(path_to_data_HPM + '/exons/aln_orth_par/*.trim.fas.dist.txt'): with open(file) as
-        # dist_to_read: distance_matrix = dist_to_read.read().splitlines() if len([float(x) for x in distance_matrix]) ==
-        # 0: mx = 30 else: mx = round(max([float(x) for x in distance_matrix])) + 1 # histogram = matplotlib.pyplot.hist(
-        # distance_matrix, density=True, bins=numpy.arange(0, mx, 1), edgecolor='black') # histogram_values = [int(str(
-        # x).strip()) for x in histogram[1]] # histogram_frequency = [float(str(x).strip()) for x in histogram[0]]
-        # seaborn.distplot(distance_matrix, hist=True, kde=True, rug=True, bins=numpy.arange(0, mx, 1), color='blue',
-        # hist_kws={'edgecolor': 'black'}, kde_kws={'bw': 0.6, 'linewidth': 1, 'color': 'black', 'shade': True})
-        # matplotlib.pyplot.xlim(0, mx) matplotlib.pyplot.ylabel('Density') matplotlib.pyplot.xlabel('Divergence (%)')
-        # matplotlib.pyplot.grid(True) matplotlib.pyplot.savefig(file[:-8] + 'hist.png') matplotlib.pyplot.close()
-        with open(path_to_data_HPM + '/exons/aln_orth_par/paralog_divergence_range.txt') as divergence:
-            list_of_values = divergence.read().splitlines()
-            paralog_min_divergence: float = float(list_of_values[0])
-            paralog_max_divergence: float = float(list_of_values[1])
+        second_peaks_array = numpy.array([[x] for x in second_peaks])
+        second_peaks_mix = get_best_model(second_peaks_array, 3)
+        means = sorted(second_peaks_mix.means_.flatten().tolist())
+        first_peak = means[0]
+        second_peak = means[1]
+        third_peak = means[2]
+        get_plot('histogram_second_peaks', second_peaks_array, second_peaks_mix, {
+            'first peak of second peaks\' distribution': numpy.round(first_peak, 2),
+            'second peak of second peaks\' distribution': numpy.round(second_peak, 2),
+            'third peak of second peaks\' distribution': numpy.round(third_peak, 2)}, '', 'individual')
+        paralog_min_divergence = second_peak
+        paralog_max_divergence = third_peak
+        with open(path_to_data_HPM + '/exons/aln_orth_par/paralog_divergence.txt', 'w') as paralog_divergence:
+            paralog_divergence.write(str(paralog_min_divergence) + '\n')
+            paralog_divergence.write(str(paralog_max_divergence) + '\n')
         print('Done\n')
     print('Creating new reference...')
     sort_hit_table_ident(all_hits_for_reference, 'exon')
@@ -323,7 +425,7 @@ if new_reference_bool == 'yes':
                     else:
                         if hit.split()[-2] in set(current_locus.keys()):
                             if not paralog_written:
-                                current_seq: str = hit.split()[-1].replace('-','')
+                                current_seq: str = hit.split()[-1].replace('-', '')
                                 seq_to_compare: str = current_locus[hit.split()[-2]].split()[-1].replace('-',
                                                                                                          '')
                                 if paralog_max_divergence > percent_dissimilarity_pairwise2(current_seq,
