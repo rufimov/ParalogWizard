@@ -1,55 +1,15 @@
-import os
 import glob
-import sys
-import shutil
+import os
 import re
-import Bio
-from Bio import SeqRecord, SeqIO
-from Bio.Alphabet import generic_dna
+import shutil
+import sys
 from typing import List, Dict, Set
+
+from Bio import SeqIO
+from Bio.Alphabet import generic_dna
 from Bio.Blast.Applications import NcbimakeblastdbCommandline, NcbiblastnCommandline
-from HybWizard_Functions import sort_hit_table_cover
 
-path_to_data_HP: str = sys.argv[1].strip()
-path_to_data_HPM: str = sys.argv[2].strip()
-probe_HP_one_repr: str = sys.argv[3].strip()
-length_cover: float = float(sys.argv[4].strip())
-spades_cover: float = float(sys.argv[5].strip())
-
-
-# def sort_hit_table_cover(hittable_as_list: List[str], primary_field: str):
-#     hittable_as_list.sort(key=lambda x: float(x.split()[5]), reverse=True)
-#     hittable_as_list.sort(key=lambda x: float(x.split()[4]))
-#     hittable_as_list.sort(key=lambda x: float(x.split()[2]), reverse=True)
-#     hittable_as_list.sort(key=lambda x: float(x.split()[3]), reverse=True)
-#     hittable_as_list.sort(key=globals()[primary_field])
-
-
-def exon(string: str) -> str:
-    return string.split()[0].split('-')[1]
-
-
-def locus(string: str) -> str:
-    return '_'.join(string.split()[0].split('-')[1].split('_')[:-2])
-
-
-def contig(string: str) -> str:
-    return string.split()[1]
-
-
-def contig_locus(string: str) -> str:
-    return string.split()[1].split('_N_')[0]
-
-
-def slicing(dictionary: Dict[str, Bio.SeqRecord.SeqRecord], current_string: str, key_column: int, start_column: int,
-            end_column: int, rev: str) -> str:
-    if rev == 'no':
-        return str(dictionary[current_string.split()[key_column]].seq)[int(current_string.split()[start_column]) - 1:
-                                                                       int(current_string.split()[end_column])]
-    elif rev == 'yes':
-        return str(dictionary[current_string.split()[key_column]].seq.
-                   reverse_complement())[-int(current_string.split()[start_column]):
-                                         -int(current_string.split()[end_column]) - 1:-1][::-1]
+from HybWizard_Functions import sort_hit_table_cover, exon, locus, contig, contig_locus, slicing
 
 
 def prepare_contigs():
@@ -80,7 +40,7 @@ def create_hit_tables():
         print('\tRunning BLAST...')
         NcbiblastnCommandline(task='blastn', query=probe_HP_one_repr, db=main_path + sample,
                               out=main_path + 'reference_in_' + sample + '_contigs.txt', qcov_hsp_perc=length_cover,
-                              num_threads=4, outfmt='6 qaccver saccver pident qcovhsp evalue bitscore sstart send')()
+                              num_threads=8, outfmt='6 qaccver saccver pident qcovhsp evalue bitscore sstart send')()
         print('\tOK')
     print('Done\n')
 
@@ -123,9 +83,9 @@ def correct_contgis():
         hits_loci: Set[str] = set()
         for hit_dedup in hits_dedup:
             if locus(hit_dedup) not in hits_loci:
-                statistics[sample][locus(hit_dedup)] = {contig(hit_dedup)}
+                statistics[sample][locus(hit_dedup)]: Set[str] = {contig(hit_dedup)}
             else:
-                new_set = statistics[sample][locus(hit_dedup)]
+                new_set: Set[str] = statistics[sample][locus(hit_dedup)]
                 new_set.add(contig(hit_dedup))
                 statistics[sample][locus(hit_dedup)] = new_set
             hits_loci.add(locus(hit_dedup))
@@ -148,7 +108,7 @@ def write_stats():
         stats_dict: Dict[str, str] = dict([('gene\t', '')])
         loci: Set[str] = set()
         samples: List[str] = list()
-        reference_as_list = [x[:-1] for x in reference.readlines()]
+        reference_as_list: List[str] = [x[:-1] for x in reference.readlines()]
         for line in reference_as_list:
             if line.startswith('>'):
                 loci.add('_'.join(line.split('-')[1].split('_')[:-2]))
@@ -207,9 +167,14 @@ if __name__ == "__main__":
     print('Converting data...\n')
     print('**********************************************************************************************************')
     print('\n')
+    path_to_data_HP: str = sys.argv[1].strip()
+    path_to_data_HPM: str = sys.argv[2].strip()
+    probe_HP_one_repr: str = sys.argv[3].strip()
+    length_cover: float = float(sys.argv[4].strip())
+    spades_cover: float = float(sys.argv[5].strip())
     main_path: str = path_to_data_HPM + '/exons/40contigs/'
     os.makedirs(main_path, exist_ok=True)
-    statistics: Dict[str, dict] = dict()
+    statistics: Dict[str, Dict[str, Set[str]]] = dict()
     all_hits_for_reference: List[str] = list()
     prepare_contigs()
     create_hit_tables()

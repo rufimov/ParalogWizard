@@ -15,9 +15,9 @@ env echo
 
 #Copy file with settings from home and set variables from settings.cfg
 env echo 'Setting variables'
-cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/HybWizard-Settings.cfg .
+cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/HybWizard_Settings.cfg .
 . settings.cfg
-. HybWizard-Settings.cfg
+. HybWizard_Settings.cfg
 path_HP=/storage/"${server_HP}/home/${LOGNAME}/${data_HybPiper}"
 path_HPM=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
@@ -32,8 +32,6 @@ env echo 'Going to scratch'
 module add blast+-2.8.0a
 module add python-3.6.2-gcc
 module add python36-modules-gcc
-
-
 
 env echo
 
@@ -63,7 +61,8 @@ fi
 
  #Copy scripts and reference to scratch
  cp "${source}/${probe_HP}" .
- cp "${source}"/HybWizard-CastConvert.py .
+ cp "${source}"/HybWizard_CastConvert.py .
+ cp "${source}"/HybWizard_Functions.py .
 
  env echo
 
@@ -71,7 +70,7 @@ fi
  env echo
 
 
- python3 HybWizard-CastConvert.py HybPiper_contigs "${path_to_data_HPM}" "${probe_HP_one_repr}" "${length_cut}" "${spades_cover_cut}"  || exit 1
+ python3 HybWizard_CastConvert.py HybPiper_contigs "${path_to_data_HPM}" "${probe_HP_one_repr}" "${length_cut}" "${spades_cover_cut}"  || exit 1
  env echo
 
  env echo 'Copying results back to working directory'
