@@ -70,7 +70,7 @@ def get_distance_matrix(file_to_process: str, sum_list: List[float]):
     sum_list.extend(current_distance_matrix)
 
 
-def get_best_model(array: numpy.ndarray, num_comp: int) -> BayesianGaussianMixture:
+def get_model(array: numpy.ndarray, num_comp: int) -> BayesianGaussianMixture:
     return BayesianGaussianMixture(n_components=num_comp, max_iter=10000, n_init=10).fit(array)
 
 

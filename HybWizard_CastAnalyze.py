@@ -11,7 +11,7 @@ from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from sklearn.mixture import BayesianGaussianMixture
 
-from HybWizard_Functions import sort_hit_table_ident, exon, contig, get_distance_matrix, get_best_model, get_plot
+from HybWizard_Functions import sort_hit_table_ident, exon, contig, get_distance_matrix, get_model, get_plot
 
 
 def build_alignments():
@@ -49,7 +49,7 @@ def estimate_divergence():
         for i in divergency_distribution:
             divergency_distribution_to_write.write(str(i) + '\n')
     divergency_distribution_array: numpy.ndarray = numpy.array([[x] for x in divergency_distribution])
-    divergency_distribution_mix: BayesianGaussianMixture = get_best_model(divergency_distribution_array, 1)
+    divergency_distribution_mix: BayesianGaussianMixture = get_model(divergency_distribution_array, 1)
     means: List[float] = divergency_distribution_mix.means_.flatten().tolist()
     sigmas: List[float] = [numpy.sqrt(x) for x in divergency_distribution_mix.covariances_.flatten().tolist()]
     mu_sigma: List[Tuple[float, float]] = sorted(list(zip(means, sigmas)), key=lambda x: x[0])
@@ -59,7 +59,7 @@ def estimate_divergence():
              divergency_distribution_array, divergency_distribution_mix, {
                  'first peak minus sigma ': numpy.round(first_peak_minus_sigma, 2),
                  'first peak ': numpy.round(first_peak, 2)}, '', 'individual')
-    divergency_distribution_mix: BayesianGaussianMixture = get_best_model(divergency_distribution_array, 2)
+    divergency_distribution_mix: BayesianGaussianMixture = get_model(divergency_distribution_array, 2)
     means: List[float] = divergency_distribution_mix.means_.flatten().tolist()
     sigmas: List[float] = [numpy.sqrt(x) for x in divergency_distribution_mix.covariances_.flatten().tolist()]
     mu_sigma: List[Tuple[float, float]] = sorted(list(zip(means, sigmas)), key=lambda x: x[0])
@@ -73,7 +73,7 @@ def estimate_divergence():
                  'first peak ': numpy.round(first_peak, 2),
                  'second peak minus sigma': numpy.round(second_peak_minus_sigma, 2),
                  'second peak ': numpy.round(second_peak, 2)}, '', 'individual')
-    divergency_distribution_mix: BayesianGaussianMixture = get_best_model(divergency_distribution_array, 3)
+    divergency_distribution_mix: BayesianGaussianMixture = get_model(divergency_distribution_array, 3)
     means: List[float] = divergency_distribution_mix.means_.flatten().tolist()
     sigmas: List[float] = [numpy.sqrt(x) for x in divergency_distribution_mix.covariances_.flatten().tolist()]
     mu_sigma: List[Tuple[float, float]] = sorted(list(zip(means, sigmas)), key=lambda x: x[0])
