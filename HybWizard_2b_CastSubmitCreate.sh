@@ -57,7 +57,7 @@ cp "${source}"/HybWizard_Functions.py .
 
  #Copy results back
  mkdir -p "${path_HPM}"
- cp -r "${path_to_data_HPM}"/* "${path_HPM}"
+ cp -r "${path_to_data_HPM}"/exons/new_reference_for_HybPhyloMaker.fas "${path_HPM}"/exons/
 
  env echo
  env echo

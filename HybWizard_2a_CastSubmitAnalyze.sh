@@ -56,7 +56,7 @@ env echo
 env echo 'Copying results back to working directory'
 
 #Copy results back
-cp -r "${path_to_data_HPM}"/exons/new_reference_for_HybPhyloMaker.fas "${path_HPM}"/exons
+cp -r "${path_to_data_HPM}"/exons/aln_orth_par "${path_HPM}"/exons
 
 env echo
 env echo
