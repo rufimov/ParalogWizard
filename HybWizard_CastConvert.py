@@ -3,7 +3,7 @@ import os
 import re
 import shutil
 import sys
-from typing import List, Dict, Set
+from typing import List, Dict, Set, Union
 
 from Bio import SeqIO
 from Bio.Alphabet import generic_dna
@@ -50,7 +50,7 @@ def correct_contgis():
     for file in glob.glob(main_path + '*.fasta'):
         sample: str = file.split('/')[-1][:-6]
         print(' Processing ' + sample)
-        statistics[sample]: Dict[str, int] = dict()
+        statistics[sample]: Dict[str, Dict[str, List[str]]] = dict()
         hits: List[str] = list()
         with open(main_path + 'reference_in_' + sample + '_contigs.txt') as blast_results:
             blast_results_as_list = [x[:-1] for x in blast_results.readlines()]
@@ -81,14 +81,27 @@ def correct_contgis():
                     all_hits_for_reference.append('{0}\t{1}\t{2}'.format(hit_dedup, sample, sequence))
         sort_hit_table_cover(hits_dedup, 'locus')
         hits_loci: Set[str] = set()
+        hits_exons: Set[str] = set()
         for hit_dedup in hits_dedup:
             if locus(hit_dedup) not in hits_loci:
-                statistics[sample][locus(hit_dedup)]: Set[str] = {contig(hit_dedup)}
+                statistics[sample][locus(hit_dedup)] = dict()
+                if exon(hit_dedup) not in hits_exons:
+                    statistics[sample][locus(hit_dedup)][exon(hit_dedup)] = [contig(hit_dedup)]
+                    hits_exons.add(exon(hit_dedup))
+                else:
+                    statistics[sample][locus(hit_dedup)][exon(hit_dedup)].append(contig(hit_dedup))
+                hits_loci.add(locus(hit_dedup))
             else:
-                new_set: Set[str] = statistics[sample][locus(hit_dedup)]
-                new_set.add(contig(hit_dedup))
-                statistics[sample][locus(hit_dedup)] = new_set
-            hits_loci.add(locus(hit_dedup))
+                if exon(hit_dedup) not in hits_exons:
+                    statistics[sample][locus(hit_dedup)][exon(hit_dedup)] = [contig(hit_dedup)]
+                    hits_exons.add(exon(hit_dedup))
+                else:
+                    statistics[sample][locus(hit_dedup)][exon(hit_dedup)].append(contig(hit_dedup))
+        for i in statistics[sample].keys():
+            stat = []
+            for j in statistics[sample][i].keys():
+                stat.append(len(statistics[sample][i][j]))
+            statistics[sample][i]: int = max(stat)
         with open(main_path + 'reference_against_' + sample + '_contigs.txt', 'w') as \
                 hittable:
             sort_hit_table_cover(hits, 'locus')
@@ -122,7 +135,7 @@ def write_stats():
             for sample in samples:
                 loci_in_sample: Set[str] = set(statistics[sample].keys())
                 if loc in loci_in_sample:
-                    stats_dict[loc + '\t']: str = stats_dict[loc + '\t'] + str(len(statistics[sample][loc])) + '\t'
+                    stats_dict[loc + '\t']: str = stats_dict[loc + '\t'] + str(statistics[sample][loc]) + '\t'
                 else:
                     stats_dict[loc + '\t']: str = stats_dict[loc + '\t'] + 'NA' + '\t'
         stats.write('gene\t' + stats_dict['gene\t'] + '\n')
@@ -156,8 +169,8 @@ def clean():
     print('Removing temporary files...')
     for file in glob.glob(main_path + '*.fasta'):
         os.remove(file)
-    for file in glob.glob(main_path + 'reference_in*'):
-        os.remove(file)
+    # for file in glob.glob(main_path + 'reference_in*'):
+    #     os.remove(file)
     for file in glob.glob(main_path + '*.n*'):
         os.remove(file)
     print('Done\n')
@@ -174,7 +187,7 @@ if __name__ == "__main__":
     spades_cover: float = float(sys.argv[5].strip())
     main_path: str = path_to_data_HPM + '/exons/40contigs/'
     os.makedirs(main_path, exist_ok=True)
-    statistics: Dict[str, Dict[str, Set[str]]] = dict()
+    statistics: Dict[str, Dict[str, Union[Dict[str, List[str]], int]]] = dict()
     all_hits_for_reference: List[str] = list()
     prepare_contigs()
     create_hit_tables()
