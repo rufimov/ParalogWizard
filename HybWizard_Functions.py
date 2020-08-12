@@ -11,6 +11,7 @@ from sklearn.mixture import BayesianGaussianMixture
 
 
 def sort_hit_table_cover(hittable_as_list: List[str], primary_field: str):
+    hittable_as_list.sort(key=lambda x: float(x.split()[1].split('_')[-1]), reverse=True)
     hittable_as_list.sort(key=lambda x: float(x.split()[5]), reverse=True)
     hittable_as_list.sort(key=lambda x: float(x.split()[4]))
     hittable_as_list.sort(key=lambda x: float(x.split()[2]), reverse=True)
@@ -19,6 +20,7 @@ def sort_hit_table_cover(hittable_as_list: List[str], primary_field: str):
 
 
 def sort_hit_table_ident(hittable_as_list: List[str], primary_field: str):
+    hittable_as_list.sort(key=lambda x: float(x.split()[1].split('_')[-1]), reverse=True)
     hittable_as_list.sort(key=lambda x: float(x.split()[5]), reverse=True)
     hittable_as_list.sort(key=lambda x: float(x.split()[4]))
     hittable_as_list.sort(key=lambda x: float(x.split()[3]), reverse=True)
@@ -31,7 +33,7 @@ def exon(string: str) -> str:
 
 
 def locus(string: str) -> str:
-    return '_'.join(string.split()[0].split('-')[1].split('_')[:-2])
+    return string.split()[0].split('-')[1].split('_')[0]
 
 
 def contig(string: str) -> str:
