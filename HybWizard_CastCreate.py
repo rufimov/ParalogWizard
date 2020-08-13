@@ -69,6 +69,7 @@ def score_samples(list_with_hits: List[str]) -> List[str]:
                                   '\t' + str(samples_scores[sample][locus][2]) + \
                                   '\t' + str(samples_scores[sample][locus][0][spades_contig])
     list_with_hits.sort(key=lambda x: float(x.split()[-1]))
+    list_with_hits.sort(key=lambda x: x.split()[8])
     list_with_hits.sort(key=lambda x: float(x.split()[-2]))
     list_with_hits.sort(key=lambda x: float(x.split()[-3]), reverse=True)
     list_with_hits.sort(key=lambda x: exon(x))
