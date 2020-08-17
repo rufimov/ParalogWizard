@@ -22,7 +22,6 @@ path_HP=/storage/"${server_HP}/home/${LOGNAME}/${data_HybPiper}"
 path_HPM=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
 path_to_data_HPM="${data}"
-probe_HP="${probe_HP_one_repr}"
 
 env echo
 
@@ -60,7 +59,7 @@ fi
  cd "${SCRATCHDIR}" || exit 1
 
  #Copy scripts and reference to scratch
- cp "${source}/${probe_HP}" .
+ grep "^[^>].\{${exon_length}\}" -B1 --no-group-separator "${source}/${probe_HP_exons_split}" > "${probe_HP_exons_split}"
  cp "${source}"/HybWizard_CastConvert.py .
  cp "${source}"/HybWizard_Functions.py .
 
@@ -70,7 +69,7 @@ fi
  env echo
 
 
- python3 HybWizard_CastConvert.py HybPiper_contigs "${path_to_data_HPM}" "${probe_HP_one_repr}" "${length_cut}" "${spades_cover_cut}"  || exit 1
+ python3 HybWizard_CastConvert.py HybPiper_contigs "${path_to_data_HPM}" "${probe_HP_exons_split}" "${length_cut}" "${spades_cover_cut}"  || exit 1
  env echo
 
  env echo 'Copying results back to working directory'
