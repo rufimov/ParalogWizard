@@ -13,6 +13,11 @@ env echo 'Creating new reference'
 env echo
 env echo
 
+env echo 'Going to scratch'
+cd "${SCRATCHDIR}" || exit 1
+
+env echo
+
 #Copy file with settings from home and set variables from settings.cfg
 env echo 'Setting variables'
 cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/HybWizard_Settings.cfg .
@@ -21,10 +26,6 @@ cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/HybWizard_Settings.cfg .
 path_HPM=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
 path_to_data_HPM="${data}"
-
-env echo
-
-env echo 'Going to scratch'
 
 #Add necessary modules
 module add python-3.6.2-gcc
@@ -37,31 +38,31 @@ env echo 'Copying data to scratch'
 mkdir -p "${SCRATCHDIR}/${path_to_data_HPM}"/exons
 cp "${path_HPM}"/exons/all_hits.txt "${SCRATCHDIR}"/"${path_to_data_HPM}"/exons
 
- #Move to scratch
- cd "${SCRATCHDIR}" || exit 1
+#Move to scratch
+cd "${SCRATCHDIR}" || exit 1
 
- #Copy scripts and reference to scratch
+#Copy scripts and reference to scratch
 cp "${source}"/HybWizard_CastCreate.py .
 cp "${source}"/HybWizard_Functions.py .
 
- env echo
+env echo
 
- env echo 'Running script...'
- env echo
+env echo 'Running script...'
+env echo
 
 
- python3 HybWizard_CastCreate.py "${path_to_data_HPM}" "${blacklist}" "${paralogs}" "${paralog_min_divergence}" || exit 1
- env echo
+python3 HybWizard_CastCreate.py "${path_to_data_HPM}" "${blacklist}" "${paralogs}" "${paralog_min_divergence}" || exit 1
+env echo
 
- env echo 'Copying results back to working directory'
+env echo 'Copying results back to working directory'
 
- #Copy results back
- mkdir -p "${path_HPM}"
- cp -r "${path_to_data_HPM}"/exons/new_reference_for_HybPhyloMaker.fas "${path_HPM}"/exons/
+#Copy results back
+mkdir -p "${path_HPM}"
+cp -r "${path_to_data_HPM}"/exons/new_reference_for_HybPhyloMaker.fas "${path_HPM}"/exons/
 
- env echo
- env echo
+env echo
+env echo
 
- env echo 'Transferring finished!'
+env echo 'Transferring finished!'
 
- exit 0
+exit 0

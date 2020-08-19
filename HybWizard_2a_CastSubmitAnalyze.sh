@@ -13,6 +13,12 @@ env echo 'Analyzing data and searching for paralogs...'
 env echo
 env echo
 
+env echo 'Going to scratch'
+cd "${SCRATCHDIR}" || exit 1
+
+env echo
+
+
 #Copy file with settings from home and set variables from settings.cfg
 env echo 'Setting variables'
 cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/HybWizard_Settings.cfg .
@@ -21,10 +27,6 @@ cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/HybWizard_Settings.cfg .
 path_HPM=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
 path_to_data_HPM="${data}"
-
-env echo
-
-env echo 'Going to scratch'
 
 #Add necessary modules
 module add python-3.6.2-gcc
