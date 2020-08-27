@@ -1,6 +1,6 @@
 #!/bin/bash
-#PBS -l walltime=4:0:0
-#PBS -l select=1:ncpus=6:mem=1gb:scratch_local=2gb
+#PBS -l walltime=8:0:0
+#PBS -l select=1:ncpus=4:mem=1gb:scratch_local=2gb
 #PBS -N HybWizard
 #PBS -m abe
 #PBS -j oe
@@ -13,31 +13,25 @@ env echo 'Transferring data from HybPiper to HybPhyloMaker'
 env echo
 env echo
 
+env echo 'Going to scratch'
+cd "${SCRATCHDIR}" || exit 1
+
+env echo
+
 #Copy file with settings from home and set variables from settings.cfg
 env echo 'Setting variables'
-cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/HybWizard-Settings.cfg .
+cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/HybWizard_Settings.cfg .
 . settings.cfg
-. HybWizard-Settings.cfg
+. HybWizard_Settings.cfg
 path_HP=/storage/"${server_HP}/home/${LOGNAME}/${data_HybPiper}"
 path_HPM=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
 path_to_data_HPM="${data}"
-probe_HP="${probe_HP_one_repr}"
-
-env echo
-
-env echo 'Going to scratch'
 
 #Add necessary modules
 module add blast+-2.8.0a
 module add python-3.6.2-gcc
 module add python36-modules-gcc
-module add mafft-7.453
-module add trimal-1.4
-module add R
-
-#Set package library for R
-export R_LIBS="/storage/$server/home/$LOGNAME/Rpackages"
 
 env echo
 
@@ -66,9 +60,9 @@ fi
  cd "${SCRATCHDIR}" || exit 1
 
  #Copy scripts and reference to scratch
- cp "${source}/${probe_HP}" .
- cp "${source}"/HybWizard-CastConvert.py .
- cp "${source}"/find_peaks.R .
+ grep "^[^>].\{${exon_length}\}" -B1 --no-group-separator "${source}/${probe_HP_exons_split}" > "${probe_HP_exons_split}"
+ cp "${source}"/HybWizard_CastConvert.py .
+ cp "${source}"/HybWizard_Functions.py .
 
  env echo
 
@@ -76,7 +70,7 @@ fi
  env echo
 
 
- python3 HybWizard-CastConvert.py HybPiper_contigs "${path_to_data_HPM}" "${probe_HP_one_repr}" "${length_cut}" "${spades_cover_cut}" "${new_reference}" "${blacklist}" "${paralogs}"  || exit 1
+ python3 HybWizard_CastConvert.py HybPiper_contigs "${path_to_data_HPM}" "${probe_HP_exons_split}" "${length_cut}" "${spades_cover_cut}"  || exit 1
  env echo
 
  env echo 'Copying results back to working directory'

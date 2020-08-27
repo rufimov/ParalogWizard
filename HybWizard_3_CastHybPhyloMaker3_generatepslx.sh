@@ -102,7 +102,7 @@ else
 fi
 
 #Copy script for correcting pslx files
-cp -r $source/HybWizard-CastCorrect.py .
+cp -r $source/HybWizard_CastCorrect.py .
 
 #Make a new folder for results
 mkdir $path/$type/50pslx
@@ -153,7 +153,7 @@ do
 done
 
 #Correct pslx files and copy results
-python3 HybWizard-CastCorrect.py $probes
+python3 HybWizard_CastCorrect.py $probes
 cp -r corrected/* /storage/$server/home/$LOGNAME/$otherpslx
 
 #Clean scratch/work directory
