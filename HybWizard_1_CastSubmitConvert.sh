@@ -60,7 +60,7 @@ fi
  cd "${SCRATCHDIR}" || exit 1
 
  #Copy scripts and reference to scratch
- grep "^[^>].\{${exon_length}\}" -B1 --no-group-separator "${source}/${probe_HP_exons_split}" > "${probe_HP_exons_split}"
+ grep "^[^>].\{${exon_length}\}" -B1 --no-group-separator "${source}/${probe_HP_exons_split}" > "${SCRATCHDIR}/${probe_HP_exons_split}"
  cp "${source}"/HybWizard_CastConvert.py .
  cp "${source}"/HybWizard_Functions.py .
 
