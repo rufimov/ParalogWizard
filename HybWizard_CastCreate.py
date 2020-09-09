@@ -80,7 +80,7 @@ def create_reference_wo_paralogs():
     print('Creating new reference...')
     exons: Set[str] = set()
     with open(path_to_data_HPM + '/exons/new_reference_for_HybPhyloMaker.fas', 'w') as new_reference:
-        for hit in all_hits_for_reference:
+        for hit in all_hits_for_reference_scored:
             sample: str = hit.split()[8]
             if sample not in blacklist and float(hit.split()[3]) >= 75:
                 if exon(hit) not in exons:
@@ -103,7 +103,7 @@ def create_reference_w_paralogs():
     current_locus: Dict[str, str] = dict()
     samples_current_locus: Set[str] = set()
     samples_with_paralogs: Set[str] = set()
-    for hit in all_hits_for_reference:
+    for hit in all_hits_for_reference_scored:
         sample: str = hit.split()[8]
         if sample not in blacklist and float(hit.split()[3]) >= 75:
             if exon(hit) not in exons:
@@ -137,7 +137,7 @@ def create_reference_w_paralogs():
                 else:
                     current_locus[sample] = hit
                     samples_current_locus.add(sample)
-        count += 1
+            count += 1
     all_paralogs_for_reference = score_samples(all_paralogs_for_reference)
     exons: Set[str] = set()
     with open(path_to_data_HPM + '/exons/new_reference_for_HybPhyloMaker.fas', 'w') as new_reference:
@@ -161,7 +161,7 @@ if __name__ == '__main__':
     paralog_min_divergence: float = float(sys.argv[4].strip())
     with open(path_to_data_HPM + '/exons/all_hits.txt') as all_hits:
         all_hits_for_reference: List[str] = [x[:-1] for x in all_hits.readlines()]
-    all_hits_for_reference = score_samples(all_hits_for_reference)
+    all_hits_for_reference_scored = score_samples(all_hits_for_reference)
     if paralogs_bool != 'yes':
         create_reference_wo_paralogs()
     else:
