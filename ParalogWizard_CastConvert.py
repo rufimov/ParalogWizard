@@ -9,7 +9,7 @@ from Bio import SeqIO
 from Bio.Alphabet import generic_dna
 from Bio.Blast.Applications import NcbimakeblastdbCommandline, NcbiblastnCommandline
 
-from HybWizard_Functions import sort_hit_table_cover, exon, locus, contig, contig_locus, slicing
+from ParalogWizard_Functions import sort_hit_table_cover, exon, locus, contig, contig_locus, slicing
 
 
 def prepare_contigs():
@@ -116,7 +116,7 @@ def correct_contgis():
 
 def write_stats():
     print('Writing statistics...')
-    with open(main_path + 'statistics.csv', 'w') as stats, open(probe_HP_one_repr) as \
+    with open(main_path + 'statistics.tsv', 'w') as stats, open(probe_HP_one_repr) as \
             reference:
         stats_dict: Dict[str, str] = dict([('gene\t', '')])
         loci: Set[str] = set()
@@ -169,8 +169,8 @@ def clean():
     print('Removing temporary files...')
     for file in glob.glob(main_path + '*.fasta'):
         os.remove(file)
-    # for file in glob.glob(main_path + 'reference_in*'):
-    #     os.remove(file)
+    for file in glob.glob(main_path + 'reference_in*'):
+        os.remove(file)
     for file in glob.glob(main_path + '*.n*'):
         os.remove(file)
     print('Done\n')

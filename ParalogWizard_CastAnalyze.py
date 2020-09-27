@@ -11,7 +11,7 @@ from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from sklearn.mixture import BayesianGaussianMixture
 
-from HybWizard_Functions import sort_hit_table_ident, exon, contig, get_distance_matrix, get_model, get_plot
+from ParalogWizard_Functions import sort_hit_table_ident, exon, contig, get_distance_matrix, get_model, get_plot
 
 
 def build_alignments():
@@ -40,7 +40,7 @@ def build_alignments():
 def estimate_divergence():
     print('Estimating divergence of paralogs...')
     divergency_distribution: List[float] = []
-    pool: ThreadPool = ThreadPool(50)
+    pool: ThreadPool = ThreadPool(200)
     for file in sorted(glob.glob(path_to_data_HPM + '/exons/aln_orth_par/*.fasta')):
         pool.apply_async(get_distance_matrix, (file, divergency_distribution))
     pool.close()

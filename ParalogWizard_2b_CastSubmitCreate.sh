@@ -58,11 +58,12 @@ env echo 'Copying results back to working directory'
 
 #Copy results back
 mkdir -p "${path_HPM}"
-cp -r "${path_to_data_HPM}"/exons/new_reference_for_HybPhyloMaker.fas "${path_HPM}"/exons/
+cp -r "${path_to_data_HPM}"/exons/new_reference_for_HybPhyloMaker*.fas "${path_HPM}"/exons/
+cp -r "${path_to_data_HPM}"/exons/paralog_statistics*.tsv "${path_HPM}"/exons/
 
 env echo
 env echo
 
-env echo 'Transferring finished!'
+env echo 'New reference created!'
 
 exit 0
