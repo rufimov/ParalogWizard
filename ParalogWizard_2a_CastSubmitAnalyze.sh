@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -l walltime=8:0:0
 #PBS -l select=1:ncpus=6:mem=1gb:scratch_local=2gb
-#PBS -N HybWizard
+#PBS -N ParalogWizard
 #PBS -m abe
 #PBS -j oe
 
@@ -21,9 +21,9 @@ env echo
 
 #Copy file with settings from home and set variables from settings.cfg
 env echo 'Setting variables'
-cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/HybWizard_Settings.cfg .
+cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/ParalogWizard_Settings.cfg .
 . settings.cfg
-. HybWizard_Settings.cfg
+. ParalogWizard_Settings.cfg
 path_HPM=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
 path_to_data_HPM="${data}"
@@ -43,8 +43,8 @@ cp "${path_HPM}"/exons/all_hits.txt "${SCRATCHDIR}"/"${path_to_data_HPM}"/exons
 cd "${SCRATCHDIR}" || exit 1
 
 #Copy scripts and reference to scratch
-cp "${source}"/HybWizard_CastAnalyze.py .
-cp "${source}"/HybWizard_Functions.py .
+cp "${source}"/ParalogWizard_CastAnalyze.py .
+cp "${source}"/ParalogWizard_Functions.py .
 
 env echo
 
@@ -52,7 +52,7 @@ env echo 'Running script...'
 env echo
 
 
-python3 HybWizard_CastAnalyze.py "${path_to_data_HPM}" "${blacklist}"  || exit 1
+python3 ParalogWizard_CastAnalyze.py "${path_to_data_HPM}" "${blacklist}"  || exit 1
 env echo
 
 env echo 'Copying results back to working directory'

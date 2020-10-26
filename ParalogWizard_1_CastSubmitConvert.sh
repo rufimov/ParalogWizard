@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -l walltime=8:0:0
 #PBS -l select=1:ncpus=4:mem=1gb:scratch_local=2gb
-#PBS -N HybWizard
+#PBS -N ParalogWizard
 #PBS -m abe
 #PBS -j oe
 
@@ -20,9 +20,9 @@ env echo
 
 #Copy file with settings from home and set variables from settings.cfg
 env echo 'Setting variables'
-cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/HybWizard_Settings.cfg .
+cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/ParalogWizard_Settings.cfg .
 . settings.cfg
-. HybWizard_Settings.cfg
+. ParalogWizard_Settings.cfg
 path_HP=/storage/"${server_HP}/home/${LOGNAME}/${data_HybPiper}"
 path_HPM=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
@@ -61,8 +61,8 @@ fi
 
  #Copy scripts and reference to scratch
  grep "^[^>].\{${exon_length}\}" -B1 --no-group-separator "${source}/${probe_HP_exons_split}" > "${probe_HP_exons_split}"
- cp "${source}"/HybWizard_CastConvert.py .
- cp "${source}"/HybWizard_Functions.py .
+ cp "${source}"/ParalogWizard_CastConvert.py .
+ cp "${source}"/ParalogWizard_Functions.py .
 
  env echo
 
@@ -70,7 +70,7 @@ fi
  env echo
 
 
- python3 HybWizard_CastConvert.py HybPiper_contigs "${path_to_data_HPM}" "${probe_HP_exons_split}" "${length_cut}" "${spades_cover_cut}"  || exit 1
+ python3 ParalogWizard_CastConvert.py HybPiper_contigs "${path_to_data_HPM}" "${probe_HP_exons_split}" "${length_cut}" "${spades_cover_cut}"  || exit 1
  env echo
 
  env echo 'Copying results back to working directory'
