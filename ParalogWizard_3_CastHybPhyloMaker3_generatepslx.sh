@@ -154,7 +154,7 @@ done
 
 #Correct pslx files and copy results
 python3 HybWizard_CastCorrect.py $probes
-cp -r corrected/* /storage/$server/home/$LOGNAME/$otherpslx
+cp -r corrected $path/$type/50pslx/
 
 #Clean scratch/work directory
 if [[ $PBS_O_HOST == *".cz" ]]; then
