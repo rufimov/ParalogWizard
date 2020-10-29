@@ -14,9 +14,9 @@ from ParalogWizard_Functions import sort_hit_table_cover, exon, locus, contig, c
 
 def prepare_contigs():
     print('Preparing congits...')
-    for file in glob.glob(path_to_data_HP + '/*contigs.fasta'):
+    for file in glob.glob(f'{path_to_data_HPM}/HybPiper_contigs/*contigs.fasta'):
         shutil.copy(file, main_path + file.split('/')[-1])
-    for file in glob.glob(main_path + '*.fasta'):
+    for file in glob.glob(f'{main_path}*.fasta'):
         with open(file, 'r') as fasta:
             lines: List[str] = fasta.readlines()
         with open(file, 'w') as fasta:
@@ -25,21 +25,21 @@ def prepare_contigs():
                     re.sub(r'length_([0-9]+)_cov_([0-9]+\.[0-9][0-9]).*', r'\1_c_\2', line.replace('NODE', 'N')))
         name_of_file: str = '_'.join(file.split('/')[-1].split('.')[0].split('_')[0:2])
         path_to_file: str = '/'.join(file.split('/')[:-1])
-        os.rename(file, path_to_file + '/' + name_of_file + '.fasta')
+        os.rename(file, f'{path_to_file}/{name_of_file}.fasta')
     print('Done\n')
 
 
 def create_hit_tables():
     print('Creating hit tables...')
-    for file in glob.glob(main_path + '*.fasta'):
+    for file in glob.glob(f'{main_path}*.fasta'):
         file: str = file.split('/')[-1]
         sample: str = file[:-6]
-        print('\tProcessing ' + sample)
+        print(f'\tProcessing {sample}')
         NcbimakeblastdbCommandline(dbtype='nucl', input_file=main_path + file,
                                    out=main_path + sample, parse_seqids=True)()
         print('\tRunning BLAST...')
         NcbiblastnCommandline(task='blastn', query=probe_HP_one_repr, db=main_path + sample,
-                              out=main_path + 'reference_in_' + sample + '_contigs.txt', qcov_hsp_perc=length_cover,
+                              out=f'{main_path}reference_in_{sample}_contigs.txt', qcov_hsp_perc=length_cover,
                               num_threads=8, outfmt='6 qaccver saccver pident qcovhsp evalue bitscore sstart send')()
         print('\tOK')
     print('Done\n')
@@ -47,12 +47,12 @@ def create_hit_tables():
 
 def correct_contgis():
     print('Correcting contigs...')
-    for file in glob.glob(main_path + '*.fasta'):
+    for file in glob.glob(f'{main_path}*.fasta'):
         sample: str = file.split('/')[-1][:-6]
-        print(' Processing ' + sample)
+        print(f' Processing {sample}')
         statistics[sample]: Dict[str, Dict[str, List[str]]] = dict()
         hits: List[str] = list()
-        with open(main_path + 'reference_in_' + sample + '_contigs.txt') as blast_results:
+        with open(f'{main_path}reference_in_{sample}_contigs.txt') as blast_results:
             blast_results_as_list = [x[:-1] for x in blast_results.readlines()]
             for line in blast_results_as_list:
                 if contig_locus(line) == locus(line) and float(line.split()[1].split('_c_')[1]) >= spades_cover:
@@ -61,24 +61,20 @@ def correct_contgis():
         hits_exons_contigs: Set[str] = set()
         hits_dedup: List[str] = list()
         for hit in hits:
-            if str(exon(hit) + ' ' + contig(hit)) not in hits_exons_contigs:
+            if str(exon(hit) + contig(hit)) not in hits_exons_contigs:
                 hits_dedup.append(hit)
             else:
                 pass
-            hits_exons_contigs.add(exon(hit) + ' ' + contig(hit))
-        with open(main_path + sample + '.fas', 'w') as result_fasta, open(file) as contigs:
+            hits_exons_contigs.add(exon(hit) + contig(hit))
+        with open(f'{main_path}{sample}.fas', 'w') as result_fasta, open(file) as contigs:
             contigs_fasta_parsed = SeqIO.to_dict(SeqIO.parse(contigs, 'fasta', generic_dna))
             for hit_dedup in hits_dedup:
                 if int(hit_dedup.split()[6]) > int(hit_dedup.split()[7]):
                     sequence: str = slicing(contigs_fasta_parsed, hit_dedup, 1, 7, 6, 'yes')
-                    result_fasta.write('>' + exon(hit_dedup) + '_' + '_'.join(contig(hit_dedup).split('_')[1:]) + '\n' +
-                                       sequence + '\n')
-                    all_hits_for_reference.append('{0}\t{1}\t{2}'.format(hit_dedup, sample, sequence))
                 else:
                     sequence: str = slicing(contigs_fasta_parsed, hit_dedup, 1, 6, 7, 'no')
-                    result_fasta.write('>' + exon(hit_dedup) + '_' + '_'.join(contig(hit_dedup).split('_')[1:]) + '\n' +
-                                       sequence + '\n')
-                    all_hits_for_reference.append('{0}\t{1}\t{2}'.format(hit_dedup, sample, sequence))
+                result_fasta.write(f">{exon(hit_dedup)}_{'_'.join(contig(hit_dedup).split('_')[1:])}\n{sequence}\n")
+                all_hits_for_reference.append(f'{hit_dedup}\t{sample}\t{sequence}')
         sort_hit_table_cover(hits_dedup, 'locus')
         hits_loci: Set[str] = set()
         hits_exons: Set[str] = set()
@@ -102,22 +98,21 @@ def correct_contgis():
             for j in statistics[sample][i].keys():
                 stat.append(len(statistics[sample][i][j]))
             statistics[sample][i]: int = max(stat)
-        with open(main_path + 'reference_against_' + sample + '_contigs.txt', 'w') as \
+        with open(f'{main_path}reference_against_{sample}_contigs.txt', 'w') as \
                 hittable:
             sort_hit_table_cover(hits, 'locus')
             for hit in hits:
                 hittable.write(hit + '\n')
-    with open(path_to_data_HPM + '/exons/all_hits.txt', 'w') as all_hits_to_write:
+    with open(f'{path_to_data_HPM}/exons/all_hits.txt', 'w') as all_hits_to_write:
         for hit in all_hits_for_reference:
-            all_hits_to_write.write(hit + '\n')
+            all_hits_to_write.write(f'{hit}\n')
     print(' OK')
     print('All contigs were successfully corrected!\n')
 
 
 def write_stats():
     print('Writing statistics...')
-    with open(main_path + 'statistics.tsv', 'w') as stats, open(probe_HP_one_repr) as \
-            reference:
+    with open(f'{main_path}statistics.tsv', 'w') as stats, open(probe_HP_one_repr) as reference:
         stats_dict: Dict[str, str] = dict([('gene\t', '')])
         loci: Set[str] = set()
         samples: List[str] = list()
@@ -141,22 +136,21 @@ def write_stats():
         stats.write('gene\t' + stats_dict['gene\t'] + '\n')
         del stats_dict['gene\t']
         for key in sorted(list(stats_dict.keys())):
-            stats.write(key + stats_dict[key] + '\n')
+            stats.write(f'{key}{stats_dict[key]}\n')
     print('Statistics file created!\n')
 
 
 def rename_contigs():
     print('Renaming contigs...')
-    for file in glob.glob(main_path + '*.fas'):
+    for file in glob.glob(f'{main_path}*.fas'):
         sample = file.split('/')[-1][:-4]
-        print(' Processing ' + sample)
+        print(f' Processing {sample}')
         with open(file) as result_fasta:
             fasta_parsed = SeqIO.to_dict(SeqIO.parse(result_fasta, 'fasta', generic_dna))
             counter: int = 1
             fasta_to_write: List[str] = list()
             for line in sorted(fasta_parsed.keys()):
-                fasta_to_write.append('>Contig' + str(counter) + '_' + sample + '-' + line.replace('_', '-')
-                                      + '\n')
+                fasta_to_write.append(f">Contig{str(counter)}_{sample}-{line.replace('_', '-')}\n")
                 fasta_to_write.append(str(fasta_parsed[line].seq) + '\n')
                 counter += 1
         with open(file, 'w') as result_fasta:
@@ -167,11 +161,11 @@ def rename_contigs():
 
 def clean():
     print('Removing temporary files...')
-    for file in glob.glob(main_path + '*.fasta'):
+    for file in glob.glob(f'{main_path}*.fasta'):
         os.remove(file)
-    for file in glob.glob(main_path + 'reference_in*'):
+    for file in glob.glob(f'{main_path}reference_in*'):
         os.remove(file)
-    for file in glob.glob(main_path + '*.n*'):
+    for file in glob.glob(f'{main_path}*.n*'):
         os.remove(file)
     print('Done\n')
 
@@ -180,12 +174,11 @@ if __name__ == "__main__":
     print('Converting data...\n')
     print('**********************************************************************************************************')
     print('\n')
-    path_to_data_HP: str = sys.argv[1].strip()
-    path_to_data_HPM: str = sys.argv[2].strip()
-    probe_HP_one_repr: str = sys.argv[3].strip()
-    length_cover: float = float(sys.argv[4].strip())
-    spades_cover: float = float(sys.argv[5].strip())
-    main_path: str = path_to_data_HPM + '/exons/40contigs/'
+    path_to_data_HPM: str = sys.argv[1].strip()
+    probe_HP_one_repr: str = sys.argv[2].strip()
+    length_cover: float = float(sys.argv[3].strip())
+    spades_cover: float = float(sys.argv[4].strip())
+    main_path: str = f'{path_to_data_HPM}/exons/40contigs/'
     os.makedirs(main_path, exist_ok=True)
     statistics: Dict[str, Dict[str, Union[Dict[str, List[str]], int]]] = dict()
     all_hits_for_reference: List[str] = list()

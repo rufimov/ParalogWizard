@@ -35,53 +35,42 @@ module add python36-modules-gcc
 
 env echo
 
+#Copy scripts and reference to scratch
+grep "^[^>].\{${exon_length}\}" -B1 --no-group-separator "${source}/${probe_HP_exons_split}" > "${probe_HP_exons_split}"
+cp "${source}"/ParalogWizard_CastConvert.py .
+cp "${source}"/ParalogWizard_Functions.py .
+cp "${source}"/ParalogWizard_CastCollect.py .
+
+env echo
+
 #Copy data to scratch
 env echo 'Copying data to scratch'
 if [[ "$collect_contigs" =~ "yes" ]]; then
-  mkdir -p "${SCRATCHDIR}"/HybPiper_contigs
-  cd "${path_HP}" || exit 1
-  for folder in $(find . -maxdepth 1 -type d | sed 's/.\///' | tail -n +2); do
-    cd "${folder}" || exit 1
-    env echo "Processing ${folder}"
-    for gene in $(find . -maxdepth 1 -type d | sed 's/.\///' | tail -n +2); do
-       locus=$gene
-       if test -f "$locus/${locus}_contigs.fasta"; then
-       sed "s/>/>${locus}_/g" < "${locus}"/"${locus}"_contigs.fasta >> "${SCRATCHDIR}"/HybPiper_contigs/"${folder}"_contigs.fasta
-       fi
-     done
-     cd ..
-  done
-  cp -r "${SCRATCHDIR}"/HybPiper_contigs /storage/"${server}"/home/"${LOGNAME}"/
-else
-  cp -r /storage/"${server}"/home/"${LOGNAME}"/HybPiper_contigs "${SCRATCHDIR}"
+  python3 ParalogWizard_CastCollect.py "${path_HP}" "${path_HPM}"
 fi
 
- #Move to scratch
- cd "${SCRATCHDIR}" || exit 1
-
- #Copy scripts and reference to scratch
- grep "^[^>].\{${exon_length}\}" -B1 --no-group-separator "${source}/${probe_HP_exons_split}" > "${probe_HP_exons_split}"
- cp "${source}"/ParalogWizard_CastConvert.py .
- cp "${source}"/ParalogWizard_Functions.py .
-
- env echo
-
- env echo 'Running script...'
- env echo
+mkdir -p "${SCRATCHDIR}/${data}"
+cp -r /storage/"${server}"/home/"${LOGNAME}/${data}"/HybPiper_contigs "${SCRATCHDIR}/${data}"
 
 
- python3 ParalogWizard_CastConvert.py HybPiper_contigs "${path_to_data_HPM}" "${probe_HP_exons_split}" "${length_cut}" "${spades_cover_cut}"  || exit 1
- env echo
+env echo
 
- env echo 'Copying results back to working directory'
+env echo 'Running script...'
+env echo
 
- #Copy results back
- mkdir -p "${path_HPM}"
- cp -r "${path_to_data_HPM}"/* "${path_HPM}"
 
- env echo
- env echo
+python3 ParalogWizard_CastConvert.py "${data}" "${probe_HP_exons_split}" "${length_cut}" "${spades_cover_cut}"  || exit 1
+env echo
 
- env echo 'Transferring finished!'
+env echo 'Copying results back to working directory'
 
- exit 0
+#Copy results back
+mkdir -p "${path_HPM}"
+cp -r "${path_to_data_HPM}"/* "${path_HPM}"
+
+env echo
+env echo
+
+env echo 'Transferring finished!'
+
+exit 0
