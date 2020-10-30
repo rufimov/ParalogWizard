@@ -20,8 +20,7 @@ env echo
 
 #Copy file with settings from home and set variables from settings.cfg
 env echo 'Setting variables'
-cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/ParalogWizard_Settings.cfg .
-. settings.cfg
+cp "${PBS_O_WORKDIR}"/ParalogWizard_Settings.cfg .
 . ParalogWizard_Settings.cfg
 path_HP=/storage/"${server_HP}/home/${LOGNAME}/${data_HybPiper}"
 path_HPM=/storage/"${server}/home/${LOGNAME}/${data}"
