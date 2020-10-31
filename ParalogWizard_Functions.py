@@ -59,8 +59,9 @@ def percent_dissimilarity(seq1: str, seq2: str) -> float:
     return 100 - (pairwise2.align.globalxx(seq1, seq2)[0][2] / min(len(seq1), len(seq2))) * 100
 
 
-def get_distance_matrix(file_to_process: str, sum_list: List[float]):
+def get_distance_matrix(file_to_process: str, sum_list: List[float], list_to_write: List[str]):
     current_distance_matrix: List[float] = []
+    current_list_to_write = []
     with open(file_to_process) as fasta_file:
         sequences: Dict[str, Bio.SeqRecord.SeqRecord] = SeqIO.to_dict(SeqIO.parse(fasta_file, 'fasta', generic_dna))
         for pair in list(itertools.combinations(sequences.keys(), 2)):
@@ -69,6 +70,8 @@ def get_distance_matrix(file_to_process: str, sum_list: List[float]):
                 sequence2: str = str(sequences[pair[1]].seq)
                 distance: float = percent_dissimilarity(sequence1, sequence2)
                 current_distance_matrix.append(distance)
+                current_list_to_write.append(f'{pair[0]}\t{str(distance)}\t{pair[1]}')
+    list_to_write.extend(current_list_to_write)
     sum_list.extend(current_distance_matrix)
 
 
