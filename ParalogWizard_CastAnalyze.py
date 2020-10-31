@@ -33,6 +33,10 @@ def build_alignments():
                 exons[exon(hit)] = new_list
     os.makedirs(path_to_data_HPM + '/exons/aln_orth_par', exist_ok=True)
     for key in exons.keys():
+        for record in exons[key]:
+            new_id = f"{key}_N_{record.id.split('_N_')[1]}"
+            record.id = new_id
+    for key in exons.keys():
         SeqIO.write(exons[key], path_to_data_HPM + '/exons/aln_orth_par/' + key + '.fasta', 'fasta')
     print('Done\n')
 
