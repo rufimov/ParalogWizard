@@ -16,4 +16,6 @@ for folder in os.listdir(path_to_data_HP):
                         file_content = locus_contigs.read().replace('>', f'>{locus}_')
                         contigs.write(file_content)
                     print('\tOK')
+        if os.stat(f'{path_to_data_HPM}/HybPiper_contigs/{folder}_contigs.fasta').st_size == 0:
+            os.remove(f'{path_to_data_HPM}/HybPiper_contigs/{folder}_contigs.fasta')
         print('Ok')
