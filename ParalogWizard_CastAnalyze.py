@@ -40,13 +40,14 @@ def build_alignments():
 def estimate_divergence():
     print('Estimating divergence of paralogs...')
     divergency_distribution: List[float] = []
+    divergencies_to_write: List[str]= []
     pool: ThreadPool = ThreadPool(200)
     for file in sorted(glob.glob(path_to_data_HPM + '/exons/aln_orth_par/*.fasta')):
-        pool.apply_async(get_distance_matrix, (file, divergency_distribution))
+        pool.apply_async(get_distance_matrix, (file, divergency_distribution, divergencies_to_write))
     pool.close()
     pool.join()
     with open(path_to_data_HPM + '/exons/aln_orth_par/pairwise_distances.txt', 'w') as divergency_distribution_to_write:
-        for i in divergency_distribution:
+        for i in divergencies_to_write:
             divergency_distribution_to_write.write(str(i) + '\n')
     divergency_distribution_array: numpy.ndarray = numpy.array([[x] for x in divergency_distribution])
     divergency_distribution_mix: BayesianGaussianMixture = get_model(divergency_distribution_array, 1)
