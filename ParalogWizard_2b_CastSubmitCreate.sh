@@ -35,8 +35,9 @@ env echo
 
 #Copy data to scratch
 env echo 'Copying data to scratch'
-mkdir -p "${SCRATCHDIR}/${path_to_data_HPM}"/exons
+mkdir -p "${SCRATCHDIR}/${path_to_data_HPM}"/exons/aln_orth_par/
 cp "${path_HPM}"/exons/all_hits.txt "${SCRATCHDIR}"/"${path_to_data_HPM}"/exons
+cp "${path_HPM}"/exons/aln_orth_par/pairwise_distances.txt "${SCRATCHDIR}"/"${path_to_data_HPM}"/exons/aln_orth_par/
 
 #Move to scratch
 cd "${SCRATCHDIR}" || exit 1
