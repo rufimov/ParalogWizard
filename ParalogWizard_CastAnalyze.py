@@ -6,6 +6,7 @@ from typing import List, Dict, Tuple, Set
 
 import numpy
 from Bio import SeqRecord, SeqIO
+from Bio.Align.Applications import MafftCommandline
 from Bio.Alphabet import generic_dna
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
@@ -37,7 +38,11 @@ def build_alignments():
             new_id = f"{key}_N_{record.id.split('_N_')[1]}"
             record.id = new_id
     for key in exons.keys():
-        SeqIO.write(exons[key], path_to_data_HPM + '/exons/aln_orth_par/' + key + '.fasta', 'fasta')
+        SeqIO.write(exons[key], f'{path_to_data_HPM}/exons/aln_orth_par/{key}.fasta', 'fasta')
+        stdout, stderr = MafftCommandline(input=f'{path_to_data_HPM}/exons/aln_orth_par/{key}.fasta',
+                                          adjustdirectionaccurately=True)()
+        with open(f'{path_to_data_HPM}/exons/aln_orth_par/{key}.mafft.fasta', 'w') as aligned:
+            aligned.write(stdout)
     print('Done\n')
 
 
@@ -46,7 +51,7 @@ def estimate_divergence():
     divergency_distribution: List[float] = []
     divergencies_to_write: List[str]= []
     pool: ThreadPool = ThreadPool(200)
-    for file in sorted(glob.glob(path_to_data_HPM + '/exons/aln_orth_par/*.fasta')):
+    for file in sorted(glob.glob(path_to_data_HPM + '/exons/aln_orth_par/*.mafft.fasta')):
         pool.apply_async(get_distance_matrix, (file, divergency_distribution, divergencies_to_write))
     pool.close()
     pool.join()

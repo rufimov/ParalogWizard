@@ -2,7 +2,7 @@ import sys
 import copy
 from typing import Set, Dict, List
 
-from ParalogWizard_Functions import sort_hit_table_ident, exon, percent_dissimilarity, contig
+from ParalogWizard_Functions import sort_hit_table_ident, exon, contig
 
 
 def score_samples(list_with_hits: List[str]) -> List[str]:
@@ -90,6 +90,11 @@ def create_reference_wo_paralogs():
 
 
 def create_reference_w_paralogs():
+    with open(f'{path_to_data_HPM}/exons/aln_orth_par/pairwise_distances.txt') as distances:
+        pairwise_distances: Dict[str, float] = dict()
+        for line in distances.read().splitlines():
+            pairwise_distances[f'{line.split()[0]}_{line.split()[2]}'] = float(line.split()[1])
+            pairwise_distances[f'{line.split()[2]}_{line.split()[0]}'] = float(line.split()[1])
     print('Creating new reference...')
     all_paralogs_for_reference = []
     exons: Set[str] = set()
@@ -122,11 +127,14 @@ def create_reference_w_paralogs():
                 exons.add(exon(hit))
             else:
                 if sample in samples_current_locus and sample not in samples_with_paralogs:
-                    current_seq: str = hit.split()[9]
-                    seq_to_compare: str = current_locus[sample].split()[9]
-                    if percent_dissimilarity(current_seq, seq_to_compare) > \
+                    current_exonic_contig = f"{hit.split()[0].split('-')[1]}_" \
+                                            f"{'_'.join(hit.split()[1].split('_')[1:])}_{sample}"
+                    exonic_contigs_to_compare = f"{current_locus[sample].split()[0].split('-')[1]}_" \
+                                                f"{'_'.join(current_locus[sample].split()[1].split('_')[1:])}" \
+                                                f"_{sample}"
+                    if pairwise_distances[f'{current_exonic_contig}_{exonic_contigs_to_compare}'] > \
                             paralog_min_divergence:
-                        print('Paralog detected for ' + hit.split()[0].split('-')[1] + ' in ' + sample)
+                        print(f"Paralog detected for {hit.split()[0].split('-')[1]} in {sample}")
                         paralog_statistic[sample].add(hit.split()[1].split('_')[0])
                         all_paralogs_for_reference.append(current_locus[sample])
                         name_of_locus_para: str = '_'.join([exon(hit).split('_')[0] + '_para'] +

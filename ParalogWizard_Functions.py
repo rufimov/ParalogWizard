@@ -56,7 +56,19 @@ def slicing(dictionary: Dict[str, Bio.SeqRecord.SeqRecord], current_string: str,
 
 
 def percent_dissimilarity(seq1: str, seq2: str) -> float:
-    return 100 - (pairwise2.align.globalxx(seq1, seq2)[0][2] / min(len(seq1), len(seq2))) * 100
+    seq1 = seq1.lower()
+    seq2 = seq2.lower()
+    while seq1[0] == '-' or seq2[0] == '-':
+        seq1 = seq1[1:]
+        seq2 = seq2[1:]
+    while seq1[-1] == '-' or seq2[-1] == '-':
+        seq1 = seq1[:-1]
+        seq2 = seq2[:-1]
+    count = 0
+    for i in range(0, len(seq1)):
+        if seq1[i] != seq2[i]:
+            count += 1
+    return (count/len(seq1)) * 100
 
 
 def get_distance_matrix(file_to_process: str, sum_list: List[float], list_to_write: List[str]):
