@@ -31,6 +31,7 @@ path_to_data_HPM="${data}"
 #Add necessary modules
 module add python-3.6.2-gcc
 module add python36-modules-gcc
+module add mafft-7.453
 
 env echo
 
