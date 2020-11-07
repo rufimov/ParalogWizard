@@ -20,8 +20,6 @@ if [[ $PBS_O_HOST == *".cz" ]]; then
 	. ParalogWizard_Settings.cfg
 	path=/storage/$server/home/$LOGNAME/$data
 	source=/storage/$server/home/$LOGNAME/HybSeqSource
-	othersourcepath=/storage/$server/home/$LOGNAME/$othersource
-	otherpslxpath=/storage/$server/home/$LOGNAME/$otherpslx
 
 	#Add necessary modules
 	module add blat-suite-34
@@ -36,20 +34,13 @@ else
 	. settings.cfg
 	path=../$data
 	source=../HybSeqSource
-	othersourcepath=../$othersource
-	otherpslxpath=../$otherpslx
 	#Make and enter work directory
 	mkdir -p workdir03
 	cd workdir03
 fi
 
-#Setting for the case when working with cpDNA
-echo -e "Working with exons\n"
-type="exons"
-
-
 #Copy fasta from home folder to scratch/workdir
-cp -r $path/$type/40contigs/* .
+cp -r $path/exons/40contigs/* .
 
 #-----------------------BLAT ASSEMBLIES TO REFERENCE-----------------------
 echo -e "Generating pslx files using BLAT...\n"
@@ -57,12 +48,11 @@ echo -e "Generating pslx files using BLAT...\n"
 #Copy reference
 cp -r $source/$probes .
 
-
 #Copy script for correcting pslx files
 cp -r $source/ParalogWizard_CastCorrect.py .
 
 #Make a new folder for results
-mkdir $path/$type/50pslx
+mkdir -p $path/exons/50pslx
 mkdir -p $data/exons/50pslx
 
 #Make a list of all files with contigs
@@ -73,13 +63,13 @@ for contigfile in $(cat contig_names.txt)
 do
 	echo -e "\nProcessing $contigfile..."
 	blat -t=DNA -q=DNA -out=pslx -minIdentity=$minident $probes $contigfile ${contigfile}.pslx
-	cp $contigfile.pslx $path/$type/50pslx
+	cp $contigfile.pslx $path/exons/50pslx
 	cp $contigfile.pslx $data/exons/50pslx
 done
 
 #Correct pslx files and copy results
 python3 ParalogWizard_CastCorrect.py $data $probes $whitelist
-cp -r $data/exons/50pslx/corrected $path/$type/50pslx/
+cp -r $data/exons/50pslx/corrected $path/exons/50pslx/
 
 #Clean scratch/work directory
 if [[ $PBS_O_HOST == *".cz" ]]; then
