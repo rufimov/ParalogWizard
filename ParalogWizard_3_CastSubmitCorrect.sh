@@ -24,7 +24,7 @@ if [[ $PBS_O_HOST == *".cz" ]]; then
 	#Add necessary modules
 	module add blat-suite-34
 	module add python-3.6.2-gcc
-  module add python36-modules-gcc
+  	module add python36-modules-gcc
 
 else
 	echo -e "\nHybPhyloMaker3 is running locally..."
