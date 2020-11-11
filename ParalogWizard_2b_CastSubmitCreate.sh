@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -l walltime=8:0:0
 #PBS -l select=1:ncpus=1:mem=1gb:scratch_local=2gb
-#PBS -N ParalogWizard
+#PBS -N ParalogWizard-Create
 #PBS -m abe
 #PBS -j oe
 

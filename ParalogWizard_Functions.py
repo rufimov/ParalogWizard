@@ -1,9 +1,10 @@
 import itertools
 import random
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
 import Bio
-import matplotlib.pyplot
+import matplotlib
+from matplotlib import axes, pyplot
 import numpy
 from Bio import SeqRecord, SeqIO
 from Bio.Alphabet import generic_dna
@@ -11,6 +12,13 @@ from sklearn.mixture import BayesianGaussianMixture
 
 
 def sort_hit_table_cover(hittable_as_list: List[str], primary_field: str):
+    """
+
+    :param hittable_as_list:
+    :type hittable_as_list:
+    :param primary_field:
+    :type primary_field:
+    """
     hittable_as_list.sort(
         key=lambda x: float(x.split()[1].split("_")[-1]), reverse=True
     )
@@ -22,6 +30,13 @@ def sort_hit_table_cover(hittable_as_list: List[str], primary_field: str):
 
 
 def sort_hit_table_ident(hittable_as_list: List[str], primary_field: str):
+    """
+
+    :param hittable_as_list:
+    :type hittable_as_list:
+    :param primary_field:
+    :type primary_field:
+    """
     hittable_as_list.sort(
         key=lambda x: float(x.split()[1].split("_")[-1]), reverse=True
     )
@@ -33,18 +48,43 @@ def sort_hit_table_ident(hittable_as_list: List[str], primary_field: str):
 
 
 def exon(string: str) -> str:
+    """
+
+    :param string:
+    :type string:
+    :return:
+    :rtype:
+    """
     return string.split()[0].split("-")[1]
 
 
 def locus(string: str) -> str:
+    """
+
+    :rtype: object
+    """
     return string.split()[0].split("-")[1].split("_")[0]
 
 
 def contig(string: str) -> str:
+    """
+
+    :param string:
+    :type string:
+    :return:
+    :rtype:
+    """
     return string.split()[1]
 
 
 def contig_locus(string: str) -> str:
+    """
+
+    :param string:
+    :type string:
+    :return:
+    :rtype:
+    """
     return string.split()[1].split("_N_")[0]
 
 
@@ -56,6 +96,23 @@ def slicing(
     end_column: int,
     rev: str,
 ) -> str:
+    """
+
+    :param dictionary:
+    :type dictionary:
+    :param current_string:
+    :type current_string:
+    :param key_column:
+    :type key_column:
+    :param start_column:
+    :type start_column:
+    :param end_column:
+    :type end_column:
+    :param rev:
+    :type rev:
+    :return:
+    :rtype:
+    """
     start = int(current_string.split()[start_column])
     end = int(current_string.split()[end_column])
     sequence = dictionary[current_string.split()[key_column]].seq
@@ -67,6 +124,15 @@ def slicing(
 
 
 def percent_dissimilarity(seq1: str, seq2: str) -> float:
+    """
+
+    :param seq1:
+    :type seq1:
+    :param seq2:
+    :type seq2:
+    :return:
+    :rtype:
+    """
     seq1 = seq1.lower()
     seq2 = seq2.lower()
     while seq1[0] == "-" or seq2[0] == "-":
@@ -97,6 +163,15 @@ def percent_dissimilarity(seq1: str, seq2: str) -> float:
 def get_distance_matrix(
     file_to_process: str, sum_list: List[float], list_to_write: List[str]
 ):
+    """
+
+    :param file_to_process:
+    :type file_to_process:
+    :param sum_list:
+    :type sum_list:
+    :param list_to_write:
+    :type list_to_write:
+    """
     current_distance_matrix: List[float] = []
     current_list_to_write = []
     with open(file_to_process) as fasta_file:
@@ -115,24 +190,74 @@ def get_distance_matrix(
 
 
 def get_model(array: numpy.ndarray, num_comp: int) -> BayesianGaussianMixture:
+    """
+
+    :param array:
+    :type array:
+    :param num_comp:
+    :type num_comp:
+    :return:
+    :rtype:
+    """
     return BayesianGaussianMixture(
         n_components=num_comp, max_iter=10000, n_init=10
     ).fit(array)
+
+
+def plot_vertical_line(
+    plot: matplotlib.axes,
+    line_name: str,
+    line_value: float,
+    list_of_colors: List[str],
+    num_for_color: int,
+):
+    """
+
+    :param plot:
+    :type plot:
+    :param line_name:
+    :type line_name:
+    :param line_value:
+    :type line_value:
+    :param list_of_colors:
+    :type list_of_colors:
+    :param num_for_color:
+    :type num_for_color:
+    """
+    plot.axvline(
+        x=line_value,
+        label=f"{line_name} - {numpy.round(line_value, 2)}",
+        c=list_of_colors[num_for_color],
+        lw=0.6,
+        ls="--",
+    )
 
 
 def get_plot(
     path: str,
     name: str,
     matrix: numpy.ndarray,
-    mix: BayesianGaussianMixture,
-    lines: Dict[str, float],
-    num_contig,
-    mode,
+    comp: int,
 ):
+    """
+
+    :param path:
+    :type path:
+    :param name:
+    :type name:
+    :param matrix:
+    :type matrix:
+    :param comp:
+    :type comp:
+    """
+    # General plot settings
     matplotlib.use("Agg")
     max_of_matrix: float = numpy.round(numpy.max(matrix)) + 1
-    fig, axis = matplotlib.pyplot.subplots(figsize=(15, 10))
-    axis.plot(matrix, [0] * matrix.shape[0], marker=2, color="k")
+    fig, axis = pyplot.subplots(figsize=(15, 10))
+    axis.set_xlabel("Divergence (%)")
+    axis.xaxis.set_ticks(numpy.arange(-1, max_of_matrix, 1))
+    fig.suptitle(f"{name}")
+    # Set colours for vertical lines to be plotted
     colors: List[str] = random.sample(
         [
             "#FF0000",
@@ -147,41 +272,57 @@ def get_plot(
             "#512DA8",
             "#2ECC71",
         ],
-        k=len(lines),
+        k=comp * 2,
     )
-    count: int = 0
-    for i in lines.keys():
-        axis.axvline(
-            x=lines[i],
-            label=f"{i} - {numpy.round(lines[i], 2)}",
-            c=colors[count],
-            lw=0.6,
-            ls="--",
+    # Data to plot
+    divergency_distribution_mix: BayesianGaussianMixture = get_model(matrix, comp)
+    means: List[float] = divergency_distribution_mix.means_.flatten().tolist()
+    sigmas: List[float] = [
+        numpy.sqrt(x)
+        for x in divergency_distribution_mix.covariances_.flatten().tolist()
+    ]
+    mu_sigma: List[Tuple[float, float]] = sorted(
+        list(zip(means, sigmas)), key=lambda x: x[0]
+    )
+    first_peak: float = mu_sigma[0][0]
+    first_peak_minus_sigma: float = first_peak - mu_sigma[0][1]
+    plot_vertical_line(
+        axis, "first_peak_minus_sigma", first_peak_minus_sigma, colors, 0
+    )
+    plot_vertical_line(axis, "first_peak", first_peak, colors, 1)
+    if comp > 1:
+        second_peak: float = mu_sigma[1][0]
+        second_peak_minus_sigma: float = second_peak - mu_sigma[1][1]
+        plot_vertical_line(
+            axis, "second_peak_minus_sigma", second_peak_minus_sigma, colors, 2
         )
-        count += 1
+        plot_vertical_line(axis, "second_peak", second_peak, colors, 3)
+        if comp > 2:
+            third_peak: float = mu_sigma[2][0]
+            third_peak_minus_sigma: float = third_peak - mu_sigma[2][1]
+            plot_vertical_line(
+                axis, "third_peak_minus_sigma", third_peak_minus_sigma, colors, 4
+            )
+            plot_vertical_line(axis, "third_peak", third_peak, colors, 5)
+    # Plot graph and other
     axis.legend(loc="upper right")
-    axis.set_xlabel("Divergence (%)")
-    axis.xaxis.set_ticks(numpy.arange(-1, max_of_matrix, 1))
-    if num_contig == "":
-        fig.suptitle(f"{name}")
-    else:
-        fig.suptitle(f"{name} ({num_contig} contigs)")
+    axis.plot(matrix, [0] * matrix.shape[0], marker=2, color="k")
     x: numpy.ndarray = numpy.linspace(0, max_of_matrix, 1000)
-    logprob: numpy.ndarray = mix.score_samples(x.reshape(-1, 1))
-    responsibilities: numpy.ndarray = mix.predict_proba(x.reshape(-1, 1))
+    logprob: numpy.ndarray = divergency_distribution_mix.score_samples(x.reshape(-1, 1))
+    responsibilities: numpy.ndarray = divergency_distribution_mix.predict_proba(
+        x.reshape(-1, 1)
+    )
     pdf: numpy.ndarray = numpy.exp(logprob)
     axis.hist(
         matrix,
-        bins=numpy.arange(0, max_of_matrix, 1),
+        bins=numpy.arange(0, max_of_matrix, 0.5),
         density=True,
         histtype="stepfilled",
         alpha=0.4,
     )
     axis.plot(x, pdf, "-k")
-    if mode == "individual":
-        pdf_individual: numpy.ndarray = responsibilities * pdf[:, numpy.newaxis]
-        axis.plot(x, pdf_individual, "--k")
-    elif mode == "mix":
-        pass
+    pdf_individual: numpy.ndarray = responsibilities * pdf[:, numpy.newaxis]
+    axis.plot(x, pdf_individual, "--k")
+    # Save figure
     fig.savefig(path + name + ".png", dpi=300)
-    matplotlib.pyplot.close(fig)
+    pyplot.close(fig)
