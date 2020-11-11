@@ -1,28 +1,42 @@
 import sys
 import os
 import glob
-
-path_to_data_HPM = sys.argv[1]
-probes = sys.argv[2]
-whitelist = set([x.strip() for x in sys.argv[3].split(",")])
+import shutil
 
 
-def aln_similarity(y):
+def aln_similarity(y: str) -> float:
     return (
         float(y.split("\t")[0]) / (float(y.split("\t")[0]) + float(y.split("\t")[1]))
     ) * 100
 
 
-def number_locus_for_sort(z):
+def number_locus_for_sort(z: str) -> str:
     return z.split()[13].split("_")[1]
 
 
-def number_exon_for_sort(a):
+def number_exon_for_sort(a: str) -> int:
     return int(a.split()[13].split("_")[3])
 
 
-def number_contig_for_sort(b):
+def number_contig_for_sort(b: str) -> int:
     return int(b.split()[9].split("_")[0][6:])
+
+
+def run_blat():
+    print("Generating pslx files using BLAT...\n")
+    os.makedirs(f"{path_to_data_HPM}/exons/50pslx", exist_ok=True)
+    for contigfile in glob.glob(f"{path_to_data_HPM}/exons/40contigs/*.fas"):
+        file = contigfile.split("/")[-1]
+        if file != probes:
+            print(f"Processing {file}...")
+            os.system(
+                f"blat -t=DNA -q=DNA -out=pslx -minIdentity={minident} {probes} {contigfile} {contigfile}.pslx"
+            )
+            shutil.move(
+                f"{path_to_data_HPM}/exons/40contigs/{file}.pslx",
+                f"{path_to_data_HPM}/exons/50pslx/{file}.pslx",
+            )
+            print("Done")
 
 
 def correct():
@@ -63,4 +77,9 @@ def correct():
 
 
 if __name__ == "__main__":
+    path_to_data_HPM = sys.argv[1]
+    probes = sys.argv[2]
+    whitelist = set([x.strip() for x in sys.argv[3].split(",")])
+    minident = float(sys.argv[4].strip())
+    run_blat()
     correct()
