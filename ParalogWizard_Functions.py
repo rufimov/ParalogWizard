@@ -4,10 +4,10 @@ from typing import List, Dict, Tuple
 
 import Bio
 import matplotlib
-from matplotlib import axes, pyplot
 import numpy
 from Bio import SeqRecord, SeqIO
 from Bio.Alphabet import generic_dna
+from matplotlib import axes, pyplot
 from sklearn.mixture import BayesianGaussianMixture
 
 
@@ -91,10 +91,7 @@ def contig_locus(string: str) -> str:
 def slicing(
     dictionary: Dict[str, Bio.SeqRecord.SeqRecord],
     current_string: str,
-    key_column: int,
-    start_column: int,
-    end_column: int,
-    rev: str,
+    rev: bool,
 ) -> str:
     """
 
@@ -102,23 +99,19 @@ def slicing(
     :type dictionary:
     :param current_string:
     :type current_string:
-    :param key_column:
-    :type key_column:
-    :param start_column:
-    :type start_column:
-    :param end_column:
-    :type end_column:
     :param rev:
     :type rev:
     :return:
     :rtype:
     """
-    start = int(current_string.split()[start_column])
-    end = int(current_string.split()[end_column])
-    sequence = dictionary[current_string.split()[key_column]].seq
-    if rev == "yes":
+    sequence = dictionary[current_string.split()[1]].seq
+    if rev:
+        start = int(current_string.split()[7])
+        end = int(current_string.split()[6])
         result = str(sequence.reverse_complement())[-start : -end - 1 : -1][::-1]
     else:
+        start = int(current_string.split()[6])
+        end = int(current_string.split()[7])
         result = str(sequence)[start - 1 : end]
     return result
 
@@ -144,18 +137,12 @@ def percent_dissimilarity(seq1: str, seq2: str) -> float:
     count = 0
     seq1_wo_mutual_gaps = str()
     seq2_wo_mutual_gaps = str()
-    for i in range(0, len(seq1)):
-        if seq1[i] == "-" and seq2[i] == "-":
-            continue
-        else:
-            seq1_wo_mutual_gaps = seq1_wo_mutual_gaps + seq1[i]
-            seq2_wo_mutual_gaps = seq2_wo_mutual_gaps + seq2[i]
-    for i in range(0, len(seq1_wo_mutual_gaps)):
-        if (
-            seq1_wo_mutual_gaps[i] != seq2_wo_mutual_gaps[i]
-            and seq1_wo_mutual_gaps[i] != "-"
-            and seq2_wo_mutual_gaps[i] != "-"
-        ):
+    for nucl in zip(seq1, seq2):
+        if nucl[0] != "-" and nucl[1] != "-":
+            seq1_wo_mutual_gaps = seq1_wo_mutual_gaps + nucl[0]
+            seq2_wo_mutual_gaps = seq2_wo_mutual_gaps + nucl[1]
+    for nucl in zip(seq1_wo_mutual_gaps, seq2_wo_mutual_gaps):
+        if nucl[0] != nucl[1] and nucl[0] != "-" and nucl[1] != "-":
             count += 1
     return (count / len(seq1)) * 100
 
@@ -307,10 +294,12 @@ def get_plot(
     # Plot graph and other
     axis.legend(loc="upper right")
     axis.plot(matrix, [0] * matrix.shape[0], marker=2, color="k")
-    x: numpy.ndarray = numpy.linspace(0, max_of_matrix, 1000)
-    logprob: numpy.ndarray = divergency_distribution_mix.score_samples(x.reshape(-1, 1))
+    space: numpy.ndarray = numpy.linspace(0, max_of_matrix, 1000)
+    logprob: numpy.ndarray = divergency_distribution_mix.score_samples(
+        space.reshape(-1, 1)
+    )
     responsibilities: numpy.ndarray = divergency_distribution_mix.predict_proba(
-        x.reshape(-1, 1)
+        space.reshape(-1, 1)
     )
     pdf: numpy.ndarray = numpy.exp(logprob)
     axis.hist(
@@ -320,9 +309,9 @@ def get_plot(
         histtype="stepfilled",
         alpha=0.4,
     )
-    axis.plot(x, pdf, "-k")
+    axis.plot(space, pdf, "-k")
     pdf_individual: numpy.ndarray = responsibilities * pdf[:, numpy.newaxis]
-    axis.plot(x, pdf_individual, "--k")
+    axis.plot(space, pdf_individual, "--k")
     # Save figure
     fig.savefig(path + name + ".png", dpi=300)
     pyplot.close(fig)

@@ -97,13 +97,9 @@ def correct_contgis():
             )
             for hit_dedup in hits_dedup:
                 if int(hit_dedup.split()[6]) > int(hit_dedup.split()[7]):
-                    sequence: str = slicing(
-                        contigs_fasta_parsed, hit_dedup, 1, 7, 6, "yes"
-                    )
+                    sequence: str = slicing(contigs_fasta_parsed, hit_dedup, True)
                 else:
-                    sequence: str = slicing(
-                        contigs_fasta_parsed, hit_dedup, 1, 6, 7, "no"
-                    )
+                    sequence: str = slicing(contigs_fasta_parsed, hit_dedup, False)
                 result_fasta.write(
                     f">{exon(hit_dedup)}_{'_'.join(contig(hit_dedup).split('_')[1:])}\n{sequence}\n"
                 )
