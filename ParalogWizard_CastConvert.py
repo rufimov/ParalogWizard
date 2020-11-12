@@ -209,8 +209,8 @@ def clean():
     print("Removing temporary files...")
     for file in glob.glob(f"{main_path}*.fasta"):
         os.remove(file)
-    # for file in glob.glob(f"{main_path}reference_in*"):
-    #     os.remove(file)
+    for file in glob.glob(f"{main_path}reference_in*"):
+    os.remove(file)
     for file in glob.glob(f"{main_path}*.n*"):
         os.remove(file)
     print("Done\n")
