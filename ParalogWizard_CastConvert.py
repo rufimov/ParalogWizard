@@ -210,7 +210,7 @@ def clean():
     for file in glob.glob(f"{main_path}*.fasta"):
         os.remove(file)
     for file in glob.glob(f"{main_path}reference_in*"):
-    os.remove(file)
+        os.remove(file)
     for file in glob.glob(f"{main_path}*.n*"):
         os.remove(file)
     print("Done\n")
