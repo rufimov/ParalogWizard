@@ -2,7 +2,7 @@ import glob
 import os
 import sys
 from multiprocessing.pool import ThreadPool
-from typing import List, Dict, Tuple, Set
+from typing import List, Dict, Set
 
 import numpy
 from Bio import SeqRecord, SeqIO
@@ -27,25 +27,24 @@ def build_alignments():
     sort_hit_table_ident(all_hits_for_reference, "exon")
     exons: Dict[str, List[SeqRecord]] = dict()
     for hit in all_hits_for_reference:
-        if hit.split()[-2] not in blacklist:
-            if exon(hit) not in set(exons.keys()):
-                exons[exon(hit)]: List[SeqRecord] = [
-                    SeqRecord(
-                        Seq(hit.split()[-1], generic_dna),
-                        id=contig(hit) + "_" + hit.split()[-2],
-                        description="",
-                    )
-                ]
-            else:
-                new_list: List[SeqRecord] = exons[exon(hit)]
-                new_list.append(
-                    SeqRecord(
-                        Seq(hit.split()[-1], generic_dna),
-                        id=contig(hit) + "_" + hit.split()[-2],
-                        description="",
-                    )
+        if exon(hit) not in set(exons.keys()):
+            exons[exon(hit)]: List[SeqRecord] = [
+                SeqRecord(
+                    Seq(hit.split()[-1], generic_dna),
+                    id=contig(hit) + "_" + hit.split()[-2],
+                    description="",
                 )
-                exons[exon(hit)] = new_list
+            ]
+        else:
+            new_list: List[SeqRecord] = exons[exon(hit)]
+            new_list.append(
+                SeqRecord(
+                    Seq(hit.split()[-1], generic_dna),
+                    id=contig(hit) + "_" + hit.split()[-2],
+                    description="",
+                )
+            )
+            exons[exon(hit)] = new_list
     os.makedirs(path_to_data_HPM + "/exons/aln_orth_par", exist_ok=True)
     for key in exons.keys():
         for record in exons[key]:
@@ -75,7 +74,8 @@ def estimate_divergence():
         glob.glob(path_to_data_HPM + "/exons/aln_orth_par/*.mafft.fasta")
     ):
         pool.apply_async(
-            get_distance_matrix, (file, divergency_distribution, divergencies_to_write)
+            get_distance_matrix,
+            (file, divergency_distribution, divergencies_to_write, blacklist),
         )
     pool.close()
     pool.join()
