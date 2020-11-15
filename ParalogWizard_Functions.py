@@ -1,6 +1,6 @@
 import itertools
 import random
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Set
 
 import Bio
 import matplotlib
@@ -148,7 +148,10 @@ def percent_dissimilarity(seq1: str, seq2: str) -> float:
 
 
 def get_distance_matrix(
-    file_to_process: str, sum_list: List[float], list_to_write: List[str]
+    file_to_process: str,
+    sum_list: List[float],
+    list_to_write: List[str],
+    blacklist: Set[str],
 ):
     """
 
@@ -158,6 +161,8 @@ def get_distance_matrix(
     :type sum_list:
     :param list_to_write:
     :type list_to_write:
+    :param blacklist:
+    :type blacklist:
     """
     current_distance_matrix: List[float] = []
     current_list_to_write = []
@@ -170,7 +175,8 @@ def get_distance_matrix(
                 sequence1: str = str(sequences[pair[0]].seq)
                 sequence2: str = str(sequences[pair[1]].seq)
                 distance: float = percent_dissimilarity(sequence1, sequence2)
-                current_distance_matrix.append(distance)
+                if "_".join(pair[0].split("_")[-2:]) not in blacklist:
+                    current_distance_matrix.append(distance)
                 current_list_to_write.append(f"{pair[0]}\t{str(distance)}\t{pair[1]}")
     list_to_write.extend(current_list_to_write)
     sum_list.extend(current_distance_matrix)
