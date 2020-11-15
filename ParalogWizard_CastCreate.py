@@ -1,6 +1,9 @@
-import sys
 import copy
+import sys
 from typing import Set, Dict, List
+
+from Bio import SeqIO
+from Bio.Alphabet import generic_dna
 
 from ParalogWizard_Functions import sort_hit_table_ident, exon, contig
 
@@ -128,7 +131,6 @@ def create_reference_w_paralogs():
     current_locus: Dict[str, str] = dict()
     samples_current_locus: Set[str] = set()
     samples_with_paralogs: Set[str] = set()
-    paralog_statistic = dict()
     set_of_samples = set()
     for hit in all_hits_for_reference_scored:
         sample: str = hit.split()[8]
@@ -215,13 +217,39 @@ def create_reference_w_paralogs():
                         f">Assembly_{name_of_locus}_{sample}_{contig(hit)}\n{hit.split()[9]}\n"
                     )
                     exons.add(exon(hit))
+        print("New reference created!\n")
+
+
+def write_stats():
     with open(
         f"{path_to_data_HPM}/exons/paralog_statistics_div_{paralog_min_divergence}.tsv",
         "w",
     ) as par_stat:
         for sample in sorted(list(paralog_statistic.keys())):
             par_stat.write(f"{sample}\t{str(len(paralog_statistic[sample]))}\n")
-    print("New reference created!\n")
+    with open(probes) as probe_loci:
+        all_probe_exons = SeqIO.to_dict(
+            SeqIO.parse(probe_loci, "fasta", generic_dna)
+        ).keys()
+        all_loci: Set[str] = set()
+        for key in all_probe_exons:
+            all_loci.add(key.split("-")[1].split("_")[0])
+    with open(
+        f"{path_to_data_HPM}/exons/locus_statistics_div_{paralog_min_divergence}.tsv",
+        "w",
+    ) as loci_par_stat:
+        loci_par_stat.write("sample\locus")
+        for locus in sorted(list(all_loci)):
+            loci_par_stat.write(f"\t{locus}")
+        loci_par_stat.write("\n")
+        for sample in sorted(list(paralog_statistic.keys())):
+            loci_par_stat.write(sample)
+            for locus in sorted(list(all_loci)):
+                if locus in paralog_statistic[sample]:
+                    loci_par_stat.write("\tYes")
+                else:
+                    loci_par_stat.write("\tN/A")
+            loci_par_stat.write("\n")
 
 
 if __name__ == "__main__":
@@ -229,10 +257,13 @@ if __name__ == "__main__":
     blacklist: set = set([x.strip() for x in sys.argv[2].split(",")])
     paralogs_bool = sys.argv[3]
     paralog_min_divergence: float = float(sys.argv[4].strip())
+    probes: str = sys.argv[5]
     with open(f"{path_to_data_HPM}/exons/all_hits.txt") as all_hits:
         all_hits_for_reference: List[str] = [x[:-1] for x in all_hits.readlines()]
     all_hits_for_reference_scored = score_samples(all_hits_for_reference)
     if paralogs_bool != "yes":
         create_reference_wo_paralogs()
     else:
+        paralog_statistic: Dict[str, Set[str]] = dict()
         create_reference_w_paralogs()
+        write_stats()
