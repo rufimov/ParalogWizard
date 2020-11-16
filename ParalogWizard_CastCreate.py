@@ -95,7 +95,7 @@ def create_reference_wo_paralogs():
     ) as fasta_to_concatenate:
         for hit in all_hits_for_reference_scored:
             sample: str = hit.split()[8]
-            if sample not in blacklist and float(hit.split()[3]) >= 75:
+            if sample not in blacklist:
                 if exon(hit) not in exons:
                     name_of_locus: str = (
                         exon(hit)
@@ -184,64 +184,55 @@ def create_reference_w_paralogs():
         if sample not in set_of_samples:
             set_of_samples.add(sample)
             paralog_statistic[sample] = set()
-        if sample not in blacklist and float(hit.split()[3]) >= 75:
-            if exon(hit) not in exons:
-                if not paralog_found and count != 0:
+        if exon(hit) not in exons:
+            if not paralog_found and count != 0:
+                print(f"No paralog found for {current_best.split()[0].split('-')[1]}")
+                for sample_wo_paralog in current_locus.keys():
+                    all_paralogs_for_reference.append(current_locus[sample_wo_paralog])
+            current_locus: Dict[str, str] = dict()
+            samples_current_locus: Set[str] = set()
+            samples_with_paralogs: Set[str] = set()
+            current_best: str = hit
+            current_locus[sample] = hit
+            samples_current_locus.add(sample)
+            paralog_found: bool = False
+            exons.add(exon(hit))
+        else:
+            if sample in samples_current_locus and sample not in samples_with_paralogs:
+                current_exonic_contig = (
+                    f"{hit.split()[0].split('-')[1]}_"
+                    f"{'_'.join(hit.split()[1].split('_')[1:])}_{sample}"
+                )
+                exonic_contigs_to_compare = (
+                    f"{current_locus[sample].split()[0].split('-')[1]}_"
+                    f"{'_'.join(current_locus[sample].split()[1].split('_')[1:])}"
+                    f"_{sample}"
+                )
+                if (
+                    pairwise_distances[
+                        f"{current_exonic_contig}_{exonic_contigs_to_compare}"
+                    ]
+                    > paralog_min_divergence
+                ):
                     print(
-                        f"No paralog found for {current_best.split()[0].split('-')[1]}"
+                        f"Paralog detected for {hit.split()[0].split('-')[1]} in {sample}"
                     )
-                    for sample_wo_paralog in current_locus.keys():
-                        all_paralogs_for_reference.append(
-                            current_locus[sample_wo_paralog]
-                        )
-                current_locus: Dict[str, str] = dict()
-                samples_current_locus: Set[str] = set()
-                samples_with_paralogs: Set[str] = set()
-                current_best: str = hit
+                    paralog_statistic[sample].add(hit.split()[1].split("_")[0])
+                    all_paralogs_for_reference.append(current_locus[sample])
+                    name_of_locus_para: str = "_".join(
+                        [exon(hit).split("_")[0] + "_para"] + exon(hit).split("_")[1:]
+                    )
+                    name_of_locus_para = (
+                        hit.split()[0].split("-")[0] + "-" + name_of_locus_para
+                    )
+                    hit = "\t".join([name_of_locus_para] + hit.split()[1:])
+                    all_paralogs_for_reference.append(hit)
+                    samples_with_paralogs.add(sample)
+                    paralog_found: bool = True
+            else:
                 current_locus[sample] = hit
                 samples_current_locus.add(sample)
-                paralog_found: bool = False
-                exons.add(exon(hit))
-            else:
-                if (
-                    sample in samples_current_locus
-                    and sample not in samples_with_paralogs
-                ):
-                    current_exonic_contig = (
-                        f"{hit.split()[0].split('-')[1]}_"
-                        f"{'_'.join(hit.split()[1].split('_')[1:])}_{sample}"
-                    )
-                    exonic_contigs_to_compare = (
-                        f"{current_locus[sample].split()[0].split('-')[1]}_"
-                        f"{'_'.join(current_locus[sample].split()[1].split('_')[1:])}"
-                        f"_{sample}"
-                    )
-                    if (
-                        pairwise_distances[
-                            f"{current_exonic_contig}_{exonic_contigs_to_compare}"
-                        ]
-                        > paralog_min_divergence
-                    ):
-                        print(
-                            f"Paralog detected for {hit.split()[0].split('-')[1]} in {sample}"
-                        )
-                        paralog_statistic[sample].add(hit.split()[1].split("_")[0])
-                        all_paralogs_for_reference.append(current_locus[sample])
-                        name_of_locus_para: str = "_".join(
-                            [exon(hit).split("_")[0] + "_para"]
-                            + exon(hit).split("_")[1:]
-                        )
-                        name_of_locus_para = (
-                            hit.split()[0].split("-")[0] + "-" + name_of_locus_para
-                        )
-                        hit = "\t".join([name_of_locus_para] + hit.split()[1:])
-                        all_paralogs_for_reference.append(hit)
-                        samples_with_paralogs.add(sample)
-                        paralog_found: bool = True
-                else:
-                    current_locus[sample] = hit
-                    samples_current_locus.add(sample)
-            count += 1
+        count += 1
     all_paralogs_for_reference = score_samples(all_paralogs_for_reference)
     exons: Set[str] = set()
     with open(
@@ -250,7 +241,7 @@ def create_reference_w_paralogs():
     ) as new_reference:
         for hit in all_paralogs_for_reference:
             sample = hit.split()[8]
-            if sample not in blacklist and float(hit.split()[3]) >= 75:
+            if sample not in blacklist:
                 if exon(hit) not in exons:
                     name_of_locus = (
                         exon(hit)
