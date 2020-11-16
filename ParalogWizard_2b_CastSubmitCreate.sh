@@ -45,6 +45,7 @@ cd "${SCRATCHDIR}" || exit 1
 #Copy scripts and reference to scratch
 cp "${source}"/ParalogWizard_CastCreate.py .
 cp "${source}"/ParalogWizard_Functions.py .
+cp "${source}/${probe_HP_exons_split}" .
 
 env echo
 
@@ -52,7 +53,7 @@ env echo 'Running script...'
 env echo
 
 
-python3 ParalogWizard_CastCreate.py "${path_to_data_HPM}" "${blacklist}" "${paralogs}" "${paralog_min_divergence}" $"{probe_HP_exons_split}" || exit 1
+python3 ParalogWizard_CastCreate.py "${path_to_data_HPM}" "${blacklist}" "${paralogs}" "${paralog_min_divergence}" "${probe_HP_exons_split}" || exit 1
 env echo
 
 env echo 'Copying results back to working directory'
