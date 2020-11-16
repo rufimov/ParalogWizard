@@ -61,7 +61,8 @@ def build_alignments():
         with open(
             f"{path_to_data_HPM}/exons/aln_orth_par/{key}.mafft.fasta", "w"
         ) as aligned:
-            aligned.write(stdout)
+            aligned.write(stdout.replace(">_R_", ">"))
+
     print("Done\n")
 
 
