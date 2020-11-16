@@ -90,7 +90,9 @@ def create_reference_wo_paralogs():
     exons: Set[str] = set()
     with open(
         f"{path_to_data_HPM}/exons/new_reference_for_HybPhyloMaker.fas", "w"
-    ) as new_reference:
+    ) as new_reference_HPM, open(
+        f"{path_to_data_HPM}/exons/new_reference_for_HybPiper.fas", "w"
+    ) as fasta_to_concatenate:
         for hit in all_hits_for_reference_scored:
             sample: str = hit.split()[8]
             if sample not in blacklist and float(hit.split()[3]) >= 75:
@@ -103,10 +105,55 @@ def create_reference_wo_paralogs():
                         .replace("_", "")
                         .replace("Contig", "_Contig_")
                     )
-                    new_reference.write(
+                    new_reference_HPM.write(
                         f">Assembly_{name_of_locus}_{sample}_{contig(hit)}\n{hit.split()[9]}\n"
                     )
+                    fasta_to_concatenate.write(
+                        f">{sample.replace('-','_')}_{contig(hit)}-{name_of_locus.replace('Contig', 'exon')}\n{hit.split()[9]}\n"
+                    )
                     exons.add(exon(hit))
+    with open(
+        f"{path_to_data_HPM}/exons/new_reference_for_HybPiper.fas"
+    ) as fasta_to_concatenate, open(
+        f"{path_to_data_HPM}/exons/new_reference_for_HybPiper_concatenated.fas", "w"
+    ) as concatenated_fasta:
+        fasta_parsed = SeqIO.to_dict(
+            SeqIO.parse(fasta_to_concatenate, "fasta", generic_dna)
+        )
+        current_locus = ""
+        list_of_keys = list(fasta_parsed.keys())
+        list_of_keys.sort(key=lambda x: int(x.split("-")[1].split("_")[2]))
+        list_of_keys.sort(key=lambda x: x.split("-")[1].split("_")[0])
+        count = 1
+        for key in list_of_keys:
+            locus = key.split("-")[1].split("_")[0]
+            if count == 1:
+                if locus != current_locus:
+                    concatenated_fasta.write(
+                        ">"
+                        + "_".join(key.split("-")[0].split("_")[0:3])
+                        + "-"
+                        + locus
+                        + "\n"
+                        + str(fasta_parsed[key].seq)
+                    )
+                else:
+                    concatenated_fasta.write(str(fasta_parsed[key].seq))
+            else:
+                if locus != current_locus:
+                    concatenated_fasta.write(
+                        "\n>"
+                        + "_".join(key.split("-")[0].split("_")[0:3])
+                        + "-"
+                        + locus
+                        + "\n"
+                        + str(fasta_parsed[key].seq)
+                    )
+                else:
+                    concatenated_fasta.write(str(fasta_parsed[key].seq))
+            current_locus = locus
+            count += 1
+
     print("New reference created!\n")
 
 
