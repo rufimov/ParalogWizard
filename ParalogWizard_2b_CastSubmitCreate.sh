@@ -60,7 +60,13 @@ env echo 'Copying results back to working directory'
 #Copy results back
 mkdir -p "${path_HPM}"
 cp -r "${path_to_data_HPM}"/exons/new_reference_for_HybPhyloMaker*.fas "${path_HPM}"/exons/
-cp -r "${path_to_data_HPM}"/exons/paralog_statistics*.tsv "${path_HPM}"/exons/
+if [[ "$paralogs" =~ "yes" ]]; then
+  cp -r "${path_to_data_HPM}"/exons/paralog_statistics*.tsv "${path_HPM}"/exons/
+  cp -r "${path_to_data_HPM}"/exons/locus_statistics*.tsv "${path_HPM}"/exons/
+else
+  cp -r "${path_to_data_HPM}"/exons/new_reference_for_HybPiper*.fas "${path_HPM}"/exons/
+fi
+
 
 env echo
 env echo
