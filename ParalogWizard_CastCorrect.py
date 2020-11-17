@@ -79,7 +79,7 @@ def correct():
 if __name__ == "__main__":
     path_to_data_HPM = sys.argv[1]
     probes = sys.argv[2]
-    whitelist = set([x.strip() for x in sys.argv[3].split(",")])
-    minident = float(sys.argv[4].strip())
+    minident = float(sys.argv[3].strip())
+    whitelist = set([x.strip() for x in sys.argv[4].split(",")])
     run_blat()
     correct()

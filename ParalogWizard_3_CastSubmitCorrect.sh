@@ -11,14 +11,14 @@ trap 'clean_scratch' TERM EXIT
 trap 'clean_scratch' TERM
 
 #Move to scratch
-cd $SCRATCHDIR
+cd "${SCRATCHDIR}"
 
 #Copy file with settings from home and set variables from settings.cfg
 cp -f $PBS_O_WORKDIR/settings.cfg .
 cp -f $PBS_O_WORKDIR/ParalogWizard_Settings.cfg .
 . ParalogWizard_Settings.cfg
-path=/storage/$server/home/$LOGNAME/$data
-source=/storage/$server/home/$LOGNAME/HybSeqSource
+path="/storage/${server}/home/${LOGNAME}/${data}"
+source=/"storage/${server}/home/${LOGNAME}/HybSeqSource"
 
 #Add necessary modules
 module add blat-suite-34
@@ -27,16 +27,16 @@ module add python36-modules-gcc
 
 
 #Copy fasta from home folder to scratch, reference, script for generating and correcting pslx files
-mkdir -p $data/exons/40contigs
-cp -r $path/exons/40contigs $data/exons/
-cp -r $source/$probes .
-cp -r $source/ParalogWizard_CastCorrect.py .
+mkdir -p "${data}"/exons/40contigs
+cp -r "${path}"/exons/40contigs "${data}"/exons/
+cp -r "${source}/${probes}" .
+cp -r "${source}"/ParalogWizard_CastCorrect.py .
 
 
 #Make a new folder for results
-mkdir -p $path/exons/50pslx
+mkdir -p "${path}"/exons/50pslx
 
 #Run script
-python3 ParalogWizard_CastCorrect.py $data $probes $whitelist $minident
-cp -r $data/exons/50pslx/* $path/exons/50pslx/
+python3 ParalogWizard_CastCorrect.py "${data}" "${probes}" "${minident}" "${whitelist}"
+cp -r "${data}"/exons/50pslx/* "${path}"/exons/50pslx/
 
