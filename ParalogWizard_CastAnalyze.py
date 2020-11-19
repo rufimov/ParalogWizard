@@ -1,7 +1,6 @@
 import glob
 import os
 import sys
-from multiprocessing.pool import ThreadPool
 from typing import List, Dict, Set
 
 import numpy
@@ -70,16 +69,12 @@ def estimate_divergence():
     print("Estimating divergence of paralogs...")
     divergency_distribution: List[float] = []
     divergencies_to_write: List[str] = []
-    pool: ThreadPool = ThreadPool(200)
     for file in sorted(
         glob.glob(path_to_data_HPM + "/exons/aln_orth_par/*.mafft.fasta")
     ):
-        pool.apply_async(
-            get_distance_matrix,
-            (file, divergency_distribution, divergencies_to_write, blacklist),
+        get_distance_matrix(
+            file, divergency_distribution, divergencies_to_write, blacklist
         )
-    pool.close()
-    pool.join()
     with open(
         path_to_data_HPM + "/exons/aln_orth_par/pairwise_distances.txt", "w"
     ) as divergency_distribution_to_write:
@@ -113,5 +108,5 @@ def estimate_divergence():
 if __name__ == "__main__":
     path_to_data_HPM: str = sys.argv[1].strip()
     blacklist: Set[str] = set([x.strip() for x in sys.argv[2].split(",")])
-    build_alignments()
+    # build_alignments()
     estimate_divergence()
