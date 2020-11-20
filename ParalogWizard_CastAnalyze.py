@@ -108,5 +108,5 @@ def estimate_divergence():
 if __name__ == "__main__":
     path_to_data_HPM: str = sys.argv[1].strip()
     blacklist: Set[str] = set([x.strip() for x in sys.argv[2].split(",")])
-    # build_alignments()
+    build_alignments()
     estimate_divergence()
