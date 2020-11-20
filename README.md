@@ -35,7 +35,7 @@ ___
 **Input and prior requirements**
 
 
-**Usage
+**Usage**
 
 ParalogWizard_CastCollect.py "folder with HybPiper results ('data_HybPiper')" [folder for data output as in HybPhyloMaker ('data')]
 
