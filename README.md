@@ -30,6 +30,7 @@ ___
   * [BLAST command line tools 2.2.30 or later](https://www.ncbi.nlm.nih.gov/books/NBK131777/#_Blast_ReleaseNotes_BLAST_2_2_30_October_)
   * [Python 3.6 or later](https://www.python.org/downloads/)
   * [BIOPYTHON 1.77 or later](https://biopython.org/wiki/Download)
+  * [MAFFT 6.9 or later] https://mafft.cbrc.jp/alignment/software/
 ___
 **Input and prior requirements**
 
