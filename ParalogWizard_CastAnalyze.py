@@ -56,6 +56,8 @@ def build_alignments():
         stdout, stderr = MafftCommandline(
             input=f"{path_to_data_HPM}/exons/aln_orth_par/{key}.fasta",
             adjustdirectionaccurately=True,
+            auto=True,
+            thread=4,
         )()
         with open(
             f"{path_to_data_HPM}/exons/aln_orth_par/{key}.mafft.fasta", "w"
