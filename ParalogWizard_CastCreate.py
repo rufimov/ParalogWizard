@@ -338,7 +338,7 @@ def refine_phasing():
             for x in warn:
                 warnings.write(x)
     with open(
-        f"{path_to_data_HPM}/exons/new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}.fas",
+        f"{path_to_data_HPM}/exons/refined_new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}.fas",
         "w",
     ) as reference_to_write:
         for key in sorted(list(checked_dict.keys())):
@@ -360,7 +360,7 @@ def refine_phasing():
                     sequence = str(checked_dict[key]["para"][item][1].seq)
                     reference_to_write.write(f">{name}\n{sequence}\n")
     with open(
-        f"{path_to_data_HPM}/exons/new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}.fas",
+        f"{path_to_data_HPM}/exons/refined_new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}.fas",
     ) as reference_to_check:
         new_ref_parsed = SeqIO.to_dict(
             SeqIO.parse(reference_to_check, "fasta", generic_dna)
@@ -437,7 +437,7 @@ def refine_phasing():
                 "alignments for particular exons in aln_orth_par/"
             )
     with open(
-        f"{path_to_data_HPM}/exons/new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}.fas",
+        f"{path_to_data_HPM}/exons/refined_new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}.fas",
         "w",
     ) as reference_to_write:
         for key in sorted(list(checked_dict.keys())):
