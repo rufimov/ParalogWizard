@@ -109,7 +109,7 @@ def create_reference_wo_paralogs():
                         f">Assembly_{name_of_locus}_{sample}_{contig(hit)}\n{hit.split()[9]}\n"
                     )
                     fasta_to_concatenate.write(
-                        f">{sample.replace('-','_')}_{contig(hit)}-{name_of_locus.replace('Contig', 'exon')}\n{hit.split()[9]}\n"
+                        f">{sample.replace('-','_')}_{contig(hit)}-{name_of_locus.replace('Contig', 'exon')}\n{hit.split()[9]}\n "
                     )
                     exons.add(exon(hit))
     with open(
@@ -237,7 +237,7 @@ def create_reference_w_paralogs():
     all_paralogs_for_reference = score_samples(all_paralogs_for_reference)
     exons: Set[str] = set()
     with open(
-        f"{path_to_data_HPM}/exons/new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}.fas",
+        f"{path_to_data_HPM}/exons/new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
         "w",
     ) as new_reference:
         for hit in all_paralogs_for_reference:
@@ -261,7 +261,7 @@ def create_reference_w_paralogs():
 
 def refine_phasing():
     with open(
-        f"{path_to_data_HPM}/exons/new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}.fas",
+        f"{path_to_data_HPM}/exons/new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
     ) as reference_to_check:
         new_ref_parsed = SeqIO.to_dict(
             SeqIO.parse(reference_to_check, "fasta", generic_dna)
@@ -337,132 +337,135 @@ def refine_phasing():
             )
             for x in warn:
                 warnings.write(x)
-    with open(
-        f"{path_to_data_HPM}/exons/refined_new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}.fas",
-        "w",
-    ) as reference_to_write:
-        for key in sorted(list(checked_dict.keys())):
-            for item in [
-                x
-                for x in sorted(list(checked_dict[key]["non-para"].keys()))
-                if x != "all"
-            ]:
-                name = f"Assembly_{key}_{item}_{checked_dict[key]['non-para'][item][0]}"
-                sequence = str(checked_dict[key]["non-para"][item][1].seq)
-                reference_to_write.write(f">{name}\n{sequence}\n")
-            if "para" in checked_dict[key].keys():
+        with open(
+            f"{path_to_data_HPM}/exons/refined_new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
+            "w",
+        ) as reference_to_write:
+            for key in sorted(list(checked_dict.keys())):
                 for item in [
                     x
-                    for x in sorted(list(checked_dict[key]["para"].keys()))
+                    for x in sorted(list(checked_dict[key]["non-para"].keys()))
                     if x != "all"
                 ]:
-                    name = f"Assembly_{key}para_{item}_{checked_dict[key]['para'][item][0]}"
-                    sequence = str(checked_dict[key]["para"][item][1].seq)
+                    name = f"Assembly_{key}_{item}_{checked_dict[key]['non-para'][item][0]}"
+                    sequence = str(checked_dict[key]["non-para"][item][1].seq)
                     reference_to_write.write(f">{name}\n{sequence}\n")
-    with open(
-        f"{path_to_data_HPM}/exons/refined_new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}.fas",
-    ) as reference_to_check:
-        new_ref_parsed = SeqIO.to_dict(
-            SeqIO.parse(reference_to_check, "fasta", generic_dna)
-        )
-        all_seqs = set(new_ref_parsed.keys())
-        initial_dict_to_check = dict()
-        for seq in all_seqs:
-            locus = seq.split("_")[1]
-            exon = "_".join(seq.split("_")[2:4])
-            name_contig = "_".join(seq.split("_")[4:])
-            contig = (
-                name_contig,
-                new_ref_parsed[f"Assembly_{locus}_{exon}_{name_contig}"],
+                if "para" in checked_dict[key].keys():
+                    for item in [
+                        x
+                        for x in sorted(list(checked_dict[key]["para"].keys()))
+                        if x != "all"
+                    ]:
+                        name = f"Assembly_{key}para_{item}_{checked_dict[key]['para'][item][0]}"
+                        sequence = str(checked_dict[key]["para"][item][1].seq)
+                        reference_to_write.write(f">{name}\n{sequence}\n")
+        with open(
+            f"{path_to_data_HPM}/exons/refined_new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
+        ) as reference_to_check:
+            new_ref_parsed = SeqIO.to_dict(
+                SeqIO.parse(reference_to_check, "fasta", generic_dna)
             )
-            if locus not in initial_dict_to_check.keys():
-                initial_dict_to_check[locus] = dict()
-                initial_dict_to_check[locus][exon] = contig
-            else:
-                initial_dict_to_check[locus][exon] = contig
-    final_dict_to_check = dict()
-    for key1 in initial_dict_to_check.keys():
-        if key1[-4:] != "para":
-            final_dict_to_check[key1] = dict()
-            final_dict_to_check[key1]["non-para"] = dict()
-            final_dict_to_check[key1]["non-para"]["all"] = list()
-            for key2 in initial_dict_to_check[key1]:
-                final_dict_to_check[key1]["non-para"][key2] = initial_dict_to_check[
-                    key1
-                ][key2]
-                final_dict_to_check[key1]["non-para"]["all"].append(
-                    initial_dict_to_check[key1][key2][0]
+            all_seqs = set(new_ref_parsed.keys())
+            initial_dict_to_check = dict()
+            for seq in all_seqs:
+                locus = seq.split("_")[1]
+                exon = "_".join(seq.split("_")[2:4])
+                name_contig = "_".join(seq.split("_")[4:])
+                contig = (
+                    name_contig,
+                    new_ref_parsed[f"Assembly_{locus}_{exon}_{name_contig}"],
                 )
-            if f"{key1}para" in initial_dict_to_check.keys():
-                final_dict_to_check[key1]["para"] = dict()
-                final_dict_to_check[key1]["para"]["all"] = list()
-
-                for key2 in initial_dict_to_check[f"{key1}para"]:
-                    final_dict_to_check[key1]["para"][key2] = initial_dict_to_check[
-                        f"{key1}para"
+                if locus not in initial_dict_to_check.keys():
+                    initial_dict_to_check[locus] = dict()
+                    initial_dict_to_check[locus][exon] = contig
+                else:
+                    initial_dict_to_check[locus][exon] = contig
+        final_dict_to_check = dict()
+        for key1 in initial_dict_to_check.keys():
+            if key1[-4:] != "para":
+                final_dict_to_check[key1] = dict()
+                final_dict_to_check[key1]["non-para"] = dict()
+                final_dict_to_check[key1]["non-para"]["all"] = list()
+                for key2 in initial_dict_to_check[key1]:
+                    final_dict_to_check[key1]["non-para"][key2] = initial_dict_to_check[
+                        key1
                     ][key2]
-                    final_dict_to_check[key1]["para"]["all"].append(
-                        initial_dict_to_check[f"{key1}para"][key2][0]
+                    final_dict_to_check[key1]["non-para"]["all"].append(
+                        initial_dict_to_check[key1][key2][0]
                     )
-    checked_dict = copy.deepcopy(final_dict_to_check)
-    warn = list()
-    for key in final_dict_to_check.keys():
-        for item in [
-            x for x in final_dict_to_check[key]["non-para"].keys() if x != "all"
-        ]:
-            if "para" in final_dict_to_check[key].keys():
-                if (
-                    final_dict_to_check[key]["non-para"][item][0]
-                    in final_dict_to_check[key]["para"]["all"]
-                ):
-                    swap1 = final_dict_to_check[key]["non-para"][item]
-                    checked_dict[key]["para"][item] = swap1
-                    if item not in final_dict_to_check[key]["para"].keys():
-                        del checked_dict[key]["non-para"][item]
-                        warn.append(f"{key} {item}\n")
-                    else:
-                        swap2 = final_dict_to_check[key]["para"][item]
-                        checked_dict[key]["non-para"][item] = swap2
-                        warn.append(f"{key} {item}\n")
-    if len(warn) > 0:
-        with open(f"{path_to_data_HPM}/exons/warnings.txt", "a") as warnings:
-            warnings.write(
-                "\nFollowing genes and exons seems to be impossible to phase properly with the current algorithms. "
-                "Consider removing.\n"
-            )
-            for x in warn:
-                warnings.write(x)
-            warnings.write(
-                "Pay closer attention to the loci mentioned above. It is worth having a look at the "
-                "alignments for particular exons in aln_orth_par/"
-            )
-    with open(
-        f"{path_to_data_HPM}/exons/refined_new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}.fas",
-        "w",
-    ) as reference_to_write:
-        for key in sorted(list(checked_dict.keys())):
+                if f"{key1}para" in initial_dict_to_check.keys():
+                    final_dict_to_check[key1]["para"] = dict()
+                    final_dict_to_check[key1]["para"]["all"] = list()
+
+                    for key2 in initial_dict_to_check[f"{key1}para"]:
+                        final_dict_to_check[key1]["para"][key2] = initial_dict_to_check[
+                            f"{key1}para"
+                        ][key2]
+                        final_dict_to_check[key1]["para"]["all"].append(
+                            initial_dict_to_check[f"{key1}para"][key2][0]
+                        )
+        checked_dict = copy.deepcopy(final_dict_to_check)
+        warn = list()
+        for key in final_dict_to_check.keys():
             for item in [
-                x
-                for x in sorted(list(checked_dict[key]["non-para"].keys()))
-                if x != "all"
+                x for x in final_dict_to_check[key]["non-para"].keys() if x != "all"
             ]:
-                name = f"Assembly_{key}_{item}_{checked_dict[key]['non-para'][item][0]}"
-                sequence = str(checked_dict[key]["non-para"][item][1].seq)
-                reference_to_write.write(f">{name}\n{sequence}\n")
-            if "para" in checked_dict[key].keys():
+                if "para" in final_dict_to_check[key].keys():
+                    if (
+                        final_dict_to_check[key]["non-para"][item][0]
+                        in final_dict_to_check[key]["para"]["all"]
+                    ):
+                        swap1 = final_dict_to_check[key]["non-para"][item]
+                        checked_dict[key]["para"][item] = swap1
+                        if item not in final_dict_to_check[key]["para"].keys():
+                            del checked_dict[key]["non-para"][item]
+                            warn.append(f"{key} {item}\n")
+                        else:
+                            swap2 = final_dict_to_check[key]["para"][item]
+                            checked_dict[key]["non-para"][item] = swap2
+                            warn.append(f"{key} {item}\n")
+        if len(warn) > 0:
+            with open(f"{path_to_data_HPM}/exons/warnings.txt", "a") as warnings:
+                warnings.write(
+                    "\nFollowing genes and exons seems to be impossible to phase properly with the current algorithms. "
+                    "Consider removing.\n"
+                )
+                for x in warn:
+                    warnings.write(x)
+                warnings.write(
+                    "Pay closer attention to the loci mentioned above. It is worth having a look at the "
+                    "alignments for particular exons in aln_orth_par/"
+                )
+        with open(
+            f"{path_to_data_HPM}/exons/refined_new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
+            "w",
+        ) as reference_to_write:
+            for key in sorted(list(checked_dict.keys())):
                 for item in [
                     x
-                    for x in sorted(list(checked_dict[key]["para"].keys()))
+                    for x in sorted(list(checked_dict[key]["non-para"].keys()))
                     if x != "all"
                 ]:
-                    name = f"Assembly_{key}para_{item}_{checked_dict[key]['para'][item][0]}"
-                    sequence = str(checked_dict[key]["para"][item][1].seq)
+                    name = f"Assembly_{key}_{item}_{checked_dict[key]['non-para'][item][0]}"
+                    sequence = str(checked_dict[key]["non-para"][item][1].seq)
                     reference_to_write.write(f">{name}\n{sequence}\n")
+                if "para" in checked_dict[key].keys():
+                    for item in [
+                        x
+                        for x in sorted(list(checked_dict[key]["para"].keys()))
+                        if x != "all"
+                    ]:
+                        name = f"Assembly_{key}para_{item}_{checked_dict[key]['para'][item][0]}"
+                        sequence = str(checked_dict[key]["para"][item][1].seq)
+                        reference_to_write.write(f">{name}\n{sequence}\n")
+    else:
+        with open(f"{path_to_data_HPM}/exons/warnings.txt", "w") as warnings:
+            warnings.write("No warning generated.\n")
 
 
 def write_stats():
     with open(
-        f"{path_to_data_HPM}/exons/paralog_statistics_div_{paralog_min_divergence}.tsv",
+        f"{path_to_data_HPM}/exons/paralog_statistics_div_{paralog_min_divergence}_{paralog_max_divergence}.tsv",
         "w",
     ) as par_stat:
         for sample in sorted(list(paralog_statistic.keys())):
@@ -475,7 +478,7 @@ def write_stats():
         for key in all_probe_exons:
             all_loci.add(key.split("-")[1].split("_")[0])
     with open(
-        f"{path_to_data_HPM}/exons/locus_statistics_div_{paralog_min_divergence}.tsv",
+        f"{path_to_data_HPM}/exons/locus_statistics_div_{paralog_min_divergence}_{paralog_max_divergence}.tsv",
         "w",
     ) as loci_par_stat:
         loci_par_stat.write("sample\locus")

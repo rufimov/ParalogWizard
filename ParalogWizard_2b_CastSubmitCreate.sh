@@ -64,6 +64,8 @@ cp -r "${path_to_data_HPM}"/exons/new_reference_for_HybPhyloMaker*.fas "${path_H
 if [[ "$paralogs" =~ "yes" ]]; then
   cp -r "${path_to_data_HPM}"/exons/paralog_statistics*.tsv "${path_HPM}"/exons/
   cp -r "${path_to_data_HPM}"/exons/locus_statistics*.tsv "${path_HPM}"/exons/
+  cp -r "${path_to_data_HPM}"/exons/refined* "${path_HPM}"/exons/
+  cp -r "${path_to_data_HPM}"/exons/warnings.txt "${path_HPM}"/exons/
 else
   cp -r "${path_to_data_HPM}"/exons/new_reference_for_HybPiper*.fas "${path_HPM}"/exons/
 fi
