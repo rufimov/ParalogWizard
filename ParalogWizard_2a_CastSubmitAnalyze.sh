@@ -32,6 +32,7 @@ path_to_data_HPM="${data}"
 module add python-3.6.2-gcc
 module add python36-modules-gcc
 module add mafft-7.453
+module add fasttree-2.1.8
 
 env echo
 

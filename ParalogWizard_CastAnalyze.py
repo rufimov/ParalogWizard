@@ -3,10 +3,13 @@ import os
 import sys
 from typing import List, Dict, Set
 
+import Bio
+import Bio.Application
 import numpy
 from Bio import SeqRecord, SeqIO
 from Bio.Align.Applications import MafftCommandline
 from Bio.Alphabet import generic_dna
+from Bio.Phylo.Applications import _Fasttree
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 
@@ -63,6 +66,22 @@ def build_alignments():
             f"{path_to_data_HPM}/exons/aln_orth_par/{key}.mafft.fasta", "w"
         ) as aligned:
             aligned.write(stdout.replace(">_R_", ">"))
+        try:
+            _Fasttree.FastTreeCommandline(
+                "fasttreemp",
+                nt=True,
+                gtr=True,
+                input=f"{path_to_data_HPM}/exons/aln_orth_par/{key}.mafft.fasta",
+                out=f"{path_to_data_HPM}/exons/aln_orth_par/{key}.mafft.fasta.tre",
+            )()
+        except Bio.Application.ApplicationError:
+            _Fasttree.FastTreeCommandline(
+                "fasttree",
+                nt=True,
+                gtr=True,
+                input=f"{path_to_data_HPM}/exons/aln_orth_par/{key}.mafft.fasta",
+                out=f"{path_to_data_HPM}/exons/aln_orth_par/{key}.mafft.fasta.tre",
+            )()
 
     print("Done\n")
 
