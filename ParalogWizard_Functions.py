@@ -9,6 +9,8 @@ from Bio import SeqRecord, SeqIO
 from Bio.Alphabet import generic_dna
 from matplotlib import axes, pyplot
 from sklearn.mixture import BayesianGaussianMixture
+from sklearn.neighbors import KernelDensity
+from scipy.signal import argrelextrema
 
 
 def sort_hit_table_cover(hittable_as_list: List[str], primary_field: str):
@@ -128,23 +130,27 @@ def percent_dissimilarity(seq1: str, seq2: str) -> float:
     """
     seq1 = seq1.lower()
     seq2 = seq2.lower()
+    # Removing parts of alignments with gaps at the end
     while seq1[0] == "-" or seq2[0] == "-":
         seq1 = seq1[1:]
         seq2 = seq2[1:]
     while seq1[-1] == "-" or seq2[-1] == "-":
         seq1 = seq1[:-1]
         seq2 = seq2[:-1]
-    count = 0
+    # Removing positions with gaps in both sequences
     seq1_wo_mutual_gaps = str()
     seq2_wo_mutual_gaps = str()
     for nucl in zip(seq1, seq2):
         if nucl[0] != "-" and nucl[1] != "-":
             seq1_wo_mutual_gaps = seq1_wo_mutual_gaps + nucl[0]
             seq2_wo_mutual_gaps = seq2_wo_mutual_gaps + nucl[1]
+    # Counting mismatches, ignoring positions with gaps in one of the sequences
+    count = 0
     for nucl in zip(seq1_wo_mutual_gaps, seq2_wo_mutual_gaps):
         if nucl[0] != nucl[1] and nucl[0] != "-" and nucl[1] != "-":
             count += 1
-    return (count / len(seq1)) * 100
+    dissimilarity = (count / len(seq1)) * 100
+    return dissimilarity
 
 
 def get_distance_matrix(
@@ -152,6 +158,7 @@ def get_distance_matrix(
     sum_list: List[float],
     list_to_write: List[str],
     blacklist: Set[str],
+    axis: matplotlib.axes,
 ):
     """
 
@@ -163,8 +170,10 @@ def get_distance_matrix(
     :type list_to_write:
     :param blacklist:
     :type blacklist:
+    :param axis:
+    :type axis:
     """
-    current_distance_matrix: List[float] = []
+    current_distance_matrix: List[float] = list()
     current_list_to_write = []
     with open(file_to_process) as fasta_file:
         sequences: Dict[str, Bio.SeqRecord.SeqRecord] = SeqIO.to_dict(
@@ -178,8 +187,62 @@ def get_distance_matrix(
                 if "_".join(pair[0].split("_")[-2:]) not in blacklist:
                     current_distance_matrix.append(distance)
                 current_list_to_write.append(f"{pair[0]}\t{str(distance)}\t{pair[1]}")
+
+    if len(current_distance_matrix) > 0:
+        # Search for local minima
+        current_distance_array = numpy.array(current_distance_matrix).reshape(-1, 1)
+        sorted_current_distance_array = numpy.array(sorted(current_distance_matrix))
+        kde = KernelDensity(kernel="gaussian", bandwidth=1.5).fit(
+            current_distance_array
+        )
+        linear_space = numpy.linspace(-1, numpy.max(current_distance_array) + 1, 1000)
+        e = numpy.exp(kde.score_samples(linear_space.reshape(-1, 1)))
+        mi = argrelextrema(e, numpy.less)[0]
+        minimum = linear_space[mi]
+        axis.plot(linear_space, e, "k-", alpha=0.05)
+        axis.plot(
+            sorted_current_distance_array,
+            [0] * sorted_current_distance_array.shape[0],
+            marker=2,
+            color="k",
+            alpha=0.5,
+        )
+        if len(minimum) == 0:
+            sum_list.append(sum(current_distance_matrix) / len(current_distance_matrix))
+        else:
+            # Calculate mean in every cluster
+            for i in range(0, len(minimum)):
+                if i == 0:
+                    indices = numpy.where(
+                        numpy.logical_and(
+                            sorted_current_distance_array < minimum[i],
+                            sorted_current_distance_array >= 0,
+                        )
+                    )[0].tolist()
+                else:
+                    indices = numpy.where(
+                        numpy.logical_and(
+                            sorted_current_distance_array < minimum[i],
+                            sorted_current_distance_array > minimum[i - 1],
+                        )
+                    )[0].tolist()
+                if len(indices) == 1:
+                    cluster = [sorted_current_distance_array.tolist()[indices[0]]]
+                else:
+                    cluster = sorted_current_distance_array.tolist()[
+                        min(indices) : max(indices) + 1
+                    ]
+                cluster_mean = sum(cluster) / len(cluster)
+                sum_list.append(cluster_mean)
+            last_cluster_indices = numpy.where(
+                sorted_current_distance_array > minimum[-1]
+            )[0].tolist()
+            last_cluster = sorted_current_distance_array.tolist()[
+                min(last_cluster_indices) : max(last_cluster_indices) + 1
+            ]
+            last_cluster_mean = sum(last_cluster) / len(last_cluster)
+            sum_list.append(last_cluster_mean)
     list_to_write.extend(current_list_to_write)
-    sum_list.extend(current_distance_matrix)
 
 
 def get_model(array: numpy.ndarray, num_comp: int) -> BayesianGaussianMixture:
@@ -193,7 +256,9 @@ def get_model(array: numpy.ndarray, num_comp: int) -> BayesianGaussianMixture:
     :rtype:
     """
     return BayesianGaussianMixture(
-        n_components=num_comp, max_iter=10000, n_init=10
+        n_components=num_comp,
+        max_iter=10000,
+        n_init=10,
     ).fit(array)
 
 
@@ -248,8 +313,20 @@ def get_plot(
     max_of_matrix: float = numpy.round(numpy.max(matrix)) + 1
     fig, axis = pyplot.subplots(figsize=(15, 10))
     axis.set_xlabel("Divergence (%)")
+    axis.set_ylabel("Frequency")
     axis.xaxis.set_ticks(numpy.arange(-1, max_of_matrix, 1))
     fig.suptitle(f"{name}")
+    # Data to plot
+    divergency_distribution_mix: BayesianGaussianMixture = get_model(matrix, comp)
+    means: List[float] = divergency_distribution_mix.means_.flatten().tolist()
+    sigmas: List[float] = [
+        numpy.sqrt(x)
+        for x in divergency_distribution_mix.covariances_.flatten().tolist()
+    ]
+    mu_sigma: List[Tuple[float, float]] = sorted(
+        list(zip(means, sigmas)), key=lambda x: x[0]
+    )
+    weights = divergency_distribution_mix.weights_.flatten().tolist()
     # Set colours for vertical lines to be plotted
     colors: List[str] = random.sample(
         [
@@ -267,16 +344,7 @@ def get_plot(
         ],
         k=comp * 2,
     )
-    # Data to plot
-    divergency_distribution_mix: BayesianGaussianMixture = get_model(matrix, comp)
-    means: List[float] = divergency_distribution_mix.means_.flatten().tolist()
-    sigmas: List[float] = [
-        numpy.sqrt(x)
-        for x in divergency_distribution_mix.covariances_.flatten().tolist()
-    ]
-    mu_sigma: List[Tuple[float, float]] = sorted(
-        list(zip(means, sigmas)), key=lambda x: x[0]
-    )
+    # Plotting vertical lines
     first_peak: float = mu_sigma[0][0]
     first_peak_minus_sigma: float = first_peak - mu_sigma[0][1]
     plot_vertical_line(
@@ -304,13 +372,13 @@ def get_plot(
     logprob: numpy.ndarray = divergency_distribution_mix.score_samples(
         space.reshape(-1, 1)
     )
+    pdf: numpy.ndarray = numpy.exp(logprob)
     responsibilities: numpy.ndarray = divergency_distribution_mix.predict_proba(
         space.reshape(-1, 1)
     )
-    pdf: numpy.ndarray = numpy.exp(logprob)
     axis.hist(
         matrix,
-        bins=numpy.arange(0, max_of_matrix, 0.5),
+        bins=numpy.arange(0, max_of_matrix, 1),
         density=True,
         histtype="stepfilled",
         alpha=0.4,
@@ -319,5 +387,6 @@ def get_plot(
     pdf_individual: numpy.ndarray = responsibilities * pdf[:, numpy.newaxis]
     axis.plot(space, pdf_individual, "--k")
     # Save figure
-    fig.savefig(path + name + ".png", dpi=300)
+    fig.savefig(f"{path}{name}.png", dpi=300, format="png")
+    fig.savefig(f"{path}{name}.svg", dpi=300, format="svg")
     pyplot.close(fig)

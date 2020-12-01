@@ -5,6 +5,7 @@ from typing import List, Dict, Set
 
 import Bio
 import Bio.Application
+import matplotlib.pyplot
 import numpy
 from Bio import SeqRecord, SeqIO
 from Bio.Align.Applications import MafftCommandline
@@ -90,12 +91,34 @@ def estimate_divergence():
     print("Estimating divergence of paralogs...")
     divergency_distribution: List[float] = []
     divergencies_to_write: List[str] = []
+    matplotlib.use("Agg")
+    fig, axis = matplotlib.pyplot.subplots(figsize=(15, 10))
     for file in sorted(
         glob.glob(path_to_data_HPM + "/exons/aln_orth_par/*.mafft.fasta")
     ):
         get_distance_matrix(
-            file, divergency_distribution, divergencies_to_write, blacklist
+            file,
+            divergency_distribution,
+            divergencies_to_write,
+            blacklist,
+            axis,
         )
+    end = axis.get_xlim()[1]
+    end = numpy.round(end, 0)
+    axis.xaxis.set_ticks(numpy.arange(0, end, 1))
+    axis.set_xlabel("Divergence (%)")
+    axis.set_ylabel("Frequency")
+    fig.savefig(
+        f"{path_to_data_HPM}/exons/aln_orth_par/individual_distributions.png",
+        dpi=300,
+        format="png",
+    )
+    fig.savefig(
+        f"{path_to_data_HPM}/exons/aln_orth_par/individual_distributions.svg",
+        dpi=300,
+        format="svg",
+    )
+    matplotlib.pyplot.close(fig)
     with open(
         path_to_data_HPM + "/exons/aln_orth_par/pairwise_distances.txt", "w"
     ) as divergency_distribution_to_write:
