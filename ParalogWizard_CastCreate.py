@@ -109,7 +109,7 @@ def create_reference_wo_paralogs():
                         f">Assembly_{name_of_locus}_{sample}_{contig(hit)}\n{hit.split()[9]}\n"
                     )
                     fasta_to_concatenate.write(
-                        f">{sample.replace('-','_')}_{contig(hit)}-{name_of_locus.replace('Contig', 'exon')}\n{hit.split()[9]}\n "
+                        f">{sample.replace('-','_')}_{contig(hit)}-{name_of_locus.replace('Contig', 'exon')}\n{hit.split()[9]}\n"
                     )
                     exons.add(exon(hit))
     with open(
@@ -460,7 +460,7 @@ def refine_phasing():
                         reference_to_write.write(f">{name}\n{sequence}\n")
     else:
         with open(f"{path_to_data_HPM}/exons/warnings.txt", "w") as warnings:
-            warnings.write("No warning generated.\n")
+            warnings.write("No warnings generated.\n")
 
 
 def write_stats():
