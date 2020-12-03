@@ -31,6 +31,7 @@ path_to_data_HPM="${data}"
 module add blast+-2.8.0a
 module add python-3.6.2-gcc
 module add python36-modules-gcc
+module add fasttree-2.1.8
 
 env echo
 
