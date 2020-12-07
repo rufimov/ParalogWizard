@@ -37,12 +37,12 @@ ___
 
 **Local usage**
 
-```ParalogWizard_CastCollect.py [folder with HybPiper results] [folder for data output as in HybPhyloMaker]```
+```ParalogWizard.py cast_collect -c <folder with HybPiper results> -d <folder for data output as in HybPhyloMaker>```
 
 Collects contigs assembled by SPAdes within HybPiper and stores in folder 'HybPiper_contigs' within the main folder with ParalogWizards results.
 
 
-```ParalogWizard_CastConvert.py [folder for data output as in HybPhyloMaker] [probe file with separated exons] [threshold for length cover of BLAST hits] [threshold for k-mer cover of contigs assembled by SPAdes ('spades_cover_cut')]```
+```ParalogWizard.py cast_retrieve -d <folder for data output as in HybPhyloMaker> -pe <probe file with separated exons> -l <threshold for length cover of BLAST hits> -s <threshold for k-mer cover of contigs assembled by SPAdes> [-nc <number of cores>]```
 
 Matches retrieved contigs to the probe file with individual separated exons with BLAST, extracts exonic contigs according to hits and stores them in folder 'exons/40contigs' within the main folder with ParalogWizards results. Hit tables and statistics with asumed number of copies for each locus per sample are saved alongside.
 
