@@ -121,15 +121,14 @@ Use ParalogWizard <command> -h for help with arguments of the command of interes
     def cast_correct(self):
         parser = argparse.ArgumentParser()
         parser.add_argument("-r", "--redlist", nargs="+", required=False)
-        parser.add_argument("-i", "--min_identity", required=True)
+        parser.add_argument("-i", "--min_identity", required=True, type=float)
         parser.add_argument("-pp", "--probes_paralogs", required=True)
         self.common_args(parser)
         args = parser.parse_args(sys.argv[2:])
-        if args.redlsit is None:
+        if args.redlist is None:
             args.redlist = set()
         else:
-            args.redlist = set(args.blocklist)
-        args.min_identity = float(args.min_identity)
+            args.redlist = set(args.redlist)
         return args
 
     def get_args_dict(self):
@@ -906,7 +905,9 @@ def estimate_divergence(path_to_data, blocklist):
     divergencies_to_write: List[str] = []
     matplotlib.use("Agg")
     fig, axis = matplotlib.pyplot.subplots(figsize=(15, 10))
-    for file in sorted(glob.glob(path_to_data + "/exons/aln_orth_par/*.mafft.fasta")):
+    for file in sorted(
+        glob.glob(os.path.join(path_to_data, "/exons/aln_orth_par/*.mafft.fasta"))
+    ):
         get_distance_matrix(
             file,
             divergency_distribution,
@@ -1577,7 +1578,7 @@ def run_blat(path_to_data, probes, minident):
     print("Generating pslx files using BLAT...\n")
     os.makedirs(f"{path_to_data}/exons/50pslx", exist_ok=True)
     for contigfile in glob.glob(f"{path_to_data}/exons/40contigs/*.fas"):
-        file = contigfile.split("/")[-1]
+        file = os.path.basename(contigfile)
         if file != probes:
             print(f"Processing {file}...")
             os.system(
@@ -1597,9 +1598,10 @@ def correct(path_to_data, probes, redlist):
     """
     os.makedirs(f"{path_to_data}/exons/50pslx/corrected", exist_ok=True)
     for file in glob.glob(f"{path_to_data}/exons/50pslx/*.pslx"):
-        if file.split("/")[-1] != f"{probes}.pslx":
+        if os.path.basename(file) != f"{probes}.pslx":
             with open(file) as pslx_file, open(
-                f"{path_to_data}/exons/50pslx/corrected/{os.path.basename(file)}", "w"
+                f"{path_to_data}/exons/50pslx/corrected/{os.path.basename(file)}",
+                "w",
             ) as corrected_pslx_file:
                 file = pslx_file.readlines()
                 head = file[0:5]
