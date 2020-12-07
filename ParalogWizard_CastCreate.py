@@ -333,7 +333,7 @@ def refine_phasing():
     if len(warn) > 0:
         with open(f"{path_to_data_HPM}/exons/warnings.txt", "w") as warnings:
             warnings.write(
-                "Following genes seems to be phased improperly based on similarity to reference. Refining attempted.\n"
+                "Following genes seem to be phased improperly based on similarity to reference. Refining attempted.\n"
             )
             for x in warn:
                 warnings.write(x)
@@ -427,7 +427,7 @@ def refine_phasing():
         if len(warn) > 0:
             with open(f"{path_to_data_HPM}/exons/warnings.txt", "a") as warnings:
                 warnings.write(
-                    "\nFollowing genes and exons seems to be impossible to phase properly with the current algorithms. "
+                    "\nFollowing genes and exons seem to be impossible to phase properly with the current algorithms. "
                     "Consider removing.\n"
                 )
                 for x in warn:
