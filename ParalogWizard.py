@@ -905,9 +905,7 @@ def estimate_divergence(path_to_data, blocklist):
     divergencies_to_write: List[str] = []
     matplotlib.use("Agg")
     fig, axis = matplotlib.pyplot.subplots(figsize=(15, 10))
-    for file in sorted(
-        glob.glob(os.path.join(path_to_data, "/exons/aln_orth_par/*.mafft.fasta"))
-    ):
+    for file in sorted(glob.glob(f"{path_to_data}/exons/aln_orth_par/*.mafft.fasta")):
         get_distance_matrix(
             file,
             divergency_distribution,
