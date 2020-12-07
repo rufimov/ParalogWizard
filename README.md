@@ -32,7 +32,7 @@ ___
   * [BIOPYTHON 1.77 or later](https://biopython.org/wiki/Download)
   * [NumPy](https://numpy.org)
   * [Scikit-learn](https://scikit-learn.org/stable/user_guide.html)
-  * SciPy(https://www.scipy.org)
+  * [SciPy](https://www.scipy.org)
   * [Matplotlib](https://matplotlib.org)
   * [MAFFT 6.9 or later](https://mafft.cbrc.jp/alignment/software/)
   * [FastTree 2.0.0 or later](http://www.microbesonline.org/fasttree/)
