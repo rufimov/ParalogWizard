@@ -14,7 +14,6 @@ trap 'clean_scratch' TERM
 cd "${SCRATCHDIR}"
 
 #Copy file with settings from home and set variables from settings.cfg
-cp -f $PBS_O_WORKDIR/settings.cfg .
 cp -f $PBS_O_WORKDIR/ParalogWizard_Settings.cfg .
 . ParalogWizard_Settings.cfg
 path="/storage/${server}/home/${LOGNAME}/${data}"
@@ -30,13 +29,13 @@ module add python36-modules-gcc
 mkdir -p "${data}"/exons/40contigs
 cp -r "${path}"/exons/40contigs "${data}"/exons/
 cp -r "${source}/${probes}" .
-cp -r "${source}"/ParalogWizard_CastCorrect.py .
+cp -r "${source}"/ParalogWizard.py .
 
 
 #Make a new folder for results
 mkdir -p "${path}"/exons/50pslx
 
 #Run script
-python3 ParalogWizard_CastCorrect.py "${data}" "${probes}" "${minident}" "${whitelist}"
+python3 ParalogWizard.py cast_correct -d "${data}" -pp "${probes}" -i "${minident}" -r "${redlist}"
 cp -r "${data}"/exons/50pslx/* "${path}"/exons/50pslx/
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -l walltime=8:0:0
-#PBS -l select=1:ncpus=4:mem=1gb:scratch_local=2gb
+#PBS -l select=1:ncpus=6:mem=1gb:scratch_local=2gb
 #PBS -N ParalogWizard-Convert
 #PBS -m abe
 #PBS -j oe
@@ -31,22 +31,20 @@ path_to_data_HPM="${data}"
 module add blast+-2.8.0a
 module add python-3.6.2-gcc
 module add python36-modules-gcc
-module add fasttree-2.1.8
 
 env echo
 
 #Copy scripts and reference to scratch
 grep "^[^>].\{${exon_length}\}" -B1 --no-group-separator "${source}/${probe_HP_exons_split}" > "${probe_HP_exons_split}"
-cp "${source}"/ParalogWizard_CastConvert.py .
-cp "${source}"/ParalogWizard_Functions.py .
-cp "${source}"/ParalogWizard_CastCollect.py .
+cp "${source}"/ParalogWizard.py .
+
 
 env echo
 
 #Copy data to scratch
 env echo 'Copying data to scratch'
 if [[ "$collect_contigs" =~ "yes" ]]; then
-  python3 ParalogWizard_CastCollect.py "${path_HP}" "${path_HPM}"
+  python3 ParalogWizard.py cast_collect -c "${path_HP}" -d "${path_HPM}"
 fi
 
 mkdir -p "${SCRATCHDIR}/${data}"
@@ -59,7 +57,7 @@ env echo 'Running script...'
 env echo
 
 
-python3 ParalogWizard_CastConvert.py "${data}" "${probe_HP_exons_split}" "${length_cut}" "${spades_cover_cut}"  || exit 1
+python3 ParalogWizard.py cast_retrieve -d "${data}" -pe "${probe_HP_exons_split}" -l "${length_cut}" -s "${spades_cover_cut}" -nc 6 || exit 1
 env echo
 
 env echo 'Copying results back to working directory'

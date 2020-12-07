@@ -20,8 +20,7 @@ env echo
 
 #Copy file with settings from home and set variables from settings.cfg
 env echo 'Setting variables'
-cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/ParalogWizard_Settings.cfg .
-. settings.cfg
+cp "${PBS_O_WORKDIR}"/ParalogWizard_Settings.cfg .
 . ParalogWizard_Settings.cfg
 path_HPM=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
@@ -43,17 +42,21 @@ cp "${path_HPM}"/exons/aln_orth_par/pairwise_distances.txt "${SCRATCHDIR}"/"${pa
 cd "${SCRATCHDIR}" || exit 1
 
 #Copy scripts and reference to scratch
-cp "${source}"/ParalogWizard_CastCreate.py .
-cp "${source}"/ParalogWizard_Functions.py .
-cp "${source}/${probe_HP_exons_split}" .
+cp "${source}"/ParalogWizard.py .
+grep "^[^>].\{${exon_length}\}" -B1 --no-group-separator "${source}/${probe_HP_exons_split}" > "${probe_HP_exons_split}"
 
 env echo
 
 env echo 'Running script...'
 env echo
 
+env echo 'Copying data to scratch'
+if [[ "${paralogs}" =~ "yes" ]]; then
+  python3 ParalogWizard.py cast_create -d "${path_to_data_HPM}" -b "${blocklist}" -p -mi "${paralog_min_divergence}" -ma "${paralog_max_divergence}" -pe "${probe_HP_exons_split}" || exit 1
+else
+  python3 ParalogWizard.py cast_create -d "${path_to_data_HPM}" -b "${blocklist}" -pe "${probe_HP_exons_split}" || exit 1
+fi
 
-python3 ParalogWizard_CastCreate.py "${path_to_data_HPM}" "${blacklist}" "${paralogs}" "${paralog_min_divergence}" "${paralog_max_divergence}" "${probe_HP_exons_split}" || exit 1
 env echo
 
 env echo 'Copying results back to working directory'

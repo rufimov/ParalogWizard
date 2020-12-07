@@ -21,8 +21,7 @@ env echo
 
 #Copy file with settings from home and set variables from settings.cfg
 env echo 'Setting variables'
-cp "${PBS_O_WORKDIR}"/settings.cfg "${PBS_O_WORKDIR}"/ParalogWizard_Settings.cfg .
-. settings.cfg
+cp -f "${PBS_O_WORKDIR}"/ParalogWizard_Settings.cfg .
 . ParalogWizard_Settings.cfg
 path_HPM=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
@@ -45,8 +44,7 @@ cp "${path_HPM}"/exons/all_hits.txt "${SCRATCHDIR}"/"${path_to_data_HPM}"/exons
 cd "${SCRATCHDIR}" || exit 1
 
 #Copy scripts and reference to scratch
-cp "${source}"/ParalogWizard_CastAnalyze.py .
-cp "${source}"/ParalogWizard_Functions.py .
+cp "${source}"/ParalogWizard.py .
 
 env echo
 
@@ -54,7 +52,7 @@ env echo 'Running script...'
 env echo
 
 
-python3 ParalogWizard_CastAnalyze.py "${path_to_data_HPM}" "${blacklist}"  || exit 1
+python3 ParalogWizard.py cast_analyze -d "${path_to_data_HPM}" -b "${blocklist}" -nc 6 || exit 1
 env echo
 
 env echo 'Copying results back to working directory'
