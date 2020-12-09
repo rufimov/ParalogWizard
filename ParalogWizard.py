@@ -21,10 +21,12 @@ from Bio.Align.Applications import MafftCommandline
 from Bio.Alphabet import generic_dna
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
+from datetime import datetime
 from matplotlib import axes, pyplot
 from scipy.signal import argrelextrema
 from sklearn.mixture import BayesianGaussianMixture
 from sklearn.neighbors import KernelDensity
+import logging
 
 
 class ParsedArgs:
@@ -91,7 +93,13 @@ Use ParalogWizard <command> -h for help with arguments of the command of interes
         parser = argparse.ArgumentParser()
         parser.add_argument("-b", "--blocklist", nargs="+", required=False)
         parser.add_argument("-pe", "--probes_exons", required=True)
-        parser.add_argument("-p", "--paralogs", default=False, action="store_true")
+        parser.add_argument(
+            "-p",
+            "--paralogs",
+            default=False,
+            action="store_true",
+            help="Paralog detection. Default: off",
+        )
         parser.add_argument(
             "-mi",
             "--minimum_divergence",
@@ -527,47 +535,47 @@ def get_plot(
     pyplot.close(fig)
 
 
-def collect_contigs(path_to_data, path_to_contigs):
+def collect_contigs(path_to_contigs, path_to_data, logger):
     """
 
-    :param path_to_data:
-    :type path_to_data:
     :param path_to_contigs:
     :type path_to_contigs:
+    :param path_to_data:
+    :type path_to_data:
     """
-    os.makedirs(f"{path_to_contigs}/HybPiper_contigs", exist_ok=True)
-    for folder in os.listdir(path_to_data):
-        if os.path.isdir(f"{path_to_data}/{folder}"):
-            print(f"Processing {folder}")
+    os.makedirs(f"{path_to_data}/HybPiper_contigs", exist_ok=True)
+    for folder in os.listdir(path_to_contigs):
+        if os.path.isdir(f"{path_to_contigs}/{folder}"):
+            logger.info(f"Processing {folder}")
             with open(
-                f"{path_to_contigs}/HybPiper_contigs/{folder}_contigs.fasta", "w"
+                f"{path_to_data}/HybPiper_contigs/{folder}_contigs.fasta", "w"
             ) as contigs:
-                for locus in os.listdir(f"{path_to_data}/{folder}"):
+                for locus in os.listdir(f"{path_to_contigs}/{folder}"):
                     if os.path.isdir(
-                        f"{path_to_data}/{folder}/{locus}"
+                        f"{path_to_contigs}/{folder}/{locus}"
                     ) and os.path.exists(
-                        f"{path_to_data}/{folder}/{locus}/{locus}_contigs.fasta"
+                        f"{path_to_contigs}/{folder}/{locus}/{locus}_contigs.fasta"
                     ):
-                        print(f"\tProcessing {locus}")
+                        logger.info(f"\tProcessing {locus}")
                         with open(
-                            f"{path_to_data}/{folder}/{locus}/{locus}_contigs.fasta"
+                            f"{path_to_contigs}/{folder}/{locus}/{locus}_contigs.fasta"
                         ) as locus_contigs:
                             file_content = locus_contigs.read().replace(
                                 ">", f">{locus}_"
                             )
                             contigs.write(file_content)
-                        print("\tOK")
+                        logger.info("\tOK")
             if (
                 os.stat(
-                    f"{path_to_contigs}/HybPiper_contigs/{folder}_contigs.fasta"
+                    f"{path_to_data}/HybPiper_contigs/{folder}_contigs.fasta"
                 ).st_size
                 == 0
             ):
-                os.remove(f"{path_to_contigs}/HybPiper_contigs/{folder}_contigs.fasta")
-            print("Ok")
+                os.remove(f"{path_to_data}/HybPiper_contigs/{folder}_contigs.fasta")
+            logger.info("Ok")
 
 
-def prepare_contigs(path_to_data):
+def prepare_contigs(path_to_data, logger):
     """
 
     :param path_to_data:
@@ -575,7 +583,7 @@ def prepare_contigs(path_to_data):
     """
     main_path: str = f"{path_to_data}/exons/40contigs/"
     os.makedirs(main_path, exist_ok=True)
-    print("Preparing congits...")
+    logger.info("Preparing congits...")
     for file in glob.glob(f"{path_to_data}/HybPiper_contigs/*contigs.fasta"):
         shutil.copy(file, os.path.join(main_path, os.path.basename(file)))
     for file in glob.glob(f"{main_path}*.fasta"):
@@ -592,10 +600,10 @@ def prepare_contigs(path_to_data):
             os.path.basename(file).split(".")[0].split("_")[0:2]
         )
         os.rename(file, os.path.join(os.path.dirname(file), f"{name_of_file}.fasta"))
-    print("Done\n")
+    logger.info("Done\n")
 
 
-def create_hit_tables(path_to_data, probe_exons, length_cover, n_cpu):
+def create_hit_tables(path_to_data, probe_exons, length_cover, n_cpu, logger):
     """
 
     :param path_to_data:
@@ -609,18 +617,18 @@ def create_hit_tables(path_to_data, probe_exons, length_cover, n_cpu):
     """
     main_path: str = f"{path_to_data}/exons/40contigs/"
     os.makedirs(main_path, exist_ok=True)
-    print("Creating hit tables...")
+    logger.info("Creating hit tables...")
     for file in glob.glob(f"{main_path}*.fasta"):
         file: str = os.path.basename(file)
         sample: str = file[:-6]
-        print(f"\tProcessing {sample}")
+        logger.info(f"\tProcessing {sample}")
         NcbimakeblastdbCommandline(
             dbtype="nucl",
             input_file=f"{main_path}{file}",
             out=f"{main_path}{sample}",
             parse_seqids=True,
         )()
-        print("\tRunning BLAST...")
+        logger.info("\tRunning BLAST...")
         NcbiblastnCommandline(
             task="blastn",
             query=probe_exons,
@@ -630,11 +638,13 @@ def create_hit_tables(path_to_data, probe_exons, length_cover, n_cpu):
             num_threads=n_cpu,
             outfmt="6 qaccver saccver pident qcovhsp evalue bitscore sstart send",
         )()
-        print("\tOK")
-    print("Done\n")
+        logger.info("\tOK")
+    logger.info("Done\n")
 
 
-def correct_contgis(path_to_data, statistics, spades_cover, all_hits_for_reference):
+def correct_contgis(
+    path_to_data, statistics, spades_cover, all_hits_for_reference, logger
+):
     """
 
     :param path_to_data:
@@ -648,10 +658,10 @@ def correct_contgis(path_to_data, statistics, spades_cover, all_hits_for_referen
     """
     main_path: str = f"{path_to_data}/exons/40contigs/"
     os.makedirs(main_path, exist_ok=True)
-    print("Correcting contigs...")
+    logger.info("Correcting contigs...")
     for file in glob.glob(f"{main_path}*.fasta"):
         sample: str = os.path.basename(os.path.splitext(file)[0])
-        print(f" Processing {sample}")
+        logger.info(f" Processing {sample}")
         statistics[sample]: Dict[str, Dict[str, List[str]]] = dict()
         hits: List[str] = list()
         with open(f"{main_path}reference_in_{sample}_contigs.txt") as blast_results:
@@ -726,11 +736,11 @@ def correct_contgis(path_to_data, statistics, spades_cover, all_hits_for_referen
     with open(f"{path_to_data}/exons/all_hits.txt", "w") as all_hits_to_write:
         for hit in all_hits_for_reference:
             all_hits_to_write.write(f"{hit}\n")
-    print(" OK")
-    print("All contigs were successfully corrected!\n")
+    logger.info(" OK")
+    logger.info("All contigs were successfully corrected!\n")
 
 
-def write_stats(path_to_data, probe_exons, statistics):
+def write_stats(path_to_data, probe_exons, statistics, logger):
     """
 
     :param path_to_data:
@@ -740,7 +750,7 @@ def write_stats(path_to_data, probe_exons, statistics):
     :param statistics:
     :type statistics:
     """
-    print("Writing statistics...")
+    logger.info("Writing statistics...")
     main_path: str = f"{path_to_data}/exons/40contigs/"
     os.makedirs(main_path, exist_ok=True)
     with open(f"{main_path}statistics.tsv", "w") as stats, open(
@@ -772,20 +782,20 @@ def write_stats(path_to_data, probe_exons, statistics):
         del stats_dict["gene\t"]
         for key in sorted(list(stats_dict.keys())):
             stats.write(f"{key}{stats_dict[key]}\n")
-    print("Statistics file created!\n")
+    logger.info("Statistics file created!\n")
 
 
-def rename_contigs(path_to_data):
+def rename_contigs(path_to_data, logger):
     """
 
     :param path_to_data:
     :type path_to_data:
     """
-    print("Renaming contigs...")
+    logger.info("Renaming contigs...")
     main_path: str = f"{path_to_data}/exons/40contigs/"
     for file in glob.glob(f"{main_path}*.fas"):
         sample = os.path.basename(os.path.splitext(file)[0])
-        print(f" Processing {sample}")
+        logger.info(f" Processing {sample}")
         with open(file) as result_fasta:
             fasta_parsed = SeqIO.to_dict(
                 SeqIO.parse(result_fasta, "fasta", generic_dna)
@@ -800,17 +810,17 @@ def rename_contigs(path_to_data):
                 counter += 1
         with open(file, "w") as result_fasta:
             result_fasta.writelines(fasta_to_write)
-        print(" OK")
-    print("All contigs were successfully renamed!\n")
+        logger.info(" OK")
+    logger.info("All contigs were successfully renamed!\n")
 
 
-def clean(path_to_data):
+def clean(path_to_data, logger):
     """
 
     :param path_to_data:
     :type path_to_data:
     """
-    print("Removing temporary files...")
+    logger.info("Removing temporary files...")
     main_path: str = f"{path_to_data}/exons/40contigs/"
     for file in glob.glob(f"{main_path}*.fasta"):
         os.remove(file)
@@ -818,10 +828,10 @@ def clean(path_to_data):
         os.remove(file)
     for file in glob.glob(f"{main_path}*.n*"):
         os.remove(file)
-    print("Done\n")
+    logger.info("Done\n")
 
 
-def build_alignments(path_to_data, n_cpu):
+def build_alignments(path_to_data, n_cpu, logger):
     """
 
     :param path_to_data:
@@ -829,7 +839,7 @@ def build_alignments(path_to_data, n_cpu):
     :param n_cpu:
     :type n_cpu:
     """
-    print("Building individual exon alignments...")
+    logger.info("Building individual exon alignments...")
     with open(path_to_data + "/exons/all_hits.txt") as all_hits:
         all_hits_for_reference: List[str] = [x[:-1] for x in all_hits.readlines()]
     sort_hit_table_ident(all_hits_for_reference, "exon")
@@ -889,10 +899,10 @@ def build_alignments(path_to_data, n_cpu):
                 out=f"{path_to_data}/exons/aln_orth_par/{key}.mafft.fasta.tre",
             )()
 
-    print("Done\n")
+    logger.info("Done\n")
 
 
-def estimate_divergence(path_to_data, blocklist):
+def estimate_divergence(path_to_data, blocklist, logger):
     """
 
     :param path_to_data:
@@ -900,7 +910,7 @@ def estimate_divergence(path_to_data, blocklist):
     :param blocklist:
     :type blocklist:
     """
-    print("Estimating divergence of paralogs...")
+    logger.info("Estimating divergence of paralogs...")
     divergency_distribution: List[float] = []
     divergencies_to_write: List[str] = []
     matplotlib.use("Agg")
@@ -956,7 +966,7 @@ def estimate_divergence(path_to_data, blocklist):
         3,
     )
 
-    print("Done\n")
+    logger.info("Done\n")
 
 
 def score_samples(list_with_hits: List[str]) -> List[str]:
@@ -1044,7 +1054,7 @@ def score_samples(list_with_hits: List[str]) -> List[str]:
 
 
 def create_reference_wo_paralogs(
-    path_to_data, all_hits_for_reference_scored, blocklist
+    path_to_data, all_hits_for_reference_scored, blocklist, logger
 ):
     """
 
@@ -1055,7 +1065,7 @@ def create_reference_wo_paralogs(
     :param blocklist:
     :type blocklist:
     """
-    print("Creating new reference...")
+    logger.info("Creating new reference...")
     exons: Set[str] = set()
     with open(
         f"{path_to_data}/exons/new_reference_for_HybPhyloMaker.fas", "w"
@@ -1124,7 +1134,7 @@ def create_reference_wo_paralogs(
             current_locus = locus
             count += 1
 
-    print("New reference created!\n")
+    logger.info("New reference created!\n")
 
 
 def create_reference_w_paralogs(
@@ -1134,6 +1144,7 @@ def create_reference_w_paralogs(
     paralog_min_divergence,
     paralog_max_divergence,
     blocklist,
+    logger,
 ):
     """
 
@@ -1159,7 +1170,7 @@ def create_reference_w_paralogs(
             pairwise_distances[f"{line.split()[2]}_{line.split()[0]}"] = float(
                 line.split()[1]
             )
-    print("Creating new reference...")
+    logger.info("Creating new reference...")
     all_paralogs_for_reference = []
     exons: Set[str] = set()
     count: int = 0
@@ -1176,7 +1187,9 @@ def create_reference_w_paralogs(
             paralog_statistic[sample] = set()
         if exon(hit) not in exons:
             if not paralog_found and count != 0:
-                print(f"No paralog found for {current_best.split()[0].split('-')[1]}")
+                logger.info(
+                    f"No paralog found for {current_best.split()[0].split('-')[1]}"
+                )
                 for sample_wo_paralog in current_locus.keys():
                     all_paralogs_for_reference.append(current_locus[sample_wo_paralog])
             current_locus: Dict[str, str] = dict()
@@ -1205,7 +1218,7 @@ def create_reference_w_paralogs(
                     ]
                     > paralog_min_divergence
                 ):
-                    print(
+                    logger.info(
                         f"Paralog detected for {hit.split()[0].split('-')[1]} in {sample}"
                     )
                     paralog_statistic[sample].add(hit.split()[1].split("_")[0])
@@ -1247,10 +1260,12 @@ def create_reference_w_paralogs(
                         f">Assembly_{name_of_locus}_{sample}_{contig(hit)}\n{hit.split()[9]}\n"
                     )
                     exons.add(exon(hit))
-        print("New reference created!\n")
+        logger.info("New reference created!\n")
 
 
-def refine_phasing(path_to_data, paralog_min_divergence, paralog_max_divergence):
+def refine_phasing(
+    path_to_data, paralog_min_divergence, paralog_max_divergence, logger
+):
     """
 
     :param path_to_data:
@@ -1474,6 +1489,7 @@ def write_paralog_stats(
     paralog_max_divergence,
     paralog_statistic,
     probes,
+    logger,
 ):
     """
 
@@ -1563,7 +1579,7 @@ def number_contig_for_sort(blat_hit_string: str) -> int:
     return int(blat_hit_string.split()[9].split("_")[0][6:])
 
 
-def run_blat(path_to_data, probes, minident):
+def run_blat(path_to_data, probes, minident, logger):
     """
 
     :param path_to_data:
@@ -1573,23 +1589,24 @@ def run_blat(path_to_data, probes, minident):
     :param minident:
     :type minident:
     """
-    print("Generating pslx files using BLAT...\n")
+    logger.info("Generating pslx files using BLAT...\n")
     os.makedirs(f"{path_to_data}/exons/50pslx", exist_ok=True)
     for contigfile in glob.glob(f"{path_to_data}/exons/40contigs/*.fas"):
         file = os.path.basename(contigfile)
         if file != probes:
-            print(f"Processing {file}...")
-            os.system(
+            logger.info(f"Processing {file}...")
+            blat_cmd_output = os.popen(
                 f"blat -t=DNA -q=DNA -out=pslx -minIdentity={minident} {probes} {contigfile} {contigfile}.pslx"
-            )
+            ).read()
+            logger.info(blat_cmd_output)
             shutil.move(
                 f"{path_to_data}/exons/40contigs/{file}.pslx",
                 f"{path_to_data}/exons/50pslx/{file}.pslx",
             )
-            print("Done")
+            logger.info("Done")
 
 
-def correct(path_to_data, probes, redlist):
+def correct(path_to_data, probes, redlist, logger):
     """
 
     :rtype: object
@@ -1633,43 +1650,121 @@ def correct(path_to_data, probes, redlist):
 
 def main():
     arguments = ParsedArgs().get_args_dict()
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+    log_handler = logging.FileHandler(
+        f'ParalogWizard_{arguments["command"]}_{datetime.now().strftime("%d.%b.%y_%H.%M")}.log',
+        "w",
+    )
+    log_handler.setLevel(logging.INFO)
+    log_formatter = logging.Formatter(
+        fmt="%(asctime)s - %(message)s", datefmt="%d-%b-%y %H:%M:%S"
+    )
+    log_handler.setFormatter(log_formatter)
+    logger.addHandler(log_handler)
     if arguments["command"] == "cast_collect":
-        collect_contigs(arguments["data_folder"], arguments["contig_folder"])
+        logger.info(
+            f"""ParalogWizard cast_collect running with the following settings
+            main data folder - {arguments["data_folder"]}
+            folder with contigs - {arguments["contig_folder"]}"""
+        )
+        collect_contigs( arguments["contig_folder"], arguments["data_folder"], logger)
     elif arguments["command"] == "cast_retrieve":
-        print("Retrieving data...\n")
+        logger.info(
+            f"""ParalogWizard cast_collect running with the following settings
+            main data folder - {arguments["data_folder"]}
+            probe file - {arguments["probes_exons"]}
+            filter for blast length cover - {arguments["length_cover"]}
+            k-mer cover threshold for spades contigs - {arguments["spades_cover"]}
+            number of used cores - {arguments["num_cores"]}"""
+        )
+        logger.info("Retrieving data...\n")
         statistics: Dict[str, Dict[str, Union[Dict[str, List[str]], int]]] = dict()
         all_hits_for_reference: List[str] = list()
-        prepare_contigs(arguments["data_folder"])
+        prepare_contigs(
+            arguments["data_folder"],
+            logger,
+        )
         create_hit_tables(
             arguments["data_folder"],
             arguments["probes_exons"],
             arguments["length_cover"],
             arguments["num_cores"],
+            logger,
         )
         correct_contgis(
             arguments["data_folder"],
             statistics,
             arguments["spades_cover"],
             all_hits_for_reference,
+            logger,
         )
-        write_stats(arguments["data_folder"], arguments["probes_exons"], statistics)
-        rename_contigs(arguments["data_folder"])
-        clean(arguments["data_folder"])
-        print("Data was successfully retrieved!")
+        write_stats(
+            arguments["data_folder"], arguments["probes_exons"], statistics, logger
+        )
+        rename_contigs(arguments["data_folder"], logger)
+        clean(arguments["data_folder"], logger)
+        logger.info("Data was successfully retrieved!")
     elif arguments["command"] == "cast_analyze":
-        build_alignments(arguments["data_folder"], arguments["num_cores"])
-        estimate_divergence(arguments["data_folder"], arguments["blocklist"])
+        if len(arguments["blocklist"]) > 0:
+            blocklist_string = ", ".join(sp for sp in list(arguments["blocklist"]))
+            logger.info(
+                f"""ParalogWizard cast_collect running with the following settings
+            main data folder - {arguments["data_folder"]}
+            species not taken to paralogs divergency estimation - {blocklist_string}
+            number of used cores - {arguments["num_cores"]}"""
+            )
+        else:
+            logger.info(
+                f"""ParalogWizard cast_collect running with the following settings
+            main data folder - {arguments["data_folder"]}
+            all species taken to paralogs divergency estimation
+            number of used cores - {arguments["num_cores"]}"""
+            )
+        # build_alignments(arguments["data_folder"], arguments["num_cores"], logger)
+        estimate_divergence(arguments["data_folder"], arguments["blocklist"], logger)
     elif arguments["command"] == "cast_create":
         with open(f"{arguments['data_folder']}/exons/all_hits.txt") as all_hits:
             all_hits_for_reference: List[str] = [x[:-1] for x in all_hits.readlines()]
         all_hits_for_reference_scored = score_samples(all_hits_for_reference)
         if not arguments["paralogs"]:
+            if len(arguments["blocklist"]) > 0:
+                blocklist_string = ", ".join(sp for sp in list(arguments["blocklist"]))
+                logger.info(
+                    f"""ParalogWizard cast_collect running with the following settings
+                main data folder - {arguments["data_folder"]}
+                paralogs are not being searched
+                species not taken to paralogs divergency estimation - {blocklist_string}"""
+                )
+            else:
+                logger.info(
+                    f"""ParalogWizard cast_collect running with the following settings
+                main data folder - {arguments["data_folder"]}
+                paralogs are not being searched
+                all species taken to paralogs divergency estimation"""
+                )
             create_reference_wo_paralogs(
                 arguments["data_folder"],
                 all_hits_for_reference_scored,
                 arguments["blocklist"],
+                logger,
             )
         else:
+            if len(arguments["blocklist"]) == 0:
+                blocklist_string = ", ".join(sp for sp in list(arguments["blocklist"]))
+                logger.info(
+                    f"""ParalogWizard cast_collect running with the following settings
+                main data folder - {arguments["data_folder"]}
+                paralogs are searched with minium {arguments["minimum_divergence"]} and maximum {arguments["maximum_divergence"]} divergence
+                species not taken to paralogs divergency estimation - {blocklist_string}"""
+                )
+            else:
+                logger.info(
+                    f"""ParalogWizard cast_collect running with the following settings
+                main data folder - {arguments["data_folder"]}
+                paralogs are searched with minium {arguments["minimum_divergence"]} and maximum {arguments["maximum_divergence"]} divergence
+                all species taken to paralogs divergency estimation"""
+                )
             paralog_statistic: Dict[str, Set[str]] = dict()
             create_reference_w_paralogs(
                 arguments["data_folder"],
@@ -1678,11 +1773,13 @@ def main():
                 arguments["minimum_divergence"],
                 arguments["maximum_divergence"],
                 arguments["blocklist"],
+                logger,
             )
             refine_phasing(
                 arguments["data_folder"],
                 arguments["minimum_divergence"],
                 arguments["maximum_divergence"],
+                logger,
             )
             write_paralog_stats(
                 arguments["data_folder"],
@@ -1690,17 +1787,25 @@ def main():
                 arguments["maximum_divergence"],
                 paralog_statistic,
                 arguments["probes_exons"],
+                logger,
             )
     elif arguments["command"] == "cast_correct":
+        logger.info(
+            f"""ParalogWizard cast_collect running with the following settings
+            main data folder - {arguments["data_folder"]}
+            folder with contigs - {arguments["contig_folder"]}"""
+        )
         run_blat(
             arguments["data_folder"],
             arguments["probes_paralogs"],
             arguments["min_identity"],
+            logger,
         )
         correct(
             arguments["data_folder"],
             arguments["probes_paralogs"],
             arguments["redlist"],
+            logger,
         )
 
 
