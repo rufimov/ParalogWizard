@@ -59,6 +59,7 @@ env echo 'Copying results back to working directory'
 
 #Copy results back
 cp -r "${path_to_data_HPM}"/exons/aln_orth_par "${path_HPM}"/exons
+cp *.log "${PBS_O_WORKDIR}"/
 
 env echo
 env echo

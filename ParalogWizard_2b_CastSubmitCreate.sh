@@ -72,6 +72,7 @@ if [[ "$paralogs" =~ "yes" ]]; then
 else
   cp -r "${path_to_data_HPM}"/exons/new_reference_for_HybPiper*.fas "${path_HPM}"/exons/
 fi
+cp *.log "${PBS_O_WORKDIR}"/
 
 
 env echo

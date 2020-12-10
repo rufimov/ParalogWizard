@@ -65,6 +65,7 @@ env echo 'Copying results back to working directory'
 #Copy results back
 mkdir -p "${path_HPM}"
 cp -r "${path_to_data_HPM}"/* "${path_HPM}"
+cp *.log "${PBS_O_WORKDIR}"/
 
 env echo
 env echo
