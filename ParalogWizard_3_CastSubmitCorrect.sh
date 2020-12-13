@@ -36,7 +36,7 @@ cp -r "${source}"/ParalogWizard.py .
 mkdir -p "${path}"/exons/50pslx
 
 #Run script
-python3 ParalogWizard.py cast_correct -d "${data}" -pp "${probes}" -i "${minident}" -r "${redlist}"
+python3 ParalogWizard.py cast_correct -d "${data}" -pp "${probes}" -i "${minident}" -r ${redlist[@]}
 cp -r "${data}"/exons/50pslx/* "${path}"/exons/50pslx/
 cp *.log "${PBS_O_WORKDIR}"/
 

@@ -52,9 +52,9 @@ env echo
 
 env echo 'Copying data to scratch'
 if [[ "${paralogs}" =~ "yes" ]]; then
-  python3 ParalogWizard.py cast_create -d "${path_to_data_HPM}" -b "${blocklist}" -p -mi "${paralog_min_divergence}" -ma "${paralog_max_divergence}" -pe "${probe_HP_exons_split}" || exit 1
+  python3 ParalogWizard.py cast_create -d "${path_to_data_HPM}" -b ${blocklist[@]} -p -mi "${paralog_min_divergence}" -ma "${paralog_max_divergence}" -pe "${probe_HP_exons_split}" || exit 1
 else
-  python3 ParalogWizard.py cast_create -d "${path_to_data_HPM}" -b "${blocklist}" -pe "${probe_HP_exons_split}" || exit 1
+  python3 ParalogWizard.py cast_create -d "${path_to_data_HPM}" -b ${blocklist[@]} -pe "${probe_HP_exons_split}" || exit 1
 fi
 
 env echo
