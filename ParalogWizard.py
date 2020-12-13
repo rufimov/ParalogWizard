@@ -1750,7 +1750,7 @@ def main():
                 logger,
             )
         else:
-            if len(arguments["blocklist"]) == 0:
+            if len(arguments["blocklist"]) > 0:
                 blocklist_string = ", ".join(sp for sp in list(arguments["blocklist"]))
                 logger.info(
                     f"""ParalogWizard cast_collect running with the following settings
