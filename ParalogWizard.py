@@ -1790,11 +1790,23 @@ def main():
                 logger,
             )
     elif arguments["command"] == "cast_correct":
-        logger.info(
-            f"""ParalogWizard cast_collect running with the following settings
-            main data folder - {arguments["data_folder"]}
-            folder with contigs - {arguments["contig_folder"]}"""
-        )
+        if len(arguments["redlist"]) > 0:
+            redlist_string = ", ".join(sp for sp in list(arguments["redlist"]))
+            logger.info(
+                f"""ParalogWizard cast_collect running with the following settings
+                main data folder - {arguments["data_folder"]}
+                probe file with separated paralogs - {arguments["probes_paralogs"]}
+                minimum identity for BLAT - arguments["min_identity"]
+                list of taxa excluded from paralogs separation - {redlist_string}"""
+            )
+        else:
+            logger.info(
+                f"""ParalogWizard cast_collect running with the following settings
+                main data folder - {arguments["data_folder"]}
+                probe file with separated paralogs - {arguments["probes_paralogs"]}
+                minimum identity for BLAT - arguments["min_identity"]
+                all taxa included to paralogs separation"""
+            )
         run_blat(
             arguments["data_folder"],
             arguments["probes_paralogs"],
