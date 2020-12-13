@@ -1796,7 +1796,7 @@ def main():
                 f"""ParalogWizard cast_collect running with the following settings
                 main data folder - {arguments["data_folder"]}
                 probe file with separated paralogs - {arguments["probes_paralogs"]}
-                minimum identity for BLAT - arguments["min_identity"]
+                minimum identity for BLAT - {arguments["min_identity"]}
                 list of taxa excluded from paralogs separation - {redlist_string}"""
             )
         else:
@@ -1804,7 +1804,7 @@ def main():
                 f"""ParalogWizard cast_collect running with the following settings
                 main data folder - {arguments["data_folder"]}
                 probe file with separated paralogs - {arguments["probes_paralogs"]}
-                minimum identity for BLAT - arguments["min_identity"]
+                minimum identity for BLAT - {arguments["min_identity"]}
                 all taxa included to paralogs separation"""
             )
         run_blat(
