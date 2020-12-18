@@ -16,6 +16,7 @@ cd "${SCRATCHDIR}"
 #Copy file with settings from home and set variables from settings.cfg
 cp -f $PBS_O_WORKDIR/ParalogWizard_Settings.cfg .
 . ParalogWizard_Settings.cfg
+red_list=(${redlist})
 path="/storage/${server}/home/${LOGNAME}/${data}"
 source=/"storage/${server}/home/${LOGNAME}/HybSeqSource"
 
@@ -36,7 +37,7 @@ cp -r "${source}"/ParalogWizard.py .
 mkdir -p "${path}"/exons/50pslx
 
 #Run script
-python3 ParalogWizard.py cast_correct -d "${data}" -pp "${probes}" -i "${minident}" -r ${redlist[@]}
+python3 ParalogWizard.py cast_correct -d "${data}" -pp "${probes}" -i "${minident}" -r "${red_list[@]}"
 cp -r "${data}"/exons/50pslx/* "${path}"/exons/50pslx/
 cp *.log "${PBS_O_WORKDIR}"/
 

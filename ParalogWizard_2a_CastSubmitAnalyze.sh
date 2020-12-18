@@ -23,6 +23,7 @@ env echo
 env echo 'Setting variables'
 cp -f "${PBS_O_WORKDIR}"/ParalogWizard_Settings.cfg .
 . ParalogWizard_Settings.cfg
+block_list=(${blocklist})
 path_HPM=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
 path_to_data_HPM="${data}"
@@ -52,7 +53,7 @@ env echo 'Running script...'
 env echo
 
 
-python3 ParalogWizard.py cast_analyze -d "${path_to_data_HPM}" -b ${blocklist[@]} -nc 6 || exit 1
+python3 ParalogWizard.py cast_analyze -d "${path_to_data_HPM}" -b "${block_list[@]}" -nc 6 || exit 1
 env echo
 
 env echo 'Copying results back to working directory'
