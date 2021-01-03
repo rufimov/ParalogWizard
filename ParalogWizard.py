@@ -1093,9 +1093,9 @@ def create_reference_wo_paralogs(
                     )
                     exons.add(exon(hit))
     with open(
-        f"{path_to_data}/exons/new_reference_for_HybPiper.fas"
+        f"{path_to_data}/exons/new_reference_for_HybPiper_separate_exons.fas"
     ) as fasta_to_concatenate, open(
-        f"{path_to_data}/exons/new_reference_for_HybPiper_concatenated.fas", "w"
+        f"{path_to_data}/exons/new_reference_for_HybPiper_concatenated_exons.fas", "w"
     ) as concatenated_fasta:
         fasta_parsed = SeqIO.to_dict(
             SeqIO.parse(fasta_to_concatenate, "fasta", generic_dna)
