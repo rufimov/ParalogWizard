@@ -36,6 +36,7 @@ ___
   * [Matplotlib](https://matplotlib.org)
   * [MAFFT 6.9 or later](https://mafft.cbrc.jp/alignment/software/)
   * [FastTree 2.0.0 or later](http://www.microbesonline.org/fasttree/)
+  * [BLAT](http://genome.ucsc.edu/goldenPath/help/blatSpec.html)
 ___
 **Input and prior requirements**
 
