@@ -1,0 +1,3 @@
+Following genes seems to be phased improperly based on similarity to reference. Refining attempted.
+Moving Crataegus-monogyna_S11_4893_N_1_2371_c_12.92 to a paralog for 4893 Contig_1
+Moving Crataegus-monogyna_S11_4893_N_1_2371_c_12.92 to a paralog for 4893 Contig_2
