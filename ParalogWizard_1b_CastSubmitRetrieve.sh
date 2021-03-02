@@ -48,7 +48,6 @@ mkdir -p "${SCRATCHDIR}/${data}"
 env echo 'Copying data to scratch'
 if [[ "$collect_contigs" =~ "yes" ]]; then
   cp -r "${path_to_data}/20assemblies" "${SCRATCHDIR}/${data}"
-  python3 ParalogWizard.py cast_collect -d "${data}"
 else
   cp -r "${path_to_data}/30raw_contigs" "${SCRATCHDIR}/${data}"
 fi
@@ -58,8 +57,14 @@ env echo
 env echo 'Running script...'
 env echo
 
+if [[ "$collect_contigs" =~ "yes" ]]; then
+  python3 ParalogWizard.py cast_retrieve -d "${data}" -c -pe "${probe_exons_split}" -l "${length_cut}" -s "${spades_cover_cut}" -nc 6 || exit 1
 
-python3 ParalogWizard.py cast_retrieve -d "${data}" -pe "${probe_exons_split}" -l "${length_cut}" -s "${spades_cover_cut}" -nc 6 || exit 1
+else
+  python3 ParalogWizard.py cast_retrieve -d "${data}" -pe "${probe_exons_split}" -l "${length_cut}" -s "${spades_cover_cut}" -nc 6 || exit 1
+
+fi
+
 env echo
 
 env echo 'Copying results back to working directory'

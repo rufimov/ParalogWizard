@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-from os import path
-from os import makedirs
-from re import sub  # This imports regular expression usage
+import sys
 from optparse import OptionParser  # Imports the option parser module
+from os import makedirs
+from os import path
+from re import sub  # This imports regular expression usage
 
 ###### OPTIONS and USAGE ######
 parser = OptionParser(
@@ -111,7 +112,8 @@ while FaLine:
     FaLine = FaLine.strip()
     if not FaLine.startswith(">"):
         sys.exit(
-            """The fasta file is not formatted correctly. Please be sure that each entry is given on exactly two lines: the ID line and the sequence line."""
+            """The fasta file is not formatted correctly. Please be sure that each entry is \
+given on exactly two lines: the ID line and the sequence line."""
         )
     ID = FaLine.lstrip(">")
     FaLine = FastaFile.readline().strip()
@@ -165,7 +167,8 @@ for Filename in pslxFiles:
                 MySeq = MySeq + GapFiller + Blocks[i + 1]
         if not ThisExon in Contigs:
             sys.exit(
-                "The contigs in the fasta file don't match those in the .pslx files. Be sure the names of the contigs don't contain spaces."
+                "The contigs in the fasta file don't match those in the .pslx files. Be sure the \
+names of the contigs don't contain spaces."
             )
         if Name in Contigs[ThisExon]:
             if Length > Contigs[ThisExon][Name][0]:

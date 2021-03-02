@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 
 import argparse
+import logging
+import os
 import sys
+from datetime import datetime
 from glob import glob
+from typing import Set, Dict, List, Union
 
 
 class ParsedArgs:
@@ -11,11 +15,11 @@ class ParsedArgs:
             usage="""ParalogWizard <command> [<args>]
 The ParalogWizard commands are:
     cast_assemble
-    cast_collect
-    cast_retrieve.py
+    cast_retrieve
     cast_analyze
     cast_create
-    cast_separate         
+    cast_separate   
+    cast_align      
 Use ParalogWizard <command> -h for help with arguments of the command of interest
 """
         )
@@ -53,17 +57,18 @@ Use ParalogWizard <command> -h for help with arguments of the command of interes
         args = parser.parse_args(sys.argv[2:])
         return args
 
-    def cast_collect(self):
-        parser = argparse.ArgumentParser()
-        self.common_args(parser)
-        args = parser.parse_args(sys.argv[2:])
-        return args
-
     def cast_retrieve(self):
         parser = argparse.ArgumentParser()
         parser.add_argument("-pe", "--probes_exons", required=True)
         parser.add_argument("-l", "--length_cover", required=True, type=float)
         parser.add_argument("-s", "--spades_cover", required=True, type=float)
+        parser.add_argument(
+            "-c",
+            "--collect_contigs",
+            required=False,
+            action="store_true",
+            default=False,
+        )
         self.common_args(parser)
         args = parser.parse_args(sys.argv[2:])
         return args
@@ -129,6 +134,14 @@ Use ParalogWizard <command> -h for help with arguments of the command of interes
             args.redlist = set(args.redlist)
         return args
 
+    def cast_align(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument("-r", "--redlist", nargs="+", required=False)
+        parser.add_argument("-i", "--min_identity", required=True, type=float)
+        parser.add_argument("-pp", "--probes_paralogs", required=True)
+        self.common_args(parser)
+        args = parser.parse_args(sys.argv[2:])
+
     def get_args_dict(self):
         command = self.args.__dict__
         arguments = getattr(self, self.args.command)().__dict__
@@ -138,11 +151,6 @@ Use ParalogWizard <command> -h for help with arguments of the command of interes
 
 
 def main():
-    import logging
-    import os
-    from datetime import datetime
-    from typing import Set, Dict, List, Union
-
     arguments = ParsedArgs().get_args_dict()
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
@@ -156,16 +164,73 @@ def main():
     )
     log_handler.setFormatter(log_formatter)
     logger.addHandler(log_handler)
-    if arguments["command"] == "cast_collect":
-        from ParalogWizard.cast_collect import collect_contigs
+    if arguments["command"] == "cast_assemble":
+        from ParalogWizard.HybPiper_spades import spades, clean_up
+        from ParalogWizard.HybPiper_bwa_distribute import bwa
+        from ParalogWizard.HybPiper_bwa_distribute import distribute_bwa
 
-        logger.info(
-            f"""ParalogWizard cast_collect running with the following settings
-            main data folder - {arguments["data_folder"]}"""
-        )
-        collect_contigs(arguments["data_folder"], logger)
+        os.makedirs(arguments["data_folder"], exist_ok=True)
+        os.chdir(arguments["data_folder"])
+
+        with open(
+            os.path.join("10deduplicated_reads", "samples_list.txt")
+        ) as samples_list:
+            samples = [x.strip() for x in samples_list.readlines()]
+        os.makedirs("20assemblies", exist_ok=True)
+        os.chdir("20assemblies")
+        for sample in samples:
+            readfiles = glob(
+                f"{os.path.join('..', '10deduplicated_reads', sample)}.*.fastq"
+            )
+            # Generate directory
+            os.makedirs(sample, exist_ok=True)
+            os.chdir(sample)
+            readfiles = [
+                os.path.join(
+                    "..", "..", "10deduplicated_reads", os.path.basename(readfiles[0])
+                ),
+                os.path.join(
+                    "..", "..", "10deduplicated_reads", os.path.basename(readfiles[1])
+                ),
+            ]
+            levels_to_workdir = "../" * (arguments["data_folder"].count("/") + 1)
+            baitfile = os.path.join(
+                levels_to_workdir, "..", "..", arguments["baitfile"]
+            )
+            bamfile = bwa(
+                readfiles,
+                baitfile,
+                sample,
+                cpu=arguments["num_cores"],
+            )
+            if not bamfile:
+                print("ERROR: Something went wrong with the BWA step, exiting!")
+                return
+
+            pre_existing_fastas = glob("./*/*_interleaved.fasta")
+            for fn in pre_existing_fastas:
+                os.remove(fn)
+
+            exitcode = distribute_bwa(bamfile, readfiles)
+            if exitcode:
+                sys.exit(1)
+            genes = [
+                x
+                for x in os.listdir(".")
+                if os.path.isfile(os.path.join(x, x + "_interleaved.fasta"))
+            ]
+            spades(
+                readfiles=readfiles,
+                genes=genes,
+                cpu=arguments["num_cores"],
+            )
+
+            os.chdir("..")
+            clean_up(sample)
+            os.chdir("..")
     elif arguments["command"] == "cast_retrieve":
         from ParalogWizard.cast_retrieve import (
+            collect_contigs,
             prepare_contigs,
             create_hit_tables,
             correct_contgis,
@@ -177,12 +242,15 @@ def main():
         logger.info(
             f"""ParalogWizard cast_retrieve running with the following settings
             main data folder - {arguments["data_folder"]}
+            collect contigs - {arguments['collect_contigs']}
             probe file - {arguments["probes_exons"]}
             filter for blast length cover - {arguments["length_cover"]}
             k-mer cover threshold for spades contigs - {arguments["spades_cover"]}
             number of used cores - {arguments["num_cores"]}"""
         )
         logger.info("Retrieving data...\n")
+        if arguments["collect_contigs"]:
+            collect_contigs(arguments["data_folder"], logger)
         statistics: Dict[str, Dict[str, Union[Dict[str, List[str]], int]]] = dict()
         all_hits_for_reference: List[str] = list()
         main_path = os.path.join(arguments["data_folder"], "31exonic_contigs")
@@ -210,7 +278,7 @@ def main():
         clean(main_path, logger)
         logger.info("Data was successfully retrieved!")
     elif arguments["command"] == "cast_analyze":
-        from ParalogWizard.cast_analyze import build_alignments, estimate_divergence
+        from ParalogWizard.cast_analyze import estimate_divergence
 
         if len(arguments["blocklist"]) > 0:
             blocklist_string = ", ".join(sp for sp in list(arguments["blocklist"]))
@@ -323,7 +391,7 @@ def main():
             )
     elif arguments["command"] == "cast_separate":
 
-        from ParalogWizard.cast_separate import run_blat, correct
+        from ParalogWizard.cast_separate import run_blat, correct, align
 
         if len(arguments["redlist"]) > 0:
             redlist_string = ", ".join(sp for sp in list(arguments["redlist"]))
@@ -348,76 +416,26 @@ def main():
             arguments["min_identity"],
             logger,
         )
+        if os.path.exists(
+            os.path.join(
+                arguments["data_folder"], "50pslx", "corrected", "list_pslx.txt"
+            )
+        ):
+            os.remove(
+                os.path.join(
+                    arguments["data_folder"], "50pslx", "corrected", "list_pslx.txt"
+                )
+            )
         correct(
             arguments["data_folder"],
-            arguments["probes_paralogs"],
             arguments["redlist"],
             logger,
         )
-    elif arguments["command"] == "cast_assemble":
-        from ParalogWizard.HybPiper_spades import spades, clean_up
-        from ParalogWizard.HybPiper_bwa_distribute import bwa
-        from ParalogWizard.HybPiper_bwa_distribute import distribute_bwa
-
-        os.makedirs(arguments["data_folder"], exist_ok=True)
-        os.chdir(arguments["data_folder"])
-
-        with open(
-            os.path.join("10deduplicated_reads", "samples_list.txt")
-        ) as samples_list:
-            samples = [x.strip() for x in samples_list.readlines()]
-        os.makedirs("20assemblies", exist_ok=True)
-        os.chdir("20assemblies")
-        for sample in samples:
-            readfiles = glob(
-                f"{os.path.join('..', '10deduplicated_reads', sample)}.*.fastq"
-            )
-            # Generate directory
-            os.makedirs(sample, exist_ok=True)
-            os.chdir(sample)
-            readfiles = [
-                os.path.join(
-                    "..", "..", "10deduplicated_reads", os.path.basename(readfiles[0])
-                ),
-                os.path.join(
-                    "..", "..", "10deduplicated_reads", os.path.basename(readfiles[1])
-                ),
-            ]
-            levels_to_workdir = "../" * (arguments["data_folder"].count("/") + 1)
-            baitfile = os.path.join(
-                levels_to_workdir, "..", "..", arguments["baitfile"]
-            )
-            bamfile = bwa(
-                readfiles,
-                baitfile,
-                sample,
-                cpu=arguments["num_cores"],
-            )
-            if not bamfile:
-                print("ERROR: Something went wrong with the BWA step, exiting!")
-                return
-
-            pre_existing_fastas = glob("./*/*_interleaved.fasta")
-            for fn in pre_existing_fastas:
-                os.remove(fn)
-
-            exitcode = distribute_bwa(bamfile, readfiles)
-            if exitcode:
-                sys.exit(1)
-            genes = [
-                x
-                for x in os.listdir(".")
-                if os.path.isfile(os.path.join(x, x + "_interleaved.fasta"))
-            ]
-            spades(
-                readfiles=readfiles,
-                genes=genes,
-                cpu=arguments["num_cores"],
-            )
-
-            os.chdir("..")
-            clean_up(sample)
-            os.chdir("..")
+        align(
+            arguments["data_folder"],
+            arguments["probes_paralogs"],
+            arguments["num_cores"],
+        )
 
 
 if __name__ == "__main__":
