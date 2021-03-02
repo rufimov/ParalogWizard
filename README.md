@@ -37,6 +37,10 @@ ___
   * [MAFFT 6.9 or later](https://mafft.cbrc.jp/alignment/software/)
   * [FastTree 2.0.0 or later](http://www.microbesonline.org/fasttree/)
   * [BLAT](http://genome.ucsc.edu/goldenPath/help/blatSpec.html)
+  * [SPAdes] http://cab.spbu.ru/software/spades/
+  * [GNU Parallel](http://www.gnu.org/software/parallel/) 
+  * [BWA](https://github.com/lh3/bwa)
+  * [samtools 1.2 or later]
 ___
 **Input and prior requirements**
 
