@@ -45,7 +45,8 @@ ___
 
 **Data structure**
 
-```data_foler
+<pre>
+Data_folder
     |_____10deduplicated_reads
     |_____20assemblies
     |_____30raw_contigs
@@ -54,7 +55,8 @@ ___
     |_____41detected_par
     |_____50pslx
     |_____60mafft
-    |_____70concatenated_exon_alignments```
+    |_____70concatenated_exon_alignments
+</pre>
     
 
 **Input and prior requirements**
