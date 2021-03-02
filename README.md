@@ -21,8 +21,8 @@
            -~ `-~   `-~ `-`   `-~ `-`   `-~ `-       (   _| |_  |_    )
                                                      '-   |_         -</pre>
 
-___
-**Dependencies**
+#Dependencies
+---
   * [BLAST command line tools 2.2.30 or later](https://www.ncbi.nlm.nih.gov/books/NBK131777/#_Blast_ReleaseNotes_BLAST_2_2_30_October_)
   * [Python 3.6 or later](https://www.python.org/downloads/)
   * [BIOPYTHON 1.77 or later](https://biopython.org/wiki/Download)
@@ -39,10 +39,10 @@ ___
   * [samtools 1.2 or later](https://github.com/samtools/samtools)
 
 All utilities should be in PATH.
-___
 
-**Data structure**
 
+#Data structure
+---
 <pre>
 Working_directory
     |_____Data_folder
@@ -62,8 +62,8 @@ Working_directory
 </pre>
     
 
-**Input**
-
+#Input
+---
 * Trimmed, filtered and deduplicated pair-end reads are store in 10deduplicated_reads folder together with list of samples called ```samples_list.txt```. All names and IDs shoud contain only letters and numbers. 
 
 <pre>
@@ -104,7 +104,8 @@ List of samples must have names of the samples which correspond to fastq files, 
 ```
 
 
-**Local usage**
+#Local usage
+---
 
 ```python3 ParalogWizard.py cast_retrieve -d <folder with data> -pe <probe file with separated exons> -l <threshold for length cover of BLAST hits> -s <threshold for k-mer cover of contigs assembled by SPAdes> [-nc <number of cores>] [-c]```
 
@@ -118,7 +119,8 @@ Collects contigs assembled by SPAdes to folder ```30raw_contigs```. Matches retr
 
 
 
-**Metacentrum usage**
+#Metacentrum usage
+---
 
 
 
