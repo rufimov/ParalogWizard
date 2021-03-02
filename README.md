@@ -64,7 +64,7 @@ Working_directory
 
 **Input**
 
-* Trimmed, filtered and deduplicated pair-end reads are store in 10deduplicated_reads folder together with list of samples called samples_list.txt. All names and IDs shoud contain only letters and numbers. 
+* Trimmed, filtered and deduplicated pair-end reads are store in 10deduplicated_reads folder together with list of samples called ```samples_list.txt```. All names and IDs shoud contain only letters and numbers. 
 
 <pre>
 10deduplicated_reads
@@ -108,7 +108,7 @@ List of samples must have names of the samples which correspond to fastq files, 
 
 ```python3 ParalogWizard.py cast_retrieve -d <folder with data> -pe <probe file with separated exons> -l <threshold for length cover of BLAST hits> -s <threshold for k-mer cover of contigs assembled by SPAdes> [-nc <number of cores>] [-c]```
 
-Collects contigs assembled by SPAdes within HybPiper and stores in folder 'HybPiper_contigs' within the main folder with ParalogWizards results. Matches retrieved contigs to the probe file with individual separated exons with BLAST, extracts exonic contigs according to hits and stores them in folder 'exons/40contigs' within the main folder with ParalogWizards results. Hit tables and statistics with asumed number of copies for each locus per sample are saved alongside.
+Collects contigs assembled by SPAdes to folder ```30raw_contigs```. Matches retrieved contigs to the probe file with individual separated exons with BLAST, extracts exonic contigs according to hits and stores them in folder ```31exonic_contigs``` within the main folder with ParalogWizards results. Hit tables and statistics with asumed number of copies for each locus per sample are saved alongside.
 
 ```python3 ParalogWizard.py cast_analyze -d <folder with data> [-b <list of taxa excluded from paralog divergence estimation>] [-nc <number of cores>]```
 
