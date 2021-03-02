@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -l walltime=8:0:0
 #PBS -l select=1:ncpus=6:mem=1gb:scratch_local=2gb
-#PBS -N ParalogWizard-Convert
+#PBS -N ParalogWizard-Assemble
 #PBS -m abe
 #PBS -j oe
 
@@ -18,10 +18,11 @@ env echo
 env echo 'Setting variables'
 cp "${PBS_O_WORKDIR}"/ParalogWizard_Settings.cfg .
 . ParalogWizard_Settings.cfg
+cpu=$TORQUE_RESC_PROC
 
 path_to_data=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
-cpu=$TORQUE_RESC_PROC
+
 
 
 module add python36-modules-gcc || exit 1 # biopython
@@ -34,6 +35,7 @@ module add samtools-1.10 || exit 1 # samtools
 
 cp "${source}"/ParalogWizard.py .
 cp -r "${source}"/ParalogWizard .
+cp "${source}/${probe_exons_concat}" .
 
 #Copy data to scratch
 mkdir -p "${SCRATCHDIR}/${data}"/10deduplicated_reads

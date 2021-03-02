@@ -55,7 +55,6 @@ Use ParalogWizard <command> -h for help with arguments of the command of interes
 
     def cast_collect(self):
         parser = argparse.ArgumentParser()
-        parser.add_argument("-c", "--contig_folder", required=True)
         self.common_args(parser)
         args = parser.parse_args(sys.argv[2:])
         return args
@@ -162,10 +161,9 @@ def main():
 
         logger.info(
             f"""ParalogWizard cast_collect running with the following settings
-            main data folder - {arguments["data_folder"]}
-            folder with contigs - {arguments["contig_folder"]}"""
+            main data folder - {arguments["data_folder"]}"""
         )
-        collect_contigs(arguments["contig_folder"], arguments["data_folder"], logger)
+        collect_contigs(arguments["data_folder"], logger)
     elif arguments["command"] == "cast_retrieve":
         from ParalogWizard.cast_retrieve import (
             prepare_contigs,
@@ -177,7 +175,7 @@ def main():
         )
 
         logger.info(
-            f"""ParalogWizard cast_collect running with the following settings
+            f"""ParalogWizard cast_retrieve running with the following settings
             main data folder - {arguments["data_folder"]}
             probe file - {arguments["probes_exons"]}
             filter for blast length cover - {arguments["length_cover"]}
@@ -385,7 +383,10 @@ def main():
                     "..", "..", "10deduplicated_reads", os.path.basename(readfiles[1])
                 ),
             ]
-            baitfile = os.path.join("..", "..", "..", arguments["baitfile"])
+            levels_to_workdir = "../" * (arguments["data_folder"].count("/") + 1)
+            baitfile = os.path.join(
+                levels_to_workdir, "..", "..", arguments["baitfile"]
+            )
             bamfile = bwa(
                 readfiles,
                 baitfile,
@@ -403,19 +404,19 @@ def main():
             exitcode = distribute_bwa(bamfile, readfiles)
             if exitcode:
                 sys.exit(1)
-            # genes = [
-            #     x
-            #     for x in os.listdir(".")
-            #     if os.path.isfile(os.path.join(x, x + "_interleaved.fasta"))
-            # ]
-            # spades(
-            #     readfiles=readfiles,
-            #     genes=genes,
-            #     cpu=arguments["num_cores"],
-            # )
-            #
-            # os.chdir("..")
-            # clean_up(sample)
+            genes = [
+                x
+                for x in os.listdir(".")
+                if os.path.isfile(os.path.join(x, x + "_interleaved.fasta"))
+            ]
+            spades(
+                readfiles=readfiles,
+                genes=genes,
+                cpu=arguments["num_cores"],
+            )
+
+            os.chdir("..")
+            clean_up(sample)
             os.chdir("..")
 
 

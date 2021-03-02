@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -l walltime=8:0:0
 #PBS -l select=1:ncpus=6:mem=1gb:scratch_local=2gb
-#PBS -N ParalogWizard-Convert
+#PBS -N ParalogWizard-Retrieve
 #PBS -m abe
 #PBS -j oe
 
@@ -22,6 +22,7 @@ env echo
 env echo 'Setting variables'
 cp "${PBS_O_WORKDIR}"/ParalogWizard_Settings.cfg .
 . ParalogWizard_Settings.cfg
+cpu=$TORQUE_RESC_PROC
 
 path_to_data=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
