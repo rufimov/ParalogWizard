@@ -20,9 +20,8 @@
            ||\|||/ \|||\|||/ \|||\|||/ \|||\||        ( -  _| |_|   -_
            -~ `-~   `-~ `-`   `-~ `-`   `-~ `-       (   _| |_  |_    )
                                                      '-   |_         -</pre>
-
-#Dependencies
 ---
+# Dependencies
   * [BLAST command line tools 2.2.30 or later](https://www.ncbi.nlm.nih.gov/books/NBK131777/#_Blast_ReleaseNotes_BLAST_2_2_30_October_)
   * [Python 3.6 or later](https://www.python.org/downloads/)
   * [BIOPYTHON 1.77 or later](https://biopython.org/wiki/Download)
@@ -40,9 +39,9 @@
 
 All utilities should be in PATH.
 
-
-#Data structure
 ---
+# Data structure
+
 <pre>
 Working_directory
     |_____Data_folder
@@ -61,9 +60,9 @@ Working_directory
     |_____probes_separated_exons.fasta
 </pre>
     
-
-#Input
 ---
+# Input
+
 * Trimmed, filtered and deduplicated pair-end reads are store in 10deduplicated_reads folder together with list of samples called ```samples_list.txt```. All names and IDs shoud contain only letters and numbers. 
 
 <pre>
@@ -103,9 +102,9 @@ List of samples must have names of the samples which correspond to fastq files, 
     ...
 ```
 
-
-#Local usage
 ---
+# Local usage
+
 
 ```python3 ParalogWizard.py cast_retrieve -d <folder with data> -pe <probe file with separated exons> -l <threshold for length cover of BLAST hits> -s <threshold for k-mer cover of contigs assembled by SPAdes> [-nc <number of cores>] [-c]```
 
@@ -118,9 +117,9 @@ Collects contigs assembled by SPAdes to folder ```30raw_contigs```. Matches retr
 ```python3 ParalogWizard.py cast_separate -d <folder with data> -pp <probe file with separated paralogs> -i <minimum identity for BLAT> [-r <list of taxa excluded from paralogs separation, ie included in all alignments in case of >]```
 
 
-
-#Metacentrum usage
 ---
+# Metacentrum usage
+
 
 
 
