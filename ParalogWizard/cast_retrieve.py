@@ -137,7 +137,7 @@ def prepare_contigs(main_path, logger):
     logger.info("Done\n")
 
 
-def create_hit_tables(main_path, probe_exons, length_cover, n_cpu, logger):
+def create_hit_tables(main_path, probe_exons, n_cpu, logger, length_cover=75):
     """"""
     logger.info("Creating hit tables...")
     for file in glob.glob(os.path.join(main_path, "*.fasta")):
@@ -165,7 +165,7 @@ def create_hit_tables(main_path, probe_exons, length_cover, n_cpu, logger):
 
 
 def correct_contgis(
-    main_path, statistics, spades_cover, all_hits_for_reference, logger
+    main_path, statistics, all_hits_for_reference, logger, spades_cover=5
 ):
     """"""
     logger.info("Correcting contigs...")

@@ -47,7 +47,6 @@ def mafft_align(file):
     )()
     with open(f"{os.path.splitext(file)[0]}.mafft.fasta", "w") as aligned:
         aligned.write(stdout.replace(">_R_", ">"))
-    return f"{os.path.splitext(file)[0]}.mafft.fasta"
 
 
 def fast_tree(file):

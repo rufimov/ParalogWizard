@@ -1,8 +1,10 @@
 import glob
 import multiprocessing
 import os
+import re
 import shutil
 import subprocess
+import fileinput
 
 from ParalogWizard.cast_analyze import mafft_align
 
@@ -103,6 +105,9 @@ def align(path_to_data, probes, n_cpu):
     all_loci = set()
     pool_aln = multiprocessing.Pool(processes=n_cpu)
     for file in glob.glob(os.path.join(path_to_data, "60mafft", "*.fasta")):
+        with fileinput.FileInput(file, inplace=True) as file_to_correct:
+            for line in file_to_correct:
+                print(re.sub(r">.+/", ">", line), end="")
         locus = os.path.basename(file).split("_")[3]
         all_loci.add(locus)
         pool_aln.apply_async(mafft_align, (file,))

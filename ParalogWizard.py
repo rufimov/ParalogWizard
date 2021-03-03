@@ -60,12 +60,11 @@ Use ParalogWizard <command> -h for help with arguments of the command of interes
     def cast_retrieve(self):
         parser = argparse.ArgumentParser()
         parser.add_argument("-pe", "--probes_exons", required=True)
-        parser.add_argument("-l", "--length_cover", required=True, type=float)
-        parser.add_argument("-s", "--spades_cover", required=True, type=float)
+        parser.add_argument("-l", "--length_cover", default=None, type=float)
+        parser.add_argument("-s", "--spades_cover", default=None, type=float)
         parser.add_argument(
             "-c",
             "--collect_contigs",
-            required=False,
             action="store_true",
             default=False,
         )
@@ -259,26 +258,42 @@ def main():
             main_path,
             logger,
         )
-        create_hit_tables(
-            main_path,
-            arguments["probes_exons"],
-            arguments["length_cover"],
-            arguments["num_cores"],
-            logger,
-        )
-        correct_contgis(
-            main_path,
-            statistics,
-            arguments["spades_cover"],
-            all_hits_for_reference,
-            logger,
-        )
+        if arguments["length_cover"]:
+            create_hit_tables(
+                main_path,
+                arguments["probes_exons"],
+                arguments["num_cores"],
+                logger,
+                arguments["length_cover"],
+            )
+        else:
+            create_hit_tables(
+                main_path,
+                arguments["probes_exons"],
+                arguments["num_cores"],
+                logger,
+            )
+        if arguments["spades_cover"]:
+            correct_contgis(
+                main_path,
+                statistics,
+                all_hits_for_reference,
+                logger,
+                arguments["spades_cover"],
+            )
+        else:
+            correct_contgis(
+                main_path,
+                statistics,
+                all_hits_for_reference,
+                logger,
+            )
         write_stats(main_path, arguments["probes_exons"], statistics, logger)
         rename_contigs(main_path, logger)
         clean(main_path, logger)
         logger.info("Data was successfully retrieved!")
     elif arguments["command"] == "cast_analyze":
-        from ParalogWizard.cast_analyze import estimate_divergence
+        from ParalogWizard.cast_analyze import estimate_divergence, build_alignments
 
         if len(arguments["blocklist"]) > 0:
             blocklist_string = ", ".join(sp for sp in list(arguments["blocklist"]))
@@ -295,7 +310,7 @@ def main():
             all species taken to paralogs divergency estimation
             number of used cores - {arguments["num_cores"]}"""
             )
-        # build_alignments(arguments["data_folder"], arguments["num_cores"], logger)
+        build_alignments(arguments["data_folder"], arguments["num_cores"], logger)
         estimate_divergence(arguments["data_folder"], arguments["blocklist"], logger)
     elif arguments["command"] == "cast_detect":
         from ParalogWizard.cast_detect import (
