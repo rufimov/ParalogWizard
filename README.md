@@ -22,9 +22,9 @@
                                                      '-   |_         -</pre>
 ---
 # Dependencies
-  * [BLAST command line tools 2.2.30 or later](https://www.ncbi.nlm.nih.gov/books/NBK131777/#_Blast_ReleaseNotes_BLAST_2_2_30_October_)
   * [Python 3.6 or later](https://www.python.org/downloads/)
   * [BIOPYTHON 1.77 or later](https://biopython.org/wiki/Download)
+  * [BLAST command line tools 2.2.30 or later](https://www.ncbi.nlm.nih.gov/books/NBK131777/#_Blast_ReleaseNotes_BLAST_2_2_30_October_)
   * [NumPy](https://numpy.org)
   * [Scikit-learn](https://scikit-learn.org/stable/user_guide.html)
   * [SciPy](https://www.scipy.org)
@@ -36,8 +36,6 @@
   * [GNU Parallel](http://www.gnu.org/software/parallel/) 
   * [BWA](https://github.com/lh3/bwa)
   * [samtools 1.2 or later](https://github.com/samtools/samtools)
-
-All utilities should be in PATH.
 
 ---
 # Data structure
@@ -90,6 +88,7 @@ List of samples must have names of the samples which correspond to fastq files, 
 ```
     >Representative1-Gene1
     >Representative1-Gene2
+    >Representative2-Gene3
     ...
  ```
 
