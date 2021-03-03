@@ -24,9 +24,9 @@ env echo 'Setting variables'
 cp -f "${PBS_O_WORKDIR}"/ParalogWizard_Settings.cfg .
 . ParalogWizard_Settings.cfg
 block_list=(${blocklist})
-path_HPM=/storage/"${server}/home/${LOGNAME}/${data}"
+path_to_data=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
-path_to_data_HPM="${data}"
+cpu=$TORQUE_RESC_PROC
 
 #Add necessary modules
 module add python-3.6.2-gcc
@@ -38,14 +38,15 @@ env echo
 
 #Copy data to scratch
 env echo 'Copying data to scratch'
-mkdir -p "${SCRATCHDIR}/${path_to_data_HPM}"/exons
-cp "${path_HPM}"/exons/all_hits.txt "${SCRATCHDIR}"/"${path_to_data_HPM}"/exons
+mkdir -p "${SCRATCHDIR}/${data}"/31exonic_contigs
+cp "${path_to_data}"/31exonic_contigs/all_hits.txt "${SCRATCHDIR}"/"${data}"/31exonic_contigs/
 
 #Move to scratch
 cd "${SCRATCHDIR}" || exit 1
 
-#Copy scripts and reference to scratch
+#Copy scripts to scratch
 cp "${source}"/ParalogWizard.py .
+cp -r "${source}"/ParalogWizard .
 
 env echo
 
@@ -53,13 +54,13 @@ env echo 'Running script...'
 env echo
 
 
-python3 ParalogWizard.py cast_analyze -d "${path_to_data_HPM}" -b "${block_list[@]}" -nc 6 || exit 1
+python3 ParalogWizard.py cast_analyze -d "${data}" -b "${block_list[@]}" -nc "${cpu}" || exit 1
 env echo
 
 env echo 'Copying results back to working directory'
 
 #Copy results back
-cp -r "${path_to_data_HPM}"/exons/aln_orth_par "${path_HPM}"/exons
+cp -r "${data}"/40aln_orth_par "${path_to_data}"/
 cp *.log "${PBS_O_WORKDIR}"/
 
 env echo

@@ -1,8 +1,7 @@
 #!/bin/bash
-#----------------MetaCentrum----------------
 #PBS -l walltime=1:0:0
 #PBS -l select=1:ncpus=1:mem=4gb:scratch_local=8gb
-#PBS -N ParalogWizard-Correct
+#PBS -N ParalogWizard-Separate
 #PBS -m abe
 #PBS -j oe
 
@@ -17,28 +16,32 @@ cd "${SCRATCHDIR}"
 cp -f $PBS_O_WORKDIR/ParalogWizard_Settings.cfg .
 . ParalogWizard_Settings.cfg
 red_list=(${redlist})
-path="/storage/${server}/home/${LOGNAME}/${data}"
-source=/"storage/${server}/home/${LOGNAME}/HybSeqSource"
+path_to_data=/storage/"${server}/home/${LOGNAME}/${data}"
+source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
 
 #Add necessary modules
 module add blat-suite-34
 module add python-3.6.2-gcc
 module add python36-modules-gcc
+module add mafft-7.453
 
 
 #Copy fasta from home folder to scratch, reference, script for generating and correcting pslx files
-mkdir -p "${data}"/exons/40contigs
-cp -r "${path}"/exons/40contigs "${data}"/exons/
-cp -r "${source}/${probes}" .
-cp -r "${source}"/ParalogWizard.py .
+mkdir -p "${data}"
+cp -r "${path_to_data}"/31exonic_contigs "${SCRATCHDIR}"/"${data}"
+cp "${source}/${probes}" .
+cp "${source}"/ParalogWizard.py .
+cp -r "${source}"/ParalogWizard .
 
 
-#Make a new folder for results
-mkdir -p "${path}"/exons/50pslx
 
 #Run script
-python3 ParalogWizard.py cast_correct -d "${data}" -pp "${probes}" -i "${minident}" -r "${red_list[@]}"
-cp -r "${data}"/exons/50pslx/* "${path}"/exons/50pslx/
+python3 ParalogWizard.py cast_separate -d "${data}" -pp "${probes}" -i "${minident}" -r "${red_list[@]}"
+
+#Copy results back
+cp -r "${data}"/50pslx "${path_to_data}"
+cp -r "${data}"/60mafft "${path_to_data}"
+cp -r "${data}"/70concatenated_exon_alignments "${path_to_data}"
 cp *.log "${PBS_O_WORKDIR}"/
 
 exit 0

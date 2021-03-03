@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -l walltime=8:0:0
 #PBS -l select=1:ncpus=1:mem=1gb:scratch_local=2gb
-#PBS -N ParalogWizard-Create
+#PBS -N ParalogWizard-Detect
 #PBS -m abe
 #PBS -j oe
 
@@ -23,9 +23,8 @@ env echo 'Setting variables'
 cp "${PBS_O_WORKDIR}"/ParalogWizard_Settings.cfg .
 . ParalogWizard_Settings.cfg
 block_list=(${blocklist})
-path_HPM=/storage/"${server}/home/${LOGNAME}/${data}"
+path_to_data=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
-path_to_data_HPM="${data}"
 
 #Add necessary modules
 module add python-3.6.2-gcc
@@ -35,16 +34,18 @@ env echo
 
 #Copy data to scratch
 env echo 'Copying data to scratch'
-mkdir -p "${SCRATCHDIR}/${path_to_data_HPM}"/exons/aln_orth_par/
-cp "${path_HPM}"/exons/all_hits.txt "${SCRATCHDIR}"/"${path_to_data_HPM}"/exons
-cp "${path_HPM}"/exons/aln_orth_par/pairwise_distances.txt "${SCRATCHDIR}"/"${path_to_data_HPM}"/exons/aln_orth_par/
+mkdir -p "${SCRATCHDIR}/${data}"/40aln_orth_par/
+mkdir -p "${SCRATCHDIR}/${data}"/31exonic_contigs/
+cp "${path_to_data}"/31exonic_contigs/all_hits.txt "${SCRATCHDIR}"/"${data}"/31exonic_contigs
+cp "${path_to_data}"/40aln_orth_par/pairwise_distances.txt "${SCRATCHDIR}"/"${data}"/40aln_orth_par/
 
 #Move to scratch
 cd "${SCRATCHDIR}" || exit 1
 
 #Copy scripts and reference to scratch
 cp "${source}"/ParalogWizard.py .
-grep "^[^>].\{${exon_length}\}" -B1 --no-group-separator "${source}/${probe_HP_exons_split}" > "${probe_HP_exons_split}"
+cp -r "${source}"/ParalogWizard .
+grep "^[^>].\{${exon_length}\}" -B1 --no-group-separator "${source}/${probe_exons_split}" > "${probe_exons_split}"
 
 env echo
 
@@ -53,9 +54,9 @@ env echo
 
 env echo 'Copying data to scratch'
 if [[ "${paralogs}" =~ "yes" ]]; then
-  python3 ParalogWizard.py cast_create -d "${path_to_data_HPM}" -b "${block_list[@]}" -p -mi "${paralog_min_divergence}" -ma "${paralog_max_divergence}" -pe "${probe_HP_exons_split}" || exit 1
+  python3 ParalogWizard.py cast_detect -d "${data}" -b "${block_list[@]}" -p -mi "${paralog_min_divergence}" -ma "${paralog_max_divergence}" -pe "${probe_exons_split}" || exit 1
 else
-  python3 ParalogWizard.py cast_create -d "${path_to_data_HPM}" -b "${block_list[@]}" -pe "${probe_HP_exons_split}" || exit 1
+  python3 ParalogWizard.py cast_detect -d "${data}" -b "${block_list[@]}" -pe "${probe_exons_split}" || exit 1
 fi
 
 env echo
@@ -63,18 +64,7 @@ env echo
 env echo 'Copying results back to working directory'
 
 #Copy results back
-mkdir -p "${path_HPM}"
-cp -r "${path_to_data_HPM}"/exons/new_reference_for_HybPhyloMaker*.fas "${path_HPM}"/exons/
-if [[ "$paralogs" =~ "yes" ]]; then
-  cp -r "${path_to_data_HPM}"/exons/paralog_statistics*.tsv "${path_HPM}"/exons/
-  cp -r "${path_to_data_HPM}"/exons/locus_statistics*.tsv "${path_HPM}"/exons/
-  cp -r "${path_to_data_HPM}"/exons/refined* "${path_HPM}"/exons/
-  cp -r "${path_to_data_HPM}"/exons/warnings.txt "${path_HPM}"/exons/
-else
-  cp -r "${path_to_data_HPM}"/exons/new_reference_for_HybPiper*.fas "${path_HPM}"/exons/
-fi
-cp *.log "${PBS_O_WORKDIR}"/
-
+cp -r "${data}"/41detected_par "${path_to_data}"
 
 env echo
 env echo
