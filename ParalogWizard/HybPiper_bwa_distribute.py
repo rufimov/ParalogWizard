@@ -149,7 +149,7 @@ def bwa(readfiles, baitfile, basename, cpu):
         str(cpu),
         db_file,
         bwa_fastq,
-        " | samtools view -h -b -S - > ",
+        " | samtools view -h -b -S > ",
         basename + ".bam",
     ]
     full_command = " ".join(bwa_commands)

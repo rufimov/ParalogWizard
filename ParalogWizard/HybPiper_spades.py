@@ -6,16 +6,11 @@ import subprocess
 import sys
 from typing import List
 
-helptext = """Run the assembler SPAdes with re-dos if any of the k-mers are unsuccessful.
-The re-runs are attempted by removing the largest k-mer and re-running spades. If a final
-contigs.fasta file is generated, a 'spades.ok' file is saved."""
-
 
 def make_spades_cmd(
     genelist,
     cpu,
 ):
-
     parallel_cmd_list = ["time", "parallel", "--eta"]
     if cpu:
         parallel_cmd_list.append("-j {}".format(cpu))
@@ -29,29 +24,52 @@ def make_spades_cmd(
     return spades_cmd
 
 
-def spades_initial(
-    genelist,
+def make_spades_cmd_non_parallel(
+    gene,
     cpu,
 ):
+    spades_cmd = (
+        f"spades.py --only-assembler --threads {cpu} --12 {gene}/{gene}_interleaved.fasta "
+        f"-o {gene}/{gene}_spades  > spades.log "
+    )
+    return spades_cmd
+
+
+def spades_initial(genelist, cpu, parallel):
     """Run SPAdes on each gene separately using GNU paralell."""
     if os.path.isfile("spades.log"):
         os.remove("spades.log")
 
     genes = [x.rstrip() for x in open(genelist)]
-    spades_cmd = make_spades_cmd(
-        genelist,
-        cpu,
-    )
-
-    sys.stderr.write("Running SPAdes on {} genes\n".format(len(genes)))
-    sys.stderr.write(spades_cmd + "\n")
-    exitcode = subprocess.call(spades_cmd, shell=True)
-
-    if exitcode:
-        sys.stderr.write(
-            "ERROR: One or more genes had an error with SPAdes assembly. This may be due to low coverage. No contigs "
-            "found for the following genes:\n "
+    if parallel:
+        spades_cmd = make_spades_cmd(
+            genelist,
+            cpu,
         )
+
+        sys.stderr.write("Running SPAdes on {} genes\n".format(len(genes)))
+        sys.stderr.write(spades_cmd + "\n")
+        exitcode = subprocess.call(spades_cmd, shell=True)
+
+        if exitcode:
+            sys.stderr.write(
+                "ERROR: One or more genes had an error with SPAdes assembly. "
+                "This may be due to low coverage. No contigs "
+                "found for the following genes:\n "
+            )
+    else:
+        sys.stderr.write("Running SPAdes on {} genes\n".format(len(genes)))
+        for gene in genes:
+            spades_cmd = make_spades_cmd_non_parallel(
+                gene,
+                cpu,
+            )
+            sys.stderr.write(spades_cmd + "\n")
+            exitcode = subprocess.call(spades_cmd, shell=True)
+            if exitcode:
+                sys.stderr.write(
+                    f"ERROR: Gene {gene} had an error with SPAdes assembly. This may be due to low coverage."
+                )
 
     spades_successful = []
     spades_failed = []
@@ -79,7 +97,7 @@ def spades_initial(
     return spades_failed
 
 
-def rerun_spades(genelist, cpu):
+def rerun_spades(genelist, cpu, parallel):
     genes = [x.rstrip() for x in open(genelist)]
     spades_duds = []
     genes_redos = []
@@ -105,22 +123,37 @@ def rerun_spades(genelist, cpu):
                 restart_k, kvals, gene, gene
             )
             redo_cmds_file.write(spades_cmd + "\n")
-    if cpu:
-        redo_spades_cmd = "parallel -j {} --eta --timeout 400% :::: redo_spades_commands.txt > spades_redo.log".format(
-            cpu
-        )
+
+    if parallel:
+        if cpu:
+            redo_spades_cmd = "parallel -j {} --eta --timeout 400% :::: redo_spades_commands.txt > spades_redo.log".format(
+                cpu
+            )
+        else:
+            redo_spades_cmd = "parallel --eta --timeout 400% :::: redo_spades_commands.txt > spades_redo.log"
+        sys.stderr.write("Re-running SPAdes for {} genes\n".format(len(genes_redos)))
+        sys.stderr.write(redo_spades_cmd + "\n")
+        exitcode = subprocess.call(redo_spades_cmd, shell=True)
+
+        if exitcode:
+            sys.stderr.write(
+                "ERROR: One or more genes had an error with SPAdes assembly. "
+                "This may be due to low coverage. No contigs "
+                "found for the following genes:\n "
+            )
+
     else:
-        redo_spades_cmd = "parallel --eta --timeout 400% :::: redo_spades_commands.txt > spades_redo.log"
+        redo_spades_cmd = "while read command; do $command >> spades_redo.log; done < redo_spades_commands.txt "
+        sys.stderr.write("Re-running SPAdes for {} genes\n".format(len(genes_redos)))
+        sys.stderr.write(redo_spades_cmd + "\n")
+        exitcode = subprocess.call(redo_spades_cmd, shell=True)
 
-    sys.stderr.write("Re-running SPAdes for {} genes\n".format(len(genes_redos)))
-    sys.stderr.write(redo_spades_cmd + "\n")
-    exitcode = subprocess.call(redo_spades_cmd, shell=True)
-
-    if exitcode:
-        sys.stderr.write(
-            "ERROR: One or more genes had an error with SPAdes assembly. This may be due to low coverage. No contigs "
-            "found for the following genes:\n "
-        )
+        if exitcode:
+            sys.stderr.write(
+                "ERROR: One or more genes had an error with SPAdes assembly. "
+                "This may be due to low coverage. No contigs "
+                "found for the following genes:\n "
+            )
 
     spades_successful = []
     spades_failed = []
@@ -150,11 +183,12 @@ def rerun_spades(genelist, cpu):
 def spades_runner(
     genelist,
     cpu,
+    parallel,
 ):
-
     spades_failed = spades_initial(
         genelist,
         cpu=cpu,
+        parallel=parallel,
     )
 
     if len(spades_failed) > 0:
@@ -164,6 +198,7 @@ def spades_runner(
         spades_failed, spades_duds = rerun_spades(
             "failed_spades.txt",
             cpu=cpu,
+            parallel=parallel,
         )
         if len(spades_failed) == 0:
             sys.stderr.write("All redos completed successfully!\n")
@@ -171,10 +206,7 @@ def spades_runner(
             sys.exit(1)
 
 
-def execute_spades(
-    genes,
-    cpu,
-):
+def execute_spades(genes, cpu, parallel):
     """Run SPAdes on each gene separately using GNU parallel."""
     with open("spades_genelist.txt", "w") as spadesfile:
         spadesfile.write("\n".join(genes) + "\n")
@@ -188,6 +220,7 @@ def execute_spades(
         spades_runner(
             "spades_genelist.txt",
             cpu=cpu,
+            parallel=parallel,
         )
         if os.path.isfile("spades_duds.txt"):
             spades_duds = [x.rstrip() for x in open("spades_duds.txt")]
@@ -209,11 +242,13 @@ def spades(
     readfiles: List[str],
     genes: List[str],
     cpu,
+    parallel=True,
 ):
     if len(readfiles) == 2:
         spades_genelist = execute_spades(
             genes,
             cpu=cpu,
+            parallel=parallel,
         )
 
     else:
