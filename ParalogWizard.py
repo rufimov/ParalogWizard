@@ -53,6 +53,13 @@ Use ParalogWizard <command> -h for help with arguments of the command of interes
             "the id must be of the form: >Taxon-geneName",
             required=True,
         )
+        parser.add_argument(
+            "-np",
+            "--no-parallel",
+            dest="parallel",
+            action="store_true",
+            default=False,
+        )
         self.common_args(parser)
         args = parser.parse_args(sys.argv[2:])
         return args
@@ -218,11 +225,19 @@ def main():
                 for x in os.listdir(".")
                 if os.path.isfile(os.path.join(x, x + "_interleaved.fasta"))
             ]
-            spades(
-                readfiles=readfiles,
-                genes=genes,
-                cpu=arguments["num_cores"],
-            )
+            if not arguments["parallel"]:
+                spades(
+                    readfiles=readfiles,
+                    genes=genes,
+                    cpu=arguments["num_cores"],
+                )
+            else:
+                spades(
+                    readfiles=readfiles,
+                    genes=genes,
+                    cpu=arguments["num_cores"],
+                    parallel=False,
+                )
 
             os.chdir("..")
             clean_up(sample)
@@ -248,7 +263,14 @@ def main():
             number of used cores - {arguments["num_cores"]}"""
         )
         logger.info("Retrieving data...\n")
-        if arguments["collect_contigs"]:
+        if not arguments["collect_contigs"] and not os.path.isdir(
+            os.path.join(arguments["data_folder"], "30raw_contigs")
+        ):
+            print(
+                "ERROR: No raw contigs found. Run ParalogWizard cast_retrieve with -c specified."
+            )
+            exit(1)
+        elif arguments["collect_contigs"]:
             collect_contigs(arguments["data_folder"], logger)
         statistics: Dict[str, Dict[str, Union[Dict[str, List[str]], int]]] = dict()
         all_hits_for_reference: List[str] = list()
@@ -322,6 +344,7 @@ def main():
         )
 
         if not arguments["paralogs"]:
+            os.makedirs(os.path.join(arguments["data_folder"], "41without_par"))
             if len(arguments["blocklist"]) > 0:
                 blocklist_string = ", ".join(sp for sp in list(arguments["blocklist"]))
                 logger.info(
