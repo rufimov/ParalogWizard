@@ -59,7 +59,9 @@ def correct(path_to_data, redlist, logger):
         with open(
             os.path.join(path_to_data, "50pslx", "corrected", "list_pslx.txt"), "a"
         ) as list:
-            list.write(f"{file}\n")
+            list.write(
+                f"{os.path.join(os.path.dirname(file),'corrected',os.path.basename(file))}\n"
+            )
         with open(file) as pslx_file, open(
             os.path.join(path_to_data, "50pslx", "corrected", os.path.basename(file)),
             "w",
