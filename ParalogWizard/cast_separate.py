@@ -127,7 +127,7 @@ def align(path_to_data, probes, n_cpu):
         loci_to_concat.sort(key=lambda x: int(x.split("_")[5]))
         line_loci_to_concat = " ".join(loci_to_concat)
         subprocess.call(
-            f"python3 {amas_ex} concat -i {line_loci_to_concat} -f fasta -d dna -t Assembly_{locus}.fas \
+            f"python3 {amas_ex} concat -i {line_loci_to_concat} -f fasta -d dna -t Assembly_{locus}.fasta \
 -p Assembly_{locus}.part",
             shell=True,
         )
