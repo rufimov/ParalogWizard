@@ -122,7 +122,7 @@ def align(path_to_data, probes, n_cpu):
     os.chdir(os.path.join(path_to_data, "70concatenated_exon_alignments"))
     for locus in all_loci:
         loci_to_concat = glob.glob(
-            os.path.join("..", "60mafft", f"*{locus}_*.mafft.fasta")
+            os.path.join("..", "60mafft", f"To_align_Assembly_{locus}_*.mafft.fasta")
         )
         loci_to_concat.sort(key=lambda x: int(x.split("_")[5]))
         line_loci_to_concat = " ".join(loci_to_concat)
