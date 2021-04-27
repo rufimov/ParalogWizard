@@ -132,7 +132,7 @@ def align(path_to_data, probes, n_cpu):
             shell=True,
         )
         subprocess.call(
-            f"python3 {amas_ex} convert -i Assembly_{locus}.fas -f fasta -d dna -u phylip",
+            f"python3 {amas_ex} convert -i Assembly_{locus}.fasta -f fasta -d dna -u phylip",
             shell=True,
         )
         os.rename(f"Assembly_{locus}.fas-out.phy", f"Assembly_{locus}.phy")
