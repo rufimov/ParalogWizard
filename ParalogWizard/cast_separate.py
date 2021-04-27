@@ -135,4 +135,4 @@ def align(path_to_data, probes, n_cpu):
             f"python3 {amas_ex} convert -i Assembly_{locus}.fasta -f fasta -d dna -u phylip",
             shell=True,
         )
-        os.rename(f"Assembly_{locus}.fas-out.phy", f"Assembly_{locus}.phy")
+        os.rename(f"Assembly_{locus}.fasta-out.phy", f"Assembly_{locus}.phy")
