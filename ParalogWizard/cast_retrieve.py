@@ -6,7 +6,6 @@ from typing import Set, Dict, List
 
 import Bio.SeqRecord
 from Bio import SeqIO
-from Bio.Alphabet import generic_dna
 from Bio.Blast.Applications import NcbimakeblastdbCommandline, NcbiblastnCommandline
 
 
@@ -197,7 +196,7 @@ def correct_contgis(
             file
         ) as contigs:
             contigs_fasta_parsed = SeqIO.to_dict(
-                SeqIO.parse(contigs, "fasta", generic_dna)
+                SeqIO.parse(contigs, "fasta")
             )
             for hit_dedup in hits_dedup:
                 if int(hit_dedup.split()[6]) > int(hit_dedup.split()[7]):
@@ -297,7 +296,7 @@ def rename_contigs(main_path, logger):
         logger.info(f" Processing {sample}")
         with open(file) as result_fasta:
             fasta_parsed = SeqIO.to_dict(
-                SeqIO.parse(result_fasta, "fasta", generic_dna)
+                SeqIO.parse(result_fasta, "fasta")
             )
             counter: int = 1
             fasta_to_write: List[str] = list()

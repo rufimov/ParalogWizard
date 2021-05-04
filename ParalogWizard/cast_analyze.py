@@ -14,7 +14,6 @@ import matplotlib
 import numpy
 from Bio import SeqIO, SeqRecord
 from Bio.Align.Applications import MafftCommandline
-from Bio.Alphabet import generic_dna
 from Bio.Phylo.Applications import FastTreeCommandline
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
@@ -84,7 +83,7 @@ def build_alignments(path_to_data, n_cpu, logger):
         if exon(hit) not in set(exons.keys()):
             exons[exon(hit)]: List[SeqRecord] = [
                 SeqRecord(
-                    Seq(hit.split()[-1], generic_dna),
+                    Seq(hit.split()[-1]),
                     id=contig(hit) + "_" + hit.split()[-2],
                     description="",
                 )
@@ -93,7 +92,7 @@ def build_alignments(path_to_data, n_cpu, logger):
             new_list: List[SeqRecord] = exons[exon(hit)]
             new_list.append(
                 SeqRecord(
-                    Seq(hit.split()[-1], generic_dna),
+                    Seq(hit.split()[-1]),
                     id=contig(hit) + "_" + hit.split()[-2],
                     description="",
                 )
@@ -165,7 +164,7 @@ def get_distance_matrix(
     current_list_to_write = []
     with open(file_to_process) as fasta_file:
         sequences: Dict[str, Bio.SeqRecord.SeqRecord] = SeqIO.to_dict(
-            SeqIO.parse(fasta_file, "fasta", generic_dna)
+            SeqIO.parse(fasta_file, "fasta")
         )
         for pair in list(itertools.combinations(sequences.keys(), 2)):
             if "_".join(pair[0].split("_")[-2:]) == "_".join(pair[1].split("_")[-2:]):

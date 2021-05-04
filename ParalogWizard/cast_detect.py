@@ -5,7 +5,6 @@ from typing import List
 from typing import Set
 
 from Bio import SeqIO
-from Bio.Alphabet import generic_dna
 
 from ParalogWizard.cast_analyze import sort_hit_table_ident
 from ParalogWizard.cast_retrieve import exon, contig
@@ -144,7 +143,7 @@ def create_reference_wo_paralogs(
         "w",
     ) as concatenated_fasta:
         fasta_parsed = SeqIO.to_dict(
-            SeqIO.parse(fasta_to_concatenate, "fasta", generic_dna)
+            SeqIO.parse(fasta_to_concatenate, "fasta")
         )
         current_locus = ""
         list_of_keys = list(fasta_parsed.keys())
@@ -314,7 +313,7 @@ def refine_phasing(
         ),
     ) as reference_to_check:
         new_ref_parsed = SeqIO.to_dict(
-            SeqIO.parse(reference_to_check, "fasta", generic_dna)
+            SeqIO.parse(reference_to_check, "fasta")
         )
         all_seqs = set(new_ref_parsed.keys())
         initial_dict_to_check = dict()
@@ -424,7 +423,7 @@ def refine_phasing(
             ),
         ) as reference_to_check:
             new_ref_parsed = SeqIO.to_dict(
-                SeqIO.parse(reference_to_check, "fasta", generic_dna)
+                SeqIO.parse(reference_to_check, "fasta")
             )
             all_seqs = set(new_ref_parsed.keys())
             initial_dict_to_check = dict()
@@ -554,7 +553,7 @@ def write_paralog_stats(
             par_stat.write(f"{sample}\t{str(len(paralog_statistic[sample]))}\n")
     with open(probes) as probe_loci:
         all_probe_exons = SeqIO.to_dict(
-            SeqIO.parse(probe_loci, "fasta", generic_dna)
+            SeqIO.parse(probe_loci, "fasta")
         ).keys()
         all_loci: Set[str] = set()
         for key in all_probe_exons:
