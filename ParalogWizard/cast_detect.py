@@ -97,13 +97,13 @@ def create_reference_wo_paralogs(
     exons: Set[str] = set()
     with open(
         os.path.join(
-            path_to_data, "41detected_par", "new_reference_for_HybPhyloMaker.fas"
+            path_to_data, "41without_par", "new_reference_for_HybPhyloMaker.fas"
         ),
         "w",
     ) as new_reference_HPM, open(
         os.path.join(
             path_to_data,
-            "41detected_par",
+            "41without_par",
             "new_reference_for_HybPiper_separate_exons.fas",
         ),
         "w",
@@ -131,13 +131,13 @@ def create_reference_wo_paralogs(
     with open(
         os.path.join(
             path_to_data,
-            "41detected_par",
+            "41without_par",
             "new_reference_for_HybPiper_separate_exons.fas",
         )
     ) as fasta_to_concatenate, open(
         os.path.join(
             path_to_data,
-            "41detected_par",
+            "41without_par",
             "new_reference_for_HybPiper_concatenated_exons.fas",
         ),
         "w",
