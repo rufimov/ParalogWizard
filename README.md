@@ -107,7 +107,7 @@ List of samples must have names of the samples which correspond to fastq files, 
 
 
 
-```python3 ParalogWizard.py cast_retrieve -d <folder with data> -pe <probe file with separated exons> [-l threshold for length cover of BLAST hits] [-s <threshold for k-mer cover of contigs assembled by SPAdes>] [-nc <number of cores>]```
+```python3 ParalogWizard.py cast_retrieve -d <folder with data> -pe <probe file with separated exons> [-c <collect/recollect raw contigs][-l threshold for length cover of BLAST hits] [-s <threshold for k-mer cover of contigs assembled by SPAdes>] [-nc <number of cores>]```
 
 Collects contigs assembled by SPAdes to folder ```30raw_contigs```. Matches retrieved contigs to the probe file with individual separated exons with BLAST, extracts exonic contigs according to hits and stores them in folder ```31exonic_contigs``` within the main folder with ParalogWizards results. Hit tables and statistics with asumed number of copies for each locus per sample are saved alongside.
 
