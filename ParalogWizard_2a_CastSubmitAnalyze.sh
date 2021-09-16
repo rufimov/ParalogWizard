@@ -53,10 +53,12 @@ env echo
 env echo 'Running script...'
 env echo
 
-if [[ "$collect_contigs" =~ "yes" ]]; then
-  cp -r "${path_to_data}/20assemblies" "${SCRATCHDIR}/${data}"
+if [[ -z "${block_list}"  ]]; then
+  python3 ParalogWizard.py cast_analyze -d "${data}" -nc "${cpu}" || exit 1
+  env echo
 else
-  cp -r "${path_to_data}/30raw_contigs" "${SCRATCHDIR}/${data}"
+  python3 ParalogWizard.py cast_analyze -d "${data}" -b "${block_list[@]}" -nc "${cpu}" || exit 1
+  env echo
 fi
 
 

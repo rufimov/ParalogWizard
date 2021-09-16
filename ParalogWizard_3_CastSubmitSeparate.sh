@@ -36,7 +36,11 @@ cp -r "${source}"/ParalogWizard .
 
 
 #Run script
-python3 ParalogWizard.py cast_separate -d "${data}" -pc "${customized_probes}" -i "${minident}" -r "${red_list[@]}"
+if [[ -z "${red_list}"  ]]; then
+  python3 ParalogWizard.py cast_separate -d "${data}" -pc "${customized_probes}" -i "${minident}"
+else
+  python3 ParalogWizard.py cast_separate -d "${data}" -pc "${customized_probes}" -i "${minident}" -r "${red_list[@]}"
+fi
 
 #Copy results back
 cp -r "${data}"/50pslx "${path_to_data}"
