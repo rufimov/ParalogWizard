@@ -142,9 +142,7 @@ def create_reference_wo_paralogs(
         ),
         "w",
     ) as concatenated_fasta:
-        fasta_parsed = SeqIO.to_dict(
-            SeqIO.parse(fasta_to_concatenate, "fasta")
-        )
+        fasta_parsed = SeqIO.to_dict(SeqIO.parse(fasta_to_concatenate, "fasta"))
         current_locus = ""
         list_of_keys = list(fasta_parsed.keys())
         list_of_keys.sort(key=lambda x: int(x.split("-")[1].split("_")[2]))
@@ -312,9 +310,7 @@ def refine_phasing(
             f"new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
         ),
     ) as reference_to_check:
-        new_ref_parsed = SeqIO.to_dict(
-            SeqIO.parse(reference_to_check, "fasta")
-        )
+        new_ref_parsed = SeqIO.to_dict(SeqIO.parse(reference_to_check, "fasta"))
         all_seqs = set(new_ref_parsed.keys())
         initial_dict_to_check = dict()
         for seq in all_seqs:
@@ -422,9 +418,7 @@ def refine_phasing(
                 f"refined_new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
             ),
         ) as reference_to_check:
-            new_ref_parsed = SeqIO.to_dict(
-                SeqIO.parse(reference_to_check, "fasta")
-            )
+            new_ref_parsed = SeqIO.to_dict(SeqIO.parse(reference_to_check, "fasta"))
             all_seqs = set(new_ref_parsed.keys())
             initial_dict_to_check = dict()
             for seq in all_seqs:
@@ -552,9 +546,7 @@ def write_paralog_stats(
         for sample in sorted(list(paralog_statistic.keys())):
             par_stat.write(f"{sample}\t{str(len(paralog_statistic[sample]))}\n")
     with open(probes) as probe_loci:
-        all_probe_exons = SeqIO.to_dict(
-            SeqIO.parse(probe_loci, "fasta")
-        ).keys()
+        all_probe_exons = SeqIO.to_dict(SeqIO.parse(probe_loci, "fasta")).keys()
         all_loci: Set[str] = set()
         for key in all_probe_exons:
             all_loci.add(key.split("-")[1].split("_")[0])

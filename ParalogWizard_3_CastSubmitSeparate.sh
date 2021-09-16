@@ -29,14 +29,14 @@ module add mafft-7.453
 #Copy fasta from home folder to scratch, reference, script for generating and correcting pslx files
 mkdir -p "${data}"
 cp -r "${path_to_data}"/31exonic_contigs "${SCRATCHDIR}"/"${data}"
-cp "${source}/${probes}" .
+cp "${source}/${customized_probes}" .
 cp "${source}"/ParalogWizard.py .
 cp -r "${source}"/ParalogWizard .
 
 
 
 #Run script
-python3 ParalogWizard.py cast_separate -d "${data}" -pp "${probes}" -i "${minident}" -r "${red_list[@]}"
+python3 ParalogWizard.py cast_separate -d "${data}" -pc "${customized_probes}" -i "${minident}" -r "${red_list[@]}"
 
 #Copy results back
 cp -r "${data}"/50pslx "${path_to_data}"

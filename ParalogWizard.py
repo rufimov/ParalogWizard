@@ -17,9 +17,8 @@ The ParalogWizard commands are:
     cast_assemble
     cast_retrieve
     cast_analyze
-    cast_create
-    cast_separate   
-    cast_align      
+    cast_detect
+    cast_separate    
 Use ParalogWizard <command> -h for help with arguments of the command of interest
 """
         )
@@ -131,7 +130,7 @@ Use ParalogWizard <command> -h for help with arguments of the command of interes
         parser = argparse.ArgumentParser()
         parser.add_argument("-r", "--redlist", nargs="+", required=False)
         parser.add_argument("-i", "--min_identity", required=True, type=float)
-        parser.add_argument("-pp", "--probes_paralogs", required=True)
+        parser.add_argument("-pc", "--probes_customized", required=True)
         self.common_args(parser)
         args = parser.parse_args(sys.argv[2:])
         if args.redlist is None:
@@ -144,7 +143,7 @@ Use ParalogWizard <command> -h for help with arguments of the command of interes
         parser = argparse.ArgumentParser()
         parser.add_argument("-r", "--redlist", nargs="+", required=False)
         parser.add_argument("-i", "--min_identity", required=True, type=float)
-        parser.add_argument("-pp", "--probes_paralogs", required=True)
+        parser.add_argument("-pc", "--probes_customized", required=True)
         self.common_args(parser)
         args = parser.parse_args(sys.argv[2:])
 
@@ -450,7 +449,7 @@ def main():
             )
         run_blat(
             arguments["data_folder"],
-            arguments["probes_paralogs"],
+            arguments["probes_customized"],
             arguments["min_identity"],
             logger,
         )
@@ -471,7 +470,7 @@ def main():
         )
         align(
             arguments["data_folder"],
-            arguments["probes_paralogs"],
+            arguments["probes_customized"],
             arguments["num_cores"],
         )
 

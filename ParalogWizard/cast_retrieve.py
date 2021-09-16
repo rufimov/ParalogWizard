@@ -195,9 +195,7 @@ def correct_contgis(
         with open(os.path.join(main_path, f"{sample}.fas"), "w") as result_fasta, open(
             file
         ) as contigs:
-            contigs_fasta_parsed = SeqIO.to_dict(
-                SeqIO.parse(contigs, "fasta")
-            )
+            contigs_fasta_parsed = SeqIO.to_dict(SeqIO.parse(contigs, "fasta"))
             for hit_dedup in hits_dedup:
                 if int(hit_dedup.split()[6]) > int(hit_dedup.split()[7]):
                     sequence: str = slicing(contigs_fasta_parsed, hit_dedup, True)
@@ -295,9 +293,7 @@ def rename_contigs(main_path, logger):
         sample = os.path.basename(os.path.splitext(file)[0])
         logger.info(f" Processing {sample}")
         with open(file) as result_fasta:
-            fasta_parsed = SeqIO.to_dict(
-                SeqIO.parse(result_fasta, "fasta")
-            )
+            fasta_parsed = SeqIO.to_dict(SeqIO.parse(result_fasta, "fasta"))
             counter: int = 1
             fasta_to_write: List[str] = list()
             for line in sorted(fasta_parsed.keys()):

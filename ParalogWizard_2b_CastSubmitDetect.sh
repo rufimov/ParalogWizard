@@ -55,19 +55,29 @@ env echo
 env echo 'Copying data to scratch'
 if [[ "${paralogs}" =~ "yes" ]]; then
   python3 ParalogWizard.py cast_detect -d "${data}" -b "${block_list[@]}" -p -mi "${paralog_min_divergence}" -ma "${paralog_max_divergence}" -pe "${probe_exons_split}" || exit 1
+  env echo
+
+  env echo 'Copying results back to working directory'
+
+  #Copy results back
+  cp -r "${data}"/41detected_par "${path_to_data}"
+
+  env echo
+  env echo
 else
   python3 ParalogWizard.py cast_detect -d "${data}" -b "${block_list[@]}" -pe "${probe_exons_split}" || exit 1
+  env echo
+
+  env echo 'Copying results back to working directory'
+
+  #Copy results back
+  cp -r "${data}"/41without_par "${path_to_data}"
+
+  env echo
+  env echo
 fi
 
-env echo
 
-env echo 'Copying results back to working directory'
-
-#Copy results back
-cp -r "${data}"/41detected_par "${path_to_data}"
-
-env echo
-env echo
 
 env echo 'New reference created!'
 
