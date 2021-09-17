@@ -435,7 +435,7 @@ def main():
             logger.info(
                 f"""ParalogWizard cast_collect running with the following settings
                 main data folder - {arguments["data_folder"]}
-                probe file with separated paralogs - {arguments["probes_paralogs"]}
+                probe file with separated paralogs - {arguments["probes_customized"]}
                 minimum identity for BLAT - {arguments["min_identity"]}
                 list of taxa excluded from paralogs separation - {redlist_string}"""
             )
@@ -443,7 +443,7 @@ def main():
             logger.info(
                 f"""ParalogWizard cast_collect running with the following settings
                 main data folder - {arguments["data_folder"]}
-                probe file with separated paralogs - {arguments["probes_paralogs"]}
+                probe file with separated paralogs - {arguments["probes_customized"]}
                 minimum identity for BLAT - {arguments["min_identity"]}
                 all taxa included to paralogs separation"""
             )

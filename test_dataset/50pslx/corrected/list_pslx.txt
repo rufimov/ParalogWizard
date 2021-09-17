@@ -1,0 +1,2 @@
+test_dataset/50pslx/corrected/Crataegus-remotilobata_S1.fas.pslx
+test_dataset/50pslx/corrected/Crataegus-monogyna_S11.fas.pslx
