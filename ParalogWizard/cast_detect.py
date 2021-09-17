@@ -93,18 +93,18 @@ def create_reference_wo_paralogs(
 ):
     """"""
 
-    logger.info("Creating new reference...")
+    logger.info("Creating customized reference...")
     exons: Set[str] = set()
     with open(
         os.path.join(
-            path_to_data, "41without_par", "new_reference_for_HybPhyloMaker.fas"
+            path_to_data, "41without_par", "customized_reference_for_HybPhyloMaker.fas"
         ),
         "w",
-    ) as new_reference_HPM, open(
+    ) as customized_reference_hpm, open(
         os.path.join(
             path_to_data,
             "41without_par",
-            "new_reference_for_HybPiper_separate_exons.fas",
+            "customized_reference_for_HybPiper_separate_exons.fas",
         ),
         "w",
     ) as fasta_to_concatenate:
@@ -120,7 +120,7 @@ def create_reference_wo_paralogs(
                         .replace("_", "")
                         .replace("Contig", "_Contig_")
                     )
-                    new_reference_HPM.write(
+                    customized_reference_hpm.write(
                         f">Assembly_{name_of_locus}_{sample}_{contig(hit)}\n{hit.split()[9]}\n"
                     )
                     fasta_to_concatenate.write(
@@ -132,13 +132,13 @@ def create_reference_wo_paralogs(
         os.path.join(
             path_to_data,
             "41without_par",
-            "new_reference_for_HybPiper_separate_exons.fas",
+            "customized_reference_for_HybPiper_separate_exons.fas",
         )
     ) as fasta_to_concatenate, open(
         os.path.join(
             path_to_data,
             "41without_par",
-            "new_reference_for_HybPiper_concatenated_exons.fas",
+            "customized_reference_for_HybPiper_concatenated_exons.fas",
         ),
         "w",
     ) as concatenated_fasta:
@@ -177,7 +177,7 @@ def create_reference_wo_paralogs(
             current_locus = locus
             count += 1
 
-    logger.info("New reference created!\n")
+    logger.info("Customized reference created!\n")
 
 
 def create_reference_w_paralogs(
@@ -202,7 +202,7 @@ def create_reference_w_paralogs(
             pairwise_distances[f"{line.split()[2]}_{line.split()[0]}"] = float(
                 line.split()[1]
             )
-    logger.info("Creating new reference...")
+    logger.info("Creating customized reference...")
     all_paralogs_for_reference = []
     exons: Set[str] = set()
     count: int = 0
@@ -275,10 +275,10 @@ def create_reference_w_paralogs(
         os.path.join(
             path_to_data,
             "41detected_par",
-            f"new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
+            f"customized_reference_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
         ),
         "w",
-    ) as new_reference:
+    ) as customized_reference:
         for hit in all_paralogs_for_reference:
             sample = hit.split()[8]
             if sample not in blocklist:
@@ -291,11 +291,11 @@ def create_reference_w_paralogs(
                         .replace("_", "")
                         .replace("Contig", "_Contig_")
                     )
-                    new_reference.write(
+                    customized_reference.write(
                         f">Assembly_{name_of_locus}_{sample}_{contig(hit)}\n{hit.split()[9]}\n"
                     )
                     exons.add(exon(hit))
-        logger.info("New reference created!\n")
+        logger.info("Customized reference created!\n")
 
 
 def refine_phasing(
@@ -307,7 +307,7 @@ def refine_phasing(
         os.path.join(
             path_to_data,
             "41detected_par",
-            f"new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
+            f"customized_reference_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
         ),
     ) as reference_to_check:
         new_ref_parsed = SeqIO.to_dict(SeqIO.parse(reference_to_check, "fasta"))
@@ -389,7 +389,7 @@ def refine_phasing(
             os.path.join(
                 path_to_data,
                 "41detected_par",
-                f"refined_new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
+                f"refined_customized_reference_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
             ),
             "w",
         ) as reference_to_write:
@@ -415,7 +415,7 @@ def refine_phasing(
             os.path.join(
                 path_to_data,
                 "41detected_par",
-                f"refined_new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
+                f"refined_customized_reference_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
             ),
         ) as reference_to_check:
             new_ref_parsed = SeqIO.to_dict(SeqIO.parse(reference_to_check, "fasta"))
@@ -490,13 +490,13 @@ def refine_phasing(
                     warnings.write(x)
                 warnings.write(
                     "Pay closer attention to the loci mentioned above. It is worth having a look at the "
-                    "alignments for particular exons in aln_orth_par/"
+                    "alignments for particular exons in 40aln_orth_par/"
                 )
         with open(
             os.path.join(
                 path_to_data,
                 "41detected_par",
-                f"refined_new_reference_for_HybPhyloMaker_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
+                f"refined_customized_reference_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
             ),
             "w",
         ) as reference_to_write:

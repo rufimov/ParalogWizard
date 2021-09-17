@@ -343,7 +343,6 @@ def main():
         )
 
         if not arguments["paralogs"]:
-            os.makedirs(os.path.join(arguments["data_folder"], "41without_par"))
             if len(arguments["blocklist"]) > 0:
                 blocklist_string = ", ".join(sp for sp in list(arguments["blocklist"]))
                 logger.info(
@@ -368,6 +367,7 @@ def main():
                     x[:-1] for x in all_hits.readlines()
                 ]
             all_hits_for_reference_scored = score_samples(all_hits_for_reference)
+            os.makedirs(os.path.join(arguments["data_folder"], "41without_par"), exist_ok=True)
             create_reference_wo_paralogs(
                 arguments["data_folder"],
                 all_hits_for_reference_scored,
@@ -402,7 +402,7 @@ def main():
                 ]
             all_hits_for_reference_scored = score_samples(all_hits_for_reference)
             paralog_statistic: Dict[str, Set[str]] = dict()
-            os.makedirs(os.path.join(arguments["data_folder"], "41detected_par"))
+            os.makedirs(os.path.join(arguments["data_folder"], "41detected_par"), exist_ok=True)
             create_reference_w_paralogs(
                 arguments["data_folder"],
                 all_hits_for_reference_scored,
