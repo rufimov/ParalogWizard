@@ -58,8 +58,8 @@ def correct(path_to_data, redlist, logger):
     for file in glob.glob(os.path.join(path_to_data, "50pslx", "*.pslx")):
         with open(
             os.path.join(path_to_data, "50pslx", "corrected", "list_pslx.txt"), "a"
-        ) as list:
-            list.write(
+        ) as list_pslx:
+            list_pslx.write(
                 f"{os.path.join(os.path.dirname(file),'corrected',os.path.basename(file))}\n"
             )
         with open(file) as pslx_file, open(
@@ -127,12 +127,18 @@ def align(path_to_data, probes, n_cpu):
         loci_to_concat.sort(key=lambda x: int(x.split("_")[5]))
         line_loci_to_concat = " ".join(loci_to_concat)
         subprocess.call(
-            f"python3 {amas_ex} concat -i {line_loci_to_concat} -f fasta -d dna -t Assembly_{locus}.fasta \
--p Assembly_{locus}.part",
+            f"python3 {amas_ex} concat -i {line_loci_to_concat} -f fasta -d dna -t Assembly_{locus}.fasta "
+            f"-p Assembly_{locus}.part",
             shell=True,
         )
         subprocess.call(
-            f"python3 {amas_ex} convert -i Assembly_{locus}.fasta -f fasta -d dna -u phylip",
+            f"python3 {amas_ex} convert -i Assembly_{locus}.fasta -f fasta -d dna -u phylip ",
             shell=True,
         )
-        os.rename(f"Assembly_{locus}.fasta-out.phy", f"Assembly_{locus}.phy")
+        os.rename(f"Assembly_{locus}.fasta-out.phy", f"Assembly_{locus}.phylip")
+        with fileinput.FileInput(f'Assembly_{locus}.part', inplace=True) as part_file:
+            for line in part_file:
+                corrected_line = re.sub(r"^", "DNA, ", line)
+                corrected_line = re.sub(r"_To_align", "", corrected_line)
+                print(corrected_line, end="")
+    os.chdir(os.path.dirname(os.getcwd()))
