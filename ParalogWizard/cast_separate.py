@@ -71,6 +71,7 @@ def align(data_folder, probes, n_cpu, log_file):
                 line = re.sub(r">.+/", ">", line)
                 if not line.startswith(">"):
                     line = re.sub(r"[nN]", "-", line)
+                    line = re.sub(r"\.fas", "_contigs.fas", line)
                 print(line, end="")
         locus = os.path.basename(file).split("_")[3]
         all_loci.add(locus)
@@ -112,7 +113,7 @@ def align(data_folder, probes, n_cpu, log_file):
         with fileinput.FileInput(f"Assembly_{locus}.part", inplace=True) as part_file:
             for line in part_file:
                 corrected_line = re.sub(r"^", "DNA, ", line)
-                corrected_line = re.sub(r"_To_align", "", corrected_line)
+                corrected_line = re.sub(r"_To_align", "", corrected_line)                
                 print(corrected_line, end="")
     os.chdir(os.path.dirname(os.getcwd()))
 
