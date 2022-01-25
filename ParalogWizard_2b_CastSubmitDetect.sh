@@ -69,6 +69,7 @@ if [[ "${paralogs}" =~ "yes" ]]; then
 
   #Copy results back
   cp -r "${data}"/41detected_par "${path_to_data}"
+  cp *.log "${PBS_O_WORKDIR}"/
 
   env echo
   env echo
@@ -85,7 +86,7 @@ else
 
   #Copy results back
   cp -r "${data}"/41without_par "${path_to_data}"
-
+  cp *.log "${PBS_O_WORKDIR}"/
   env echo
   env echo
 fi

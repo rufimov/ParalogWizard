@@ -146,17 +146,28 @@ def get_distance_matrix(
         sequences: Dict[str, Bio.SeqRecord.SeqRecord] = SeqIO.to_dict(
             SeqIO.parse(fasta_file, "fasta")
         )
-    for pair in list(itertools.combinations(sequences.keys(), 2)):
-        if "_".join(pair[0].split("_")[-2:]) == "_".join(pair[1].split("_")[-2:]):
+    seq_names = pandas.DataFrame(list(sequences.keys()))
+    seq_names[1] = seq_names[0].str.split('_').str[-2:].str.join('_')
+    duplicated_samp = set(seq_names[seq_names.duplicated(subset=1)][1].values)
+    non_duplicated_samp = set(seq_names[~seq_names[1].isin(duplicated_samp)][1].values)
+    for samp in duplicated_samp:
+        seqs_to_pairs = seq_names[seq_names[1] == samp][0].values.tolist()
+        for pair in list(itertools.combinations(seqs_to_pairs, 2)):
             sequence1: str = str(sequences[pair[0]].seq)
             sequence2: str = str(sequences[pair[1]].seq)
             distance: float = percent_dissimilarity(sequence1, sequence2)
             if distance is None:
                 continue
-            if "_".join(pair[0].split("_")[-2:]) not in blocklist:
+            if samp not in blocklist:
                 current_matrix_to_plot.append(distance)
             current_matrix_to_write.append([pair[0], distance, pair[1]])
-
+    for samp in non_duplicated_samp:
+        seqs_non_paired = seq_names[seq_names[1] == samp][0].values.tolist()
+        for seq in seqs_non_paired:
+            sequence = str(sequences[seq].seq)
+            if len(sequence) < 100:
+                continue
+            current_matrix_to_write.append([seq, numpy.nan, numpy.nan])
     if len(current_matrix_to_plot) > 0:
         # Search for local minima
         current_distance_array = numpy.array(current_matrix_to_plot).reshape(-1, 1)

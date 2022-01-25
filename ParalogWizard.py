@@ -287,7 +287,7 @@ def main():
             all species taken to paralogs divergency estimation
             number of used cores - {arguments["num_cores"]}"""
             )
-        build_alignments(arguments["data_folder"], arguments["num_cores"], logger)
+        # build_alignments(arguments["data_folder"], arguments["num_cores"], logger)
         estimate_divergence(
             arguments["data_folder"],
             arguments["blocklist"],

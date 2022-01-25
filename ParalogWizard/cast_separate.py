@@ -10,6 +10,7 @@ import fileinput
 import pandas
 
 from ParalogWizard.cast_analyze import mafft_align
+from Bio import SeqIO
 
 
 def create_logger(log_file):
@@ -38,6 +39,22 @@ def run_blat(contigfile, probes, minident, log_file):
         ).read()
         logger.info(blat_cmd_output)
         logger.info("Done")
+
+
+def replace_trailing(seq):
+    for id in range(len(seq)):
+        symbol = seq[id]
+        if symbol == '-':
+            seq = seq[:id] + '?' + seq[id + 1:]
+        else:
+            break
+    for id in reversed(range(len(seq))):
+        symbol = seq[id]
+        if symbol == '-':
+            seq = seq[:id] + '?' + seq[id + 1:]
+        else:
+            break
+    return seq
 
 
 def align(data_folder, probes, n_cpu, log_file):
@@ -69,37 +86,44 @@ def align(data_folder, probes, n_cpu, log_file):
         with fileinput.FileInput(file, inplace=True) as file_to_correct:
             for line in file_to_correct:
                 line = re.sub(r">.+/", ">", line)
+                line = re.sub(r"\.fas", "_contigs.fas", line)
                 if not line.startswith(">"):
                     line = re.sub(r"[nN]", "-", line)
-                    line = re.sub(r"\.fas", "_contigs.fas", line)
                 print(line, end="")
         locus = os.path.basename(file).split("_")[3]
         all_loci.add(locus)
         files_to_align.append(file)
     with multiprocessing.Pool(processes=n_cpu) as pool_aln:
         pool_aln.map(mafft_align, files_to_align)
+    for file in glob(os.path.join(data_folder, "60mafft", "*.mafft")):
+        fasta = list(SeqIO.parse(file, 'fasta'))
+        SeqIO.write(fasta, file, "fasta-2line")
+        with fileinput.FileInput(file, inplace=True) as file_to_correct:
+            for line in file_to_correct:
+                if not line.startswith(">"):
+                    line = replace_trailing(line)
+                print(line, end="")
     os.makedirs(
         os.path.join(data_folder, "70concatenated_exon_alignments"), exist_ok=True
     )
     amas_ex = os.path.abspath("ParalogWizard/AMAS.py")
     os.chdir(os.path.join(data_folder, "70concatenated_exon_alignments"))
     for locus in all_loci:
-        loci_to_concat = glob(
+        exons_to_concat = glob(
             os.path.join("..", "60mafft", f"To_align_Assembly_{locus}_*.fasta.mafft")
         )
-        loci_to_concat.sort(key=lambda x: int(x.split("_")[5]))
-        line_loci_to_concat = " ".join(loci_to_concat)
+        exons_to_concat.sort(key=lambda x: int(x.split("_")[5]))
+        line_exons_to_concat = " ".join(exons_to_concat)
         # subprocess.call(
         #     f"python3 {amas_ex} concat -i {line_loci_to_concat} -f fasta -d dna -t Assembly_{locus}.fasta "
         #     f"-p Assembly_{locus}.part",
         #     shell=True,
         # )
         amas_concat_output = os.popen(
-            f"python3 {amas_ex} concat -i {line_loci_to_concat} -f fasta -d dna -t Assembly_{locus}.fasta "
+            f"python3 {amas_ex} concat -i {line_exons_to_concat} -f fasta -d dna -t Assembly_{locus}.fasta "
             f"-p Assembly_{locus}.part"
         ).read()
         logger.info(amas_concat_output)
-
         # subprocess.call(
         #     f"python3 {amas_ex} convert -i Assembly_{locus}.fasta -f fasta -d dna -u phylip ",
         #     shell=True,
