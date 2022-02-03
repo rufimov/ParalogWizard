@@ -6,7 +6,25 @@ import shutil
 import subprocess
 import fileinput
 
+from Bio import SeqIO
+
 from ParalogWizard.cast_analyze import mafft_align
+
+
+def replace_trailing(seq):
+    for id in range(len(seq)):
+        symbol = seq[id]
+        if symbol == "-":
+            seq = seq[:id] + "?" + seq[id + 1 :]
+        else:
+            break
+    for id in reversed(range(len(seq))):
+        symbol = seq[id]
+        if symbol == "-":
+            seq = seq[:id] + "?" + seq[id + 1 :]
+        else:
+            break
+    return seq
 
 
 def aln_similarity(blat_hit_string: str) -> float:
@@ -109,12 +127,24 @@ def align(path_to_data, probes, n_cpu):
     for file in glob.glob(os.path.join(path_to_data, "60mafft", "*.fasta")):
         with fileinput.FileInput(file, inplace=True) as file_to_correct:
             for line in file_to_correct:
-                print(re.sub(r">.+/", ">", line), end="")
+                line = re.sub(r">.+/", ">", line)
+                line = re.sub(r"\.fas", "_contigs.fas", line)
+                if not line.startswith(">"):
+                    line = re.sub(r"[nN]", "-", line)
+                print(line, end="")
         locus = os.path.basename(file).split("_")[3]
         all_loci.add(locus)
         pool_aln.apply_async(mafft_align, (file,))
     pool_aln.close()
     pool_aln.join()
+    for file in glob.glob(os.path.join(path_to_data, "60mafft", "*.mafft")):
+        fasta = list(SeqIO.parse(file, "fasta"))
+        SeqIO.write(fasta, file, "fasta-2line")
+        with fileinput.FileInput(file, inplace=True) as file_to_correct:
+            for line in file_to_correct:
+                if not line.startswith(">"):
+                    line = replace_trailing(line[:-1]) + "\n"
+                print(line, end="")
     os.makedirs(
         os.path.join(path_to_data, "70concatenated_exon_alignments"), exist_ok=True
     )
@@ -122,7 +152,7 @@ def align(path_to_data, probes, n_cpu):
     os.chdir(os.path.join(path_to_data, "70concatenated_exon_alignments"))
     for locus in all_loci:
         loci_to_concat = glob.glob(
-            os.path.join("..", "60mafft", f"To_align_Assembly_{locus}_*.mafft.fasta")
+            os.path.join("..", "60mafft", f"To_align_Assembly_{locus}_*.fasta.mafft")
         )
         loci_to_concat.sort(key=lambda x: int(x.split("_")[5]))
         line_loci_to_concat = " ".join(loci_to_concat)

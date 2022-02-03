@@ -44,7 +44,7 @@ def mafft_align(file):
         adjustdirectionaccurately=True,
         auto=True,
     )()
-    with open(f"{os.path.splitext(file)[0]}.mafft.fasta", "w") as aligned:
+    with open(f"{os.path.splitext(file)[0]}.fasta.mafft", "w") as aligned:
         aligned.write(stdout.replace(">_R_", ">"))
 
 
@@ -115,7 +115,7 @@ def build_alignments(path_to_data, n_cpu, logger):
     pool_aln.close()
     pool_aln.join()
     pool_tree = multiprocessing.Pool(processes=n_cpu)
-    for file in glob(os.path.join(path_to_data, "40aln_orth_par", "*.mafft.fasta")):
+    for file in glob(os.path.join(path_to_data, "40aln_orth_par", "*.fasta.mafft")):
         pool_tree.apply_async(fast_tree, (file,))
     pool_tree.close()
     pool_tree.join()
@@ -373,7 +373,7 @@ def estimate_divergence(path_to_data, blocklist, logger):
     matplotlib.use("Agg")
     fig, axis = pyplot.subplots(figsize=(15, 10))
     for file in sorted(
-        glob(os.path.join(path_to_data, "40aln_orth_par", "*.mafft.fasta"))
+        glob(os.path.join(path_to_data, "40aln_orth_par", "*.fasta.mafft"))
     ):
         get_distance_matrix(
             file,
