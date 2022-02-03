@@ -44,14 +44,14 @@ def run_blat(contigfile, probes, minident, log_file):
 def replace_trailing(seq):
     for id in range(len(seq)):
         symbol = seq[id]
-        if symbol == '-':
-            seq = seq[:id] + '?' + seq[id + 1:]
+        if symbol == "-":
+            seq = seq[:id] + "?" + seq[id + 1 :]
         else:
             break
     for id in reversed(range(len(seq))):
         symbol = seq[id]
-        if symbol == '-':
-            seq = seq[:id] + '?' + seq[id + 1:]
+        if symbol == "-":
+            seq = seq[:id] + "?" + seq[id + 1 :]
         else:
             break
     return seq
@@ -96,12 +96,12 @@ def align(data_folder, probes, n_cpu, log_file):
     with multiprocessing.Pool(processes=n_cpu) as pool_aln:
         pool_aln.map(mafft_align, files_to_align)
     for file in glob(os.path.join(data_folder, "60mafft", "*.mafft")):
-        fasta = list(SeqIO.parse(file, 'fasta'))
+        fasta = list(SeqIO.parse(file, "fasta"))
         SeqIO.write(fasta, file, "fasta-2line")
         with fileinput.FileInput(file, inplace=True) as file_to_correct:
             for line in file_to_correct:
                 if not line.startswith(">"):
-                    line = replace_trailing(line)
+                    line = replace_trailing(line[:-1]) + "\n"
                 print(line, end="")
     os.makedirs(
         os.path.join(data_folder, "70concatenated_exon_alignments"), exist_ok=True
@@ -137,7 +137,7 @@ def align(data_folder, probes, n_cpu, log_file):
         with fileinput.FileInput(f"Assembly_{locus}.part", inplace=True) as part_file:
             for line in part_file:
                 corrected_line = re.sub(r"^", "DNA, ", line)
-                corrected_line = re.sub(r"_To_align", "", corrected_line)                
+                corrected_line = re.sub(r"_To_align", "", corrected_line)
                 print(corrected_line, end="")
     os.chdir(os.path.dirname(os.getcwd()))
 

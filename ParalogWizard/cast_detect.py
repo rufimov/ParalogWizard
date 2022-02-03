@@ -503,7 +503,7 @@ def create_reference_w_paralogs(
         index=False,
     )
     all_paralogs_for_reference_scored = all_paralogs_for_reference_scored[
-        ~all_paralogs_for_reference_cleaned["sample"].isin(blocklist)
+        ~all_paralogs_for_reference_scored["sample"].isin(blocklist)
     ].reset_index(drop=True)
     all_paralogs_for_reference_to_write = prepare_to_write(
         all_paralogs_for_reference_scored

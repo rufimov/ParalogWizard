@@ -117,8 +117,8 @@ def percent_dissimilarity(seq1: str, seq2: str) -> float or None:
     # and mutual gaps
     overlap = len_aln - count_left - count_right
     if (
-        (overlap / (len_aln - count_left) < 0.75)
-        or (overlap / (len_aln - count_right) < 0.75)
+        (overlap / (len_aln - count_left) < 0.5)
+        or (overlap / (len_aln - count_right) < 0.5)
         or overlap < 100
     ):
         return None
