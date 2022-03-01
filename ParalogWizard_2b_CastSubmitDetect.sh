@@ -40,7 +40,6 @@ env echo 'Copying data to scratch'
 mkdir -p "${SCRATCHDIR}/${data}"/40aln_orth_par/
 mkdir -p "${SCRATCHDIR}/${data}"/31exonic_contigs/
 cp "${path_to_data}"/31exonic_contigs/all_hits.tsv "${SCRATCHDIR}"/"${data}"/31exonic_contigs
-cp "${path_to_data}"/40aln_orth_par/pairwise_distances.tsv "${SCRATCHDIR}"/"${data}"/40aln_orth_par/
 
 #Move to scratch
 cd "${SCRATCHDIR}" || exit 1
@@ -58,6 +57,7 @@ env echo
 
 env echo 'Copying data to scratch'
 if [[ "${paralogs}" =~ "yes" ]]; then
+  cp "${path_to_data}"/40aln_orth_par/pairwise_distances.tsv "${SCRATCHDIR}"/"${data}"/40aln_orth_par/
   if [[ -z "${block_list}"  ]]; then
     python3 ParalogWizard.py cast_detect -d "${data}" -p -mi "${paralog_min_divergence}" -ma "${paralog_max_divergence}" -pe "${probe_exons_split}" -nc "${cpu}"|| exit 1
     env echo
