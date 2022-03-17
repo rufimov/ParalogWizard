@@ -143,6 +143,8 @@ def score_samples(dataframe, n_cpu, log_file):
 
 def phase_wo_paralog(sample_locus_dataframe):
     ident_array = sample_locus_dataframe["pident"].values.tolist()
+    if len(ident_array) < 2:
+        return sample_locus_dataframe
     boundary = find_cluster(ident_array)
     sample_locus_dataframe = sample_locus_dataframe[
         sample_locus_dataframe["pident"] > boundary
