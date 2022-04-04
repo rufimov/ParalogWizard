@@ -265,7 +265,7 @@ def retrieve(
     data_folder, collect, probe_exons, num_cores, length_cover, spades_cover, log_file
 ):
     """
-    Executes everything given the arguments and logger.
+    Executes everything given the arguments and log file.
     """
     logger = create_logger(log_file)
     logger.info("Retrieving data...\n")
