@@ -36,7 +36,8 @@ module add python36-modules-gcc
 env echo
 
 #Copy scripts and reference to scratch
-grep "^[^>].\{${exon_length}\}" -B1 --no-group-separator "${source}/${probe_exons_split}" > "${probe_exons_split}"
+#grep "^[^>].\{${exon_length}\}" -B1 --no-group-separator "${source}/${probe_exons_split}" > "${probe_exons_split}"
+cp "${source}"/"${probe_exons_split}" .
 cp "${source}"/ParalogWizard.py .
 cp -r "${source}"/ParalogWizard .
 
@@ -46,10 +47,8 @@ env echo
 mkdir -p "${SCRATCHDIR}/${data}"
 
 env echo 'Copying data to scratch'
-if [[ "$collect_contigs" =~ "yes" ]]; then
-  cp -r "${path_to_data}/20assemblies" "${SCRATCHDIR}/${data}"
-else
-  cp -r "${path_to_data}/30raw_contigs" "${SCRATCHDIR}/${data}"
+if [[ ! "$collect_contigs" =~ "yes" ]]; then
+    cp -r "${path_to_data}/30raw_contigs" "${SCRATCHDIR}/${data}"
 fi
 
 env echo
@@ -58,10 +57,10 @@ env echo 'Running script...'
 env echo
 
 if [[ "$collect_contigs" =~ "yes" ]]; then
-  python3 ParalogWizard.py cast_retrieve -d "${data}" -c -pe "${probe_exons_split}" -l "${length_cut}" -s "${spades_cover_cut}" -nc 6 || exit 1
-
+  python3 ParalogWizard.py cast_retrieve -d "${path_to_data}" -c -pe "${probe_exons_split}" -l "${length_cut}" -s "${spades_cover_cut}" -nc "${cpu}"
+  cp -r "${path_to_data}/30raw_contigs" "${SCRATCHDIR}/${data}"
 else
-  python3 ParalogWizard.py cast_retrieve -d "${data}" -pe "${probe_exons_split}" -l "${length_cut}" -s "${spades_cover_cut}" -nc 6 || exit 1
+  python3 ParalogWizard.py cast_retrieve -d "${data}" -pe "${probe_exons_split}" -l "${length_cut}" -s "${spades_cover_cut}" -nc "${cpu}"
 
 fi
 
@@ -81,6 +80,6 @@ cp *.log "${PBS_O_WORKDIR}"/
 env echo
 env echo
 
-env echo 'Transferring finished!'
+env echo 'Retrieving finished!'
 
 exit 0

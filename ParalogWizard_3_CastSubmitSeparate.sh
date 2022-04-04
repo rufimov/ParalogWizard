@@ -18,6 +18,7 @@ cp -f $PBS_O_WORKDIR/ParalogWizard_Settings.cfg .
 red_list=(${redlist})
 path_to_data=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
+cpu=$TORQUE_RESC_PROC
 
 #Add necessary modules
 module add blat-suite-34
@@ -37,9 +38,9 @@ cp -r "${source}"/ParalogWizard .
 
 #Run script
 if [[ -z "${red_list}"  ]]; then
-  python3 ParalogWizard.py cast_separate -d "${data}" -pc "${customized_probes}" -i "${minident}"
+  python3 ParalogWizard.py cast_separate -d "${data}" -pc "${customized_probes}" -i "${minident}" -nc "${cpu}"
 else
-  python3 ParalogWizard.py cast_separate -d "${data}" -pc "${customized_probes}" -i "${minident}" -r "${red_list[@]}"
+  python3 ParalogWizard.py cast_separate -d "${data}" -pc "${customized_probes}" -i "${minident}" -r "${red_list[@]}" -nc "${cpu}"
 fi
 
 #Copy results back

@@ -2,11 +2,15 @@
 
 import argparse
 import logging
+import multiprocessing
 import os
 import sys
 from datetime import datetime
 from glob import glob
-from typing import Set, Dict, List, Union
+from typing import Set, Dict, List
+import pandas
+
+from pandas.core import frame
 
 
 class ParsedArgs:
@@ -66,8 +70,8 @@ Use ParalogWizard <command> -h for help with arguments of the command of interes
     def cast_retrieve(self):
         parser = argparse.ArgumentParser()
         parser.add_argument("-pe", "--probes_exons", required=True)
-        parser.add_argument("-l", "--length_cover", default=None, type=float)
-        parser.add_argument("-s", "--spades_cover", default=None, type=float)
+        parser.add_argument("-l", "--length_cover", default=75, type=float)
+        parser.add_argument("-s", "--spades_cover", default=5, type=float)
         parser.add_argument(
             "-c",
             "--collect_contigs",
@@ -155,20 +159,23 @@ Use ParalogWizard <command> -h for help with arguments of the command of interes
         return argument_dictionary
 
 
-def main():
-    arguments = ParsedArgs().get_args_dict()
-    logger = logging.getLogger(__name__)
+def create_logger(log_file):
+    logger = multiprocessing.get_logger()
     logger.setLevel(logging.INFO)
-    log_handler = logging.FileHandler(
-        f'ParalogWizard_{arguments["command"]}_{datetime.now().strftime("%d.%b.%y_%H.%M")}.log',
-        "w",
-    )
-    log_handler.setLevel(logging.INFO)
-    log_formatter = logging.Formatter(
+    log_handler_info = logging.FileHandler(log_file)
+    log_handler_info.setLevel(logging.INFO)
+    log_formatter_info = logging.Formatter(
         fmt="%(asctime)s - %(message)s", datefmt="%d-%b-%y %H:%M:%S"
     )
-    log_handler.setFormatter(log_formatter)
-    logger.addHandler(log_handler)
+    log_handler_info.setFormatter(log_formatter_info)
+    logger.addHandler(log_handler_info)
+    return logger
+
+
+def main():
+    arguments = ParsedArgs().get_args_dict()
+    log_file = f'ParalogWizard_{arguments["command"]}_{datetime.now().strftime("%d.%b.%y_%H:%M")}.log'
+    logger = create_logger(log_file)
     if arguments["command"] == "cast_assemble":
         from ParalogWizard.HybPiper_spades import spades, clean_up
         from ParalogWizard.HybPiper_bwa_distribute import bwa
@@ -242,15 +249,7 @@ def main():
             clean_up(sample)
             os.chdir("..")
     elif arguments["command"] == "cast_retrieve":
-        from ParalogWizard.cast_retrieve import (
-            collect_contigs,
-            prepare_contigs,
-            create_hit_tables,
-            correct_contgis,
-            write_stats,
-            rename_contigs,
-            clean,
-        )
+        from ParalogWizard.cast_retrieve import retrieve
 
         logger.info(
             f"""ParalogWizard cast_retrieve running with the following settings
@@ -261,58 +260,15 @@ def main():
             k-mer cover threshold for spades contigs - {arguments["spades_cover"]}
             number of used cores - {arguments["num_cores"]}"""
         )
-        logger.info("Retrieving data...\n")
-        if not arguments["collect_contigs"] and not os.path.isdir(
-            os.path.join(arguments["data_folder"], "30raw_contigs")
-        ):
-            print(
-                "ERROR: No raw contigs found. Run ParalogWizard cast_retrieve with -c specified."
-            )
-            exit(1)
-        elif arguments["collect_contigs"]:
-            collect_contigs(arguments["data_folder"], logger)
-        statistics: Dict[str, Dict[str, Union[Dict[str, List[str]], int]]] = dict()
-        all_hits_for_reference: List[str] = list()
-        main_path = os.path.join(arguments["data_folder"], "31exonic_contigs")
-        os.makedirs(main_path, exist_ok=True)
-        prepare_contigs(
-            main_path,
-            logger,
+        retrieve(
+            arguments["data_folder"],
+            arguments["collect_contigs"],
+            arguments["probes_exons"],
+            arguments["num_cores"],
+            arguments["length_cover"],
+            arguments["spades_cover"],
+            log_file,
         )
-        if arguments["length_cover"]:
-            create_hit_tables(
-                main_path,
-                arguments["probes_exons"],
-                arguments["num_cores"],
-                logger,
-                arguments["length_cover"],
-            )
-        else:
-            create_hit_tables(
-                main_path,
-                arguments["probes_exons"],
-                arguments["num_cores"],
-                logger,
-            )
-        if arguments["spades_cover"]:
-            correct_contgis(
-                main_path,
-                statistics,
-                all_hits_for_reference,
-                logger,
-                arguments["spades_cover"],
-            )
-        else:
-            correct_contgis(
-                main_path,
-                statistics,
-                all_hits_for_reference,
-                logger,
-            )
-        write_stats(main_path, arguments["probes_exons"], statistics, logger)
-        rename_contigs(main_path, logger)
-        clean(main_path, logger)
-        logger.info("Data was successfully retrieved!")
     elif arguments["command"] == "cast_analyze":
         from ParalogWizard.cast_analyze import estimate_divergence, build_alignments
 
@@ -332,103 +288,83 @@ def main():
             number of used cores - {arguments["num_cores"]}"""
             )
         build_alignments(arguments["data_folder"], arguments["num_cores"], logger)
-        estimate_divergence(arguments["data_folder"], arguments["blocklist"], logger)
+        estimate_divergence(
+            arguments["data_folder"],
+            arguments["blocklist"],
+            arguments["num_cores"],
+            logger,
+        )
     elif arguments["command"] == "cast_detect":
         from ParalogWizard.cast_detect import (
-            score_samples,
-            create_reference_wo_paralogs,
             create_reference_w_paralogs,
-            refine_phasing,
-            write_paralog_stats,
+            create_reference_wo_paralogs
         )
 
+        folder_31 = os.path.join(arguments["data_folder"], "31exonic_contigs")
+        all_hits_for_reference = pandas.read_csv(
+            os.path.join(folder_31, "all_hits.tsv"), sep="\t"
+        )
+        if not arguments["paralogs"] and len(arguments["blocklist"]) > 0:
+            blocklist_string = ", ".join(sp for sp in list(arguments["blocklist"]))
+            logger.info(
+                f"""ParalogWizard cast_collect running with the following settings
+                    main data folder - {arguments["data_folder"]}
+                    paralogs are not being searched
+                    species not taken to paralogs divergency estimation - {blocklist_string}
+                    number of used cores - {arguments["num_cores"]}"""
+            )
+        elif not arguments["paralogs"] and len(arguments["blocklist"]) == 0:
+            logger.info(
+                f"""ParalogWizard cast_collect running with the following settings
+                    main data folder - {arguments["data_folder"]}
+                    paralogs are not being searched
+                    all species taken to paralogs divergency estimation
+                    number of used cores - {arguments["num_cores"]}"""
+            )
+        elif len(arguments["blocklist"]) > 0:
+            blocklist_string = ", ".join(sp for sp in list(arguments["blocklist"]))
+            logger.info(
+                f"""ParalogWizard cast_collect running with the following settings
+                    main data folder - {arguments["data_folder"]}
+                    paralogs are searched with minium {arguments["minimum_divergence"]} \
+                    and maximum {arguments["maximum_divergence"]} divergence 
+                    species not taken to paralogs divergency estimation - {blocklist_string}
+                    number of used cores - {arguments["num_cores"]}"""
+            )
+        elif len(arguments["blocklist"]) == 0:
+            logger.info(
+                f"""ParalogWizard cast_collect running with the following settings
+                    main data folder - {arguments["data_folder"]}
+                    paralogs are searched with minium {arguments["minimum_divergence"]} \
+                    and maximum {arguments["maximum_divergence"]} divergence 
+                    all species taken to paralogs divergency estimation
+                    number of used cores - {arguments["num_cores"]}"""
+            )
         if not arguments["paralogs"]:
-            if len(arguments["blocklist"]) > 0:
-                blocklist_string = ", ".join(sp for sp in list(arguments["blocklist"]))
-                logger.info(
-                    f"""ParalogWizard cast_collect running with the following settings
-                main data folder - {arguments["data_folder"]}
-                paralogs are not being searched
-                species not taken to paralogs divergency estimation - {blocklist_string}"""
-                )
-            else:
-                logger.info(
-                    f"""ParalogWizard cast_collect running with the following settings
-                main data folder - {arguments["data_folder"]}
-                paralogs are not being searched
-                all species taken to paralogs divergency estimation"""
-                )
-            with open(
-                os.path.join(
-                    arguments["data_folder"], "31exonic_contigs", "all_hits.txt"
-                )
-            ) as all_hits:
-                all_hits_for_reference: List[str] = [
-                    x[:-1] for x in all_hits.readlines()
-                ]
-            all_hits_for_reference_scored = score_samples(all_hits_for_reference)
-            os.makedirs(os.path.join(arguments["data_folder"], "41without_par"), exist_ok=True)
+            folder_41 = os.path.join(arguments["data_folder"], "41without_par")
+            os.makedirs(folder_41, exist_ok=True)
             create_reference_wo_paralogs(
                 arguments["data_folder"],
-                all_hits_for_reference_scored,
+                all_hits_for_reference,
                 arguments["blocklist"],
-                logger,
+                arguments["num_cores"],
+                log_file,
             )
         else:
-            if len(arguments["blocklist"]) > 0:
-                blocklist_string = ", ".join(sp for sp in list(arguments["blocklist"]))
-                logger.info(
-                    f"""ParalogWizard cast_collect running with the following settings
-                main data folder - {arguments["data_folder"]}
-                paralogs are searched with minium {arguments["minimum_divergence"]} \
-                and maximum {arguments["maximum_divergence"]} divergence 
-                species not taken to paralogs divergency estimation - {blocklist_string}"""
-                )
-            else:
-                logger.info(
-                    f"""ParalogWizard cast_collect running with the following settings
-                main data folder - {arguments["data_folder"]}
-                paralogs are searched with minium {arguments["minimum_divergence"]} \
-                and maximum {arguments["maximum_divergence"]} divergence 
-                all species taken to paralogs divergency estimation"""
-                )
-            with open(
-                os.path.join(
-                    arguments["data_folder"], "31exonic_contigs", "all_hits.txt"
-                )
-            ) as all_hits:
-                all_hits_for_reference: List[str] = [
-                    x[:-1] for x in all_hits.readlines()
-                ]
-            all_hits_for_reference_scored = score_samples(all_hits_for_reference)
-            paralog_statistic: Dict[str, Set[str]] = dict()
-            os.makedirs(os.path.join(arguments["data_folder"], "41detected_par"), exist_ok=True)
+            folder_41 = os.path.join(arguments["data_folder"], "41detected_par")
+            os.makedirs(folder_41, exist_ok=True)
             create_reference_w_paralogs(
                 arguments["data_folder"],
-                all_hits_for_reference_scored,
-                paralog_statistic,
+                all_hits_for_reference,
                 arguments["minimum_divergence"],
                 arguments["maximum_divergence"],
                 arguments["blocklist"],
-                logger,
-            )
-            refine_phasing(
-                arguments["data_folder"],
-                arguments["minimum_divergence"],
-                arguments["maximum_divergence"],
-                logger,
-            )
-            write_paralog_stats(
-                arguments["data_folder"],
-                arguments["minimum_divergence"],
-                arguments["maximum_divergence"],
-                paralog_statistic,
-                arguments["probes_exons"],
-                logger,
+                arguments["num_cores"],
+                log_file,
             )
     elif arguments["command"] == "cast_separate":
 
-        from ParalogWizard.cast_separate import run_blat, correct, align
+        from ParalogWizard.cast_separate import align, generate_pslx
 
         if len(arguments["redlist"]) > 0:
             redlist_string = ", ".join(sp for sp in list(arguments["redlist"]))
@@ -447,31 +383,19 @@ def main():
                 minimum identity for BLAT - {arguments["min_identity"]}
                 all taxa included to paralogs separation"""
             )
-        run_blat(
+        generate_pslx(
             arguments["data_folder"],
             arguments["probes_customized"],
             arguments["min_identity"],
-            logger,
-        )
-        if os.path.exists(
-            os.path.join(
-                arguments["data_folder"], "50pslx", "corrected", "list_pslx.txt"
-            )
-        ):
-            os.remove(
-                os.path.join(
-                    arguments["data_folder"], "50pslx", "corrected", "list_pslx.txt"
-                )
-            )
-        correct(
-            arguments["data_folder"],
             arguments["redlist"],
-            logger,
+            arguments["num_cores"],
+            log_file,
         )
         align(
             arguments["data_folder"],
             arguments["probes_customized"],
             arguments["num_cores"],
+            log_file,
         )
 
 

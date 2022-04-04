@@ -30,12 +30,12 @@ module add spades-3.14.0 || exit 1 # spades.py
 module add parallel-20200322 || exit 1 # parallel
 module add bwa-0.7.17 || exit 1 # bwa
 module add samtools-1.10 || exit 1 # samtools
-
-#Copy scripts and reference to scratch
-
 cp "${source}"/ParalogWizard.py .
 cp -r "${source}"/ParalogWizard .
 cp "${source}/${probe_exons_concat}" .
+#Copy scripts and reference to scratch
+
+
 
 #Copy data to scratch
 mkdir -p "${SCRATCHDIR}/${data}"/10deduplicated_reads

@@ -36,6 +36,7 @@
   * [GNU Parallel](http://www.gnu.org/software/parallel/) 
   * [BWA](https://github.com/lh3/bwa)
   * [samtools 1.2 or later](https://github.com/samtools/samtools)
+  * [pandas](https://pandas.pydata.org)
 
 ![](workflow_PW.png)
 

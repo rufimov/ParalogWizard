@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -l walltime=8:0:0
-#PBS -l select=1:ncpus=6:mem=1gb:scratch_local=2gb
+#PBS -l select=1:ncpus=12:mem=8gb:scratch_local=2gb
 #PBS -N ParalogWizard-Analyze
 #PBS -m abe
 #PBS -j oe
@@ -27,6 +27,8 @@ block_list=(${blocklist})
 path_to_data=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
 cpu=$TORQUE_RESC_PROC
+# shellcheck disable=SC2003
+#cpu=$( expr "$TORQUE_RESC_PROC" '*' 4 )
 
 #Add necessary modules
 module add python-3.6.2-gcc
@@ -39,7 +41,7 @@ env echo
 #Copy data to scratch
 env echo 'Copying data to scratch'
 mkdir -p "${SCRATCHDIR}/${data}"/31exonic_contigs
-cp "${path_to_data}"/31exonic_contigs/all_hits.txt "${SCRATCHDIR}"/"${data}"/31exonic_contigs/
+cp "${path_to_data}"/31exonic_contigs/all_hits.tsv "${SCRATCHDIR}"/"${data}"/31exonic_contigs/
 
 #Move to scratch
 cd "${SCRATCHDIR}" || exit 1
@@ -57,13 +59,9 @@ if [[ -z "${block_list}"  ]]; then
   python3 ParalogWizard.py cast_analyze -d "${data}" -nc "${cpu}" || exit 1
   env echo
 else
-  python3 ParalogWizard.py cast_analyze -d "${data}" -b "${block_list[@]}" -nc "${cpu}" || exit 1
+  python3 ParalogWizard.py cast_analyze -d "${data}" -b "${block_list[@]}" -nc "${cpu}"
   env echo
 fi
-
-
-python3 ParalogWizard.py cast_analyze -d "${data}" -b "${block_list[@]}" -nc "${cpu}" || exit 1
-env echo
 
 env echo 'Copying results back to working directory'
 

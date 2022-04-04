@@ -2,11 +2,13 @@ import glob
 import itertools
 import multiprocessing
 import os
+import pandas
 import random
 from glob import glob
-from typing import Dict, List
+from typing import Dict, List, Union
 from typing import Set
 from typing import Tuple
+from pandas.core import frame
 
 import Bio.Application
 import Bio.Application
@@ -15,37 +17,20 @@ import numpy
 from Bio import SeqIO, SeqRecord
 from Bio.Align.Applications import MafftCommandline
 from Bio.Phylo.Applications import FastTreeCommandline
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
 from matplotlib import axes
 from matplotlib import pyplot
 from scipy.signal import argrelextrema
 from sklearn.mixture import BayesianGaussianMixture
 from sklearn.neighbors import KernelDensity
 
-from ParalogWizard.cast_retrieve import exon, contig
-
-
-def sort_hit_table_ident(hittable_as_list: List[str], primary_field: str):
-    """"""
-    hittable_as_list.sort(
-        key=lambda x: float(x.split()[1].split("_")[-1]), reverse=True
-    )
-    hittable_as_list.sort(key=lambda x: float(x.split()[5]), reverse=True)
-    hittable_as_list.sort(key=lambda x: float(x.split()[4]))
-    hittable_as_list.sort(key=lambda x: float(x.split()[3]), reverse=True)
-    hittable_as_list.sort(key=lambda x: float(x.split()[2]), reverse=True)
-    hittable_as_list.sort(key=globals()[primary_field])
-
 
 def mafft_align(file):
     stdout, stderr = MafftCommandline(
         input=file,
-        adjustdirectionaccurately=True,
         auto=True,
     )()
     with open(f"{os.path.splitext(file)[0]}.fasta.mafft", "w") as aligned:
-        aligned.write(stdout.replace(">_R_", ">"))
+        aligned.write(stdout)
 
 
 def fast_tree(file):
@@ -69,132 +54,137 @@ def fast_tree(file):
         )()
 
 
-def build_alignments(path_to_data, n_cpu, logger):
+def build_alignments(data_folder, n_cpu, logger):
     """"""
-
     logger.info("Building individual exon alignments...")
-    with open(
-        os.path.join(path_to_data, "31exonic_contigs", "all_hits.txt")
-    ) as all_hits:
-        all_hits_for_reference: List[str] = [x[:-1] for x in all_hits.readlines()]
-    sort_hit_table_ident(all_hits_for_reference, "exon")
-    exons: Dict[str, List[SeqRecord]] = dict()
-    for hit in all_hits_for_reference:
-        if exon(hit) not in set(exons.keys()):
-            exons[exon(hit)]: List[SeqRecord] = [
-                SeqRecord(
-                    Seq(hit.split()[-1]),
-                    id=contig(hit) + "_" + hit.split()[-2],
-                    description="",
-                )
-            ]
-        else:
-            new_list: List[SeqRecord] = exons[exon(hit)]
-            new_list.append(
-                SeqRecord(
-                    Seq(hit.split()[-1]),
-                    id=contig(hit) + "_" + hit.split()[-2],
-                    description="",
-                )
-            )
-            exons[exon(hit)] = new_list
-    os.makedirs(os.path.join(path_to_data, "40aln_orth_par"), exist_ok=True)
-    for key in exons.keys():
-        for record in exons[key]:
-            new_id = f"{key}_N_{record.id.split('_N_')[1]}"
-            record.id = new_id
-    for key in exons.keys():
-        SeqIO.write(
-            exons[key],
-            os.path.join(path_to_data, "40aln_orth_par", f"{key}.fasta"),
-            "fasta-2line",
-        )
-    pool_aln = multiprocessing.Pool(processes=n_cpu)
-    for file in glob(os.path.join(path_to_data, "40aln_orth_par", "*.fasta")):
-        pool_aln.apply_async(mafft_align, (file,))
-    pool_aln.close()
-    pool_aln.join()
-    pool_tree = multiprocessing.Pool(processes=n_cpu)
-    for file in glob(os.path.join(path_to_data, "40aln_orth_par", "*.fasta.mafft")):
-        pool_tree.apply_async(fast_tree, (file,))
-    pool_tree.close()
-    pool_tree.join()
-
+    all_hits_for_reference: pandas.core.frame.DataFrame = pandas.read_csv(
+        os.path.join(data_folder, "31exonic_contigs", "all_hits.tsv"), sep="\t"
+    )
+    grouped_exons = all_hits_for_reference.groupby("exon")
+    os.makedirs(os.path.join(data_folder, "40aln_orth_par"), exist_ok=True)
+    for exon in grouped_exons:
+        exon_dataframe = exon[1].reset_index(drop=True)
+        exon_name = exon[0]
+        with open(
+            os.path.join(data_folder, "40aln_orth_par", f"{exon_name}.fasta"), "w"
+        ) as exon_aln_fasta:
+            for index in range(len(exon_dataframe)):
+                contig_name = exon_dataframe.loc[index, "saccver"]
+                sample = exon_dataframe.loc[index, "sample"]
+                seq_name = f"{exon_name}_N_{contig_name.split('_N_')[1]}_{sample}"
+                seq = exon_dataframe["sequence"][index]
+                exon_aln_fasta.write(f">{seq_name}\n{seq}\n")
+    files_to_align = glob(os.path.join(data_folder, "40aln_orth_par", "*fasta"))
+    with multiprocessing.Pool(processes=n_cpu) as pool_aln:
+        pool_aln.map(mafft_align, files_to_align)
+    files_to_align = glob(os.path.join(data_folder, "40aln_orth_par", "*fasta.mafft"))
+    with multiprocessing.Pool(processes=n_cpu) as pool_tree:
+        pool_tree.map(fast_tree, files_to_align)
     logger.info("Done\n")
 
 
-def percent_dissimilarity(seq1: str, seq2: str) -> float:
+def percent_dissimilarity(seq1: str, seq2: str) -> float or None:
     """"""
 
     seq1 = seq1.lower()
     seq2 = seq2.lower()
-    # Removing parts of alignments with gaps at the end
-    while seq1[0] == "-" or seq2[0] == "-":
-        seq1 = seq1[1:]
-        seq2 = seq2[1:]
-    while seq1[-1] == "-" or seq2[-1] == "-":
-        seq1 = seq1[:-1]
-        seq2 = seq2[:-1]
     # Removing positions with gaps in both sequences
     seq1_wo_mutual_gaps = str()
     seq2_wo_mutual_gaps = str()
     for nucl in zip(seq1, seq2):
-        if nucl[0] != "-" and nucl[1] != "-":
-            seq1_wo_mutual_gaps = seq1_wo_mutual_gaps + nucl[0]
-            seq2_wo_mutual_gaps = seq2_wo_mutual_gaps + nucl[1]
+        if nucl[0] == "-" and nucl[1] == "-":
+            continue
+        seq1_wo_mutual_gaps = seq1_wo_mutual_gaps + nucl[0]
+        seq2_wo_mutual_gaps = seq2_wo_mutual_gaps + nucl[1]
+    # Length of alignment without mutual gaps
+    len_aln = len(seq1_wo_mutual_gaps)
+    # Removing parts of alignments with gaps at the end and count removed positions from both sides
+    count_left = 0
+    count_right = 0
+    while seq1_wo_mutual_gaps[0] == "-" or seq2_wo_mutual_gaps[0] == "-":
+        seq1_wo_mutual_gaps = seq1_wo_mutual_gaps[1:]
+        seq2_wo_mutual_gaps = seq2_wo_mutual_gaps[1:]
+        if seq1_wo_mutual_gaps == "" or seq2_wo_mutual_gaps == "":
+            return None
+        count_left += 1
+    while seq1_wo_mutual_gaps[-1] == "-" or seq2_wo_mutual_gaps[-1] == "-":
+        seq1_wo_mutual_gaps = seq1_wo_mutual_gaps[:-1]
+        seq2_wo_mutual_gaps = seq2_wo_mutual_gaps[:-1]
+        if seq1_wo_mutual_gaps == "" or seq2_wo_mutual_gaps == "":
+            return None
+        count_right += 1
+    # Checking if resulting alignment is not less than 0.75 than the length of either or 2 initial sequence without end
+    # and mutual gaps
+    overlap = len_aln - count_left - count_right
+    if (
+        (overlap / (len_aln - count_left) < 0.5)
+        or (overlap / (len_aln - count_right) < 0.5)
+        or overlap < 100
+    ):
+        return None
     # Counting mismatches, ignoring positions with gaps in one of the sequences
     count = 0
     for nucl in zip(seq1_wo_mutual_gaps, seq2_wo_mutual_gaps):
-        if nucl[0] != nucl[1] and nucl[0] != "-" and nucl[1] != "-":
+        if (
+            nucl[0] != nucl[1] and nucl[0] != "-" and nucl[1] != "-"
+        ):  # gaps are not counted
+            # if nucl[0] != nucl[1]:  # gaps are counted
             count += 1
-    dissimilarity = (count / len(seq1)) * 100
+    dissimilarity = (count / len(seq1_wo_mutual_gaps)) * 100
     return dissimilarity
 
 
 def get_distance_matrix(
     file_to_process: str,
-    sum_list: List[float],
-    list_to_write: List[str],
     blocklist: Set[str],
-    axis: matplotlib.axes,
 ):
     """"""
-
-    current_distance_matrix: List[float] = list()
-    current_list_to_write = []
+    current_matrix_to_plot: List[float] = list()
+    current_matrix_to_write = []
+    sum_list = []
     with open(file_to_process) as fasta_file:
         sequences: Dict[str, Bio.SeqRecord.SeqRecord] = SeqIO.to_dict(
             SeqIO.parse(fasta_file, "fasta")
         )
-        for pair in list(itertools.combinations(sequences.keys(), 2)):
-            if "_".join(pair[0].split("_")[-2:]) == "_".join(pair[1].split("_")[-2:]):
-                sequence1: str = str(sequences[pair[0]].seq)
-                sequence2: str = str(sequences[pair[1]].seq)
-                distance: float = percent_dissimilarity(sequence1, sequence2)
-                if "_".join(pair[0].split("_")[-2:]) not in blocklist:
-                    current_distance_matrix.append(distance)
-                current_list_to_write.append(f"{pair[0]}\t{str(distance)}\t{pair[1]}")
-
-    if len(current_distance_matrix) > 0:
+    seq_names = pandas.DataFrame(list(sequences.keys()))
+    seq_names[1] = seq_names[0].str.split('_').str[-2:].str.join('_')
+    duplicated_samp = set(seq_names[seq_names.duplicated(subset=1)][1].values)
+    non_duplicated_samp = set(seq_names[~seq_names[1].isin(duplicated_samp)][1].values)
+    for samp in duplicated_samp:
+        seqs_to_pairs = seq_names[seq_names[1] == samp][0].values.tolist()
+        for pair in list(itertools.combinations(seqs_to_pairs, 2)):
+            sequence1: str = str(sequences[pair[0]].seq)
+            sequence2: str = str(sequences[pair[1]].seq)
+            distance: float = percent_dissimilarity(sequence1, sequence2)
+            if distance is None:
+                continue
+            if samp not in blocklist:
+                current_matrix_to_plot.append(distance)
+            current_matrix_to_write.append([pair[0], distance, pair[1]])
+    for samp in non_duplicated_samp:
+        seqs_non_paired = seq_names[seq_names[1] == samp][0].values.tolist()
+        for seq in seqs_non_paired:
+            sequence = str(sequences[seq].seq)
+            if len(sequence) < 100:
+                continue
+            current_matrix_to_write.append([seq, numpy.nan, numpy.nan])
+    if len(current_matrix_to_plot) > 0:
         # Search for local minima
-        current_distance_array = numpy.array(current_distance_matrix).reshape(-1, 1)
-        sorted_current_distance_array = numpy.array(sorted(current_distance_matrix))
+        current_distance_array = numpy.array(current_matrix_to_plot).reshape(-1, 1)
+        sorted_current_distance_array = numpy.array(sorted(current_matrix_to_plot))
         kde = KernelDensity(kernel="gaussian", bandwidth=1.5)
         kde.fit(current_distance_array)
         linear_space = numpy.linspace(-1, numpy.max(current_distance_array) + 1, 1000)
         e = numpy.exp(kde.score_samples(linear_space.reshape(-1, 1)))
         mi = argrelextrema(e, numpy.less)[0]
         minimum = linear_space[mi]
-        axis.plot(linear_space, e, "k-", alpha=0.05)
-        axis.plot(
+        to_plot = [
+            linear_space,
+            e,
             sorted_current_distance_array,
-            [0] * sorted_current_distance_array.shape[0],
-            marker=2,
-            color="k",
-            alpha=0.5,
-        )
+        ]
         if len(minimum) == 0:
-            sum_list.append(sum(current_distance_matrix) / len(current_distance_matrix))
+            sum_list.append(sum(current_matrix_to_plot) / len(current_matrix_to_plot))
         else:
             # Calculate mean in every cluster
             for i in range(0, len(minimum)):
@@ -228,18 +218,25 @@ def get_distance_matrix(
             ]
             last_cluster_mean = sum(last_cluster) / len(last_cluster)
             sum_list.append(last_cluster_mean)
-    list_to_write.extend(current_list_to_write)
+    else:
+        to_plot = None
+    current_matrix_to_write = pandas.DataFrame(
+        current_matrix_to_write, columns=["seq1", "dist", "seq2"]
+    )
+    return sum_list, current_matrix_to_write, to_plot
 
 
 def get_model(array: numpy.ndarray, num_comp: int) -> BayesianGaussianMixture:
     """"""
     from sklearn.mixture import BayesianGaussianMixture
 
-    return BayesianGaussianMixture(
+    mix = BayesianGaussianMixture(
         n_components=num_comp,
         max_iter=10000,
         n_init=10,
-    ).fit(array)
+    )
+    mix.fit(array)
+    return mix
 
 
 def plot_vertical_line(
@@ -364,62 +361,80 @@ def get_plot(
     pyplot.close(fig)
 
 
-def estimate_divergence(path_to_data, blocklist, logger):
+def estimate_divergence(data_folder, blocklist, num_cores, logger):
     """"""
 
     logger.info("Estimating divergence of paralogs...")
-    divergency_distribution: List[float] = []
-    divergencies_to_write: List[str] = []
     matplotlib.use("Agg")
     fig, axis = pyplot.subplots(figsize=(15, 10))
-    for file in sorted(
-        glob(os.path.join(path_to_data, "40aln_orth_par", "*.fasta.mafft"))
-    ):
-        get_distance_matrix(
-            file,
-            divergency_distribution,
-            divergencies_to_write,
-            blocklist,
-            axis,
+    files = sorted(glob(os.path.join(data_folder, "40aln_orth_par", "*.fasta.mafft")))
+    args_est_div = list(
+        zip(
+            files,
+            [blocklist] * len(files),
         )
+    )
+    with multiprocessing.Pool(processes=num_cores) as pool_est_div:
+        results = pool_est_div.starmap(get_distance_matrix, args_est_div)
+    divergencies_to_file = pandas.concat([result[1] for result in results]).reset_index(
+        drop=True
+    )
+    divergency_distribution = [
+        item for sublist in [result[0] for result in results] for item in sublist
+    ]
+    to_plot = [result[2] for result in results]
+    for el in to_plot:
+        if el is None:
+            continue
+        linear_space = el[0]
+        e = el[1]
+        sorted_current_distance_array = el[2]
+        axis.plot(linear_space, e, "k-", alpha=0.05)
+        axis.plot(
+            sorted_current_distance_array,
+            [0] * sorted_current_distance_array.shape[0],
+            marker=2,
+            color="k",
+            alpha=0.5,
+        )
+    divergencies_to_file.to_csv(
+        os.path.join(data_folder, "40aln_orth_par", "pairwise_distances.tsv"),
+        sep="\t",
+        index=False,
+    )
     end = axis.get_xlim()[1]
     end = numpy.round(end, 0)
     axis.xaxis.set_ticks(numpy.arange(0, end, 1))
     axis.set_xlabel("Divergence (%)")
     axis.set_ylabel("Frequency")
     fig.savefig(
-        os.path.join(path_to_data, "40aln_orth_par", "individual_distributions.png"),
+        os.path.join(data_folder, "40aln_orth_par", "individual_distributions.png"),
         dpi=300,
         format="png",
     )
     fig.savefig(
-        os.path.join(path_to_data, "40aln_orth_par", "individual_distributions.svg"),
+        os.path.join(data_folder, "40aln_orth_par", "individual_distributions.svg"),
         dpi=300,
         format="svg",
     )
     pyplot.close(fig)
-    with open(
-        os.path.join(path_to_data, "40aln_orth_par", "pairwise_distances.txt"), "w"
-    ) as divergency_distribution_to_write:
-        for i in divergencies_to_write:
-            divergency_distribution_to_write.write(str(i) + "\n")
     divergency_distribution_array: numpy.ndarray = numpy.array(
         [[x] for x in divergency_distribution]
     )
     get_plot(
-        os.path.join(path_to_data, "40aln_orth_par"),
+        os.path.join(data_folder, "40aln_orth_par"),
         "pairwise_distances_distribution_1_comp",
         divergency_distribution_array,
         1,
     )
     get_plot(
-        os.path.join(path_to_data, "40aln_orth_par"),
+        os.path.join(data_folder, "40aln_orth_par"),
         "pairwise_distances_distribution_2_comp",
         divergency_distribution_array,
         2,
     )
     get_plot(
-        os.path.join(path_to_data, "40aln_orth_par"),
+        os.path.join(data_folder, "40aln_orth_par"),
         "pairwise_distances_distribution_3_comp",
         divergency_distribution_array,
         3,
