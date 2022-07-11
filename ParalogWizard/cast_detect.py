@@ -359,14 +359,14 @@ def create_reference_wo_paralogs(
         os.path.join(
             data_folder,
             "41without_par",
-            f"customized_reference_for_ParalogWizard_separate_exons.fas",
+            f"customized_reference_for_ParalogWizard_separated_exons.fas",
         ),
         "w",
     ) as customized_reference_pw_separate, open(
         os.path.join(
             data_folder,
             "41without_par",
-            f"customized_reference_for_HybPiper_concatenate_exons.fas",
+            f"customized_reference_for_HybPiper_concatenated_exons.fas",
         ),
         "w",
     ) as customized_reference_hp_concat:
@@ -394,7 +394,7 @@ def create_reference_wo_paralogs(
             os.path.join(
                 data_folder,
                 "41without_par",
-                f"customized_reference_for_HybPiper_concatenate_exons.fas",
+                f"customized_reference_for_HybPiper_concatenated_exons.fas",
             ),
             "r",
         ) as customized_reference_hp_concat:
