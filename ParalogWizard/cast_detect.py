@@ -268,6 +268,22 @@ def locus_stats(all_paralogs_for_reference):
     return locus_statistics
 
 
+def exon_stats(all_paralogs_for_reference):
+    """"""
+    exon_statistics = pandas.DataFrame([], columns=["samples\locus"])
+    exon_statistics.set_index("samples\locus", drop=True, inplace=True)
+    grouped_sample_exon = all_paralogs_for_reference.groupby(["sample", "exon"])
+    for group in grouped_sample_exon:
+        sample_exon_dataframe = group[1]
+        sample = group[0][0]
+        locus = group[0][1]
+        if "para" in sample_exon_dataframe["copy"].values.tolist():
+            exon_statistics.loc[sample, locus] = "Yes"
+        else:
+            exon_statistics.loc[sample, locus] = "No"
+    return exon_statistics
+
+
 def paralog_stats(locus_statistics):
     locus_statistics.reset_index(inplace=True)
     paralog_statistics = pandas.DataFrame(
@@ -432,9 +448,7 @@ def prepare_to_write(all_paralogs_for_reference_scored):
         prepared_loci.append(pandas.concat(prepared_exons))
     all_paralogs_for_reference_to_write = pandas.concat(prepared_loci)
     all_paralogs_for_reference_to_write = (
-        all_paralogs_for_reference_to_write.drop_duplicates(
-            subset=["sequence"]
-        )
+        all_paralogs_for_reference_to_write.drop_duplicates(subset=["sequence"])
     )
     all_paralogs_for_reference_to_write = (
         all_paralogs_for_reference_to_write.drop_duplicates(
@@ -537,6 +551,16 @@ def create_reference_w_paralogs(
             data_folder,
             "41detected_par",
             f"locus_statistics_div_{paralog_min_divergence}_{paralog_max_divergence}.tsv",
+        ),
+        sep="\t",
+        na_rep="NaN",
+    )
+    exon_statistics = exon_stats(all_paralogs_for_reference)
+    exon_statistics.to_csv(
+        os.path.join(
+            data_folder,
+            "41detected_par",
+            f"exon_statistics_div_{paralog_min_divergence}_{paralog_max_divergence}.tsv",
         ),
         sep="\t",
         na_rep="NaN",
