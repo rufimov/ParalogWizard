@@ -5,7 +5,7 @@ import os
 import pandas
 import random
 from glob import glob
-from typing import Dict, List, Union
+from typing import Dict, List
 from typing import Set
 from typing import Tuple
 from pandas.core import frame
@@ -66,7 +66,7 @@ def build_alignments(data_folder, n_cpu, logger):
         exon_dataframe = exon[1].reset_index(drop=True)
         exon_name = exon[0]
         with open(
-            os.path.join(data_folder, "40aln_orth_par", f"{exon_name}.fasta"), "w"
+                os.path.join(data_folder, "40aln_orth_par", f"{exon_name}.fasta"), "w"
         ) as exon_aln_fasta:
             for index in range(len(exon_dataframe)):
                 contig_name = exon_dataframe.loc[index, "saccver"]
@@ -117,16 +117,16 @@ def percent_dissimilarity(seq1: str, seq2: str) -> float or None:
     # and mutual gaps
     overlap = len_aln - count_left - count_right
     if (
-        (overlap / (len_aln - count_left) < 0.5)
-        or (overlap / (len_aln - count_right) < 0.5)
-        or overlap < 100
+            (overlap / (len_aln - count_left) < 0.5)
+            or (overlap / (len_aln - count_right) < 0.5)
+            or overlap < 100
     ):
         return None
     # Counting mismatches, ignoring positions with gaps in one of the sequences
     count = 0
     for nucl in zip(seq1_wo_mutual_gaps, seq2_wo_mutual_gaps):
         if (
-            nucl[0] != nucl[1] and nucl[0] != "-" and nucl[1] != "-"
+                nucl[0] != nucl[1] and nucl[0] != "-" and nucl[1] != "-"
         ):  # gaps are not counted
             # if nucl[0] != nucl[1]:  # gaps are counted
             count += 1
@@ -135,8 +135,8 @@ def percent_dissimilarity(seq1: str, seq2: str) -> float or None:
 
 
 def get_distance_matrix(
-    file_to_process: str,
-    blocklist: Set[str],
+        file_to_process: str,
+        blocklist: Set[str],
 ):
     """"""
     current_matrix_to_plot: List[float] = list()
@@ -206,16 +206,16 @@ def get_distance_matrix(
                     cluster = [sorted_current_distance_array.tolist()[indices[0]]]
                 else:
                     cluster = sorted_current_distance_array.tolist()[
-                        min(indices) : max(indices) + 1
-                    ]
+                              min(indices): max(indices) + 1
+                              ]
                 cluster_mean = sum(cluster) / len(cluster)
                 sum_list.append(cluster_mean)
             last_cluster_indices = numpy.where(
                 sorted_current_distance_array > minimum[-1]
             )[0].tolist()
             last_cluster = sorted_current_distance_array.tolist()[
-                min(last_cluster_indices) : max(last_cluster_indices) + 1
-            ]
+                           min(last_cluster_indices): max(last_cluster_indices) + 1
+                           ]
             last_cluster_mean = sum(last_cluster) / len(last_cluster)
             sum_list.append(last_cluster_mean)
     else:
@@ -240,11 +240,11 @@ def get_model(array: numpy.ndarray, num_comp: int) -> BayesianGaussianMixture:
 
 
 def plot_vertical_line(
-    plot: matplotlib.axes,
-    line_name: str,
-    line_value: float,
-    list_of_colors: List[str],
-    num_for_color: int,
+        plot: matplotlib.axes,
+        line_name: str,
+        line_value: float,
+        list_of_colors: List[str],
+        num_for_color: int,
 ):
     """"""
 
@@ -260,10 +260,10 @@ def plot_vertical_line(
 
 
 def get_plot(
-    path: str,
-    name: str,
-    matrix: numpy.ndarray,
-    comp: int,
+        path: str,
+        name: str,
+        matrix: numpy.ndarray,
+        comp: int,
 ):
     """"""
 

@@ -4,13 +4,15 @@ import multiprocessing
 import os
 import re
 import shutil
-import subprocess
+# import subprocess
 import fileinput
+from typing import Dict
 
+import Bio
 import pandas
 
 from ParalogWizard.cast_analyze import mafft_align
-from Bio import SeqIO
+from Bio import SeqIO, SeqRecord
 
 
 def create_logger(log_file):
@@ -39,107 +41,6 @@ def run_blat(contigfile, probes, minident, log_file):
         ).read()
         logger.info(blat_cmd_output)
         logger.info("Done")
-
-
-def replace_trailing(seq):
-    for id in range(len(seq)):
-        symbol = seq[id]
-        if symbol == "-":
-            seq = seq[:id] + "?" + seq[id + 1 :]
-        else:
-            break
-    for id in reversed(range(len(seq))):
-        symbol = seq[id]
-        if symbol == "-":
-            seq = seq[:id] + "?" + seq[id + 1 :]
-        else:
-            break
-    return seq
-
-
-def align(data_folder, probes, n_cpu, log_file):
-    logger = create_logger(log_file)
-    shutil.rmtree(os.path.join(data_folder, "60mafft"), ignore_errors=True)
-    with open(
-        os.path.join(data_folder, "50pslx", "corrected", "list_pslx.txt"), "w"
-    ) as list_pslx:
-        for pslx_file in glob(
-            os.path.join(data_folder, "50pslx", "corrected", "*.pslx")
-        ):
-            list_pslx.write(pslx_file + "\n")
-    #     subprocess.call(
-    #         f"python3 ParalogWizard/assembled_exons_to_fastas.py \
-    # -l {os.path.join(data_folder, '50pslx', 'corrected', 'list_pslx.txt')} -f {probes} \
-    # -d {os.path.join(data_folder, '60mafft')}",
-    #         shell=True,
-    #     )
-
-    exons_to_fastas_output = os.popen(
-        f"python3 ParalogWizard/assembled_exons_to_fastas.py \
--l {os.path.join(data_folder, '50pslx', 'corrected', 'list_pslx.txt')} -f {probes} \
--d {os.path.join(data_folder, '60mafft')}"
-    ).read()
-    logger.info(exons_to_fastas_output)
-    all_loci = set()
-    files_to_align = []
-    for file in glob(os.path.join(data_folder, "60mafft", "*.fasta")):
-        with fileinput.FileInput(file, inplace=True) as file_to_correct:
-            for line in file_to_correct:
-                line = re.sub(r">.+/", ">", line)
-                line = re.sub(r"\.fas", "_contigs.fas", line)
-                if not line.startswith(">"):
-                    line = re.sub(r"[nN]", "-", line)
-                print(line, end="")
-        locus = os.path.basename(file).split("_")[3]
-        all_loci.add(locus)
-        files_to_align.append(file)
-    with multiprocessing.Pool(processes=n_cpu) as pool_aln:
-        pool_aln.map(mafft_align, files_to_align)
-    for file in glob(os.path.join(data_folder, "60mafft", "*.mafft")):
-        fasta = list(SeqIO.parse(file, "fasta"))
-        SeqIO.write(fasta, file, "fasta-2line")
-        with fileinput.FileInput(file, inplace=True) as file_to_correct:
-            for line in file_to_correct:
-                if not line.startswith(">"):
-                    line = replace_trailing(line[:-1]) + "\n"
-                print(line, end="")
-    os.makedirs(
-        os.path.join(data_folder, "70concatenated_exon_alignments"), exist_ok=True
-    )
-    amas_ex = os.path.abspath("ParalogWizard/AMAS.py")
-    os.chdir(os.path.join(data_folder, "70concatenated_exon_alignments"))
-    for locus in all_loci:
-        exons_to_concat = glob(
-            os.path.join("..", "60mafft", f"To_align_Assembly_{locus}_*.fasta.mafft")
-        )
-        exons_to_concat.sort(key=lambda x: int(x.split("_")[5]))
-        line_exons_to_concat = " ".join(exons_to_concat)
-        # subprocess.call(
-        #     f"python3 {amas_ex} concat -i {line_loci_to_concat} -f fasta -d dna -t Assembly_{locus}.fasta "
-        #     f"-p Assembly_{locus}.part",
-        #     shell=True,
-        # )
-        amas_concat_output = os.popen(
-            f"python3 {amas_ex} concat -i {line_exons_to_concat} -f fasta -d dna -t Assembly_{locus}.fasta "
-            f"-p Assembly_{locus}.part"
-        ).read()
-        logger.info(amas_concat_output)
-        # subprocess.call(
-        #     f"python3 {amas_ex} convert -i Assembly_{locus}.fasta -f fasta -d dna -u phylip ",
-        #     shell=True,
-        # )
-        amas_convert_output = os.popen(
-            f"python3 {amas_ex} convert -i Assembly_{locus}.fasta -f fasta -d dna -u phylip "
-        ).read()
-        logger.info(amas_convert_output)
-
-        os.rename(f"Assembly_{locus}.fasta-out.phy", f"Assembly_{locus}.phylip")
-        with fileinput.FileInput(f"Assembly_{locus}.part", inplace=True) as part_file:
-            for line in part_file:
-                corrected_line = re.sub(r"^", "DNA, ", line)
-                corrected_line = re.sub(r"_To_align", "", corrected_line)
-                print(corrected_line, end="")
-    os.chdir(os.path.dirname(os.getcwd()))
 
 
 def correct_pslx(pslx_file, log_file):
@@ -234,3 +135,116 @@ def generate_pslx(data_folder, probes, minident, redlist, num_cores, log_file):
     args_correct_pslx = list(zip(pslx_file_list, [log_file] * len(pslx_file_list)))
     with multiprocessing.Pool(processes=num_cores) as pool_correct_pslx:
         pool_correct_pslx.starmap(correct_pslx, args_correct_pslx)
+
+
+def replace_trailing(seq):
+    for id in range(len(seq)):
+        symbol = seq[id]
+        if symbol == "-":
+            seq = seq[:id] + "?" + seq[id + 1 :]
+        else:
+            break
+    for id in reversed(range(len(seq))):
+        symbol = seq[id]
+        if symbol == "-":
+            seq = seq[:id] + "?" + seq[id + 1 :]
+        else:
+            break
+    return seq
+
+
+def align(data_folder, probes, n_cpu, log_file):
+    logger = create_logger(log_file)
+    shutil.rmtree(os.path.join(data_folder, "60mafft"), ignore_errors=True)
+    with open(
+        os.path.join(data_folder, "50pslx", "corrected", "list_pslx.txt"), "w"
+    ) as list_pslx:
+        for pslx_file in glob(
+            os.path.join(data_folder, "50pslx", "corrected", "*.pslx")
+        ):
+            list_pslx.write(pslx_file + "\n")
+    #     subprocess.call(
+    #         f"python3 ParalogWizard/assembled_exons_to_fastas.py \
+    # -l {os.path.join(data_folder, '50pslx', 'corrected', 'list_pslx.txt')} -f {probes} \
+    # -d {os.path.join(data_folder, '60mafft')}",
+    #         shell=True,
+    #     )
+
+    exons_to_fastas_output = os.popen(
+        f"python3 ParalogWizard/assembled_exons_to_fastas.py \
+-l {os.path.join(data_folder, '50pslx', 'corrected', 'list_pslx.txt')} -f {probes} \
+-d {os.path.join(data_folder, '60mafft')}"
+    ).read()
+    logger.info(exons_to_fastas_output)
+    all_loci = set()
+    files_to_align = []
+    for file in glob(os.path.join(data_folder, "60mafft", "*.fasta")):
+        with fileinput.FileInput(file, inplace=True) as file_to_correct:
+            for line in file_to_correct:
+                line = re.sub(r">.+/", ">", line)
+                line = re.sub(r"\.fas", "_contigs.fas", line)
+                if not line.startswith(">"):
+                    line = re.sub(r"[nN]", "-", line)
+                print(line, end="")
+        sequences: Dict[str, Bio.SeqRecord.SeqRecord] = SeqIO.to_dict(
+            SeqIO.parse(file, "fasta")
+        )
+        sequences_ungap = dict()
+        for item in sequences.keys():
+            sequence = sequences[item]
+            sequence = sequence.seq.ungap('-')
+            if len(sequence) != 0:
+                sequences_ungap[item] = sequence
+        if len(sequences_ungap) < 1:
+            logger.info(f"File {file} consists of gaps only. Aligning with mafft skipped.")
+            continue
+        locus = os.path.basename(file).split("_")[3]
+        all_loci.add(locus)
+        files_to_align.append(file)
+    with multiprocessing.Pool(processes=n_cpu) as pool_aln:
+        pool_aln.map(mafft_align, files_to_align)
+    for file in glob(os.path.join(data_folder, "60mafft", "*.mafft")):
+        fasta = list(SeqIO.parse(file, "fasta"))
+        SeqIO.write(fasta, file, "fasta-2line")
+        with fileinput.FileInput(file, inplace=True) as file_to_correct:
+            for line in file_to_correct:
+                if not line.startswith(">"):
+                    line = replace_trailing(line[:-1]) + "\n"
+                print(line, end="")
+    os.makedirs(
+        os.path.join(data_folder, "70concatenated_exon_alignments"), exist_ok=True
+    )
+    amas_ex = os.path.abspath("ParalogWizard/AMAS.py")
+    os.chdir(os.path.join(data_folder, "70concatenated_exon_alignments"))
+    for locus in all_loci:
+        exons_to_concat = glob(
+            os.path.join("..", "60mafft", f"To_align_Assembly_{locus}_*.fasta.mafft")
+        )
+        exons_to_concat.sort(key=lambda x: int(x.split("_")[5]))
+        line_exons_to_concat = " ".join(exons_to_concat)
+        # subprocess.call(
+        #     f"python3 {amas_ex} concat -i {line_loci_to_concat} -f fasta -d dna -t Assembly_{locus}.fasta "
+        #     f"-p Assembly_{locus}.part",
+        #     shell=True,
+        # )
+        amas_concat_output = os.popen(
+            f"python3 {amas_ex} concat -i {line_exons_to_concat} -f fasta -d dna -t Assembly_{locus}.fasta "
+            f"-p Assembly_{locus}.part"
+        ).read()
+        logger.info(amas_concat_output)
+        # subprocess.call(
+        #     f"python3 {amas_ex} convert -i Assembly_{locus}.fasta -f fasta -d dna -u phylip ",
+        #     shell=True,
+        # )
+        amas_convert_output = os.popen(
+            f"python3 {amas_ex} convert -i Assembly_{locus}.fasta -f fasta -d dna -u phylip "
+        ).read()
+        logger.info(amas_convert_output)
+
+        os.rename(f"Assembly_{locus}.fasta-out.phy", f"Assembly_{locus}.phylip")
+        with fileinput.FileInput(f"Assembly_{locus}.part", inplace=True) as part_file:
+            for line in part_file:
+                corrected_line = re.sub(r"^", "DNA, ", line)
+                corrected_line = re.sub(r"_To_align", "", corrected_line)
+                print(corrected_line, end="")
+    os.chdir(os.path.dirname(os.getcwd()))
