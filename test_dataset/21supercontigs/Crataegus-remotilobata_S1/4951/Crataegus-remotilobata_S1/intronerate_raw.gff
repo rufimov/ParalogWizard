@@ -1,0 +1,22 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-remotilobata_S1-4951	exonerate:protein2genome:local	gene	78	1013	899	+	.	gene_id 1 ; sequence Crataegus-remotilobata_S1 ; gene_orientation +
+Crataegus-remotilobata_S1-4951	exonerate:protein2genome:local	cds	78	178	.	+	.	
+Crataegus-remotilobata_S1-4951	exonerate:protein2genome:local	exon	78	178	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4951	exonerate:protein2genome:local	splice5	179	180	.	+	.	intron_id 1 ; splice_site "AC"
+Crataegus-remotilobata_S1-4951	exonerate:protein2genome:local	intron	179	565	.	+	.	intron_id 1
+Crataegus-remotilobata_S1-4951	exonerate:protein2genome:local	splice3	564	565	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-remotilobata_S1-4951	exonerate:protein2genome:local	cds	566	1013	.	+	.	
+Crataegus-remotilobata_S1-4951	exonerate:protein2genome:local	exon	566	1013	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4951	exonerate:protein2genome:local	similarity	78	1013	899	+	.	alignment_id 1 ; Query Crataegus-remotilobata_S1 ; Align 78 1 99 ; Align 567 35 447
+# --- END OF GFF DUMP ---
+#

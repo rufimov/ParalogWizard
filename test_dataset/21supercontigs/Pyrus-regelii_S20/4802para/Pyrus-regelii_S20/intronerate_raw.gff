@@ -1,0 +1,62 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	gene	359	2769	1175	+	.	gene_id 1 ; sequence Pyrus-regelii_S20 ; gene_orientation +
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	cds	359	460	.	+	.	
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	exon	359	460	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice5	461	462	.	+	.	intron_id 1 ; splice_site "GT"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	intron	461	646	.	+	.	intron_id 1
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice3	645	646	.	+	.	intron_id 0 ; splice_site "AG"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	cds	647	717	.	+	.	
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	exon	647	717	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice5	718	719	.	+	.	intron_id 2 ; splice_site "GT"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	intron	718	795	.	+	.	intron_id 2
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice3	794	795	.	+	.	intron_id 1 ; splice_site "AG"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	cds	796	851	.	+	.	
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	exon	796	851	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice5	852	853	.	+	.	intron_id 3 ; splice_site "GT"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	intron	852	1140	.	+	.	intron_id 3
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice3	1139	1140	.	+	.	intron_id 2 ; splice_site "AG"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	cds	1141	1178	.	+	.	
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	exon	1141	1178	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice5	1179	1180	.	+	.	intron_id 4 ; splice_site "GT"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	intron	1179	1302	.	+	.	intron_id 4
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice3	1301	1302	.	+	.	intron_id 3 ; splice_site "GG"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	cds	1303	1422	.	+	.	
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	exon	1303	1422	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice5	1423	1424	.	+	.	intron_id 5 ; splice_site "GT"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	intron	1423	1526	.	+	.	intron_id 5
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice3	1525	1526	.	+	.	intron_id 4 ; splice_site "AG"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	cds	1527	1595	.	+	.	
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	exon	1527	1595	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice5	1596	1597	.	+	.	intron_id 6 ; splice_site "GT"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	intron	1596	1692	.	+	.	intron_id 6
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice3	1691	1692	.	+	.	intron_id 5 ; splice_site "AG"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	cds	1693	1775	.	+	.	
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	exon	1693	1775	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice5	1776	1777	.	+	.	intron_id 7 ; splice_site "GT"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	intron	1776	2146	.	+	.	intron_id 7
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice3	2145	2146	.	+	.	intron_id 6 ; splice_site "CT"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	cds	2147	2210	.	+	.	
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	exon	2147	2210	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice5	2211	2212	.	+	.	intron_id 8 ; splice_site "AT"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	intron	2211	2456	.	+	.	intron_id 8
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice3	2455	2456	.	+	.	intron_id 7 ; splice_site "TG"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	cds	2457	2523	.	+	.	
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	exon	2457	2523	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice5	2524	2525	.	+	.	intron_id 9 ; splice_site "GT"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	intron	2524	2659	.	+	.	intron_id 9
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	splice3	2658	2659	.	+	.	intron_id 8 ; splice_site "AG"
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	cds	2660	2769	.	+	.	
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	exon	2660	2769	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4802para	exonerate:protein2genome:local	similarity	359	2769	1175	+	.	alignment_id 1 ; Query Pyrus-regelii_S20 ; Align 359 1 102 ; Align 647 35 69 ; Align 797 59 54 ; Align 1143 78 36 ; Align 1303 90 120 ; Align 1527 130 69 ; Align 1693 153 81 ; Align 2148 181 63 ; Align 2457 202 66 ; Align 2662 225 108
+# --- END OF GFF DUMP ---
+#

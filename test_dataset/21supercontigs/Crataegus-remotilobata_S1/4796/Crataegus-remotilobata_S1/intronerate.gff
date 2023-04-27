@@ -1,0 +1,39 @@
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	gene	34	2794	1121	+	.	gene_id 1 ; sequence Crataegus-remotilobata_S1 ; gene_orientation +
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	cds	34	57	.	+	.
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	exon	34	57	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	splice5	58	59	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	intron	58	219	.	+	.	intron_id 1
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	splice3	218	219	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	cds	220	329	.	+	.
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	exon	220	329	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	splice5	330	331	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	intron	330	402	.	+	.	intron_id 2
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	splice3	401	402	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	cds	403	517	.	+	.
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	exon	403	517	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	splice5	518	519	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	intron	518	699	.	+	.	intron_id 3
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	splice3	698	699	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	cds	700	762	.	+	.
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	exon	700	762	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	splice5	763	764	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	intron	763	873	.	+	.	intron_id 4
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	splice3	872	873	.	+	.	intron_id 3 ; splice_site "AG"
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	cds	874	1038	.	+	.
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	exon	874	1038	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	splice5	1039	1040	.	+	.	intron_id 5 ; splice_site "TT"
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	intron	1039	1417	.	+	.	intron_id 5
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	splice3	1416	1417	.	+	.	intron_id 4 ; splice_site "AG"
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	cds	1418	1479	.	+	.
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	exon	1418	1479	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	splice5	1480	1481	.	+	.	intron_id 6 ; splice_site "GT"
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	intron	1480	2076	.	+	.	intron_id 6
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	splice3	2075	2076	.	+	.	intron_id 5 ; splice_site "AC"
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	cds	2077	2137	.	+	.
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	exon	2077	2137	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	splice5	2138	2139	.	+	.	intron_id 7 ; splice_site "GG"
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	intron	2138	2671	.	+	.	intron_id 7
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	splice3	2670	2671	.	+	.	intron_id 6 ; splice_site "AG"
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	cds	2672	2794	.	+	.
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	exon	2672	2794	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4796	exonerate:protein2genome:local	similarity	34	2794	1121	+	.	alignment_id 1 ; Query Crataegus-remotilobata_S1 ; Align 34 1 24 ; Align 220 9 108 ; Align 404 46 114 ; Align 700 84 63 ; Align 874 105 165 ; Align 1418 160 60 ; Align 2078 181 60 ; Align 2672 201 123

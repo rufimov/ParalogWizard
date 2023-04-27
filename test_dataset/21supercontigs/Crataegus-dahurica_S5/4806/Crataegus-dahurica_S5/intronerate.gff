@@ -1,0 +1,24 @@
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	gene	293	2104	809	+	.	gene_id 1 ; sequence Crataegus-dahurica_S5 ; gene_orientation +
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	cds	293	525	.	+	.
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	exon	293	525	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	splice5	526	527	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	intron	526	891	.	+	.	intron_id 1
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	splice3	890	891	.	+	.	intron_id 0 ; splice_site "GT"
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	cds	892	998	.	+	.
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	exon	892	998	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	splice5	999	1000	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	intron	999	1086	.	+	.	intron_id 2
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	splice3	1085	1086	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	cds	1087	1146	.	+	.
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	exon	1087	1146	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	splice5	1147	1148	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	intron	1147	1635	.	+	.	intron_id 3
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	splice3	1634	1635	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	cds	1636	1716	.	+	.
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	exon	1636	1716	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	splice5	1717	1718	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	intron	1717	2060	.	+	.	intron_id 4
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	splice3	2059	2060	.	+	.	intron_id 3 ; splice_site "CG"
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	cds	2061	2104	.	+	.
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	exon	2061	2104	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4806	exonerate:protein2genome:local	similarity	293	2104	809	+	.	alignment_id 1 ; Query Crataegus-dahurica_S5 ; Align 293 1 231 ; Align 893 79 105 ; Align 1089 115 57 ; Align 1638 135 78 ; Align 2063 162 42

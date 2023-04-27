@@ -1,0 +1,9 @@
+Pyracantha-coccinea_S22-4954	exonerate:protein2genome:local	gene	438	1168	833	+	.	gene_id 1 ; sequence Pyracantha-coccinea_S22 ; gene_orientation +
+Pyracantha-coccinea_S22-4954	exonerate:protein2genome:local	cds	438	857	.	+	.
+Pyracantha-coccinea_S22-4954	exonerate:protein2genome:local	exon	438	857	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4954	exonerate:protein2genome:local	splice5	858	859	.	+	.	intron_id 1 ; splice_site "GC"
+Pyracantha-coccinea_S22-4954	exonerate:protein2genome:local	intron	858	1081	.	+	.	intron_id 1
+Pyracantha-coccinea_S22-4954	exonerate:protein2genome:local	splice3	1080	1081	.	+	.	intron_id 0 ; splice_site "AG"
+Pyracantha-coccinea_S22-4954	exonerate:protein2genome:local	cds	1082	1168	.	+	.
+Pyracantha-coccinea_S22-4954	exonerate:protein2genome:local	exon	1082	1168	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4954	exonerate:protein2genome:local	similarity	438	1168	833	+	.	alignment_id 1 ; Query Pyracantha-coccinea_S22 ; Align 438 1 420 ; Align 1082 141 87

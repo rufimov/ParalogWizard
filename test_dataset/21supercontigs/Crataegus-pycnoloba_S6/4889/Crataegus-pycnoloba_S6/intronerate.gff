@@ -1,0 +1,19 @@
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	gene	162	1406	748	+	.	gene_id 1 ; sequence Crataegus-pycnoloba_S6 ; gene_orientation +
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	cds	162	217	.	+	.
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	exon	162	217	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	splice5	218	219	.	+	.	intron_id 1 ; splice_site "GA"
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	intron	218	306	.	+	.	intron_id 1
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	splice3	305	306	.	+	.	intron_id 0 ; splice_site "CG"
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	cds	307	456	.	+	.
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	exon	307	456	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	splice5	457	458	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	intron	457	911	.	+	.	intron_id 2
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	splice3	910	911	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	cds	912	1032	.	+	.
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	exon	912	1032	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	splice5	1033	1034	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	intron	1033	1251	.	+	.	intron_id 3
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	splice3	1250	1251	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	cds	1254	1406	.	+	.
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	exon	1254	1406	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4889	exonerate:protein2genome:local	similarity	162	1406	748	+	.	alignment_id 1 ; Query Crataegus-pycnoloba_S6 ; Align 162 1 54 ; Align 308 20 147 ; Align 913 70 120 ; Align 1254 110 153

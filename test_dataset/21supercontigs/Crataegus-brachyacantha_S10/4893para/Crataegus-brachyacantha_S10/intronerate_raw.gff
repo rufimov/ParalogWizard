@@ -1,0 +1,37 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-10-10
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	gene	136	2268	749	+	.	gene_id 1 ; sequence Crataegus-brachyacantha_S10 ; gene_orientation +
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	cds	136	239	.	+	.	
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	exon	136	239	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	splice5	240	241	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	intron	240	325	.	+	.	intron_id 1
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	splice3	324	325	.	+	.	intron_id 0 ; splice_site "GA"
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	cds	326	441	.	+	.	
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	exon	326	441	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	splice5	442	443	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	intron	442	1456	.	+	.	intron_id 2
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	splice3	1455	1456	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	cds	1457	1582	.	+	.	
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	exon	1457	1582	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	splice5	1583	1584	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	intron	1583	2026	.	+	.	intron_id 3
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	splice3	2025	2026	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	cds	2027	2125	.	+	.	
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	exon	2027	2125	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	splice5	2126	2127	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	intron	2126	2230	.	+	.	intron_id 4
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	splice3	2229	2230	.	+	.	intron_id 3 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	cds	2231	2268	.	+	.	
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	exon	2231	2268	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4893para	exonerate:protein2genome:local	similarity	136	2268	749	+	.	alignment_id 1 ; Query Crataegus-brachyacantha_S10 ; Align 136 1 102 ; Align 327 36 114 ; Align 1459 75 123 ; Align 2029 117 96 ; Align 2233 150 36
+# --- END OF GFF DUMP ---
+#

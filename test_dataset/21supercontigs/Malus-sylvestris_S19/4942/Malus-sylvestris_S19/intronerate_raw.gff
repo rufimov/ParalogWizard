@@ -1,0 +1,37 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	gene	146	1438	698	+	.	gene_id 1 ; sequence Malus-sylvestris_S19 ; gene_orientation +
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	cds	146	223	.	+	.	
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	exon	146	223	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	splice5	224	225	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	intron	224	361	.	+	.	intron_id 1
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	splice3	360	361	.	+	.	intron_id 0 ; splice_site "AG"
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	cds	362	416	.	+	.	
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	exon	362	416	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	splice5	417	418	.	+	.	intron_id 2 ; splice_site "GT"
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	intron	417	520	.	+	.	intron_id 2
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	splice3	519	520	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	cds	521	635	.	+	.	
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	exon	521	635	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	splice5	636	637	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	intron	636	777	.	+	.	intron_id 3
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	splice3	776	777	.	+	.	intron_id 2 ; splice_site "AG"
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	cds	778	938	.	+	.	
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	exon	778	938	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	splice5	939	940	.	+	.	intron_id 4 ; splice_site "TG"
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	intron	939	1364	.	+	.	intron_id 4
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	splice3	1363	1364	.	+	.	intron_id 3 ; splice_site "AG"
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	cds	1365	1438	.	+	.	
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	exon	1365	1438	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4942	exonerate:protein2genome:local	similarity	146	1438	698	+	.	alignment_id 1 ; Query Malus-sylvestris_S19 ; Align 146 1 78 ; Align 362 27 54 ; Align 523 46 111 ; Align 779 84 159 ; Align 1367 138 72
+# --- END OF GFF DUMP ---
+#

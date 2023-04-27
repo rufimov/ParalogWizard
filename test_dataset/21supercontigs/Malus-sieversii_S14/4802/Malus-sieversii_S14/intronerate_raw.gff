@@ -1,0 +1,57 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	gene	535	2833	1114	+	.	gene_id 1 ; sequence Malus-sieversii_S14 ; gene_orientation +
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	cds	535	636	.	+	.	
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	exon	535	636	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice5	637	638	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	intron	637	860	.	+	.	intron_id 1
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice3	859	860	.	+	.	intron_id 0 ; splice_site "AG"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	cds	861	931	.	+	.	
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	exon	861	931	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice5	932	933	.	+	.	intron_id 2 ; splice_site "GT"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	intron	932	1015	.	+	.	intron_id 2
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice3	1014	1015	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	cds	1016	1074	.	+	.	
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	exon	1016	1074	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice5	1075	1076	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	intron	1075	1316	.	+	.	intron_id 3
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice3	1315	1316	.	+	.	intron_id 2 ; splice_site "AG"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	cds	1317	1354	.	+	.	
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	exon	1317	1354	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice5	1355	1356	.	+	.	intron_id 4 ; splice_site "GT"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	intron	1355	1463	.	+	.	intron_id 4
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice3	1462	1463	.	+	.	intron_id 3 ; splice_site "GG"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	cds	1464	1583	.	+	.	
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	exon	1464	1583	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice5	1584	1585	.	+	.	intron_id 5 ; splice_site "GT"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	intron	1584	1714	.	+	.	intron_id 5
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice3	1713	1714	.	+	.	intron_id 4 ; splice_site "AG"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	cds	1715	1783	.	+	.	
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	exon	1715	1783	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice5	1784	1785	.	+	.	intron_id 6 ; splice_site "GT"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	intron	1784	1879	.	+	.	intron_id 6
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice3	1878	1879	.	+	.	intron_id 5 ; splice_site "AG"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	cds	1880	1962	.	+	.	
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	exon	1880	1962	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice5	1963	1964	.	+	.	intron_id 7 ; splice_site "GT"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	intron	1963	2519	.	+	.	intron_id 7
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice3	2518	2519	.	+	.	intron_id 6 ; splice_site "GT"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	cds	2520	2587	.	+	.	
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	exon	2520	2587	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice5	2588	2589	.	+	.	intron_id 8 ; splice_site "GT"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	intron	2588	2723	.	+	.	intron_id 8
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	splice3	2722	2723	.	+	.	intron_id 7 ; splice_site "AG"
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	cds	2724	2833	.	+	.	
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	exon	2724	2833	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4802	exonerate:protein2genome:local	similarity	535	2833	1114	+	.	alignment_id 1 ; Query Malus-sieversii_S14 ; Align 535 1 102 ; Align 861 35 69 ; Align 1017 59 57 ; Align 1319 79 36 ; Align 1464 91 120 ; Align 1715 131 69 ; Align 1880 154 81 ; Align 2521 182 66 ; Align 2726 205 108
+# --- END OF GFF DUMP ---
+#

@@ -1,0 +1,19 @@
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	gene	253	2041	782	+	.	gene_id 1 ; sequence Malus-sylvestris_S19 ; gene_orientation +
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	cds	253	485	.	+	.
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	exon	253	485	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	splice5	486	487	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	intron	486	1246	.	+	.	intron_id 1
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	splice3	1245	1246	.	+	.	intron_id 0 ; splice_site "AT"
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	cds	1247	1353	.	+	.
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	exon	1247	1353	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	splice5	1354	1355	.	+	.	intron_id 2 ; splice_site "GT"
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	intron	1354	1437	.	+	.	intron_id 2
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	splice3	1436	1437	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	cds	1438	1497	.	+	.
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	exon	1438	1497	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	splice5	1498	1499	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	intron	1498	1961	.	+	.	intron_id 3
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	splice3	1960	1961	.	+	.	intron_id 2 ; splice_site "AG"
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	cds	1962	2041	.	+	.
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	exon	1962	2041	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4806para	exonerate:protein2genome:local	similarity	253	2041	782	+	.	alignment_id 1 ; Query Malus-sylvestris_S19 ; Align 253 1 231 ; Align 1248 79 105 ; Align 1440 115 57 ; Align 1964 135 78

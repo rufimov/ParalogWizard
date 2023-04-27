@@ -1,0 +1,32 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	gene	368	1274	762	+	.	gene_id 1 ; sequence Prunus-tenella_S25 ; gene_orientation +
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	cds	368	426	.	+	.	
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	exon	368	426	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	splice5	427	428	.	+	.	intron_id 1 ; splice_site "AG"
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	intron	427	513	.	+	.	intron_id 1
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	splice3	512	513	.	+	.	intron_id 0 ; splice_site "AG"
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	cds	514	660	.	+	.	
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	exon	514	660	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	splice5	661	662	.	+	.	intron_id 2 ; splice_site "AT"
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	intron	661	789	.	+	.	intron_id 2
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	splice3	788	789	.	+	.	intron_id 1 ; splice_site "AG"
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	cds	790	910	.	+	.	
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	exon	790	910	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	splice5	911	912	.	+	.	intron_id 3 ; splice_site "GT"
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	intron	911	1119	.	+	.	intron_id 3
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	splice3	1118	1119	.	+	.	intron_id 2 ; splice_site "AG"
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	cds	1122	1274	.	+	.	
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	exon	1122	1274	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4889	exonerate:protein2genome:local	similarity	368	1274	762	+	.	alignment_id 1 ; Query Prunus-tenella_S25 ; Align 368 1 57 ; Align 515 21 144 ; Align 791 70 120 ; Align 1122 110 153
+# --- END OF GFF DUMP ---
+#

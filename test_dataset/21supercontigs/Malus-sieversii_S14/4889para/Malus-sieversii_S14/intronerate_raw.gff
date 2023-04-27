@@ -1,0 +1,32 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	gene	239	1478	747	+	.	gene_id 1 ; sequence Malus-sieversii_S14 ; gene_orientation +
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	cds	239	294	.	+	.	
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	exon	239	294	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	splice5	295	296	.	+	.	intron_id 1 ; splice_site "GA"
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	intron	295	387	.	+	.	intron_id 1
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	splice3	386	387	.	+	.	intron_id 0 ; splice_site "GG"
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	cds	388	537	.	+	.	
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	exon	388	537	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	splice5	538	539	.	+	.	intron_id 2 ; splice_site "AT"
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	intron	538	985	.	+	.	intron_id 2
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	splice3	984	985	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	cds	986	1106	.	+	.	
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	exon	986	1106	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	splice5	1107	1108	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	intron	1107	1323	.	+	.	intron_id 3
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	splice3	1322	1323	.	+	.	intron_id 2 ; splice_site "AG"
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	cds	1326	1478	.	+	.	
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	exon	1326	1478	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4889para	exonerate:protein2genome:local	similarity	239	1478	747	+	.	alignment_id 1 ; Query Malus-sieversii_S14 ; Align 239 1 54 ; Align 389 20 147 ; Align 987 70 120 ; Align 1326 110 153
+# --- END OF GFF DUMP ---
+#

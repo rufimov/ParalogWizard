@@ -1,0 +1,37 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	gene	26	1302	864	+	.	gene_id 1 ; sequence Crataegus-pinnatifida_S26 ; gene_orientation +
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	cds	26	129	.	+	.	
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	exon	26	129	.	+	.	insertions 0 ; deletions 0
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	splice5	130	131	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	intron	130	215	.	+	.	intron_id 1
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	splice3	214	215	.	+	.	intron_id 0 ; splice_site "GA"
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	cds	216	331	.	+	.	
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	exon	216	331	.	+	.	insertions 0 ; deletions 0
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	splice5	332	333	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	intron	332	428	.	+	.	intron_id 2
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	splice3	427	428	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	cds	429	554	.	+	.	
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	exon	429	554	.	+	.	insertions 0 ; deletions 0
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	splice5	555	556	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	intron	555	998	.	+	.	intron_id 3
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	splice3	997	998	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	cds	999	1097	.	+	.	
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	exon	999	1097	.	+	.	insertions 0 ; deletions 0
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	splice5	1098	1099	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	intron	1098	1201	.	+	.	intron_id 4
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	splice3	1200	1201	.	+	.	intron_id 3 ; splice_site "AG"
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	cds	1202	1302	.	+	.	
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	exon	1202	1302	.	+	.	insertions 0 ; deletions 0
+Crataegus-pinnatifida_S26-4893	exonerate:protein2genome:local	similarity	26	1302	864	+	.	alignment_id 1 ; Query Crataegus-pinnatifida_S26 ; Align 26 1 102 ; Align 217 36 114 ; Align 431 75 123 ; Align 1001 117 96 ; Align 1204 150 99
+# --- END OF GFF DUMP ---
+#

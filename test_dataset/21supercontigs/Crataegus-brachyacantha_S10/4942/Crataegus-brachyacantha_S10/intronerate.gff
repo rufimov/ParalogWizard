@@ -1,0 +1,34 @@
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	gene	544	2493	816	+	.	gene_id 1 ; sequence Crataegus-brachyacantha_S10 ; gene_orientation +
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	cds	544	598	.	+	.
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	exon	544	598	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	splice5	599	600	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	intron	599	991	.	+	.	intron_id 1
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	splice3	990	991	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	cds	992	1027	.	+	.
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	exon	992	1027	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	splice5	1028	1029	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	intron	1028	1194	.	+	.	intron_id 2
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	splice3	1193	1194	.	+	.	intron_id 1 ; splice_site "AC"
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	cds	1195	1271	.	+	.
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	exon	1195	1271	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	splice5	1272	1273	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	intron	1272	1409	.	+	.	intron_id 3
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	splice3	1408	1409	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	cds	1410	1464	.	+	.
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	exon	1410	1464	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	splice5	1465	1466	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	intron	1465	1568	.	+	.	intron_id 4
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	splice3	1567	1568	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	cds	1569	1683	.	+	.
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	exon	1569	1683	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	splice5	1684	1685	.	+	.	intron_id 5 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	intron	1684	1831	.	+	.	intron_id 5
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	splice3	1830	1831	.	+	.	intron_id 4 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	cds	1832	1992	.	+	.
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	exon	1832	1992	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	splice5	1993	1994	.	+	.	intron_id 6 ; splice_site "TG"
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	intron	1993	2419	.	+	.	intron_id 6
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	splice3	2418	2419	.	+	.	intron_id 5 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	cds	2420	2493	.	+	.
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	exon	2420	2493	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4942	exonerate:protein2genome:local	similarity	544	2493	816	+	.	alignment_id 1 ; Query Crataegus-brachyacantha_S10 ; Align 544 1 54 ; Align 994 20 33 ; Align 1197 32 75 ; Align 1410 57 54 ; Align 1571 76 111 ; Align 1833 114 159 ; Align 2422 168 72

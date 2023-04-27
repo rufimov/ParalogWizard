@@ -1,0 +1,19 @@
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	gene	119	1362	751	+	.	gene_id 1 ; sequence Crataegus-triflora_S8 ; gene_orientation +
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	cds	119	174	.	+	.
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	exon	119	174	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	splice5	175	176	.	+	.	intron_id 1 ; splice_site "GA"
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	intron	175	262	.	+	.	intron_id 1
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	splice3	261	262	.	+	.	intron_id 0 ; splice_site "CG"
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	cds	263	412	.	+	.
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	exon	263	412	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	splice5	413	414	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	intron	413	867	.	+	.	intron_id 2
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	splice3	866	867	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	cds	868	988	.	+	.
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	exon	868	988	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	splice5	989	990	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	intron	989	1207	.	+	.	intron_id 3
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	splice3	1206	1207	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	cds	1210	1362	.	+	.
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	exon	1210	1362	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4889	exonerate:protein2genome:local	similarity	119	1362	751	+	.	alignment_id 1 ; Query Crataegus-triflora_S8 ; Align 119 1 54 ; Align 264 20 147 ; Align 869 70 120 ; Align 1210 110 153

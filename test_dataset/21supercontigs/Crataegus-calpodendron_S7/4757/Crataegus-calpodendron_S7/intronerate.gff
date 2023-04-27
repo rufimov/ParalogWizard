@@ -1,0 +1,19 @@
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	gene	412	2662	837	+	.	gene_id 1 ; sequence Crataegus-calpodendron_S7 ; gene_orientation +
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	cds	412	573	.	+	.
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	exon	412	573	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	splice5	574	575	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	intron	574	1245	.	+	.	intron_id 1
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	splice3	1244	1245	.	+	.	intron_id 0 ; splice_site "GA"
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	cds	1246	1419	.	+	.
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	exon	1246	1419	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	splice5	1420	1421	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	intron	1420	2283	.	+	.	intron_id 2
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	splice3	2282	2283	.	+	.	intron_id 1 ; splice_site "GG"
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	cds	2284	2386	.	+	.
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	exon	2284	2386	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	splice5	2387	2388	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	intron	2387	2552	.	+	.	intron_id 3
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	splice3	2551	2552	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	cds	2553	2662	.	+	.
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	exon	2553	2662	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4757	exonerate:protein2genome:local	similarity	412	2662	837	+	.	alignment_id 1 ; Query Crataegus-calpodendron_S7 ; Align 412 1 162 ; Align 1246 55 174 ; Align 2284 113 102 ; Align 2555 148 108

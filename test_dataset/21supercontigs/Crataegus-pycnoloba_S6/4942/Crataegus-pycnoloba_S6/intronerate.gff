@@ -1,0 +1,34 @@
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	gene	315	2263	820	+	.	gene_id 1 ; sequence Crataegus-pycnoloba_S6 ; gene_orientation +
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	cds	315	369	.	+	.
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	exon	315	369	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	splice5	370	371	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	intron	370	784	.	+	.	intron_id 1
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	splice3	783	784	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	cds	785	820	.	+	.
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	exon	785	820	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	splice5	821	822	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	intron	821	980	.	+	.	intron_id 2
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	splice3	979	980	.	+	.	intron_id 1 ; splice_site "AC"
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	cds	981	1057	.	+	.
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	exon	981	1057	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	splice5	1058	1059	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	intron	1058	1195	.	+	.	intron_id 3
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	splice3	1194	1195	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	cds	1196	1250	.	+	.
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	exon	1196	1250	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	splice5	1251	1252	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	intron	1251	1346	.	+	.	intron_id 4
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	splice3	1345	1346	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	cds	1347	1461	.	+	.
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	exon	1347	1461	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	splice5	1462	1463	.	+	.	intron_id 5 ; splice_site "GT"
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	intron	1462	1608	.	+	.	intron_id 5
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	splice3	1607	1608	.	+	.	intron_id 4 ; splice_site "AG"
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	cds	1609	1769	.	+	.
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	exon	1609	1769	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	splice5	1770	1771	.	+	.	intron_id 6 ; splice_site "TG"
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	intron	1770	2189	.	+	.	intron_id 6
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	splice3	2188	2189	.	+	.	intron_id 5 ; splice_site "AG"
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	cds	2190	2263	.	+	.
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	exon	2190	2263	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4942	exonerate:protein2genome:local	similarity	315	2263	820	+	.	alignment_id 1 ; Query Crataegus-pycnoloba_S6 ; Align 315 1 54 ; Align 787 20 33 ; Align 983 32 75 ; Align 1196 57 54 ; Align 1349 76 111 ; Align 1610 114 159 ; Align 2192 168 72

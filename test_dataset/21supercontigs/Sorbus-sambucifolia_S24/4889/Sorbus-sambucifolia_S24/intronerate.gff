@@ -1,0 +1,19 @@
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	gene	194	1333	749	+	.	gene_id 1 ; sequence Sorbus-sambucifolia_S24 ; gene_orientation +
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	cds	194	249	.	+	.
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	exon	194	249	.	+	.	insertions 0 ; deletions 0
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	splice5	250	251	.	+	.	intron_id 1 ; splice_site "GA"
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	intron	250	338	.	+	.	intron_id 1
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	splice3	337	338	.	+	.	intron_id 0 ; splice_site "CG"
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	cds	339	488	.	+	.
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	exon	339	488	.	+	.	insertions 0 ; deletions 0
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	splice5	489	490	.	+	.	intron_id 2 ; splice_site "AT"
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	intron	489	953	.	+	.	intron_id 2
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	splice3	952	953	.	+	.	intron_id 1 ; splice_site "AG"
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	cds	954	1074	.	+	.
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	exon	954	1074	.	+	.	insertions 0 ; deletions 0
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	splice5	1075	1076	.	+	.	intron_id 3 ; splice_site "GT"
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	intron	1075	1178	.	+	.	intron_id 3
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	splice3	1177	1178	.	+	.	intron_id 2 ; splice_site "AG"
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	cds	1181	1333	.	+	.
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	exon	1181	1333	.	+	.	insertions 0 ; deletions 0
+Sorbus-sambucifolia_S24-4889	exonerate:protein2genome:local	similarity	194	1333	749	+	.	alignment_id 1 ; Query Sorbus-sambucifolia_S24 ; Align 194 1 54 ; Align 340 20 147 ; Align 955 70 120 ; Align 1181 110 153

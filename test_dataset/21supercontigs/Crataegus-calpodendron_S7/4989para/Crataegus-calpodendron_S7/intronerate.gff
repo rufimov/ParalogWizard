@@ -1,0 +1,14 @@
+Crataegus-calpodendron_S7-4989para	exonerate:protein2genome:local	gene	418	956	510	+	.	gene_id 1 ; sequence Crataegus-calpodendron_S7 ; gene_orientation +
+Crataegus-calpodendron_S7-4989para	exonerate:protein2genome:local	cds	418	597	.	+	.
+Crataegus-calpodendron_S7-4989para	exonerate:protein2genome:local	exon	418	597	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4989para	exonerate:protein2genome:local	splice5	598	599	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-calpodendron_S7-4989para	exonerate:protein2genome:local	intron	598	724	.	+	.	intron_id 1
+Crataegus-calpodendron_S7-4989para	exonerate:protein2genome:local	splice3	723	724	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-calpodendron_S7-4989para	exonerate:protein2genome:local	cds	725	847	.	+	.
+Crataegus-calpodendron_S7-4989para	exonerate:protein2genome:local	exon	725	847	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4989para	exonerate:protein2genome:local	splice5	848	849	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-calpodendron_S7-4989para	exonerate:protein2genome:local	intron	848	938	.	+	.	intron_id 2
+Crataegus-calpodendron_S7-4989para	exonerate:protein2genome:local	splice3	937	938	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-calpodendron_S7-4989para	exonerate:protein2genome:local	cds	939	956	.	+	.
+Crataegus-calpodendron_S7-4989para	exonerate:protein2genome:local	exon	939	956	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4989para	exonerate:protein2genome:local	similarity	418	956	510	+	.	alignment_id 1 ; Query Crataegus-calpodendron_S7 ; Align 418 1 180 ; Align 725 61 123 ; Align 939 102 18

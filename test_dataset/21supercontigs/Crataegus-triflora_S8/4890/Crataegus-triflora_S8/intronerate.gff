@@ -1,0 +1,24 @@
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	gene	57	1915	505	+	.	gene_id 1 ; sequence Crataegus-triflora_S8 ; gene_orientation +
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	cds	57	94	.	+	.
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	exon	57	94	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	splice5	95	96	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	intron	95	1278	.	+	.	intron_id 1
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	splice3	1277	1278	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	cds	1279	1411	.	+	.
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	exon	1279	1411	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	splice5	1412	1413	.	+	.	intron_id 2 ; splice_site "GC"
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	intron	1412	1510	.	+	.	intron_id 2
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	splice3	1509	1510	.	+	.	intron_id 1 ; splice_site "GG"
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	cds	1511	1596	.	+	.
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	exon	1511	1596	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	splice5	1597	1598	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	intron	1597	1696	.	+	.	intron_id 3
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	splice3	1695	1696	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	cds	1697	1744	.	+	.
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	exon	1697	1744	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	splice5	1745	1746	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	intron	1745	1848	.	+	.	intron_id 4
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	splice3	1847	1848	.	+	.	intron_id 3 ; splice_site "AG"
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	cds	1849	1915	.	+	.
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	exon	1849	1915	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4890	exonerate:protein2genome:local	similarity	57	1915	505	+	.	alignment_id 1 ; Query Crataegus-triflora_S8 ; Align 57 1 36 ; Align 1280 14 132 ; Align 1511 58 84 ; Align 1698 87 45 ; Align 1850 103 66

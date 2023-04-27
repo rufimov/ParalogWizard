@@ -1,0 +1,34 @@
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	gene	3	2064	971	+	.	gene_id 1 ; sequence Crataegus-aronia_S4 ; gene_orientation +
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	cds	3	48	.	+	.
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	exon	3	48	.	+	.	insertions 0 ; deletions 0
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	splice5	49	50	.	+	.	intron_id 1 ; splice_site "GG"
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	intron	49	413	.	+	.	intron_id 1
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	splice3	412	413	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	cds	414	532	.	+	.
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	exon	414	532	.	+	.	insertions 0 ; deletions 0
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	splice5	533	534	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	intron	533	779	.	+	.	intron_id 2
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	splice3	778	779	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	cds	780	875	.	+	.
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	exon	780	875	.	+	.	insertions 0 ; deletions 0
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	splice5	876	877	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	intron	876	974	.	+	.	intron_id 3
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	splice3	973	974	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	cds	975	1084	.	+	.
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	exon	975	1084	.	+	.	insertions 0 ; deletions 0
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	splice5	1085	1086	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	intron	1085	1208	.	+	.	intron_id 4
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	splice3	1207	1208	.	+	.	intron_id 3 ; splice_site "AC"
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	cds	1209	1285	.	+	.
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	exon	1209	1285	.	+	.	insertions 0 ; deletions 0
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	splice5	1286	1287	.	+	.	intron_id 5 ; splice_site "GT"
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	intron	1286	1616	.	+	.	intron_id 5
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	splice3	1615	1616	.	+	.	intron_id 4 ; splice_site "AG"
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	cds	1617	1712	.	+	.
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	exon	1617	1712	.	+	.	insertions 0 ; deletions 0
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	splice5	1713	1714	.	+	.	intron_id 6 ; splice_site "GA"
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	intron	1713	1957	.	+	.	intron_id 6
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	splice3	1956	1957	.	+	.	intron_id 5 ; splice_site "AG"
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	cds	1958	2064	.	+	.
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	exon	1958	2064	.	+	.	insertions 0 ; deletions 0
+Crataegus-aronia_S4-4471	exonerate:protein2genome:local	similarity	3	2064	971	+	.	alignment_id 1 ; Query Crataegus-aronia_S4 ; Align 3 1 45 ; Align 416 17 117 ; Align 780 56 96 ; Align 975 88 108 ; Align 1210 125 75 ; Align 1619 151 93 ; Align 1960 183 105

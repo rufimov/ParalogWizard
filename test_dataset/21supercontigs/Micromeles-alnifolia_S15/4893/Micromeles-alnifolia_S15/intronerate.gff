@@ -1,0 +1,39 @@
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	gene	383	2656	1138	+	.	gene_id 1 ; sequence Micromeles-alnifolia_S15 ; gene_orientation +
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	cds	383	401	.	+	.
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	exon	383	401	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	splice5	402	403	.	+	.	intron_id 1 ; splice_site "GT"
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	intron	402	508	.	+	.	intron_id 1
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	splice3	507	508	.	+	.	intron_id 0 ; splice_site "AG"
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	cds	509	635	.	+	.
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	exon	509	635	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	splice5	636	637	.	+	.	intron_id 2 ; splice_site "TT"
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	intron	636	1057	.	+	.	intron_id 2
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	splice3	1056	1057	.	+	.	intron_id 1 ; splice_site "CG"
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	cds	1058	1165	.	+	.
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	exon	1058	1165	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	splice5	1166	1167	.	+	.	intron_id 3 ; splice_site "GT"
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	intron	1166	1251	.	+	.	intron_id 3
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	splice3	1250	1251	.	+	.	intron_id 2 ; splice_site "GA"
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	cds	1252	1367	.	+	.
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	exon	1252	1367	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	splice5	1368	1369	.	+	.	intron_id 4 ; splice_site "GT"
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	intron	1368	1464	.	+	.	intron_id 4
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	splice3	1463	1464	.	+	.	intron_id 3 ; splice_site "AG"
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	cds	1465	1590	.	+	.
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	exon	1465	1590	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	splice5	1591	1592	.	+	.	intron_id 5 ; splice_site "GT"
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	intron	1591	2027	.	+	.	intron_id 5
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	splice3	2026	2027	.	+	.	intron_id 4 ; splice_site "AG"
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	cds	2028	2126	.	+	.
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	exon	2028	2126	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	splice5	2127	2128	.	+	.	intron_id 6 ; splice_site "GT"
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	intron	2127	2230	.	+	.	intron_id 6
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	splice3	2229	2230	.	+	.	intron_id 5 ; splice_site "AG"
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	cds	2231	2332	.	+	.
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	exon	2231	2332	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	splice5	2333	2334	.	+	.	intron_id 7 ; splice_site "GT"
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	intron	2333	2597	.	+	.	intron_id 7
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	splice3	2596	2597	.	+	.	intron_id 6 ; splice_site "GG"
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	cds	2598	2656	.	+	.
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	exon	2598	2656	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4893	exonerate:protein2genome:local	similarity	383	2656	1138	+	.	alignment_id 1 ; Query Micromeles-alnifolia_S15 ; Align 383 1 18 ; Align 511 8 123 ; Align 1059 50 105 ; Align 1253 86 114 ; Align 1467 125 123 ; Align 2030 167 96 ; Align 2233 200 99 ; Align 2600 234 57

@@ -1,0 +1,19 @@
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	gene	375	2647	1041	+	.	gene_id 1 ; sequence Malus-sieboldii_S21 ; gene_orientation +
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	cds	375	619	.	+	.
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	exon	375	619	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	splice5	620	621	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	intron	620	715	.	+	.	intron_id 1
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	splice3	714	715	.	+	.	intron_id 0 ; splice_site "GA"
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	cds	716	790	.	+	.
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	exon	716	790	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	splice5	791	792	.	+	.	intron_id 2 ; splice_site "AT"
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	intron	791	2067	.	+	.	intron_id 2
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	splice3	2066	2067	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	cds	2068	2219	.	+	.
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	exon	2068	2219	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	splice5	2220	2221	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	intron	2220	2459	.	+	.	intron_id 3
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	splice3	2458	2459	.	+	.	intron_id 2 ; splice_site "GG"
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	cds	2460	2647	.	+	.
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	exon	2460	2647	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4724para	exonerate:protein2genome:local	similarity	375	2647	1041	+	.	alignment_id 1 ; Query Malus-sieboldii_S21 ; Align 375 1 243 ; Align 717 83 72 ; Align 2069 108 150 ; Align 2462 159 186

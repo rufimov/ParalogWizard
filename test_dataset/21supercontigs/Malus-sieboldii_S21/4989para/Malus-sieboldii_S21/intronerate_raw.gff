@@ -1,0 +1,27 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Malus-sieboldii_S21-4989para	exonerate:protein2genome:local	gene	287	821	521	+	.	gene_id 1 ; sequence Malus-sieboldii_S21 ; gene_orientation +
+Malus-sieboldii_S21-4989para	exonerate:protein2genome:local	cds	287	466	.	+	.	
+Malus-sieboldii_S21-4989para	exonerate:protein2genome:local	exon	287	466	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4989para	exonerate:protein2genome:local	splice5	467	468	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sieboldii_S21-4989para	exonerate:protein2genome:local	intron	467	589	.	+	.	intron_id 1
+Malus-sieboldii_S21-4989para	exonerate:protein2genome:local	splice3	588	589	.	+	.	intron_id 0 ; splice_site "AG"
+Malus-sieboldii_S21-4989para	exonerate:protein2genome:local	cds	590	712	.	+	.	
+Malus-sieboldii_S21-4989para	exonerate:protein2genome:local	exon	590	712	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4989para	exonerate:protein2genome:local	splice5	713	714	.	+	.	intron_id 2 ; splice_site "GT"
+Malus-sieboldii_S21-4989para	exonerate:protein2genome:local	intron	713	803	.	+	.	intron_id 2
+Malus-sieboldii_S21-4989para	exonerate:protein2genome:local	splice3	802	803	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sieboldii_S21-4989para	exonerate:protein2genome:local	cds	804	821	.	+	.	
+Malus-sieboldii_S21-4989para	exonerate:protein2genome:local	exon	804	821	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4989para	exonerate:protein2genome:local	similarity	287	821	521	+	.	alignment_id 1 ; Query Malus-sieboldii_S21 ; Align 287 1 180 ; Align 590 61 123 ; Align 804 102 18
+# --- END OF GFF DUMP ---
+#

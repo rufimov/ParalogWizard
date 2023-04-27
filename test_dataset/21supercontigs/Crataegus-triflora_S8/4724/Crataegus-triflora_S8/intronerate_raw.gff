@@ -1,0 +1,32 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	gene	468	1449	1056	+	.	gene_id 1 ; sequence Crataegus-triflora_S8 ; gene_orientation +
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	cds	468	716	.	+	.	
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	exon	468	716	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	splice5	717	718	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	intron	717	787	.	+	.	intron_id 1
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	splice3	786	787	.	+	.	intron_id 0 ; splice_site "AT"
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	cds	788	861	.	+	.	
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	exon	788	861	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	splice5	862	863	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	intron	862	974	.	+	.	intron_id 2
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	splice3	973	974	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	cds	975	1126	.	+	.	
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	exon	975	1126	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	splice5	1127	1128	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	intron	1127	1261	.	+	.	intron_id 3
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	splice3	1260	1261	.	+	.	intron_id 2 ; splice_site "GG"
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	cds	1262	1449	.	+	.	
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	exon	1262	1449	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4724	exonerate:protein2genome:local	similarity	468	1449	1056	+	.	alignment_id 1 ; Query Crataegus-triflora_S8 ; Align 468 1 249 ; Align 788 84 72 ; Align 976 109 150 ; Align 1264 160 186
+# --- END OF GFF DUMP ---
+#

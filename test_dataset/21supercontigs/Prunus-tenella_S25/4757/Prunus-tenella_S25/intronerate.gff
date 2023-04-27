@@ -1,0 +1,19 @@
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	gene	452	3066	858	+	.	gene_id 1 ; sequence Prunus-tenella_S25 ; gene_orientation +
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	cds	452	613	.	+	.
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	exon	452	613	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	splice5	614	615	.	+	.	intron_id 1 ; splice_site "GT"
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	intron	614	1551	.	+	.	intron_id 1
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	splice3	1550	1551	.	+	.	intron_id 0 ; splice_site "AG"
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	cds	1554	1727	.	+	.
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	exon	1554	1727	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	splice5	1728	1729	.	+	.	intron_id 2 ; splice_site "GT"
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	intron	1728	2724	.	+	.	intron_id 2
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	splice3	2723	2724	.	+	.	intron_id 1 ; splice_site "GG"
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	cds	2725	2827	.	+	.
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	exon	2725	2827	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	splice5	2828	2829	.	+	.	intron_id 3 ; splice_site "GT"
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	intron	2828	2956	.	+	.	intron_id 3
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	splice3	2955	2956	.	+	.	intron_id 2 ; splice_site "AG"
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	cds	2957	3066	.	+	.
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	exon	2957	3066	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4757	exonerate:protein2genome:local	similarity	452	3066	858	+	.	alignment_id 1 ; Query Prunus-tenella_S25 ; Align 452 1 162 ; Align 1554 55 174 ; Align 2725 113 102 ; Align 2959 148 108

@@ -1,0 +1,47 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-10-10
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	gene	175	2269	995	+	.	gene_id 1 ; sequence Crataegus-brachyacantha_S10 ; gene_orientation +
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	cds	175	229	.	+	.	
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	exon	175	229	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	splice5	230	231	.	+	.	intron_id 1 ; splice_site "GG"
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	intron	230	595	.	+	.	intron_id 1
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	splice3	594	595	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	cds	596	714	.	+	.	
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	exon	596	714	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	splice5	715	716	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	intron	715	961	.	+	.	intron_id 2
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	splice3	960	961	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	cds	962	1057	.	+	.	
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	exon	962	1057	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	splice5	1058	1059	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	intron	1058	1155	.	+	.	intron_id 3
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	splice3	1154	1155	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	cds	1156	1265	.	+	.	
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	exon	1156	1265	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	splice5	1266	1267	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	intron	1266	1389	.	+	.	intron_id 4
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	splice3	1388	1389	.	+	.	intron_id 3 ; splice_site "AC"
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	cds	1390	1466	.	+	.	
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	exon	1390	1466	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	splice5	1467	1468	.	+	.	intron_id 5 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	intron	1467	1821	.	+	.	intron_id 5
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	splice3	1820	1821	.	+	.	intron_id 4 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	cds	1822	1917	.	+	.	
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	exon	1822	1917	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	splice5	1918	1919	.	+	.	intron_id 6 ; splice_site "GA"
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	intron	1918	2162	.	+	.	intron_id 6
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	splice3	2161	2162	.	+	.	intron_id 5 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	cds	2163	2269	.	+	.	
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	exon	2163	2269	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4471	exonerate:protein2genome:local	similarity	175	2269	995	+	.	alignment_id 1 ; Query Crataegus-brachyacantha_S10 ; Align 175 1 54 ; Align 598 20 117 ; Align 962 59 96 ; Align 1156 91 108 ; Align 1391 128 75 ; Align 1824 154 93 ; Align 2165 186 105
+# --- END OF GFF DUMP ---
+#

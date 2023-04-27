@@ -1,0 +1,27 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Pourthiaea-villosa_S13-4989	exonerate:protein2genome:local	gene	434	991	522	+	.	gene_id 1 ; sequence Pourthiaea-villosa_S13 ; gene_orientation +
+Pourthiaea-villosa_S13-4989	exonerate:protein2genome:local	cds	434	613	.	+	.	
+Pourthiaea-villosa_S13-4989	exonerate:protein2genome:local	exon	434	613	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4989	exonerate:protein2genome:local	splice5	614	615	.	+	.	intron_id 1 ; splice_site "GT"
+Pourthiaea-villosa_S13-4989	exonerate:protein2genome:local	intron	614	742	.	+	.	intron_id 1
+Pourthiaea-villosa_S13-4989	exonerate:protein2genome:local	splice3	741	742	.	+	.	intron_id 0 ; splice_site "AG"
+Pourthiaea-villosa_S13-4989	exonerate:protein2genome:local	cds	743	865	.	+	.	
+Pourthiaea-villosa_S13-4989	exonerate:protein2genome:local	exon	743	865	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4989	exonerate:protein2genome:local	splice5	866	867	.	+	.	intron_id 2 ; splice_site "GT"
+Pourthiaea-villosa_S13-4989	exonerate:protein2genome:local	intron	866	973	.	+	.	intron_id 2
+Pourthiaea-villosa_S13-4989	exonerate:protein2genome:local	splice3	972	973	.	+	.	intron_id 1 ; splice_site "AG"
+Pourthiaea-villosa_S13-4989	exonerate:protein2genome:local	cds	974	991	.	+	.	
+Pourthiaea-villosa_S13-4989	exonerate:protein2genome:local	exon	974	991	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4989	exonerate:protein2genome:local	similarity	434	991	522	+	.	alignment_id 1 ; Query Pourthiaea-villosa_S13 ; Align 434 1 180 ; Align 743 61 123 ; Align 974 102 18
+# --- END OF GFF DUMP ---
+#

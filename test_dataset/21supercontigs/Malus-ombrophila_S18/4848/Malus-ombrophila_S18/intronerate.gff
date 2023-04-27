@@ -1,0 +1,14 @@
+Malus-ombrophila_S18-4848	exonerate:protein2genome:local	gene	546	2093	1022	+	.	gene_id 1 ; sequence Malus-ombrophila_S18 ; gene_orientation +
+Malus-ombrophila_S18-4848	exonerate:protein2genome:local	cds	546	820	.	+	.
+Malus-ombrophila_S18-4848	exonerate:protein2genome:local	exon	546	820	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4848	exonerate:protein2genome:local	splice5	821	822	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-ombrophila_S18-4848	exonerate:protein2genome:local	intron	821	1100	.	+	.	intron_id 1
+Malus-ombrophila_S18-4848	exonerate:protein2genome:local	splice3	1099	1100	.	+	.	intron_id 0 ; splice_site "AG"
+Malus-ombrophila_S18-4848	exonerate:protein2genome:local	cds	1101	1321	.	+	.
+Malus-ombrophila_S18-4848	exonerate:protein2genome:local	exon	1101	1321	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4848	exonerate:protein2genome:local	splice5	1322	1323	.	+	.	intron_id 2 ; splice_site "GC"
+Malus-ombrophila_S18-4848	exonerate:protein2genome:local	intron	1322	1968	.	+	.	intron_id 2
+Malus-ombrophila_S18-4848	exonerate:protein2genome:local	splice3	1967	1968	.	+	.	intron_id 1 ; splice_site "TG"
+Malus-ombrophila_S18-4848	exonerate:protein2genome:local	cds	1969	2093	.	+	.
+Malus-ombrophila_S18-4848	exonerate:protein2genome:local	exon	1969	2093	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4848	exonerate:protein2genome:local	similarity	546	2093	1022	+	.	alignment_id 1 ; Query Malus-ombrophila_S18 ; Align 546 1 273 ; Align 1102 93 219 ; Align 1971 167 123

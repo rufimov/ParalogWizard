@@ -1,0 +1,17 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Malus-ombrophila_S18-4796para	exonerate:protein2genome:local	gene	387	523	213	+	.	gene_id 1 ; sequence Malus-ombrophila_S18 ; gene_orientation .
+Malus-ombrophila_S18-4796para	exonerate:protein2genome:local	cds	387	523	.	+	.	
+Malus-ombrophila_S18-4796para	exonerate:protein2genome:local	exon	387	523	.	+	.	insertions 0 ; deletions 0 ; frameshifts 2
+Malus-ombrophila_S18-4796para	exonerate:protein2genome:local	similarity	387	523	213	+	.	alignment_id 1 ; Query Malus-ombrophila_S18 ; Align 387 1 99 ; Align 488 34 36
+# --- END OF GFF DUMP ---
+#

@@ -1,0 +1,27 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Sorbus-tianschanica_S23-4848	exonerate:protein2genome:local	gene	387	1945	1022	+	.	gene_id 1 ; sequence Sorbus-tianschanica_S23 ; gene_orientation +
+Sorbus-tianschanica_S23-4848	exonerate:protein2genome:local	cds	387	661	.	+	.	
+Sorbus-tianschanica_S23-4848	exonerate:protein2genome:local	exon	387	661	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4848	exonerate:protein2genome:local	splice5	662	663	.	+	.	intron_id 1 ; splice_site "GT"
+Sorbus-tianschanica_S23-4848	exonerate:protein2genome:local	intron	662	939	.	+	.	intron_id 1
+Sorbus-tianschanica_S23-4848	exonerate:protein2genome:local	splice3	938	939	.	+	.	intron_id 0 ; splice_site "AG"
+Sorbus-tianschanica_S23-4848	exonerate:protein2genome:local	cds	940	1160	.	+	.	
+Sorbus-tianschanica_S23-4848	exonerate:protein2genome:local	exon	940	1160	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4848	exonerate:protein2genome:local	splice5	1161	1162	.	+	.	intron_id 2 ; splice_site "GC"
+Sorbus-tianschanica_S23-4848	exonerate:protein2genome:local	intron	1161	1820	.	+	.	intron_id 2
+Sorbus-tianschanica_S23-4848	exonerate:protein2genome:local	splice3	1819	1820	.	+	.	intron_id 1 ; splice_site "TG"
+Sorbus-tianschanica_S23-4848	exonerate:protein2genome:local	cds	1821	1945	.	+	.	
+Sorbus-tianschanica_S23-4848	exonerate:protein2genome:local	exon	1821	1945	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4848	exonerate:protein2genome:local	similarity	387	1945	1022	+	.	alignment_id 1 ; Query Sorbus-tianschanica_S23 ; Align 387 1 273 ; Align 941 93 219 ; Align 1823 167 123
+# --- END OF GFF DUMP ---
+#

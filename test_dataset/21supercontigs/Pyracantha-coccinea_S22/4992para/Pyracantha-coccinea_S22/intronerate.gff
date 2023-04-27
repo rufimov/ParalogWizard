@@ -1,0 +1,4 @@
+Pyracantha-coccinea_S22-4992para	exonerate:protein2genome:local	gene	284	390	148	+	.	gene_id 1 ; sequence Pyracantha-coccinea_S22 ; gene_orientation .
+Pyracantha-coccinea_S22-4992para	exonerate:protein2genome:local	cds	284	390	.	+	.
+Pyracantha-coccinea_S22-4992para	exonerate:protein2genome:local	exon	284	390	.	+	.	insertions 0 ; deletions 0 ; frameshifts 5
+Pyracantha-coccinea_S22-4992para	exonerate:protein2genome:local	similarity	284	390	148	+	.	alignment_id 1 ; Query Pyracantha-coccinea_S22 ; Align 284 1 60 ; Align 349 21 42

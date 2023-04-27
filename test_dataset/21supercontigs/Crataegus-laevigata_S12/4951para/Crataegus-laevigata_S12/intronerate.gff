@@ -1,0 +1,9 @@
+Crataegus-laevigata_S12-4951para	exonerate:protein2genome:local	gene	105	973	878	+	.	gene_id 1 ; sequence Crataegus-laevigata_S12 ; gene_orientation +
+Crataegus-laevigata_S12-4951para	exonerate:protein2genome:local	cds	105	205	.	+	.
+Crataegus-laevigata_S12-4951para	exonerate:protein2genome:local	exon	105	205	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4951para	exonerate:protein2genome:local	splice5	206	207	.	+	.	intron_id 1 ; splice_site "CC"
+Crataegus-laevigata_S12-4951para	exonerate:protein2genome:local	intron	206	525	.	+	.	intron_id 1
+Crataegus-laevigata_S12-4951para	exonerate:protein2genome:local	splice3	524	525	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-laevigata_S12-4951para	exonerate:protein2genome:local	cds	526	973	.	+	.
+Crataegus-laevigata_S12-4951para	exonerate:protein2genome:local	exon	526	973	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4951para	exonerate:protein2genome:local	similarity	105	973	878	+	.	alignment_id 1 ; Query Crataegus-laevigata_S12 ; Align 105 1 99 ; Align 527 35 447

@@ -1,0 +1,39 @@
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	gene	38	2731	1123	+	.	gene_id 1 ; sequence Crataegus-dahurica_S5 ; gene_orientation +
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	cds	38	61	.	+	.
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	exon	38	61	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	splice5	62	63	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	intron	62	223	.	+	.	intron_id 1
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	splice3	222	223	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	cds	224	333	.	+	.
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	exon	224	333	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	splice5	334	335	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	intron	334	406	.	+	.	intron_id 2
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	splice3	405	406	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	cds	407	521	.	+	.
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	exon	407	521	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	splice5	522	523	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	intron	522	703	.	+	.	intron_id 3
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	splice3	702	703	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	cds	704	766	.	+	.
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	exon	704	766	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	splice5	767	768	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	intron	767	877	.	+	.	intron_id 4
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	splice3	876	877	.	+	.	intron_id 3 ; splice_site "AG"
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	cds	878	1042	.	+	.
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	exon	878	1042	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	splice5	1043	1044	.	+	.	intron_id 5 ; splice_site "TT"
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	intron	1043	1402	.	+	.	intron_id 5
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	splice3	1401	1402	.	+	.	intron_id 4 ; splice_site "AG"
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	cds	1403	1464	.	+	.
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	exon	1403	1464	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	splice5	1465	1466	.	+	.	intron_id 6 ; splice_site "GT"
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	intron	1465	2013	.	+	.	intron_id 6
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	splice3	2012	2013	.	+	.	intron_id 5 ; splice_site "AC"
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	cds	2014	2074	.	+	.
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	exon	2014	2074	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	splice5	2075	2076	.	+	.	intron_id 7 ; splice_site "GG"
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	intron	2075	2608	.	+	.	intron_id 7
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	splice3	2607	2608	.	+	.	intron_id 6 ; splice_site "AG"
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	cds	2609	2731	.	+	.
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	exon	2609	2731	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4796	exonerate:protein2genome:local	similarity	38	2731	1123	+	.	alignment_id 1 ; Query Crataegus-dahurica_S5 ; Align 38 1 24 ; Align 224 9 108 ; Align 408 46 114 ; Align 704 84 63 ; Align 878 105 165 ; Align 1403 160 60 ; Align 2015 181 60 ; Align 2609 201 123

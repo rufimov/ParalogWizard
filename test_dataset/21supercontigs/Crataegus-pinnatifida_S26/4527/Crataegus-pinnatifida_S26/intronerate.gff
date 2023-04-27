@@ -1,0 +1,4 @@
+Crataegus-pinnatifida_S26-4527	exonerate:protein2genome:local	gene	402	674	473	+	.	gene_id 1 ; sequence Crataegus-pinnatifida_S26 ; gene_orientation .
+Crataegus-pinnatifida_S26-4527	exonerate:protein2genome:local	cds	402	674	.	+	.
+Crataegus-pinnatifida_S26-4527	exonerate:protein2genome:local	exon	402	674	.	+	.	insertions 0 ; deletions 0
+Crataegus-pinnatifida_S26-4527	exonerate:protein2genome:local	similarity	402	674	473	+	.	alignment_id 1 ; Query Crataegus-pinnatifida_S26 ; Align 402 1 273

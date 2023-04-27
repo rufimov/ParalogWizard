@@ -1,0 +1,32 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	gene	551	1546	1062	+	.	gene_id 1 ; sequence Crataegus-chlorosarca_S3 ; gene_orientation +
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	cds	551	799	.	+	.	
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	exon	551	799	.	+	.	insertions 0 ; deletions 0
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	splice5	800	801	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	intron	800	870	.	+	.	intron_id 1
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	splice3	869	870	.	+	.	intron_id 0 ; splice_site "AT"
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	cds	871	944	.	+	.	
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	exon	871	944	.	+	.	insertions 0 ; deletions 0
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	splice5	945	946	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	intron	945	1057	.	+	.	intron_id 2
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	splice3	1056	1057	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	cds	1058	1209	.	+	.	
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	exon	1058	1209	.	+	.	insertions 0 ; deletions 0
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	splice5	1210	1211	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	intron	1210	1358	.	+	.	intron_id 3
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	splice3	1357	1358	.	+	.	intron_id 2 ; splice_site "GG"
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	cds	1359	1546	.	+	.	
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	exon	1359	1546	.	+	.	insertions 0 ; deletions 0
+Crataegus-chlorosarca_S3-4724	exonerate:protein2genome:local	similarity	551	1546	1062	+	.	alignment_id 1 ; Query Crataegus-chlorosarca_S3 ; Align 551 1 249 ; Align 871 84 72 ; Align 1059 109 150 ; Align 1361 160 186
+# --- END OF GFF DUMP ---
+#

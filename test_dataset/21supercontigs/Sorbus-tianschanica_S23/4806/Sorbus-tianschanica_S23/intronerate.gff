@@ -1,0 +1,19 @@
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	gene	340	1674	778	+	.	gene_id 1 ; sequence Sorbus-tianschanica_S23 ; gene_orientation +
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	cds	340	572	.	+	.
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	exon	340	572	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	splice5	573	574	.	+	.	intron_id 1 ; splice_site "GT"
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	intron	573	855	.	+	.	intron_id 1
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	splice3	854	855	.	+	.	intron_id 0 ; splice_site "GT"
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	cds	856	962	.	+	.
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	exon	856	962	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	splice5	963	964	.	+	.	intron_id 2 ; splice_site "GT"
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	intron	963	1050	.	+	.	intron_id 2
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	splice3	1049	1050	.	+	.	intron_id 1 ; splice_site "AG"
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	cds	1051	1110	.	+	.
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	exon	1051	1110	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	splice5	1111	1112	.	+	.	intron_id 3 ; splice_site "GT"
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	intron	1111	1594	.	+	.	intron_id 3
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	splice3	1593	1594	.	+	.	intron_id 2 ; splice_site "AG"
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	cds	1595	1674	.	+	.
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	exon	1595	1674	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4806	exonerate:protein2genome:local	similarity	340	1674	778	+	.	alignment_id 1 ; Query Sorbus-tianschanica_S23 ; Align 340 1 231 ; Align 857 79 105 ; Align 1053 115 57 ; Align 1597 135 78

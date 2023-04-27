@@ -1,0 +1,38 @@
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	gene	375	1475	940	+	.	gene_id 1 ; sequence Malus-sieversii_S14 ; gene_orientation +
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	cds	375	619	.	+	.
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	exon	375	619	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	splice5	620	621	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	intron	620	698	.	+	.	intron_id 1
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	splice3	697	698	.	+	.	intron_id 0 ; splice_site "GA"
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	cds	699	781	.	+	.
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	exon	699	781	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	splice5	782	783	.	+	.	intron_id 2 ; splice_site "GA"
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	intron	782	920	.	+	.	intron_id 2
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	splice3	919	920	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	cds	921	1028	.	+	.
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	exon	921	1028	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	splice5	1029	1030	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	intron	1029	1287	.	+	.	intron_id 3
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	splice3	1286	1287	.	+	.	intron_id 2 ; splice_site "GA"
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	cds	1288	1475	.	+	.
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	exon	1288	1475	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	similarity	375	1475	940	+	.	alignment_id 1 ; Query Malus-sieversii_S14 ; Align 375 1 243 ; Align 700 83 81 ; Align 923 111 105 ; Align 1290 147 186
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	gene	2212	3312	940	+	.	gene_id 2 ; sequence Malus-sieversii_S14 ; gene_orientation +
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	cds	2212	2456	.	+	.
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	exon	2212	2456	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	splice5	2457	2458	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	intron	2457	2535	.	+	.	intron_id 1
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	splice3	2534	2535	.	+	.	intron_id 0 ; splice_site "GA"
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	cds	2536	2618	.	+	.
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	exon	2536	2618	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	splice5	2619	2620	.	+	.	intron_id 2 ; splice_site "GA"
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	intron	2619	2757	.	+	.	intron_id 2
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	splice3	2756	2757	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	cds	2758	2865	.	+	.
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	exon	2758	2865	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	splice5	2866	2867	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	intron	2866	3124	.	+	.	intron_id 3
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	splice3	3123	3124	.	+	.	intron_id 2 ; splice_site "GA"
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	cds	3125	3312	.	+	.
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	exon	3125	3312	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4724para	exonerate:protein2genome:local	similarity	2212	3312	940	+	.	alignment_id 2 ; Query Malus-sieversii_S14 ; Align 2212 1 243 ; Align 2537 83 81 ; Align 2760 111 105 ; Align 3127 147 186

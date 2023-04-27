@@ -1,0 +1,19 @@
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	gene	317	2056	783	+	.	gene_id 1 ; sequence Pyrus-regelii_S20 ; gene_orientation +
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	cds	317	549	.	+	.
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	exon	317	549	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	splice5	550	551	.	+	.	intron_id 1 ; splice_site "GT"
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	intron	550	1307	.	+	.	intron_id 1
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	splice3	1306	1307	.	+	.	intron_id 0 ; splice_site "AT"
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	cds	1308	1414	.	+	.
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	exon	1308	1414	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	splice5	1415	1416	.	+	.	intron_id 2 ; splice_site "GT"
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	intron	1415	1498	.	+	.	intron_id 2
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	splice3	1497	1498	.	+	.	intron_id 1 ; splice_site "AG"
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	cds	1499	1558	.	+	.
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	exon	1499	1558	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	splice5	1559	1560	.	+	.	intron_id 3 ; splice_site "GT"
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	intron	1559	1976	.	+	.	intron_id 3
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	splice3	1975	1976	.	+	.	intron_id 2 ; splice_site "AG"
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	cds	1977	2056	.	+	.
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	exon	1977	2056	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4806para	exonerate:protein2genome:local	similarity	317	2056	783	+	.	alignment_id 1 ; Query Pyrus-regelii_S20 ; Align 317 1 231 ; Align 1309 79 105 ; Align 1501 115 57 ; Align 1979 135 78

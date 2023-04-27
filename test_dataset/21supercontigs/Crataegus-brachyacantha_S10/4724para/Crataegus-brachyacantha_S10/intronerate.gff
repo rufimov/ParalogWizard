@@ -1,0 +1,19 @@
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	gene	538	1659	1035	+	.	gene_id 1 ; sequence Crataegus-brachyacantha_S10 ; gene_orientation +
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	cds	538	782	.	+	.
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	exon	538	782	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	splice5	783	784	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	intron	783	869	.	+	.	intron_id 1
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	splice3	868	869	.	+	.	intron_id 0 ; splice_site "GA"
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	cds	870	944	.	+	.
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	exon	870	944	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	splice5	945	946	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	intron	945	1050	.	+	.	intron_id 2
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	splice3	1049	1050	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	cds	1051	1202	.	+	.
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	exon	1051	1202	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	splice5	1203	1204	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	intron	1203	1471	.	+	.	intron_id 3
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	splice3	1470	1471	.	+	.	intron_id 2 ; splice_site "GG"
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	cds	1472	1659	.	+	.
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	exon	1472	1659	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4724para	exonerate:protein2genome:local	similarity	538	1659	1035	+	.	alignment_id 1 ; Query Crataegus-brachyacantha_S10 ; Align 538 1 243 ; Align 871 83 72 ; Align 1052 108 150 ; Align 1474 159 186

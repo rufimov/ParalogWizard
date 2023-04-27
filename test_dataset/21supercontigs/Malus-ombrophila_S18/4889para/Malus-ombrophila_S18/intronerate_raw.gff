@@ -1,0 +1,37 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	gene	199	1959	773	+	.	gene_id 1 ; sequence Malus-ombrophila_S18 ; gene_orientation +
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	cds	199	254	.	+	.	
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	exon	199	254	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	splice5	255	256	.	+	.	intron_id 1 ; splice_site "GA"
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	intron	255	347	.	+	.	intron_id 1
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	splice3	346	347	.	+	.	intron_id 0 ; splice_site "GG"
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	cds	348	497	.	+	.	
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	exon	348	497	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	splice5	498	499	.	+	.	intron_id 2 ; splice_site "AT"
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	intron	498	944	.	+	.	intron_id 2
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	splice3	943	944	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	cds	945	1065	.	+	.	
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	exon	945	1065	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	splice5	1066	1067	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	intron	1066	1281	.	+	.	intron_id 3
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	splice3	1280	1281	.	+	.	intron_id 2 ; splice_site "AG"
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	cds	1284	1437	.	+	.	
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	exon	1284	1437	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	splice5	1438	1439	.	+	.	intron_id 4 ; splice_site "GT"
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	intron	1438	1909	.	+	.	intron_id 4
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	splice3	1908	1909	.	+	.	intron_id 3 ; splice_site "GA"
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	cds	1910	1959	.	+	.	
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	exon	1910	1959	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4889para	exonerate:protein2genome:local	similarity	199	1959	773	+	.	alignment_id 1 ; Query Malus-ombrophila_S18 ; Align 199 1 54 ; Align 349 20 147 ; Align 946 70 120 ; Align 1284 110 153 ; Align 1912 162 48
+# --- END OF GFF DUMP ---
+#

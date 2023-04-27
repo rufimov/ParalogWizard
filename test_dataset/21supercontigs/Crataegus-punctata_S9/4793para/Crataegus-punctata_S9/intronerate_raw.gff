@@ -1,0 +1,27 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-punctata_S9-4793para	exonerate:protein2genome:local	gene	339	1667	1315	+	.	gene_id 1 ; sequence Crataegus-punctata_S9 ; gene_orientation +
+Crataegus-punctata_S9-4793para	exonerate:protein2genome:local	cds	339	884	.	+	.	
+Crataegus-punctata_S9-4793para	exonerate:protein2genome:local	exon	339	884	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4793para	exonerate:protein2genome:local	splice5	885	886	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-punctata_S9-4793para	exonerate:protein2genome:local	intron	885	1095	.	+	.	intron_id 1
+Crataegus-punctata_S9-4793para	exonerate:protein2genome:local	splice3	1094	1095	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-punctata_S9-4793para	exonerate:protein2genome:local	cds	1096	1147	.	+	.	
+Crataegus-punctata_S9-4793para	exonerate:protein2genome:local	exon	1096	1147	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4793para	exonerate:protein2genome:local	splice5	1148	1149	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-punctata_S9-4793para	exonerate:protein2genome:local	intron	1148	1467	.	+	.	intron_id 2
+Crataegus-punctata_S9-4793para	exonerate:protein2genome:local	splice3	1466	1467	.	+	.	intron_id 1 ; splice_site "CG"
+Crataegus-punctata_S9-4793para	exonerate:protein2genome:local	cds	1468	1667	.	+	.	
+Crataegus-punctata_S9-4793para	exonerate:protein2genome:local	exon	1468	1667	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4793para	exonerate:protein2genome:local	similarity	339	1667	1315	+	.	alignment_id 1 ; Query Crataegus-punctata_S9 ; Align 339 1 546 ; Align 1096 183 51 ; Align 1470 201 198
+# --- END OF GFF DUMP ---
+#

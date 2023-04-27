@@ -1,0 +1,19 @@
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	gene	353	2456	1274	+	.	gene_id 1 ; sequence Crataegus-monogyna_S11 ; gene_orientation +
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	cds	353	486	.	+	.
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	exon	353	486	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	splice5	487	488	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	intron	487	988	.	+	.	intron_id 1
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	splice3	987	988	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	cds	989	1031	.	+	.
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	exon	989	1031	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	splice5	1032	1033	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	intron	1032	1400	.	+	.	intron_id 2
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	splice3	1399	1400	.	+	.	intron_id 1 ; splice_site "AT"
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	cds	1401	1949	.	+	.
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	exon	1401	1949	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	splice5	1950	1951	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	intron	1950	2402	.	+	.	intron_id 3
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	splice3	2401	2402	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	cds	2403	2456	.	+	.
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	exon	2403	2456	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4793	exonerate:protein2genome:local	similarity	353	2456	1274	+	.	alignment_id 1 ; Query Crataegus-monogyna_S11 ; Align 353 1 132 ; Align 990 46 42 ; Align 1401 60 549 ; Align 2403 243 54

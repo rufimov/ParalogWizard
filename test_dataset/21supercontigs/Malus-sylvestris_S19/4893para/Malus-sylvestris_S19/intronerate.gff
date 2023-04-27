@@ -1,0 +1,39 @@
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	gene	260	2380	1130	+	.	gene_id 1 ; sequence Malus-sylvestris_S19 ; gene_orientation +
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	cds	260	278	.	+	.
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	exon	260	278	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	splice5	279	280	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	intron	279	383	.	+	.	intron_id 1
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	splice3	382	383	.	+	.	intron_id 0 ; splice_site "AG"
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	cds	384	505	.	+	.
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	exon	384	505	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	splice5	506	507	.	+	.	intron_id 2 ; splice_site "GT"
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	intron	506	842	.	+	.	intron_id 2
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	splice3	841	842	.	+	.	intron_id 1 ; splice_site "AC"
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	cds	843	947	.	+	.
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	exon	843	947	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	splice5	948	949	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	intron	948	1033	.	+	.	intron_id 3
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	splice3	1032	1033	.	+	.	intron_id 2 ; splice_site "TT"
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	cds	1034	1154	.	+	.
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	exon	1034	1154	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	splice5	1155	1156	.	+	.	intron_id 4 ; splice_site "GT"
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	intron	1155	1253	.	+	.	intron_id 4
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	splice3	1252	1253	.	+	.	intron_id 3 ; splice_site "AG"
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	cds	1254	1379	.	+	.
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	exon	1254	1379	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	splice5	1380	1381	.	+	.	intron_id 5 ; splice_site "GT"
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	intron	1380	1818	.	+	.	intron_id 5
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	splice3	1817	1818	.	+	.	intron_id 4 ; splice_site "AG"
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	cds	1819	1917	.	+	.
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	exon	1819	1917	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	splice5	1918	1919	.	+	.	intron_id 6 ; splice_site "GT"
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	intron	1918	2022	.	+	.	intron_id 6
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	splice3	2021	2022	.	+	.	intron_id 5 ; splice_site "AG"
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	cds	2023	2125	.	+	.
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	exon	2023	2125	.	+	.	insertions 0 ; deletions 0 ; frameshifts 1
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	splice5	2126	2127	.	+	.	intron_id 7 ; splice_site "GT"
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	intron	2126	2321	.	+	.	intron_id 7
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	splice3	2320	2321	.	+	.	intron_id 6 ; splice_site "GG"
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	cds	2322	2380	.	+	.
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	exon	2322	2380	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4893para	exonerate:protein2genome:local	similarity	260	2380	1130	+	.	alignment_id 1 ; Query Malus-sylvestris_S19 ; Align 260 1 18 ; Align 386 8 120 ; Align 843 48 105 ; Align 1034 83 120 ; Align 1256 124 123 ; Align 1821 166 96 ; Align 2025 199 66 ; Align 2092 221 33 ; Align 2324 233 57

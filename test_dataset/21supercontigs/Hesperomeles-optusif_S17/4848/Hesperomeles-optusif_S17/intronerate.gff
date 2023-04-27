@@ -1,0 +1,14 @@
+Hesperomeles-optusif_S17-4848	exonerate:protein2genome:local	gene	298	1855	1023	+	.	gene_id 1 ; sequence Hesperomeles-optusif_S17 ; gene_orientation +
+Hesperomeles-optusif_S17-4848	exonerate:protein2genome:local	cds	298	572	.	+	.
+Hesperomeles-optusif_S17-4848	exonerate:protein2genome:local	exon	298	572	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4848	exonerate:protein2genome:local	splice5	573	574	.	+	.	intron_id 1 ; splice_site "GT"
+Hesperomeles-optusif_S17-4848	exonerate:protein2genome:local	intron	573	851	.	+	.	intron_id 1
+Hesperomeles-optusif_S17-4848	exonerate:protein2genome:local	splice3	850	851	.	+	.	intron_id 0 ; splice_site "AG"
+Hesperomeles-optusif_S17-4848	exonerate:protein2genome:local	cds	852	1072	.	+	.
+Hesperomeles-optusif_S17-4848	exonerate:protein2genome:local	exon	852	1072	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4848	exonerate:protein2genome:local	splice5	1073	1074	.	+	.	intron_id 2 ; splice_site "GC"
+Hesperomeles-optusif_S17-4848	exonerate:protein2genome:local	intron	1073	1730	.	+	.	intron_id 2
+Hesperomeles-optusif_S17-4848	exonerate:protein2genome:local	splice3	1729	1730	.	+	.	intron_id 1 ; splice_site "TG"
+Hesperomeles-optusif_S17-4848	exonerate:protein2genome:local	cds	1731	1855	.	+	.
+Hesperomeles-optusif_S17-4848	exonerate:protein2genome:local	exon	1731	1855	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4848	exonerate:protein2genome:local	similarity	298	1855	1023	+	.	alignment_id 1 ; Query Hesperomeles-optusif_S17 ; Align 298 1 273 ; Align 853 93 219 ; Align 1733 167 123

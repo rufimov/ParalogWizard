@@ -1,0 +1,52 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	gene	410	3050	1093	+	.	gene_id 1 ; sequence Malus-sieboldii_S21 ; gene_orientation +
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	cds	410	433	.	+	.	
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	exon	410	433	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	splice5	434	435	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	intron	434	602	.	+	.	intron_id 1
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	splice3	601	602	.	+	.	intron_id 0 ; splice_site "AG"
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	cds	603	712	.	+	.	
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	exon	603	712	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	splice5	713	714	.	+	.	intron_id 2 ; splice_site "GT"
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	intron	713	804	.	+	.	intron_id 2
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	splice3	803	804	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	cds	805	919	.	+	.	
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	exon	805	919	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	splice5	920	921	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	intron	920	1064	.	+	.	intron_id 3
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	splice3	1063	1064	.	+	.	intron_id 2 ; splice_site "AG"
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	cds	1065	1127	.	+	.	
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	exon	1065	1127	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	splice5	1128	1129	.	+	.	intron_id 4 ; splice_site "GT"
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	intron	1128	1238	.	+	.	intron_id 4
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	splice3	1237	1238	.	+	.	intron_id 3 ; splice_site "AG"
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	cds	1239	1400	.	+	.	
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	exon	1239	1400	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	splice5	1401	1402	.	+	.	intron_id 5 ; splice_site "AG"
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	intron	1401	1784	.	+	.	intron_id 5
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	splice3	1783	1784	.	+	.	intron_id 4 ; splice_site "AG"
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	cds	1785	1846	.	+	.	
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	exon	1785	1846	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	splice5	1847	1848	.	+	.	intron_id 6 ; splice_site "GT"
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	intron	1847	2388	.	+	.	intron_id 6
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	splice3	2387	2388	.	+	.	intron_id 5 ; splice_site "AC"
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	cds	2389	2449	.	+	.	
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	exon	2389	2449	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	splice5	2450	2451	.	+	.	intron_id 7 ; splice_site "GG"
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	intron	2450	2927	.	+	.	intron_id 7
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	splice3	2926	2927	.	+	.	intron_id 6 ; splice_site "AG"
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	cds	2928	3050	.	+	.	
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	exon	2928	3050	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4796	exonerate:protein2genome:local	similarity	410	3050	1093	+	.	alignment_id 1 ; Query Malus-sieboldii_S21 ; Align 410 1 24 ; Align 603 9 108 ; Align 806 46 114 ; Align 1065 84 63 ; Align 1239 105 162 ; Align 1785 159 60 ; Align 2390 180 60 ; Align 2928 200 123
+# --- END OF GFF DUMP ---
+#

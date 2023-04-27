@@ -1,0 +1,4 @@
+Crataegus-monogyna_S11-4744	exonerate:protein2genome:local	gene	244	363	205	+	.	gene_id 1 ; sequence Crataegus-monogyna_S11 ; gene_orientation .
+Crataegus-monogyna_S11-4744	exonerate:protein2genome:local	cds	244	363	.	+	.
+Crataegus-monogyna_S11-4744	exonerate:protein2genome:local	exon	244	363	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4744	exonerate:protein2genome:local	similarity	244	363	205	+	.	alignment_id 1 ; Query Crataegus-monogyna_S11 ; Align 244 1 120

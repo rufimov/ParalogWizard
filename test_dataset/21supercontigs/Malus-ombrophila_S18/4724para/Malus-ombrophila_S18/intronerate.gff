@@ -1,0 +1,19 @@
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	gene	315	1449	1046	+	.	gene_id 1 ; sequence Malus-ombrophila_S18 ; gene_orientation +
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	cds	315	545	.	+	.
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	exon	315	545	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	splice5	546	547	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	intron	546	640	.	+	.	intron_id 1
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	splice3	639	640	.	+	.	intron_id 0 ; splice_site "AG"
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	cds	641	729	.	+	.
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	exon	641	729	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	splice5	730	731	.	+	.	intron_id 2 ; splice_site "AT"
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	intron	730	836	.	+	.	intron_id 2
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	splice3	835	836	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	cds	837	988	.	+	.
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	exon	837	988	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	splice5	989	990	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	intron	989	1261	.	+	.	intron_id 3
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	splice3	1260	1261	.	+	.	intron_id 2 ; splice_site "GG"
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	cds	1262	1449	.	+	.
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	exon	1262	1449	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4724para	exonerate:protein2genome:local	similarity	315	1449	1046	+	.	alignment_id 1 ; Query Malus-ombrophila_S18 ; Align 315 1 231 ; Align 641 78 87 ; Align 838 108 150 ; Align 1264 159 186

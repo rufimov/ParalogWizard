@@ -1,0 +1,4 @@
+Malus-sieboldii_S21-4848para	exonerate:protein2genome:local	gene	183	668	873	+	.	gene_id 1 ; sequence Malus-sieboldii_S21 ; gene_orientation .
+Malus-sieboldii_S21-4848para	exonerate:protein2genome:local	cds	183	668	.	+	.
+Malus-sieboldii_S21-4848para	exonerate:protein2genome:local	exon	183	668	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4848para	exonerate:protein2genome:local	similarity	183	668	873	+	.	alignment_id 1 ; Query Malus-sieboldii_S21 ; Align 183 1 486

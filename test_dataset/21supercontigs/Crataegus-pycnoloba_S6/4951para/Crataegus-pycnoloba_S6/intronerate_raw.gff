@@ -1,0 +1,22 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-pycnoloba_S6-4951para	exonerate:protein2genome:local	gene	179	1047	881	+	.	gene_id 1 ; sequence Crataegus-pycnoloba_S6 ; gene_orientation +
+Crataegus-pycnoloba_S6-4951para	exonerate:protein2genome:local	cds	179	279	.	+	.	
+Crataegus-pycnoloba_S6-4951para	exonerate:protein2genome:local	exon	179	279	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4951para	exonerate:protein2genome:local	splice5	280	281	.	+	.	intron_id 1 ; splice_site "CC"
+Crataegus-pycnoloba_S6-4951para	exonerate:protein2genome:local	intron	280	599	.	+	.	intron_id 1
+Crataegus-pycnoloba_S6-4951para	exonerate:protein2genome:local	splice3	598	599	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-pycnoloba_S6-4951para	exonerate:protein2genome:local	cds	600	1047	.	+	.	
+Crataegus-pycnoloba_S6-4951para	exonerate:protein2genome:local	exon	600	1047	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4951para	exonerate:protein2genome:local	similarity	179	1047	881	+	.	alignment_id 1 ; Query Crataegus-pycnoloba_S6 ; Align 179 1 99 ; Align 601 35 447
+# --- END OF GFF DUMP ---
+#

@@ -1,0 +1,4 @@
+Crataegus-pinnatifida_S26-4951para	exonerate:protein2genome:local	gene	479	928	760	+	.	gene_id 1 ; sequence Crataegus-pinnatifida_S26 ; gene_orientation .
+Crataegus-pinnatifida_S26-4951para	exonerate:protein2genome:local	cds	479	928	.	+	.
+Crataegus-pinnatifida_S26-4951para	exonerate:protein2genome:local	exon	479	928	.	+	.	insertions 0 ; deletions 0
+Crataegus-pinnatifida_S26-4951para	exonerate:protein2genome:local	similarity	479	928	760	+	.	alignment_id 1 ; Query Crataegus-pinnatifida_S26 ; Align 479 1 450

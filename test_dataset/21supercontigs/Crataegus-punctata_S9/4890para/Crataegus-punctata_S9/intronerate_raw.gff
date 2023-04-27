@@ -1,0 +1,32 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	gene	27	660	475	+	.	gene_id 1 ; sequence Crataegus-punctata_S9 ; gene_orientation +
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	cds	27	94	.	+	.	
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	exon	27	94	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	splice5	95	96	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	intron	95	210	.	+	.	intron_id 1
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	splice3	209	210	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	cds	211	246	.	+	.	
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	exon	211	246	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	splice5	247	248	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	intron	247	346	.	+	.	intron_id 2
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	splice3	345	346	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	cds	347	475	.	+	.	
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	exon	347	475	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	splice5	476	477	.	+	.	intron_id 3 ; splice_site "GG"
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	intron	476	572	.	+	.	intron_id 3
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	splice3	571	572	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	cds	573	660	.	+	.	
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	exon	573	660	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4890para	exonerate:protein2genome:local	similarity	27	660	475	+	.	alignment_id 1 ; Query Crataegus-punctata_S9 ; Align 27 1 66 ; Align 212 24 33 ; Align 348 36 126 ; Align 574 79 87
+# --- END OF GFF DUMP ---
+#

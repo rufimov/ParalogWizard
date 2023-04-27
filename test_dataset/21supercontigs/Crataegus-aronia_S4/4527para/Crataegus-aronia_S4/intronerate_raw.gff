@@ -1,0 +1,27 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-10-10
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-aronia_S4-4527para	exonerate:protein2genome:local	gene	188	1914	1420	+	.	gene_id 1 ; sequence Crataegus-aronia_S4 ; gene_orientation +
+Crataegus-aronia_S4-4527para	exonerate:protein2genome:local	cds	188	460	.	+	.	
+Crataegus-aronia_S4-4527para	exonerate:protein2genome:local	exon	188	460	.	+	.	insertions 0 ; deletions 0
+Crataegus-aronia_S4-4527para	exonerate:protein2genome:local	splice5	461	462	.	+	.	intron_id 1 ; splice_site "TT"
+Crataegus-aronia_S4-4527para	exonerate:protein2genome:local	intron	461	1150	.	+	.	intron_id 1
+Crataegus-aronia_S4-4527para	exonerate:protein2genome:local	splice3	1149	1150	.	+	.	intron_id 0 ; splice_site "TG"
+Crataegus-aronia_S4-4527para	exonerate:protein2genome:local	cds	1151	1686	.	+	.	
+Crataegus-aronia_S4-4527para	exonerate:protein2genome:local	exon	1151	1686	.	+	.	insertions 0 ; deletions 0
+Crataegus-aronia_S4-4527para	exonerate:protein2genome:local	splice5	1687	1688	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-aronia_S4-4527para	exonerate:protein2genome:local	intron	1687	1862	.	+	.	intron_id 2
+Crataegus-aronia_S4-4527para	exonerate:protein2genome:local	splice3	1861	1862	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-aronia_S4-4527para	exonerate:protein2genome:local	cds	1863	1914	.	+	.	
+Crataegus-aronia_S4-4527para	exonerate:protein2genome:local	exon	1863	1914	.	+	.	insertions 0 ; deletions 0
+Crataegus-aronia_S4-4527para	exonerate:protein2genome:local	similarity	188	1914	1420	+	.	alignment_id 1 ; Query Crataegus-aronia_S4 ; Align 188 1 273 ; Align 1151 92 534 ; Align 1864 271 51
+# --- END OF GFF DUMP ---
+#

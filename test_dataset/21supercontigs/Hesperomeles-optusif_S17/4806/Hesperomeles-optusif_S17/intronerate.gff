@@ -1,0 +1,19 @@
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	gene	300	2094	781	+	.	gene_id 1 ; sequence Hesperomeles-optusif_S17 ; gene_orientation +
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	cds	300	532	.	+	.
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	exon	300	532	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	splice5	533	534	.	+	.	intron_id 1 ; splice_site "GT"
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	intron	533	1296	.	+	.	intron_id 1
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	splice3	1295	1296	.	+	.	intron_id 0 ; splice_site "AT"
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	cds	1297	1403	.	+	.
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	exon	1297	1403	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	splice5	1404	1405	.	+	.	intron_id 2 ; splice_site "GT"
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	intron	1404	1487	.	+	.	intron_id 2
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	splice3	1486	1487	.	+	.	intron_id 1 ; splice_site "AG"
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	cds	1488	1547	.	+	.
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	exon	1488	1547	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	splice5	1548	1549	.	+	.	intron_id 3 ; splice_site "GT"
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	intron	1548	2014	.	+	.	intron_id 3
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	splice3	2013	2014	.	+	.	intron_id 2 ; splice_site "AG"
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	cds	2015	2094	.	+	.
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	exon	2015	2094	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4806	exonerate:protein2genome:local	similarity	300	2094	781	+	.	alignment_id 1 ; Query Hesperomeles-optusif_S17 ; Align 300 1 231 ; Align 1298 79 105 ; Align 1490 115 57 ; Align 2017 135 78

@@ -1,0 +1,4 @@
+Sorbus-sambucifolia_S24-4951para	exonerate:protein2genome:local	gene	381	575	331	+	.	gene_id 1 ; sequence Sorbus-sambucifolia_S24 ; gene_orientation .
+Sorbus-sambucifolia_S24-4951para	exonerate:protein2genome:local	cds	381	575	.	+	.
+Sorbus-sambucifolia_S24-4951para	exonerate:protein2genome:local	exon	381	575	.	+	.	insertions 0 ; deletions 0
+Sorbus-sambucifolia_S24-4951para	exonerate:protein2genome:local	similarity	381	575	331	+	.	alignment_id 1 ; Query Sorbus-sambucifolia_S24 ; Align 381 1 195

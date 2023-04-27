@@ -1,0 +1,19 @@
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	gene	414	1525	1052	+	.	gene_id 1 ; sequence Micromeles-alnifolia_S15 ; gene_orientation +
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	cds	414	658	.	+	.
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	exon	414	658	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	splice5	659	660	.	+	.	intron_id 1 ; splice_site "GT"
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	intron	659	732	.	+	.	intron_id 1
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	splice3	731	732	.	+	.	intron_id 0 ; splice_site "GA"
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	cds	733	807	.	+	.
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	exon	733	807	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	splice5	808	809	.	+	.	intron_id 2 ; splice_site "AT"
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	intron	808	919	.	+	.	intron_id 2
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	splice3	918	919	.	+	.	intron_id 1 ; splice_site "AG"
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	cds	920	1071	.	+	.
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	exon	920	1071	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	splice5	1072	1073	.	+	.	intron_id 3 ; splice_site "GT"
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	intron	1072	1337	.	+	.	intron_id 3
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	splice3	1336	1337	.	+	.	intron_id 2 ; splice_site "GG"
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	cds	1338	1525	.	+	.
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	exon	1338	1525	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4724	exonerate:protein2genome:local	similarity	414	1525	1052	+	.	alignment_id 1 ; Query Micromeles-alnifolia_S15 ; Align 414 1 243 ; Align 734 83 72 ; Align 921 108 150 ; Align 1340 159 186

@@ -1,0 +1,9 @@
+Crataegus-monogyna_S11-4954	exonerate:protein2genome:local	gene	503	1234	833	+	.	gene_id 1 ; sequence Crataegus-monogyna_S11 ; gene_orientation +
+Crataegus-monogyna_S11-4954	exonerate:protein2genome:local	cds	503	922	.	+	.
+Crataegus-monogyna_S11-4954	exonerate:protein2genome:local	exon	503	922	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4954	exonerate:protein2genome:local	splice5	923	924	.	+	.	intron_id 1 ; splice_site "GC"
+Crataegus-monogyna_S11-4954	exonerate:protein2genome:local	intron	923	1147	.	+	.	intron_id 1
+Crataegus-monogyna_S11-4954	exonerate:protein2genome:local	splice3	1146	1147	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-monogyna_S11-4954	exonerate:protein2genome:local	cds	1148	1234	.	+	.
+Crataegus-monogyna_S11-4954	exonerate:protein2genome:local	exon	1148	1234	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4954	exonerate:protein2genome:local	similarity	503	1234	833	+	.	alignment_id 1 ; Query Crataegus-monogyna_S11 ; Align 503 1 420 ; Align 1148 141 87

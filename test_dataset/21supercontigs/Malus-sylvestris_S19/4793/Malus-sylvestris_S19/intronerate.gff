@@ -1,0 +1,14 @@
+Malus-sylvestris_S19-4793	exonerate:protein2genome:local	gene	14	1484	1047	+	.	gene_id 1 ; sequence Malus-sylvestris_S19 ; gene_orientation +
+Malus-sylvestris_S19-4793	exonerate:protein2genome:local	cds	14	65	.	+	.
+Malus-sylvestris_S19-4793	exonerate:protein2genome:local	exon	14	65	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4793	exonerate:protein2genome:local	splice5	66	67	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sylvestris_S19-4793	exonerate:protein2genome:local	intron	66	434	.	+	.	intron_id 1
+Malus-sylvestris_S19-4793	exonerate:protein2genome:local	splice3	433	434	.	+	.	intron_id 0 ; splice_site "TG"
+Malus-sylvestris_S19-4793	exonerate:protein2genome:local	cds	435	976	.	+	.
+Malus-sylvestris_S19-4793	exonerate:protein2genome:local	exon	435	976	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4793	exonerate:protein2genome:local	splice5	977	978	.	+	.	intron_id 2 ; splice_site "GT"
+Malus-sylvestris_S19-4793	exonerate:protein2genome:local	intron	977	1430	.	+	.	intron_id 2
+Malus-sylvestris_S19-4793	exonerate:protein2genome:local	splice3	1429	1430	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sylvestris_S19-4793	exonerate:protein2genome:local	cds	1431	1484	.	+	.
+Malus-sylvestris_S19-4793	exonerate:protein2genome:local	exon	1431	1484	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4793	exonerate:protein2genome:local	similarity	14	1484	1047	+	.	alignment_id 1 ; Query Malus-sylvestris_S19 ; Align 14 1 51 ; Align 437 19 540 ; Align 1431 199 54

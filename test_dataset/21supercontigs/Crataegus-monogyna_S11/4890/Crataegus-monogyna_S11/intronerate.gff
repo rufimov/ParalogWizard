@@ -1,0 +1,29 @@
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	gene	39	956	603	+	.	gene_id 1 ; sequence Crataegus-monogyna_S11 ; gene_orientation +
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	cds	39	106	.	+	.
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	exon	39	106	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	splice5	107	108	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	intron	107	202	.	+	.	intron_id 1
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	splice3	201	202	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	cds	203	238	.	+	.
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	exon	203	238	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	splice5	239	240	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	intron	239	319	.	+	.	intron_id 2
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	splice3	318	319	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	cds	320	452	.	+	.
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	exon	320	452	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	splice5	453	454	.	+	.	intron_id 3 ; splice_site "GC"
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	intron	453	551	.	+	.	intron_id 3
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	splice3	550	551	.	+	.	intron_id 2 ; splice_site "GG"
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	cds	552	637	.	+	.
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	exon	552	637	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	splice5	638	639	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	intron	638	737	.	+	.	intron_id 4
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	splice3	736	737	.	+	.	intron_id 3 ; splice_site "AG"
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	cds	738	785	.	+	.
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	exon	738	785	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	splice5	786	787	.	+	.	intron_id 5 ; splice_site "GT"
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	intron	786	889	.	+	.	intron_id 5
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	splice3	888	889	.	+	.	intron_id 4 ; splice_site "AG"
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	cds	890	956	.	+	.
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	exon	890	956	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4890	exonerate:protein2genome:local	similarity	39	956	603	+	.	alignment_id 1 ; Query Crataegus-monogyna_S11 ; Align 39 1 66 ; Align 204 24 33 ; Align 321 36 132 ; Align 552 80 84 ; Align 739 109 45 ; Align 891 125 66

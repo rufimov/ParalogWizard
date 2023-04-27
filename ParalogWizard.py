@@ -143,13 +143,25 @@ Use ParalogWizard <command> -h for help with arguments of the command of interes
             args.redlist = set(args.redlist)
         return args
 
-    def cast_align(self):
+    def cast_extend(self):
         parser = argparse.ArgumentParser()
-        parser.add_argument("-r", "--redlist", nargs="+", required=False)
-        parser.add_argument("-i", "--min_identity", required=True, type=float)
-        parser.add_argument("-pc", "--probes_customized", required=True)
+        parser.add_argument(
+            "-pr",
+            "--baitfile",
+            required=True,
+        )
         self.common_args(parser)
         args = parser.parse_args(sys.argv[2:])
+        return args
+
+    def cast_flow(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument("-pc", "--probes_customized", required=True)
+        parser.add_argument("-o", "--outgroup", required=True)
+        parser.add_argument("-e", "--exon_length", type=int, default=150)
+        self.common_args(parser)
+        args = parser.parse_args(sys.argv[2:])
+        return args
 
     def get_args_dict(self):
         command = self.args.__dict__
@@ -297,7 +309,7 @@ def main():
     elif arguments["command"] == "cast_detect":
         from ParalogWizard.cast_detect import (
             create_reference_w_paralogs,
-            create_reference_wo_paralogs
+            create_reference_wo_paralogs,
         )
 
         folder_31 = os.path.join(arguments["data_folder"], "31exonic_contigs")
@@ -363,7 +375,6 @@ def main():
                 log_file,
             )
     elif arguments["command"] == "cast_separate":
-
         from ParalogWizard.cast_separate import align, generate_pslx
 
         if len(arguments["redlist"]) > 0:
@@ -396,6 +407,20 @@ def main():
             arguments["probes_customized"],
             arguments["num_cores"],
             log_file,
+        )
+    elif arguments["command"] == "cast_extend":
+        from ParalogWizard.cast_extend import extend
+
+        extend(arguments["data_folder"], arguments["baitfile"], arguments["num_cores"])
+    elif arguments["command"] == "cast_flow":
+        from ParalogWizard.cast_flow import flow
+
+        flow(
+            arguments["probes_customized"],
+            arguments["data_folder"],
+            arguments["num_cores"],
+            arguments["outgroup"],
+            arguments["exon_length"],
         )
 
 

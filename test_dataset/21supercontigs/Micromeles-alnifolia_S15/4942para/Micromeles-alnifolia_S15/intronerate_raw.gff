@@ -1,0 +1,47 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	gene	368	2281	826	+	.	gene_id 1 ; sequence Micromeles-alnifolia_S15 ; gene_orientation +
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	cds	368	422	.	+	.	
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	exon	368	422	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	splice5	423	424	.	+	.	intron_id 1 ; splice_site "GT"
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	intron	423	826	.	+	.	intron_id 1
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	splice3	825	826	.	+	.	intron_id 0 ; splice_site "AG"
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	cds	827	862	.	+	.	
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	exon	827	862	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	splice5	863	864	.	+	.	intron_id 2 ; splice_site "GT"
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	intron	863	1032	.	+	.	intron_id 2
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	splice3	1031	1032	.	+	.	intron_id 1 ; splice_site "AT"
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	cds	1033	1109	.	+	.	
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	exon	1033	1109	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	splice5	1110	1111	.	+	.	intron_id 3 ; splice_site "GT"
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	intron	1110	1262	.	+	.	intron_id 3
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	splice3	1261	1262	.	+	.	intron_id 2 ; splice_site "AG"
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	cds	1263	1317	.	+	.	
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	exon	1263	1317	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	splice5	1318	1319	.	+	.	intron_id 4 ; splice_site "GT"
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	intron	1318	1410	.	+	.	intron_id 4
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	splice3	1409	1410	.	+	.	intron_id 3 ; splice_site "GT"
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	cds	1411	1525	.	+	.	
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	exon	1411	1525	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	splice5	1526	1527	.	+	.	intron_id 5 ; splice_site "GT"
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	intron	1526	1666	.	+	.	intron_id 5
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	splice3	1665	1666	.	+	.	intron_id 4 ; splice_site "AG"
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	cds	1667	1827	.	+	.	
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	exon	1667	1827	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	splice5	1828	1829	.	+	.	intron_id 6 ; splice_site "TG"
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	intron	1828	2207	.	+	.	intron_id 6
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	splice3	2206	2207	.	+	.	intron_id 5 ; splice_site "AG"
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	cds	2208	2281	.	+	.	
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	exon	2208	2281	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4942para	exonerate:protein2genome:local	similarity	368	2281	826	+	.	alignment_id 1 ; Query Micromeles-alnifolia_S15 ; Align 368 1 54 ; Align 829 20 33 ; Align 1035 32 75 ; Align 1263 57 54 ; Align 1413 76 111 ; Align 1668 114 159 ; Align 2210 168 72
+# --- END OF GFF DUMP ---
+#

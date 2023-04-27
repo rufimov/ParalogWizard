@@ -1,0 +1,19 @@
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	gene	263	1791	1260	+	.	gene_id 1 ; sequence Crataegus-dahurica_S5 ; gene_orientation +
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	cds	263	512	.	+	.
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	exon	263	512	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	splice5	513	514	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	intron	513	872	.	+	.	intron_id 1
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	splice3	871	872	.	+	.	intron_id 0 ; splice_site "TG"
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	cds	873	946	.	+	.
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	exon	873	946	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	splice5	947	948	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	intron	947	1231	.	+	.	intron_id 2
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	splice3	1230	1231	.	+	.	intron_id 1 ; splice_site "AA"
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	cds	1232	1481	.	+	.
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	exon	1232	1481	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	splice5	1482	1483	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	intron	1482	1576	.	+	.	intron_id 3
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	splice3	1575	1576	.	+	.	intron_id 2 ; splice_site "AA"
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	cds	1577	1791	.	+	.
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	exon	1577	1791	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	similarity	263	1791	1260	+	.	alignment_id 1 ; Query Crataegus-dahurica_S5 ; Align 263 1 249 ; Align 875 85 72 ; Align 1232 109 249 ; Align 1579 193 213

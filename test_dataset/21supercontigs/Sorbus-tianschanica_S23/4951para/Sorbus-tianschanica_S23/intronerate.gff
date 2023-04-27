@@ -1,0 +1,4 @@
+Sorbus-tianschanica_S23-4951para	exonerate:protein2genome:local	gene	570	722	263	+	.	gene_id 1 ; sequence Sorbus-tianschanica_S23 ; gene_orientation .
+Sorbus-tianschanica_S23-4951para	exonerate:protein2genome:local	cds	570	722	.	+	.
+Sorbus-tianschanica_S23-4951para	exonerate:protein2genome:local	exon	570	722	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4951para	exonerate:protein2genome:local	similarity	570	722	263	+	.	alignment_id 1 ; Query Sorbus-tianschanica_S23 ; Align 570 1 153
