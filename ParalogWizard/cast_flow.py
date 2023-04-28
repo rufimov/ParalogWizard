@@ -280,25 +280,25 @@ def flow(reference, data_folder, num_cores, outgroup, read_length):
     exons = split_reference(
         reference_dict_corrected, data_folder, allowed_exons, chunk_size
     )
-    # with multiprocessing.Pool(processes=num_cores) as pool_index:
-    #     pool_index.map(
-    #         bwa_index,
-    #         [
-    #             os.path.join(data_folder, "ABBA_BABA", x, f"reference_{x}.fas")
-    #             for x in exons
-    #         ],
-    #     )
-    #
-    # args_map = []
-    # for pair in list(itertools.product(exons, sample_list)):
-    #     exon_map = pair[0]
-    #     sample_map = pair[1]
-    #     args_map.append((exon_map, sample_map, data_folder))
-    # with multiprocessing.Pool(processes=num_cores) as pool_bwa:
-    #     pool_bwa.starmap(bwa_map, args_map, chunksize=100)
-    # args_call = list(zip(exons, [data_folder] * len(exons), [outgroup] * len(exons)))
-    # with multiprocessing.Pool(processes=num_cores) as pool_call:
-    #     pool_call.starmap(variant_call, args_call, chunksize=100)
+    with multiprocessing.Pool(processes=num_cores) as pool_index:
+        pool_index.map(
+            bwa_index,
+            [
+                os.path.join(data_folder, "ABBA_BABA", x, f"reference_{x}.fas")
+                for x in exons
+            ],
+        )
+
+    args_map = []
+    for pair in list(itertools.product(exons, sample_list)):
+        exon_map = pair[0]
+        sample_map = pair[1]
+        args_map.append((exon_map, sample_map, data_folder))
+    with multiprocessing.Pool(processes=num_cores) as pool_bwa:
+        pool_bwa.starmap(bwa_map, args_map, chunksize=100)
+    args_call = list(zip(exons, [data_folder] * len(exons), [outgroup] * len(exons)))
+    with multiprocessing.Pool(processes=num_cores) as pool_call:
+        pool_call.starmap(variant_call, args_call, chunksize=100)
     vcf_to_concat = [
         os.path.join(
             data_folder, "ABBA_BABA", x, x + "_variants_filtered_corrected.vcf"
