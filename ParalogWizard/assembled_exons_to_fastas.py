@@ -88,6 +88,14 @@ parser.add_option(
     help="""If the reference sequence is output (-r), what name will be given to this sample
 in the alignment files? Default=Reference""",
 )
+parser.add_option(
+    "-a",
+    action="store_true",
+    dest="all_assemblies",
+    default=False,
+    help="""Take all assemblies, not just the longest. Default=False""",
+)
+
 (options, args) = parser.parse_args()
 
 # Makes sure all filenames are given
@@ -140,9 +148,9 @@ Names = []
 for Filename in pslxFiles:
     Name = sub("Final_Assembly_", r"", Filename)
     Name = sub(".pslx", r"", Name)
-    Names.append(Name)
     File = open(Filename, "r")
     pslxLine = File.readline()
+    count = 1
     while pslxLine:
         pslxLine = pslxLine.strip()
         if not "," in pslxLine:
@@ -170,11 +178,17 @@ for Filename in pslxFiles:
                 "The contigs in the fasta file don't match those in the .pslx files. Be sure the \
 names of the contigs don't contain spaces."
             )
-        if Name in Contigs[ThisExon]:
-            if Length > Contigs[ThisExon][Name][0]:
-                Contigs[ThisExon][Name] = [Length, MySeq]
+        if options.all_assemblies:
+            Names.append(f"{Name}_{count}")
+            Contigs[ThisExon][f"{Name}_{count}"] = [Length, MySeq]
+            count += 1
         else:
-            Contigs[ThisExon][Name] = [Length, MySeq]
+            Names.append(Name)
+            if Name in Contigs[ThisExon]:
+                if Length > Contigs[ThisExon][Name][0]:
+                    Contigs[ThisExon][Name] = [Length, MySeq]
+            else:
+                Contigs[ThisExon][Name] = [Length, MySeq]
         pslxLine = File.readline()
     File.close()
 
@@ -183,11 +197,23 @@ for exon in Contigs:
     OutName = options.dirname + "/" + "To_align_" + OutExon + ".fasta"
     OutFile = open(OutName, "w")
     Filler = "n" * len(ReferenceContigs[exon])
+    filler_not_recorded = True
     for Name in Names:
-        if Name in Contigs[exon]:
-            OutFile.write(">%s\n%s\n" % (Name, Contigs[exon][Name][1]))
+        if options.all_assemblies:
+            names_to_check = [
+                "_".join(x.split("_")[:-1]) for x in list(Contigs[exon].keys())
+            ]
+            name_to_check = "_".join(Name.split("_")[:-1])
+            if Name in Contigs[exon]:
+                OutFile.write(">%s\n%s\n" % (Name, Contigs[exon][Name][1]))
+            elif name_to_check not in names_to_check and filler_not_recorded:
+                OutFile.write(">%s\n%s\n" % (Name, Filler))
+                filler_not_recorded = False
         else:
-            OutFile.write(">%s\n%s\n" % (Name, Filler))
+            if Name in Contigs[exon]:
+                OutFile.write(">%s\n%s\n" % (Name, Contigs[exon][Name][1]))
+            else:
+                OutFile.write(">%s\n%s\n" % (Name, Filler))
     if options.ref_out:
         OutFile.write(">%s\n%s\n" % (options.ref_name, ReferenceContigs[exon]))
     OutFile.close()

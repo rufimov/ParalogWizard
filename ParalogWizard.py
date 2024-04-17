@@ -1,16 +1,23 @@
-#!/usr/bin/env python3
+#!/usr/bin/ python3
+
+"""
+ParalogWizard is a pipeline for paralog detection in HybPiper output. It is based on the HybPiper pipeline and uses
+the same input files. The pipeline consists of 5 steps: cast_assemble, cast_retrieve, cast_analyze, cast_detect,
+and cast_separate. The first step is the assembly using SPAdes. The second step is the retrieval of
+contigs from the assembly. The third step is the estimation of paralog divergence. The fourth step is the detection of
+paralogs. The fifth step is the separation of paralogs to alignemnts. The pipeline is run using the command line
+interface. The pipeline is described in the README file.
+"""
 
 import argparse
 import logging
 import multiprocessing
 import os
+import shutil
 import sys
 from datetime import datetime
 from glob import glob
-from typing import Set, Dict, List
 import pandas
-
-from pandas.core import frame
 
 
 class ParsedArgs:
@@ -159,6 +166,21 @@ Use ParalogWizard <command> -h for help with arguments of the command of interes
         parser.add_argument("-pc", "--probes_customized", required=True)
         parser.add_argument("-o", "--outgroup", required=True)
         parser.add_argument("-e", "--exon_length", type=int, default=150)
+        self.common_args(parser)
+        args = parser.parse_args(sys.argv[2:])
+        return args
+
+    def cast_ploidy(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument("-pc", "--probes_customized", required=True)
+        parser.add_argument("-e", "--exon_length", type=int, default=150)
+        self.common_args(parser)
+        args = parser.parse_args(sys.argv[2:])
+        return args
+
+    def cast_hybrid(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument("-pc", "--probes_customized", required=True)
         self.common_args(parser)
         args = parser.parse_args(sys.argv[2:])
         return args
@@ -412,6 +434,16 @@ def main():
         from ParalogWizard.cast_extend import extend
 
         extend(arguments["data_folder"], arguments["baitfile"], arguments["num_cores"])
+
+    elif arguments["command"] == "cast_ploidy":
+        from ParalogWizard.cast_ploidy import ploidy
+
+        ploidy(
+            arguments["probes_customized"],
+            arguments["data_folder"],
+            arguments["num_cores"],
+            arguments["exon_length"],
+        )
     elif arguments["command"] == "cast_flow":
         from ParalogWizard.cast_flow import flow
 
@@ -421,6 +453,27 @@ def main():
             arguments["num_cores"],
             arguments["outgroup"],
             arguments["exon_length"],
+        )
+    elif arguments["command"] == "cast_hybrid":
+        logger.info(
+            f"""ParalogWizard cast_hybrid running with the following settings
+                        main data folder - {arguments["data_folder"]}
+                        probe file with separated paralogs - {arguments["probes_customized"]}"""
+        )
+        from ParalogWizard.cast_hybrid import hybrid
+
+        os.makedirs(os.path.join(arguments["data_folder"], "hybrids"), exist_ok=True)
+        shutil.copyfile(
+            os.path.join(
+                arguments["data_folder"], "10deduplicated_reads", "hybrids.txt"
+            ),
+            os.path.join(arguments["data_folder"], "hybrids", "hybrids.txt"),
+        )
+        hybrid(
+            arguments["data_folder"],
+            arguments["probes_customized"],
+            arguments["num_cores"],
+            log_file,
         )
 
 

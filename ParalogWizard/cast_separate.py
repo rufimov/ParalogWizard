@@ -1,9 +1,17 @@
+# Parameters: data_folder, probes, minident, redlist, num_cores, log_file
+# Input: 31exonic_contigs/*.fas, 50pslx/corrected/*.pslx
+# Output: 50pslx/*.pslx, 50pslx/corrected/*.pslx, 60mafft/*.fasta, 60mafft/*.mafft,
+#         70concatenated_exon_alignments/*.phylip, 70concatenated_exon_alignments/*.part
+# Dependencies: ParalogWizard/cast_analyze.py, ParalogWizard/assembled_exons_to_fastas.py, ParalogWizard/AMAS.py
+
+
 from glob import glob
 import logging
 import multiprocessing
 import os
 import re
 import shutil
+
 # import subprocess
 import fileinput
 from typing import Dict
@@ -14,22 +22,13 @@ import pandas
 from ParalogWizard.cast_analyze import mafft_align
 from Bio import SeqIO, SeqRecord
 
-
-def create_logger(log_file):
-    logger = multiprocessing.get_logger()
-    logger.setLevel(logging.INFO)
-    log_handler_info = logging.FileHandler(log_file)
-    log_handler_info.setLevel(logging.INFO)
-    log_formatter_info = logging.Formatter(
-        fmt="%(asctime)s - %(message)s", datefmt="%d-%b-%y %H:%M:%S"
-    )
-    log_handler_info.setFormatter(log_formatter_info)
-    logger.addHandler(log_handler_info)
-    return logger
+from ParalogWizard.cast_retrieve import create_logger
 
 
 def run_blat(contigfile, probes, minident, log_file):
-    """"""
+    """
+    Run BLAT
+    """
     logger = create_logger(log_file)
     file = os.path.basename(contigfile)
     data_folder = os.path.dirname(os.path.dirname(contigfile))
@@ -44,9 +43,11 @@ def run_blat(contigfile, probes, minident, log_file):
 
 
 def correct_pslx(pslx_file, log_file):
-    """"""
+    """
+    Remove all but the best hit for each query and target.
+    """
     logger = create_logger(log_file)
-    foler50 = os.path.dirname(pslx_file)
+    folder50 = os.path.dirname(pslx_file)
     file = os.path.basename(pslx_file)
     with open(pslx_file) as original_pslx_file:
         pslx_file_as_list = original_pslx_file.read().splitlines()
@@ -94,11 +95,11 @@ def correct_pslx(pslx_file, log_file):
     pslx_file_dataframe.drop_duplicates("Q_name", inplace=True)
 
     pslx_file_dataframe.drop("similarity", axis=1, inplace=True)
-    with open(os.path.join(foler50, "corrected", file), "w") as corrected_pslx:
+    with open(os.path.join(folder50, "corrected", file), "w") as corrected_pslx:
         for line in head:
             corrected_pslx.write(line + "\n")
     pslx_file_dataframe.to_csv(
-        os.path.join(foler50, "corrected", file),
+        os.path.join(folder50, "corrected", file),
         mode="a",
         header=False,
         sep="\t",
@@ -138,16 +139,16 @@ def generate_pslx(data_folder, probes, minident, redlist, num_cores, log_file):
 
 
 def replace_trailing(seq):
-    for id in range(len(seq)):
-        symbol = seq[id]
+    for seq_id in range(len(seq)):
+        symbol = seq[seq_id]
         if symbol == "-":
-            seq = seq[:id] + "?" + seq[id + 1 :]
+            seq = seq[:seq_id] + "?" + seq[seq_id + 1 :]
         else:
             break
-    for id in reversed(range(len(seq))):
-        symbol = seq[id]
+    for rev_seq_id in reversed(range(len(seq))):
+        symbol = seq[rev_seq_id]
         if symbol == "-":
-            seq = seq[:id] + "?" + seq[id + 1 :]
+            seq = seq[:rev_seq_id] + "?" + seq[rev_seq_id + 1 :]
         else:
             break
     return seq
@@ -192,11 +193,13 @@ def align(data_folder, probes, n_cpu, log_file):
         sequences_ungap = dict()
         for item in sequences.keys():
             sequence = sequences[item]
-            sequence = sequence.seq.ungap('-')
+            sequence = sequence.seq.ungap("-")
             if len(sequence) != 0:
                 sequences_ungap[item] = sequence
         if len(sequences_ungap) < 1:
-            logger.info(f"File {file} consists of gaps only. Aligning with mafft skipped.")
+            logger.info(
+                f"File {file} consists of gaps only. Aligning with mafft skipped."
+            )
             continue
         locus = os.path.basename(file).split("_")[3]
         all_loci.add(locus)

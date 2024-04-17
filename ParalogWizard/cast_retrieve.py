@@ -1,12 +1,12 @@
 import fileinput
 import logging
 import multiprocessing
-from glob import glob
 import os
 import re
 import shutil
-from typing import Dict, List
+from glob import glob
 from pathlib import Path
+from typing import Dict, List
 
 import Bio.SeqRecord
 import pandas
@@ -20,6 +20,9 @@ def slicing(
 ) -> str:
     """
     Cuts out sequence of exon from contig given the hit entry from a dataframe.
+    :param dictionary: dictionary of SeqRecords
+    :param entry: hit entry from a dataframe
+    :return: sequence of exon
     """
     sequence = dictionary[entry["saccver"]].seq
     start = entry["sstart"]
@@ -34,6 +37,9 @@ def slicing(
 def collect_contigs(data_folder, logger):
     """
     Collects all contigs assembled during the assembly step for each sample and saves them to 30raw_contigs folder.
+    :param data_folder: path to the folder with data
+    :param logger: logger
+    :return: None
     """
     os.makedirs(os.path.join(data_folder, "30raw_contigs"), exist_ok=True)
     folder20 = os.path.join(data_folder, "20assemblies")
@@ -118,6 +124,7 @@ def create_hit_tables(fasta_file, probe_exons, n_cpu, length_cover, log_file):
     logger.info(f"\t\tCreating hit table for {sample}. Running BLAST...")
     NcbiblastnCommandline(
         task="blastn",
+        num_threads=n_cpu,
         query=probe_exons,
         db=os.path.join(path, sample),
         out=os.path.join(path, f"reference_in_{sample}_contigs.txt"),
@@ -194,8 +201,8 @@ def copies_stats(all_hits: pandas.core.frame.DataFrame) -> pandas.core.frame.Dat
     grouped_hits = all_hits.groupby(["sample", "locus"])[["exon", "sequence"]]
     for group in grouped_hits:
         count = group[1].groupby("exon")["sequence"].count().max()
-        sample = group[0][0]
-        locus = group[0][1]
+        sample = tuple(group[0])[0]
+        locus = tuple(group[0])[1]
         statistics.loc[locus, sample] = count
     return statistics
 
@@ -233,19 +240,6 @@ def clean(path, logger):
     for file in glob(os.path.join(path, "reference_in*")):
         os.remove(file)
     logger.info("Done\n")
-
-
-def create_logger(log_file):
-    logger = multiprocessing.get_logger()
-    logger.setLevel(logging.INFO)
-    log_handler_info = logging.FileHandler(log_file)
-    log_handler_info.setLevel(logging.INFO)
-    log_formatter_info = logging.Formatter(
-        fmt="%(asctime)s - %(message)s", datefmt="%d-%b-%y %H:%M:%S"
-    )
-    log_handler_info.setFormatter(log_formatter_info)
-    logger.addHandler(log_handler_info)
-    return logger
 
 
 def create_logger(log_file):

@@ -13,6 +13,12 @@ from Bio.Align.Applications import MafftCommandline
 
 
 def mafft_align_adjust_direction(file):
+    """
+    Aligns a fasta file using mafft and then adjusts the direction of the sequences in the file
+    to match the direction of the first sequence in the file.
+    :param file: a fasta file
+    :return: a file with the same name as the input file with .fasta.mafft appended
+    """
     stdout, stderr = MafftCommandline(
         input=file, auto=True, adjustdirectionaccurately=True
     )()
@@ -31,6 +37,19 @@ def exonerate(
     length_pct=100,
     timeout=None,
 ):
+    """
+    Runs Exonerate to generate sequences for genes
+    :param genes: a list of genes to run Exonerate on
+    :param basename: the basename of the sample
+    :param run_dir: the directory where the pipeline is running
+    :param exonerate_genefilename: the name of the file to write the Exonerate commands to
+    :param cpu: the number of CPUs to use
+    :param thresh: the threshold for Exonerate
+    :param depth_multiplier: the depth multiplier for Exonerate
+    :param length_pct: the length percentage for Exonerate
+    :param timeout: the timeout for Exonerate
+    :return: 0 if successful, 1 if not
+    """
     if len(genes) == 0:
         print(("ERROR: No genes recovered for {}!".format(basename)))
         return 1
@@ -205,15 +224,13 @@ def extend(data_folder, baitfile, n_cpu):
         with open(os.path.join(exonerate_genefilename), "w") as file_to_write:
             for gene in loci:
                 file_to_write.write(gene + "\n")
-        exitcode = exonerate(
+        exonerate(
             loci,
             sample,
             os.path.join(working_directory, "ParalogWizard"),
             exonerate_genefilename,
             cpu=n_cpu,
         )
-        # if exitcode:
-        #     return
         sys.stderr.write(
             "Generated sequences from {} genes!\n".format(
                 len(open("genes_with_seqs.txt").readlines())

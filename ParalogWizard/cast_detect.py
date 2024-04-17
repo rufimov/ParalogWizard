@@ -4,6 +4,8 @@ import os
 from typing import List
 import pandas
 
+from ParalogWizard.cast_retrieve import create_logger
+
 
 def find_cluster(array: List[float]):
     array.sort()
@@ -302,19 +304,6 @@ def paralog_stats(locus_statistics):
         "number_of_paralogous_loci"
     ].replace(["0", 0], "0/NaN")
     return paralog_statistics
-
-
-def create_logger(log_file):
-    logger = multiprocessing.get_logger()
-    logger.setLevel(logging.INFO)
-    log_handler_info = logging.FileHandler(log_file)
-    log_handler_info.setLevel(logging.INFO)
-    log_formatter_info = logging.Formatter(
-        fmt="%(asctime)s - %(message)s", datefmt="%d-%b-%y %H:%M:%S"
-    )
-    log_handler_info.setFormatter(log_formatter_info)
-    logger.addHandler(log_handler_info)
-    return logger
 
 
 def create_reference_wo_paralogs(

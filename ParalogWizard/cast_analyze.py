@@ -2,29 +2,35 @@ import glob
 import itertools
 import multiprocessing
 import os
-import pandas
 import random
 from glob import glob
 from typing import Dict, List
 from typing import Set
 from typing import Tuple
-from pandas.core import frame
 
 import Bio.Application
 import Bio.Application
 import matplotlib
 import numpy
+import pandas
 from Bio import SeqIO, SeqRecord
 from Bio.Align.Applications import MafftCommandline
 from Bio.Phylo.Applications import FastTreeCommandline
 from matplotlib import axes
 from matplotlib import pyplot
+from pandas.core import frame
 from scipy.signal import argrelextrema
 from sklearn.mixture import BayesianGaussianMixture
 from sklearn.neighbors import KernelDensity
 
 
 def mafft_align(file):
+    """
+    Aligns a fasta file using mafft and then adjusts the direction of the sequences in the file
+    to match the direction of the first sequence in the file.
+    :param file: a fasta file
+    :return: a file with the same name as the input file with .fasta.mafft appended
+    """
     stdout, stderr = MafftCommandline(
         input=file,
         auto=True,
@@ -34,6 +40,11 @@ def mafft_align(file):
 
 
 def fast_tree(file):
+    """
+    Builds a tree using FastTreeMP, and if that fails, falls back to FastTree.
+    :param file: a fasta file
+    :return: a file with the same name as the input file with .tre appended
+    """
     try:
         FastTreeCommandline(
             "fasttreemp",
@@ -55,7 +66,13 @@ def fast_tree(file):
 
 
 def build_alignments(data_folder, n_cpu, logger):
-    """"""
+    """
+    Builds exon alignments using mafft and builds trees using FastTreeMP
+    :param data_folder: the folder where the data is stored
+    :param n_cpu: the number of CPUs to use
+    :param logger: the logger
+    :return: None
+    """
     logger.info("Building individual exon alignments...")
     all_hits_for_reference: pandas.core.frame.DataFrame = pandas.read_csv(
         os.path.join(data_folder, "31exonic_contigs", "all_hits.tsv"), sep="\t"
@@ -66,7 +83,7 @@ def build_alignments(data_folder, n_cpu, logger):
         exon_dataframe = exon[1].reset_index(drop=True)
         exon_name = exon[0]
         with open(
-                os.path.join(data_folder, "40aln_orth_par", f"{exon_name}.fasta"), "w"
+            os.path.join(data_folder, "40aln_orth_par", f"{exon_name}.fasta"), "w"
         ) as exon_aln_fasta:
             for index in range(len(exon_dataframe)):
                 contig_name = exon_dataframe.loc[index, "saccver"]
@@ -84,7 +101,11 @@ def build_alignments(data_folder, n_cpu, logger):
 
 
 def percent_dissimilarity(seq1: str, seq2: str) -> float or None:
-    """"""
+    """
+    :param seq1: sequence one
+    :param seq2: sequence two
+    :return: the percent dissimilarity between the two sequences
+    """
 
     seq1 = seq1.lower()
     seq2 = seq2.lower()
@@ -117,16 +138,16 @@ def percent_dissimilarity(seq1: str, seq2: str) -> float or None:
     # and mutual gaps
     overlap = len_aln - count_left - count_right
     if (
-            (overlap / (len_aln - count_left) < 0.5)
-            or (overlap / (len_aln - count_right) < 0.5)
-            or overlap < 100
+        (overlap / (len_aln - count_left) < 0.5)
+        or (overlap / (len_aln - count_right) < 0.5)
+        or overlap < 100
     ):
         return None
     # Counting mismatches, ignoring positions with gaps in one of the sequences
     count = 0
     for nucl in zip(seq1_wo_mutual_gaps, seq2_wo_mutual_gaps):
         if (
-                nucl[0] != nucl[1] and nucl[0] != "-" and nucl[1] != "-"
+            nucl[0] != nucl[1] and nucl[0] != "-" and nucl[1] != "-"
         ):  # gaps are not counted
             # if nucl[0] != nucl[1]:  # gaps are counted
             count += 1
@@ -135,10 +156,10 @@ def percent_dissimilarity(seq1: str, seq2: str) -> float or None:
 
 
 def get_distance_matrix(
-        file_to_process: str,
-        blocklist: Set[str],
+    file_to_process: str,
+    blocklist: Set[str],
 ):
-    """"""
+    """ """
     current_matrix_to_plot: List[float] = list()
     current_matrix_to_write = []
     sum_list = []
@@ -147,7 +168,7 @@ def get_distance_matrix(
             SeqIO.parse(fasta_file, "fasta")
         )
     seq_names = pandas.DataFrame(list(sequences.keys()))
-    seq_names[1] = seq_names[0].str.split('_').str[-2:].str.join('_')
+    seq_names[1] = seq_names[0].str.split("_").str[-2:].str.join("_")
     duplicated_samp = set(seq_names[seq_names.duplicated(subset=1)][1].values)
     non_duplicated_samp = set(seq_names[~seq_names[1].isin(duplicated_samp)][1].values)
     for samp in duplicated_samp:
@@ -203,19 +224,19 @@ def get_distance_matrix(
                         )
                     )[0].tolist()
                 if len(indices) == 1:
-                    cluster = [sorted_current_distance_array.tolist()[indices[0]]]
+                    cluster = [list(sorted_current_distance_array)[indices[0]]]
                 else:
                     cluster = sorted_current_distance_array.tolist()[
-                              min(indices): max(indices) + 1
-                              ]
+                        min(indices) : max(indices) + 1
+                    ]
                 cluster_mean = sum(cluster) / len(cluster)
                 sum_list.append(cluster_mean)
             last_cluster_indices = numpy.where(
                 sorted_current_distance_array > minimum[-1]
             )[0].tolist()
             last_cluster = sorted_current_distance_array.tolist()[
-                           min(last_cluster_indices): max(last_cluster_indices) + 1
-                           ]
+                min(last_cluster_indices) : max(last_cluster_indices) + 1
+            ]
             last_cluster_mean = sum(last_cluster) / len(last_cluster)
             sum_list.append(last_cluster_mean)
     else:
@@ -227,7 +248,12 @@ def get_distance_matrix(
 
 
 def get_model(array: numpy.ndarray, num_comp: int) -> BayesianGaussianMixture:
-    """"""
+    """
+    Get BayesianGaussianMixture object for given array.
+    :param array:  to fit
+    :param num_comp: number of components
+    :return: BayesianGaussianMixture model with fitted data
+    """
     from sklearn.mixture import BayesianGaussianMixture
 
     mix = BayesianGaussianMixture(
@@ -240,13 +266,21 @@ def get_model(array: numpy.ndarray, num_comp: int) -> BayesianGaussianMixture:
 
 
 def plot_vertical_line(
-        plot: matplotlib.axes,
-        line_name: str,
-        line_value: float,
-        list_of_colors: List[str],
-        num_for_color: int,
+    plot: matplotlib.axes,
+    line_name: str,
+    line_value: float,
+    list_of_colors: List[str],
+    num_for_color: int,
 ):
-    """"""
+    """
+    Plot vertical line on given plot.
+    :param plot: plot to draw on
+    :param line_name: name of line
+    :param line_value: value of line
+    :param list_of_colors: list of colors to use
+    :param num_for_color: number of color to use
+    :return:
+    """
 
     import numpy
 
@@ -260,10 +294,10 @@ def plot_vertical_line(
 
 
 def get_plot(
-        path: str,
-        name: str,
-        matrix: numpy.ndarray,
-        comp: int,
+    path: str,
+    name: str,
+    matrix: numpy.ndarray,
+    comp: int,
 ):
     """"""
 
