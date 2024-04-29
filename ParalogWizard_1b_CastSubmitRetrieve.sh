@@ -29,7 +29,7 @@ source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
 
 
 #Add necessary modules
-module add blast+-2.8.0a
+module add blast
 module add python-3.6.2-gcc
 module add python36-modules-gcc
 
