@@ -193,7 +193,7 @@ def align(data_folder, probes, n_cpu, log_file):
         sequences_ungap = dict()
         for item in sequences.keys():
             sequence = sequences[item]
-            sequence = sequence.seq.ungap("-")
+            sequence = sequence.seq.replace("-", "")
             if len(sequence) != 0:
                 sequences_ungap[item] = sequence
         if len(sequences_ungap) < 1:
