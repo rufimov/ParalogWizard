@@ -21,10 +21,8 @@ cpu=$TORQUE_RESC_PROC
 
 
 #Add necessary modules
-module add python/python-3.7.7-gcc-8.3.0-t4loj4a
-export PYTHONUSERBASE=/storage/${server}/home/${LOGNAME}/python37/cvmfs/software.metacentrum.cz/spack1/software/python/linux-debian10-x86_64/3.7.7-gcc-t4loj4
-export PATH=$PYTHONUSERBASE/bin:$PATH
-export PYTHONPATH=$PYTHONUSERBASE/lib/python3.7/site-packages:$PYTHONPATH
+module add python-3.6.2-gcc
+module add python36-modules-gcc
 module add bwa-0.7.17 || exit 1 # bwa
 module add mafft-7.453
 module add samtools-1.10 || exit 1 # samtools
