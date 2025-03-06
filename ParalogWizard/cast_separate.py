@@ -6,7 +6,6 @@
 
 
 from glob import glob
-import logging
 import multiprocessing
 import os
 import re
@@ -22,14 +21,14 @@ import pandas
 from ParalogWizard.cast_analyze import mafft_align
 from Bio import SeqIO, SeqRecord
 
-from ParalogWizard.cast_retrieve import create_logger
+from ParalogWizard import setup_logging, worker_initializer
 
 
-def run_blat(contigfile, probes, minident, log_file):
+def run_blat(contigfile, probes, minident):
     """
     Run BLAT
     """
-    logger = create_logger(log_file)
+    logger = setup_logging()
     file = os.path.basename(contigfile)
     data_folder = os.path.dirname(os.path.dirname(contigfile))
     if file != probes:
@@ -42,11 +41,11 @@ def run_blat(contigfile, probes, minident, log_file):
         logger.info("Done")
 
 
-def correct_pslx(pslx_file, log_file):
+def correct_pslx(pslx_file):
     """
     Remove all but the best hit for each query and target.
     """
-    logger = create_logger(log_file)
+    logger = setup_logging()
     folder50 = os.path.dirname(pslx_file)
     file = os.path.basename(pslx_file)
     with open(pslx_file) as original_pslx_file:
@@ -107,8 +106,8 @@ def correct_pslx(pslx_file, log_file):
     )
 
 
-def generate_pslx(data_folder, probes, minident, redlist, num_cores, log_file):
-    logger = create_logger(log_file)
+def generate_pslx(data_folder, probes, minident, redlist, num_cores, log_queue):
+    logger = setup_logging()
     logger.info("Generating pslx files using BLAT...\n")
     os.makedirs(os.path.join(data_folder, "50pslx"), exist_ok=True)
     files_for_blat_list = glob(os.path.join(data_folder, "31exonic_contigs", "*.fas"))
@@ -117,10 +116,11 @@ def generate_pslx(data_folder, probes, minident, redlist, num_cores, log_file):
             files_for_blat_list,
             [probes] * len(files_for_blat_list),
             [minident] * len(files_for_blat_list),
-            [log_file] * len(files_for_blat_list),
         )
     )
-    with multiprocessing.Pool(processes=num_cores) as pool_blat:
+    with multiprocessing.Pool(
+        processes=num_cores, initializer=worker_initializer, initargs=(log_queue,)
+    ) as pool_blat:
         pool_blat.starmap(run_blat, args_blat)
     os.makedirs(os.path.join(data_folder, "50pslx", "corrected"), exist_ok=True)
     pslx_file_list = []
@@ -133,9 +133,14 @@ def generate_pslx(data_folder, probes, minident, redlist, num_cores, log_file):
             shutil.copyfile(
                 pslx_file, os.path.join(data_folder, "50pslx", "corrected", file)
             )
-    args_correct_pslx = list(zip(pslx_file_list, [log_file] * len(pslx_file_list)))
-    with multiprocessing.Pool(processes=num_cores) as pool_correct_pslx:
-        pool_correct_pslx.starmap(correct_pslx, args_correct_pslx)
+    args_correct_pslx = list(zip(pslx_file_list))
+    with multiprocessing.Pool(
+        processes=num_cores, initializer=worker_initializer, initargs=(log_queue,)
+    ) as pool_correct_pslx:
+        pool_correct_pslx.starmap(
+            correct_pslx,
+            args_correct_pslx,
+        )
 
 
 def replace_trailing(seq):
@@ -154,8 +159,8 @@ def replace_trailing(seq):
     return seq
 
 
-def align(data_folder, probes, n_cpu, log_file):
-    logger = create_logger(log_file)
+def align(data_folder, probes, n_cpu, log_queue):
+    logger = setup_logging()
     shutil.rmtree(os.path.join(data_folder, "60mafft"), ignore_errors=True)
     with open(
         os.path.join(data_folder, "50pslx", "corrected", "list_pslx.txt"), "w"
@@ -204,7 +209,9 @@ def align(data_folder, probes, n_cpu, log_file):
         locus = os.path.basename(file).split("_")[3]
         all_loci.add(locus)
         files_to_align.append(file)
-    with multiprocessing.Pool(processes=n_cpu) as pool_aln:
+    with multiprocessing.Pool(
+        processes=n_cpu, initializer=worker_initializer, initargs=(log_queue,)
+    ) as pool_aln:
         pool_aln.map(mafft_align, files_to_align)
     for file in glob(os.path.join(data_folder, "60mafft", "*.mafft")):
         fasta = list(SeqIO.parse(file, "fasta"))
