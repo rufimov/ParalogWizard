@@ -358,10 +358,10 @@ def run_cast_assemble(args, log_queue: multiprocessing.Queue):
       - Cleaning up and compressing FASTQ files back.
     """
     from ParalogWizard.cast_assemble import (
-        run_spades_assembly,
-        cleanup_gene_directories,
+        spades,
+        clean_up,
     )
-    from ParalogWizard.cast_assemble import run_bwa_mem, distribute_bwa_reads
+    from ParalogWizard.cast_assemble import bwa, distribute_bwa
 
     logger = setup_logging()
     logger.info("Running cast_assemble with data_folder: %s", args.data_folder)
@@ -433,11 +433,11 @@ def run_cast_assemble(args, log_queue: multiprocessing.Queue):
                         logger.error("Bait file '%s' not found.", baitfile)
                         sys.exit(1)
 
-                    bamfile = run_bwa_mem(
-                        read_fastq_files=readfiles,
-                        bait_filepath=baitfile,
-                        output_basename=sample,
-                        num_threads=args.num_cores,
+                    bamfile = bwa(
+                        readfiles=readfiles,
+                        baitfile=baitfile,
+                        basename=sample,
+                        cpu=args.num_cores,
                     )
                     if not bamfile:
                         logger.error("BWA step failed for sample: %s", sample)
@@ -451,9 +451,9 @@ def run_cast_assemble(args, log_queue: multiprocessing.Queue):
                             logger.error("Failed to remove file '%s': %s", fn, e)
                             sys.exit(1)
 
-                    exitcode = distribute_bwa_reads(
-                        bam_filepath=bamfile,
-                        fastq_files=readfiles,
+                    exitcode = distribute_bwa(
+                        bamfile=bamfile,
+                        readfiles=readfiles,
                     )
                     if exitcode:
                         logger.error("BWA distribution failed for sample: %s", sample)
@@ -464,15 +464,15 @@ def run_cast_assemble(args, log_queue: multiprocessing.Queue):
                         for x in os.listdir(".")
                         if os.path.isfile(os.path.join(x, x + "_interleaved.fasta"))
                     ]
-                    run_spades_assembly(
-                        paired_fastq_files=readfiles,
-                        gene_list=genes,
-                        num_threads=args.num_cores,
+                    spades(
+                        readfiles=readfiles,
+                        genes=genes,
+                        cpu=args.num_cores,
                         log_queue=log_queue,
                     )
 
                     compress_fastq_files(readfiles)
-                    cleanup_gene_directories(sample)
+                    clean_up(sample)
     logger.info("ParalogWizard cast_assemble completed.")
 
 
