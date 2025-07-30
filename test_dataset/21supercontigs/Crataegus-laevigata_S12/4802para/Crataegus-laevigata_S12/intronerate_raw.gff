@@ -1,0 +1,62 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	gene	338	2990	1217	+	.	gene_id 1 ; sequence Crataegus-laevigata_S12 ; gene_orientation +
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	cds	338	439	.	+	.	
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	exon	338	439	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice5	440	441	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	intron	440	625	.	+	.	intron_id 1
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice3	624	625	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	cds	626	696	.	+	.	
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	exon	626	696	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice5	697	698	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	intron	697	774	.	+	.	intron_id 2
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice3	773	774	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	cds	775	833	.	+	.	
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	exon	775	833	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice5	834	835	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	intron	834	1113	.	+	.	intron_id 3
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice3	1112	1113	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	cds	1114	1150	.	+	.	
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	exon	1114	1150	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice5	1151	1152	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	intron	1151	1269	.	+	.	intron_id 4
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice3	1268	1269	.	+	.	intron_id 3 ; splice_site "GG"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	cds	1270	1390	.	+	.	
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	exon	1270	1390	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice5	1391	1392	.	+	.	intron_id 5 ; splice_site "GT"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	intron	1391	1496	.	+	.	intron_id 5
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice3	1495	1496	.	+	.	intron_id 4 ; splice_site "AG"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	cds	1497	1565	.	+	.	
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	exon	1497	1565	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice5	1566	1567	.	+	.	intron_id 6 ; splice_site "GT"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	intron	1566	1662	.	+	.	intron_id 6
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice3	1661	1662	.	+	.	intron_id 5 ; splice_site "AG"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	cds	1663	1745	.	+	.	
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	exon	1663	1745	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice5	1746	1747	.	+	.	intron_id 7 ; splice_site "GT"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	intron	1746	2368	.	+	.	intron_id 7
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice3	2367	2368	.	+	.	intron_id 6 ; splice_site "AG"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	cds	2369	2436	.	+	.	
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	exon	2369	2436	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice5	2437	2438	.	+	.	intron_id 8 ; splice_site "AG"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	intron	2437	2682	.	+	.	intron_id 8
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice3	2681	2682	.	+	.	intron_id 7 ; splice_site "AG"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	cds	2683	2745	.	+	.	
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	exon	2683	2745	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice5	2746	2747	.	+	.	intron_id 9 ; splice_site "GT"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	intron	2746	2880	.	+	.	intron_id 9
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	splice3	2879	2880	.	+	.	intron_id 8 ; splice_site "AG"
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	cds	2881	2990	.	+	.	
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	exon	2881	2990	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4802para	exonerate:protein2genome:local	similarity	338	2990	1217	+	.	alignment_id 1 ; Query Crataegus-laevigata_S12 ; Align 338 1 102 ; Align 626 35 69 ; Align 776 59 57 ; Align 1116 79 33 ; Align 1271 91 120 ; Align 1497 131 69 ; Align 1663 154 81 ; Align 2370 182 66 ; Align 2685 205 60 ; Align 2883 226 108
+# --- END OF GFF DUMP ---
+#

@@ -1,0 +1,27 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Hesperomeles-optusif_S17-4527para	exonerate:protein2genome:local	gene	627	2535	1424	+	.	gene_id 1 ; sequence Hesperomeles-optusif_S17 ; gene_orientation +
+Hesperomeles-optusif_S17-4527para	exonerate:protein2genome:local	cds	627	899	.	+	.	
+Hesperomeles-optusif_S17-4527para	exonerate:protein2genome:local	exon	627	899	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4527para	exonerate:protein2genome:local	splice5	900	901	.	+	.	intron_id 1 ; splice_site "TT"
+Hesperomeles-optusif_S17-4527para	exonerate:protein2genome:local	intron	900	1771	.	+	.	intron_id 1
+Hesperomeles-optusif_S17-4527para	exonerate:protein2genome:local	splice3	1770	1771	.	+	.	intron_id 0 ; splice_site "TG"
+Hesperomeles-optusif_S17-4527para	exonerate:protein2genome:local	cds	1772	2307	.	+	.	
+Hesperomeles-optusif_S17-4527para	exonerate:protein2genome:local	exon	1772	2307	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4527para	exonerate:protein2genome:local	splice5	2308	2309	.	+	.	intron_id 2 ; splice_site "AT"
+Hesperomeles-optusif_S17-4527para	exonerate:protein2genome:local	intron	2308	2483	.	+	.	intron_id 2
+Hesperomeles-optusif_S17-4527para	exonerate:protein2genome:local	splice3	2482	2483	.	+	.	intron_id 1 ; splice_site "AG"
+Hesperomeles-optusif_S17-4527para	exonerate:protein2genome:local	cds	2484	2535	.	+	.	
+Hesperomeles-optusif_S17-4527para	exonerate:protein2genome:local	exon	2484	2535	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4527para	exonerate:protein2genome:local	similarity	627	2535	1424	+	.	alignment_id 1 ; Query Hesperomeles-optusif_S17 ; Align 627 1 273 ; Align 1772 92 534 ; Align 2485 271 51
+# --- END OF GFF DUMP ---
+#

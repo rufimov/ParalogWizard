@@ -1,0 +1,4 @@
+Crataegus-punctata_S9-4527para	exonerate:protein2genome:local	gene	428	700	474	+	.	gene_id 1 ; sequence Crataegus-punctata_S9 ; gene_orientation .
+Crataegus-punctata_S9-4527para	exonerate:protein2genome:local	cds	428	700	.	+	.
+Crataegus-punctata_S9-4527para	exonerate:protein2genome:local	exon	428	700	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4527para	exonerate:protein2genome:local	similarity	428	700	474	+	.	alignment_id 1 ; Query Crataegus-punctata_S9 ; Align 428 1 273

@@ -1,0 +1,19 @@
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	gene	261	1577	766	+	.	gene_id 1 ; sequence Crataegus-brachyacantha_S10 ; gene_orientation +
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	cds	261	493	.	+	.
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	exon	261	493	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	splice5	494	495	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	intron	494	758	.	+	.	intron_id 1
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	splice3	757	758	.	+	.	intron_id 0 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	cds	759	865	.	+	.
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	exon	759	865	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	splice5	866	867	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	intron	866	953	.	+	.	intron_id 2
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	splice3	952	953	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	cds	954	1013	.	+	.
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	exon	954	1013	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	splice5	1014	1015	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	intron	1014	1497	.	+	.	intron_id 3
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	splice3	1496	1497	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	cds	1498	1577	.	+	.
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	exon	1498	1577	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4806	exonerate:protein2genome:local	similarity	261	1577	766	+	.	alignment_id 1 ; Query Crataegus-brachyacantha_S10 ; Align 261 1 231 ; Align 760 79 105 ; Align 956 115 57 ; Align 1500 135 78

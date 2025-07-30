@@ -1,0 +1,4 @@
+Crataegus-pycnoloba_S6-4744	exonerate:protein2genome:local	gene	258	377	205	+	.	gene_id 1 ; sequence Crataegus-pycnoloba_S6 ; gene_orientation .
+Crataegus-pycnoloba_S6-4744	exonerate:protein2genome:local	cds	258	377	.	+	.
+Crataegus-pycnoloba_S6-4744	exonerate:protein2genome:local	exon	258	377	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4744	exonerate:protein2genome:local	similarity	258	377	205	+	.	alignment_id 1 ; Query Crataegus-pycnoloba_S6 ; Align 258 1 120

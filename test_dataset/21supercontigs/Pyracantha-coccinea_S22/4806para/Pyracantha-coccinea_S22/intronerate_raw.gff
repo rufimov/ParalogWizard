@@ -1,0 +1,37 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	gene	230	3839	841	+	.	gene_id 1 ; sequence Pyracantha-coccinea_S22 ; gene_orientation +
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	cds	230	462	.	+	.	
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	exon	230	462	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	splice5	463	464	.	+	.	intron_id 1 ; splice_site "GT"
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	intron	463	1234	.	+	.	intron_id 1
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	splice3	1233	1234	.	+	.	intron_id 0 ; splice_site "AT"
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	cds	1235	1341	.	+	.	
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	exon	1235	1341	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	splice5	1342	1343	.	+	.	intron_id 2 ; splice_site "GT"
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	intron	1342	1425	.	+	.	intron_id 2
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	splice3	1424	1425	.	+	.	intron_id 1 ; splice_site "AG"
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	cds	1426	1485	.	+	.	
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	exon	1426	1485	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	splice5	1486	1487	.	+	.	intron_id 3 ; splice_site "GT"
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	intron	1486	3300	.	+	.	intron_id 3
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	splice3	3299	3300	.	+	.	intron_id 2 ; splice_site "AG"
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	cds	3301	3381	.	+	.	
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	exon	3301	3381	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	splice5	3382	3383	.	+	.	intron_id 4 ; splice_site "GT"
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	intron	3382	3780	.	+	.	intron_id 4
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	splice3	3779	3780	.	+	.	intron_id 3 ; splice_site "CA"
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	cds	3781	3839	.	+	.	
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	exon	3781	3839	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4806para	exonerate:protein2genome:local	similarity	230	3839	841	+	.	alignment_id 1 ; Query Pyracantha-coccinea_S22 ; Align 230 1 231 ; Align 1236 79 105 ; Align 1428 115 57 ; Align 3303 135 78 ; Align 3783 162 57
+# --- END OF GFF DUMP ---
+#

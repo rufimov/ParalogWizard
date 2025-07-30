@@ -1,0 +1,34 @@
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	gene	313	2223	817	+	.	gene_id 1 ; sequence Sorbus-sambucifolia_S24 ; gene_orientation +
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	cds	313	367	.	+	.
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	exon	313	367	.	+	.	insertions 0 ; deletions 0
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	splice5	368	369	.	+	.	intron_id 1 ; splice_site "GT"
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	intron	368	772	.	+	.	intron_id 1
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	splice3	771	772	.	+	.	intron_id 0 ; splice_site "AG"
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	cds	773	808	.	+	.
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	exon	773	808	.	+	.	insertions 0 ; deletions 0
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	splice5	809	810	.	+	.	intron_id 2 ; splice_site "GT"
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	intron	809	978	.	+	.	intron_id 2
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	splice3	977	978	.	+	.	intron_id 1 ; splice_site "AT"
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	cds	979	1055	.	+	.
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	exon	979	1055	.	+	.	insertions 0 ; deletions 0
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	splice5	1056	1057	.	+	.	intron_id 3 ; splice_site "GT"
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	intron	1056	1208	.	+	.	intron_id 3
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	splice3	1207	1208	.	+	.	intron_id 2 ; splice_site "AG"
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	cds	1209	1263	.	+	.
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	exon	1209	1263	.	+	.	insertions 0 ; deletions 0
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	splice5	1264	1265	.	+	.	intron_id 4 ; splice_site "GT"
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	intron	1264	1352	.	+	.	intron_id 4
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	splice3	1351	1352	.	+	.	intron_id 3 ; splice_site "GT"
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	cds	1353	1467	.	+	.
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	exon	1353	1467	.	+	.	insertions 0 ; deletions 0
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	splice5	1468	1469	.	+	.	intron_id 5 ; splice_site "GT"
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	intron	1468	1607	.	+	.	intron_id 5
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	splice3	1606	1607	.	+	.	intron_id 4 ; splice_site "AG"
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	cds	1608	1768	.	+	.
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	exon	1608	1768	.	+	.	insertions 0 ; deletions 0
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	splice5	1769	1770	.	+	.	intron_id 6 ; splice_site "TG"
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	intron	1769	2149	.	+	.	intron_id 6
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	splice3	2148	2149	.	+	.	intron_id 5 ; splice_site "AG"
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	cds	2150	2223	.	+	.
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	exon	2150	2223	.	+	.	insertions 0 ; deletions 0
+Sorbus-sambucifolia_S24-4942para	exonerate:protein2genome:local	similarity	313	2223	817	+	.	alignment_id 1 ; Query Sorbus-sambucifolia_S24 ; Align 313 1 54 ; Align 775 20 33 ; Align 981 32 75 ; Align 1209 57 54 ; Align 1355 76 111 ; Align 1609 114 159 ; Align 2152 168 72

@@ -1,0 +1,14 @@
+Crataegus-remotilobata_S1-4527para	exonerate:protein2genome:local	gene	457	2227	1417	+	.	gene_id 1 ; sequence Crataegus-remotilobata_S1 ; gene_orientation +
+Crataegus-remotilobata_S1-4527para	exonerate:protein2genome:local	cds	457	729	.	+	.
+Crataegus-remotilobata_S1-4527para	exonerate:protein2genome:local	exon	457	729	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4527para	exonerate:protein2genome:local	splice5	730	731	.	+	.	intron_id 1 ; splice_site "TT"
+Crataegus-remotilobata_S1-4527para	exonerate:protein2genome:local	intron	730	1408	.	+	.	intron_id 1
+Crataegus-remotilobata_S1-4527para	exonerate:protein2genome:local	splice3	1407	1408	.	+	.	intron_id 0 ; splice_site "TG"
+Crataegus-remotilobata_S1-4527para	exonerate:protein2genome:local	cds	1409	1944	.	+	.
+Crataegus-remotilobata_S1-4527para	exonerate:protein2genome:local	exon	1409	1944	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4527para	exonerate:protein2genome:local	splice5	1945	1946	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-remotilobata_S1-4527para	exonerate:protein2genome:local	intron	1945	2175	.	+	.	intron_id 2
+Crataegus-remotilobata_S1-4527para	exonerate:protein2genome:local	splice3	2174	2175	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-remotilobata_S1-4527para	exonerate:protein2genome:local	cds	2176	2227	.	+	.
+Crataegus-remotilobata_S1-4527para	exonerate:protein2genome:local	exon	2176	2227	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4527para	exonerate:protein2genome:local	similarity	457	2227	1417	+	.	alignment_id 1 ; Query Crataegus-remotilobata_S1 ; Align 457 1 273 ; Align 1409 92 534 ; Align 2177 271 51

@@ -1,293 +1,390 @@
+#!/usr/bin/env python
+"""
+Module for ParalogWizard cast_analyze command.
+
+This module performs several analyses:
+  - It aligns sequences using MAFFT.
+  - It builds phylogenetic trees using FastTree.
+  - It calculates pairwise percent dissimilarities,
+    estimates divergence using kernel density estimation,
+    and produces plots of the distribution.
+Multiprocessing is used where appropriate, and detailed logging is provided.
+"""
+
 import glob
 import itertools
 import multiprocessing
 import os
-import pandas
 import random
+import subprocess
 from glob import glob
-from typing import Dict, List
-from typing import Set
-from typing import Tuple
-from pandas.core import frame
+from typing import Dict, List, Set
 
-import Bio.Application
-import Bio.Application
 import matplotlib
-import numpy
+import numpy as np
+import pandas as pd
 from Bio import SeqIO, SeqRecord
-from Bio.Align.Applications import MafftCommandline
-from Bio.Phylo.Applications import FastTreeCommandline
-from matplotlib import axes
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 from scipy.signal import argrelextrema
 from sklearn.mixture import BayesianGaussianMixture
 from sklearn.neighbors import KernelDensity
 
+# Use our setup_logging from ParalogWizard.
+from ParalogWizard import setup_logging, worker_initializer
 
-def mafft_align(file):
-    stdout, stderr = MafftCommandline(
-        input=file,
-        auto=True,
-    )()
-    with open(f"{os.path.splitext(file)[0]}.fasta.mafft", "w") as aligned:
-        aligned.write(stdout)
+# -----------------------------------------------------------------------------
+# Module-level logger
+# -----------------------------------------------------------------------------
+logger = setup_logging()
 
 
-def fast_tree(file):
+# -----------------------------------------------------------------------------
+# Logging Decorator (with detailed context)
+# -----------------------------------------------------------------------------
+def log_exceptions(func):
+    """
+    Decorator that logs function entry, exit, and any exceptions.
+    It logs the function's name along with its positional and keyword arguments.
+    This way you know which file, sample, locus, etc., caused the error.
+    Instead of calling sys.exit(), it re-raises the exception so that the main process
+    can catch the error and shut down the pool gracefully.
+    """
+    from functools import wraps
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            arg_str = ", ".join(str(arg) for arg in args)
+            kwarg_str = ", ".join(f"{k}={v}" for k, v in kwargs.items())
+            logger.exception(
+                f"Exception in {func.__name__} (args: {arg_str}; kwargs: {kwarg_str}): {e}"
+            )
+            raise
+
+    return wrapper
+
+
+# -----------------------------------------------------------------------------
+# Alignment and Tree Building Functions (Using subprocess)
+# -----------------------------------------------------------------------------
+@log_exceptions
+def mafft_align(file: str) -> None:
+    """
+    Aligns a FASTA file using MAFFT via a subprocess call.
+    The output is saved as <original_basename>.fasta.mafft.
+    """
+    if not os.path.exists(file):
+        logger.error("Input file %s does not exist", file)
+        raise FileNotFoundError(f"Input file {file} does not exist")
+    out_file = f"{os.path.splitext(file)[0]}.fasta.mafft"
+    cmd = ["mafft", "--auto", file]
+    logger.info("Running MAFFT on %s", file)
     try:
-        FastTreeCommandline(
-            "fasttreemp",
-            nt=True,
-            gtr=True,
-            input=file,
-            out=f"{file}.tre",
-            fastest=True,
-        )()
-    except Bio.Application.ApplicationError:
-        FastTreeCommandline(
-            "fasttree",
-            nt=True,
-            gtr=True,
-            input=file,
-            out=f"{file}.tre",
-            fastest=True,
-        )()
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+        with open(out_file, "w") as aligned:
+            aligned.write(result.stdout)
+        logger.info(
+            "MAFFT alignment completed for %s, output saved to %s", file, out_file
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        logger.error("MAFFT alignment failed for %s: %s", file, e)
+        raise
 
 
-def build_alignments(data_folder, n_cpu, logger):
-    """"""
+@log_exceptions
+def fast_tree(file: str) -> None:
+    """
+    Builds a tree using FastTree. First tries fasttreemp; if it fails (or isn’t found),
+    falls back to fasttree.
+    The tree is saved as <file>.tre.
+    """
+    if not os.path.exists(file):
+        logger.error("Input file %s does not exist", file)
+        raise FileNotFoundError(f"Input file {file} does not exist")
+    out_file = f"{file}.tre"
+    # Try fasttreemp first.
+    cmd_mp = ["fasttreemp", "-nt", "-gtr", "-fastest", file]
+    logger.info("Running FastTreeMP on %s", file)
+    try:
+        with open(out_file, "w") as outf:
+            subprocess.run(cmd_mp, stdout=outf, check=True)
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        logger.warning("FastTreeMP failed for %s (%s), trying FastTree", file, e)
+        cmd = ["fasttree", "-nt", "-gtr", "-fastest", file]
+        try:
+            with open(out_file, "w") as outf:
+                subprocess.run(cmd, stdout=outf, check=True)
+        except subprocess.CalledProcessError as e2:
+            logger.error("FastTree failed for %s with error: %s", file, e2)
+            raise
+    logger.info("Tree built for %s, output saved to %s", file, out_file)
+
+
+@log_exceptions
+def build_alignments(data_folder: str, n_cpu: int, log_queue) -> None:
+    """
+    Builds exon alignments from the 31exonic_contigs/all_hits.tsv file.
+    For each exon, creates a FASTA file with all sequences, then aligns with MAFFT,
+    and finally builds a tree with FastTree.
+
+    Files are processed individually to avoid a single hanging file from blocking the pool.
+    """
     logger.info("Building individual exon alignments...")
-    all_hits_for_reference: pandas.core.frame.DataFrame = pandas.read_csv(
-        os.path.join(data_folder, "31exonic_contigs", "all_hits.tsv"), sep="\t"
-    )
-    grouped_exons = all_hits_for_reference.groupby("exon")
-    os.makedirs(os.path.join(data_folder, "40aln_orth_par"), exist_ok=True)
-    for exon in grouped_exons:
-        exon_dataframe = exon[1].reset_index(drop=True)
-        exon_name = exon[0]
-        with open(
-                os.path.join(data_folder, "40aln_orth_par", f"{exon_name}.fasta"), "w"
-        ) as exon_aln_fasta:
-            for index in range(len(exon_dataframe)):
-                contig_name = exon_dataframe.loc[index, "saccver"]
-                sample = exon_dataframe.loc[index, "sample"]
-                seq_name = f"{exon_name}_N_{contig_name.split('_N_')[1]}_{sample}"
-                seq = exon_dataframe["sequence"][index]
-                exon_aln_fasta.write(f">{seq_name}\n{seq}\n")
-    files_to_align = glob(os.path.join(data_folder, "40aln_orth_par", "*fasta"))
-    with multiprocessing.Pool(processes=n_cpu) as pool_aln:
-        pool_aln.map(mafft_align, files_to_align)
-    files_to_align = glob(os.path.join(data_folder, "40aln_orth_par", "*fasta.mafft"))
-    with multiprocessing.Pool(processes=n_cpu) as pool_tree:
-        pool_tree.map(fast_tree, files_to_align)
-    logger.info("Done\n")
+    hits_file = os.path.join(data_folder, "31exonic_contigs", "all_hits.tsv")
+    if not os.path.exists(hits_file):
+        logger.error("Hits file %s does not exist", hits_file)
+        raise FileNotFoundError(f"Hits file {hits_file} does not exist")
+    all_hits = pd.read_csv(hits_file, sep="\t")
+    grouped_exons = all_hits.groupby("exon")
+    aln_folder = os.path.join(data_folder, "40aln_orth_par")
+    os.makedirs(aln_folder, exist_ok=True)
+    # Write FASTA files for each exon.
+    for exon, df in grouped_exons:
+        exon_str = str(exon)
+        out_path = os.path.join(aln_folder, f"{exon_str}.fasta")
+        logger.info("Creating alignment FASTA for exon %s", exon_str)
+        with open(out_path, "w") as f_out:
+            for _, row in df.iterrows():
+                # Construct a sequence header from exon, contig and sample.
+                try:
+                    contig_part = row["saccver"].split("_N_")[1]
+                except IndexError:
+                    contig_part = "unknown"
+                header = f"{exon_str}_N_{contig_part}_{row['sample']}"
+                seq = row["sequence"]
+                f_out.write(f">{header}\n{seq}\n")
+        logger.debug("FASTA for exon %s written", exon_str)
+
+    # Process MAFFT alignments individually.
+    files_to_align = glob(os.path.join(aln_folder, "*fasta"))
+    logger.info("Running MAFFT alignment on %d files", len(files_to_align))
+    mafft_failed_files = []
+    with multiprocessing.Pool(
+        processes=n_cpu, initializer=worker_initializer, initargs=(log_queue,)
+    ) as pool:
+        for file in files_to_align:
+            async_result = pool.apply_async(mafft_align, (file,))
+            try:
+                async_result.get(timeout=600)  # timeout in seconds per file
+            except multiprocessing.TimeoutError:
+                logger.error("Timeout during MAFFT alignment for file: %s", file)
+                mafft_failed_files.append(file)
+            except Exception as e:
+                logger.error(
+                    "Error during MAFFT alignment for file: %s; Error: %s", file, e
+                )
+                mafft_failed_files.append(file)
+        pool.close()
+        pool.join()
+    if mafft_failed_files:
+        logger.error(
+            "MAFFT alignment failed for these files and they will be skipped: %s",
+            mafft_failed_files,
+        )
+    else:
+        logger.info("MAFFT alignment completed for all files.")
+
+    # Process FastTree individually on the MAFFT output files.
+    files_to_tree = glob(os.path.join(aln_folder, "*fasta.mafft"))
+    logger.info("Running FastTree on %d alignment files", len(files_to_tree))
+    fasttree_failed_files = []
+    with multiprocessing.Pool(
+        processes=n_cpu, initializer=worker_initializer, initargs=(log_queue,)
+    ) as pool:
+        for file in files_to_tree:
+            async_result = pool.apply_async(fast_tree, (file,))
+            try:
+                async_result.get(timeout=600)
+            except multiprocessing.TimeoutError:
+                logger.error("Timeout during FastTree tree building for file: %s", file)
+                fasttree_failed_files.append(file)
+            except Exception as e:
+                logger.error(
+                    "Error during FastTree tree building for file: %s; Error: %s",
+                    file,
+                    e,
+                )
+                fasttree_failed_files.append(file)
+        pool.close()
+        pool.join()
+    if fasttree_failed_files:
+        logger.error(
+            "FastTree building failed for these files and they will be skipped: %s",
+            fasttree_failed_files,
+        )
+    else:
+        logger.info("FastTree building completed for all files.")
+
+    logger.info("Alignment and tree building complete.")
 
 
+# -----------------------------------------------------------------------------
+# Divergence Analysis Functions
+# -----------------------------------------------------------------------------
+@log_exceptions
 def percent_dissimilarity(seq1: str, seq2: str) -> float or None:
-    """"""
-
+    """
+    Compute the percent dissimilarity between two sequences.
+    Positions with gaps in both sequences are ignored.
+    Returns None if the alignment is too short.
+    """
     seq1 = seq1.lower()
     seq2 = seq2.lower()
-    # Removing positions with gaps in both sequences
-    seq1_wo_mutual_gaps = str()
-    seq2_wo_mutual_gaps = str()
-    for nucl in zip(seq1, seq2):
-        if nucl[0] == "-" and nucl[1] == "-":
-            continue
-        seq1_wo_mutual_gaps = seq1_wo_mutual_gaps + nucl[0]
-        seq2_wo_mutual_gaps = seq2_wo_mutual_gaps + nucl[1]
-    # Length of alignment without mutual gaps
-    len_aln = len(seq1_wo_mutual_gaps)
-    # Removing parts of alignments with gaps at the end and count removed positions from both sides
-    count_left = 0
-    count_right = 0
-    while seq1_wo_mutual_gaps[0] == "-" or seq2_wo_mutual_gaps[0] == "-":
-        seq1_wo_mutual_gaps = seq1_wo_mutual_gaps[1:]
-        seq2_wo_mutual_gaps = seq2_wo_mutual_gaps[1:]
-        if seq1_wo_mutual_gaps == "" or seq2_wo_mutual_gaps == "":
-            return None
-        count_left += 1
-    while seq1_wo_mutual_gaps[-1] == "-" or seq2_wo_mutual_gaps[-1] == "-":
-        seq1_wo_mutual_gaps = seq1_wo_mutual_gaps[:-1]
-        seq2_wo_mutual_gaps = seq2_wo_mutual_gaps[:-1]
-        if seq1_wo_mutual_gaps == "" or seq2_wo_mutual_gaps == "":
-            return None
-        count_right += 1
-    # Checking if resulting alignment is not less than 0.75 than the length of either or 2 initial sequence without end
-    # and mutual gaps
-    overlap = len_aln - count_left - count_right
-    if (
-            (overlap / (len_aln - count_left) < 0.5)
-            or (overlap / (len_aln - count_right) < 0.5)
-            or overlap < 100
-    ):
+    filtered = [(a, b) for a, b in zip(seq1, seq2) if not (a == "-" and b == "-")]
+    if not filtered:
         return None
-    # Counting mismatches, ignoring positions with gaps in one of the sequences
-    count = 0
-    for nucl in zip(seq1_wo_mutual_gaps, seq2_wo_mutual_gaps):
-        if (
-                nucl[0] != nucl[1] and nucl[0] != "-" and nucl[1] != "-"
-        ):  # gaps are not counted
-            # if nucl[0] != nucl[1]:  # gaps are counted
-            count += 1
-    dissimilarity = (count / len(seq1_wo_mutual_gaps)) * 100
-    return dissimilarity
+    seq1_list, seq2_list = zip(*filtered)
+    seq1_list = list(seq1_list)
+    seq2_list = list(seq2_list)
+    n = len(seq1_list)
+    left = 0
+    while left < n and (seq1_list[left] == "-" or seq2_list[left] == "-"):
+        left += 1
+    right = n
+    while right > left and (seq1_list[right - 1] == "-" or seq2_list[right - 1] == "-"):
+        right -= 1
+    overlap = right - left
+    if (overlap < 100) or (overlap / (n - left) < 0.5) or (overlap / right < 0.5):
+        return None
+    mismatches = sum(
+        1
+        for a, b in zip(seq1_list[left:right], seq2_list[left:right])
+        if a != b and a != "-" and b != "-"
+    )
+    return (mismatches / overlap) * 100
 
 
-def get_distance_matrix(
-        file_to_process: str,
-        blocklist: Set[str],
-):
-    """"""
-    current_matrix_to_plot: List[float] = list()
+@log_exceptions
+def get_distance_matrix(file_to_process: str, blocklist: Set[str]):
+    """
+    For the sequences in the given FASTA file, compute a distance matrix based on percent dissimilarity.
+    Also, detect local minima in the divergence distribution.
+    Returns a tuple: (list of cluster means, DataFrame of pairwise distances, plotting data).
+    """
+    if not os.path.exists(file_to_process):
+        logger.error("Input file %s does not exist", file_to_process)
+        raise FileNotFoundError(f"Input file {file_to_process} does not exist")
+    current_matrix_to_plot = []
     current_matrix_to_write = []
     sum_list = []
+    logger.info("Computing distance matrix for %s", file_to_process)
     with open(file_to_process) as fasta_file:
-        sequences: Dict[str, Bio.SeqRecord.SeqRecord] = SeqIO.to_dict(
+        sequences: Dict[str, SeqRecord.SeqRecord] = SeqIO.to_dict(
             SeqIO.parse(fasta_file, "fasta")
         )
-    seq_names = pandas.DataFrame(list(sequences.keys()))
-    seq_names[1] = seq_names[0].str.split('_').str[-2:].str.join('_')
-    duplicated_samp = set(seq_names[seq_names.duplicated(subset=1)][1].values)
-    non_duplicated_samp = set(seq_names[~seq_names[1].isin(duplicated_samp)][1].values)
-    for samp in duplicated_samp:
-        seqs_to_pairs = seq_names[seq_names[1] == samp][0].values.tolist()
-        for pair in list(itertools.combinations(seqs_to_pairs, 2)):
-            sequence1: str = str(sequences[pair[0]].seq)
-            sequence2: str = str(sequences[pair[1]].seq)
-            distance: float = percent_dissimilarity(sequence1, sequence2)
-            if distance is None:
+    seq_names = pd.DataFrame(list(sequences.keys()), columns=["full_name"])
+    seq_names["sample_name"] = (
+        seq_names["full_name"].str.split("_").str[-2:].str.join("_")
+    )
+    duplicated = set(
+        seq_names[seq_names.duplicated(subset="sample_name")]["sample_name"].values
+    )
+    non_duplicated = set(
+        seq_names[~seq_names["sample_name"].isin(duplicated)]["sample_name"].values
+    )
+    for samp in duplicated:
+        names = seq_names[seq_names["sample_name"] == samp]["full_name"].tolist()
+        for pair in itertools.combinations(names, 2):
+            d = percent_dissimilarity(
+                str(sequences[pair[0]].seq), str(sequences[pair[1]].seq)
+            )
+            if d is None:
                 continue
             if samp not in blocklist:
-                current_matrix_to_plot.append(distance)
-            current_matrix_to_write.append([pair[0], distance, pair[1]])
-    for samp in non_duplicated_samp:
-        seqs_non_paired = seq_names[seq_names[1] == samp][0].values.tolist()
-        for seq in seqs_non_paired:
-            sequence = str(sequences[seq].seq)
-            if len(sequence) < 100:
+                current_matrix_to_plot.append(d)
+            current_matrix_to_write.append([pair[0], d, pair[1]])
+    for samp in non_duplicated:
+        names = seq_names[seq_names["sample_name"] == samp]["full_name"].tolist()
+        for name in names:
+            seq = str(sequences[name].seq)
+            if len(seq) < 100:
                 continue
-            current_matrix_to_write.append([seq, numpy.nan, numpy.nan])
-    if len(current_matrix_to_plot) > 0:
-        # Search for local minima
-        current_distance_array = numpy.array(current_matrix_to_plot).reshape(-1, 1)
-        sorted_current_distance_array = numpy.array(sorted(current_matrix_to_plot))
+            current_matrix_to_write.append([name, np.nan, np.nan])
+    if current_matrix_to_plot:
+        sorted_vals = np.sort(np.array(current_matrix_to_plot))
+        arr = sorted_vals.reshape(-1, 1)
         kde = KernelDensity(kernel="gaussian", bandwidth=1.5)
-        kde.fit(current_distance_array)
-        linear_space = numpy.linspace(-1, numpy.max(current_distance_array) + 1, 1000)
-        e = numpy.exp(kde.score_samples(linear_space.reshape(-1, 1)))
-        mi = argrelextrema(e, numpy.less)[0]
-        minimum = linear_space[mi]
-        to_plot = [
-            linear_space,
-            e,
-            sorted_current_distance_array,
-        ]
+        kde.fit(arr)
+        space = np.linspace(-1, np.max(arr) + 1, 1000)
+        e = np.exp(kde.score_samples(space.reshape(-1, 1)))
+        mi = argrelextrema(e, np.less)[0]
+        minimum = space[mi]
         if len(minimum) == 0:
-            sum_list.append(sum(current_matrix_to_plot) / len(current_matrix_to_plot))
+            sum_list.append(float(np.mean(sorted_vals)))
         else:
-            # Calculate mean in every cluster
-            for i in range(0, len(minimum)):
+            for i in range(len(minimum)):
                 if i == 0:
-                    indices = numpy.where(
-                        numpy.logical_and(
-                            sorted_current_distance_array < minimum[i],
-                            sorted_current_distance_array >= 0,
-                        )
-                    )[0].tolist()
+                    idx = np.where((sorted_vals < minimum[i]) & (sorted_vals >= 0))[0]
                 else:
-                    indices = numpy.where(
-                        numpy.logical_and(
-                            sorted_current_distance_array < minimum[i],
-                            sorted_current_distance_array > minimum[i - 1],
-                        )
-                    )[0].tolist()
-                if len(indices) == 1:
-                    cluster = [sorted_current_distance_array.tolist()[indices[0]]]
-                else:
-                    cluster = sorted_current_distance_array.tolist()[
-                              min(indices): max(indices) + 1
-                              ]
-                cluster_mean = sum(cluster) / len(cluster)
-                sum_list.append(cluster_mean)
-            last_cluster_indices = numpy.where(
-                sorted_current_distance_array > minimum[-1]
-            )[0].tolist()
-            last_cluster = sorted_current_distance_array.tolist()[
-                           min(last_cluster_indices): max(last_cluster_indices) + 1
-                           ]
-            last_cluster_mean = sum(last_cluster) / len(last_cluster)
-            sum_list.append(last_cluster_mean)
+                    idx = np.where(
+                        (sorted_vals < minimum[i]) & (sorted_vals > minimum[i - 1])
+                    )[0]
+                if len(idx) == 0:
+                    continue
+                cluster = sorted_vals[min(idx) : max(idx) + 1]
+                sum_list.append(float(np.mean(cluster)))
+            idx_last = np.where(sorted_vals > minimum[-1])[0]
+            if len(idx_last):
+                last_cluster = sorted_vals[min(idx_last) : max(idx_last) + 1]
+                sum_list.append(float(np.mean(last_cluster)))
+        to_plot = [space, e, sorted_vals]
     else:
         to_plot = None
-    current_matrix_to_write = pandas.DataFrame(
-        current_matrix_to_write, columns=["seq1", "dist", "seq2"]
-    )
-    return sum_list, current_matrix_to_write, to_plot
+    matrix_df = pd.DataFrame(current_matrix_to_write, columns=["seq1", "dist", "seq2"])
+    logger.info("Distance matrix computed for %s", file_to_process)
+    return sum_list, matrix_df, to_plot
 
 
-def get_model(array: numpy.ndarray, num_comp: int) -> BayesianGaussianMixture:
-    """"""
-    from sklearn.mixture import BayesianGaussianMixture
-
-    mix = BayesianGaussianMixture(
-        n_components=num_comp,
-        max_iter=10000,
-        n_init=10,
-    )
-    mix.fit(array)
-    return mix
+@log_exceptions
+def get_model(array: np.ndarray, num_comp: int) -> BayesianGaussianMixture:
+    """
+    Fit and return a BayesianGaussianMixture model for the given array.
+    """
+    model = BayesianGaussianMixture(n_components=num_comp, max_iter=10000, n_init=10)
+    model.fit(array)
+    logger.debug("BayesianGaussianMixture model fitted with %d components", num_comp)
+    return model
 
 
+@log_exceptions
 def plot_vertical_line(
-        plot: matplotlib.axes,
-        line_name: str,
-        line_value: float,
-        list_of_colors: List[str],
-        num_for_color: int,
-):
-    """"""
-
-    import numpy
-
-    plot.axvline(
+    ax: plt.Axes, line_name: str, line_value: float, colors: List[str], idx: int
+) -> None:
+    """
+    Plot a vertical line on the given axis with a label.
+    """
+    ax.axvline(
         x=line_value,
-        label=f"{line_name} - {numpy.round(line_value, 2)}",
-        c=list_of_colors[num_for_color],
+        label=f"{line_name} - {np.round(line_value, 2)}",
+        color=colors[idx],
         lw=0.6,
         ls="--",
     )
+    logger.debug("Plotted vertical line %s at %.2f", line_name, line_value)
 
 
-def get_plot(
-        path: str,
-        name: str,
-        matrix: numpy.ndarray,
-        comp: int,
-):
-    """"""
-
-    # General plot settings
+@log_exceptions
+def get_plot(path: str, name: str, matrix: np.ndarray, comp: int) -> None:
+    """
+    Generate and save plots of divergence distributions using the fitted model.
+    """
+    if not os.path.exists(path):
+        os.makedirs(path, exist_ok=True)
+        logger.info("Created output directory %s", path)
     matplotlib.use("Agg")
-    max_of_matrix: float = numpy.round(numpy.max(matrix)) + 1
-    fig, axis = pyplot.subplots(figsize=(15, 10))
-    axis.set_xlabel("Divergence (%)")
-    axis.set_ylabel("Frequency")
-    axis.xaxis.set_ticks(numpy.arange(-1, max_of_matrix, 1))
-    fig.suptitle(f"{name}")
-    # Data to plot
-    divergency_distribution_mix: BayesianGaussianMixture = get_model(matrix, comp)
-    means: List[float] = divergency_distribution_mix.means_.flatten().tolist()
-    sigmas: List[float] = [
-        numpy.sqrt(x)
-        for x in divergency_distribution_mix.covariances_.flatten().tolist()
-    ]
-    mu_sigma: List[Tuple[float, float]] = sorted(
-        list(zip(means, sigmas)), key=lambda x: x[0]
-    )
-    # weights = divergency_distribution_mix.weights_.flatten().tolist()
-    # Set colours for vertical lines to be plotted
-    colors: List[str] = random.sample(
+    fig, ax = plt.subplots(figsize=(15, 10))
+    ax.set_xlabel("Divergence (%)")
+    ax.set_ylabel("Frequency")
+    fig.suptitle(name)
+    max_val = np.round(np.max(matrix)) + 1
+    ax.xaxis.set_ticks(np.arange(0, max_val, 1))
+    model = get_model(matrix, comp)
+    means = model.means_.flatten().tolist()
+    sigmas = [np.sqrt(x) for x in model.covariances_.flatten().tolist()]
+    mu_sigma = sorted(zip(means, sigmas), key=lambda x: x[0])
+    colors = random.sample(
         [
             "#FF0000",
             "#008000",
@@ -303,110 +400,113 @@ def get_plot(
         ],
         k=comp * 3,
     )
-    # Plotting vertical lines
-    first_peak: float = mu_sigma[0][0]
-    first_peak_minus_sigma: float = first_peak - mu_sigma[0][1]
-    first_peak_plus_sigma: float = first_peak + mu_sigma[0][1]
-    plot_vertical_line(
-        axis, "first_peak_minus_sigma", first_peak_minus_sigma, colors, 0
-    )
-    plot_vertical_line(axis, "first_peak", first_peak, colors, 1)
-    plot_vertical_line(axis, "first_peak_plus_sigma", first_peak_plus_sigma, colors, 2)
-    if comp > 1:
-        second_peak: float = mu_sigma[1][0]
-        second_peak_minus_sigma: float = second_peak - mu_sigma[1][1]
-        second_peak_plus_sigma: float = second_peak + mu_sigma[1][1]
+    if mu_sigma:
+        first_peak, first_sigma = mu_sigma[0]
         plot_vertical_line(
-            axis, "second_peak_minus_sigma", second_peak_minus_sigma, colors, 3
+            ax, "first_peak_minus_sigma", first_peak - first_sigma, colors, 0
         )
-        plot_vertical_line(axis, "second_peak", second_peak, colors, 4)
+        plot_vertical_line(ax, "first_peak", first_peak, colors, 1)
         plot_vertical_line(
-            axis, "second_peak_plus_sigma", second_peak_plus_sigma, colors, 5
+            ax, "first_peak_plus_sigma", first_peak + first_sigma, colors, 2
         )
-        if comp > 2:
-            third_peak: float = mu_sigma[2][0]
-            third_peak_minus_sigma: float = third_peak - mu_sigma[2][1]
-            third_peak_plus_sigma: float = third_peak + mu_sigma[2][1]
+        if comp > 1 and len(mu_sigma) > 1:
+            second_peak, second_sigma = mu_sigma[1]
             plot_vertical_line(
-                axis, "third_peak_minus_sigma", third_peak_minus_sigma, colors, 6
+                ax, "second_peak_minus_sigma", second_peak - second_sigma, colors, 3
             )
-            plot_vertical_line(axis, "third_peak", third_peak, colors, 7)
+            plot_vertical_line(ax, "second_peak", second_peak, colors, 4)
             plot_vertical_line(
-                axis, "third_peak_plus_sigma", third_peak_plus_sigma, colors, 8
+                ax, "second_peak_plus_sigma", second_peak + second_sigma, colors, 5
             )
-    # Plot graph and other
-    axis.legend(loc="upper right")
-    axis.plot(matrix, [0] * matrix.shape[0], marker=2, color="k")
-    space: numpy.ndarray = numpy.linspace(0, max_of_matrix, 1000)
-    logprob: numpy.ndarray = divergency_distribution_mix.score_samples(
-        space.reshape(-1, 1)
-    )
-    pdf: numpy.ndarray = numpy.exp(logprob)
-    responsibilities: numpy.ndarray = divergency_distribution_mix.predict_proba(
-        space.reshape(-1, 1)
-    )
-    axis.hist(
+            if comp > 2 and len(mu_sigma) > 2:
+                third_peak, third_sigma = mu_sigma[2]
+                plot_vertical_line(
+                    ax, "third_peak_minus_sigma", third_peak - third_sigma, colors, 6
+                )
+                plot_vertical_line(ax, "third_peak", third_peak, colors, 7)
+                plot_vertical_line(
+                    ax, "third_peak_plus_sigma", third_peak + third_sigma, colors, 8
+                )
+    ax.legend(loc="upper right")
+    ax.hist(
         matrix,
-        bins=numpy.arange(0, max_of_matrix, 1),
+        bins=np.arange(0, max_val, 1),
         density=True,
         histtype="stepfilled",
         alpha=0.4,
     )
-    axis.plot(space, pdf, "-k")
-    pdf_individual: numpy.ndarray = responsibilities * pdf[:, numpy.newaxis]
-    axis.plot(space, pdf_individual, "--k")
-    # Save figure
+    space = np.linspace(0, max_val, 1000)
+    logprob = model.score_samples(space.reshape(-1, 1))
+    pdf = np.exp(logprob)
+    responsibilities = model.predict_proba(space.reshape(-1, 1))
+    ax.plot(space, pdf, "-k")
+    ax.plot(space, responsibilities * pdf[:, np.newaxis], "--k")
     fig.savefig(os.path.join(path, f"{name}.png"), dpi=300, format="png")
     fig.savefig(os.path.join(path, f"{name}.svg"), dpi=300, format="svg")
-    pyplot.close(fig)
+    plt.close(fig)
+    logger.info("Plot saved as %s.png and %s.svg", name, name)
 
 
-def estimate_divergence(data_folder, blocklist, num_cores, logger):
-    """"""
-
+@log_exceptions
+def estimate_divergence(
+    data_folder: str, blocklist: Set[str], num_cores: int, log_queue
+) -> None:
+    """
+    Estimate divergence of paralogs by processing all alignment files,
+    plotting individual distributions and overall distributions,
+    and saving the resulting matrices and plots.
+    """
     logger.info("Estimating divergence of paralogs...")
     matplotlib.use("Agg")
-    fig, axis = pyplot.subplots(figsize=(15, 10))
+    fig, ax = plt.subplots(figsize=(15, 10))
     files = sorted(glob(os.path.join(data_folder, "40aln_orth_par", "*.fasta.mafft")))
-    args_est_div = list(
-        zip(
-            files,
-            [blocklist] * len(files),
+    if not files:
+        logger.error(
+            "No alignment files found in %s",
+            os.path.join(data_folder, "40aln_orth_par"),
         )
-    )
-    with multiprocessing.Pool(processes=num_cores) as pool_est_div:
-        results = pool_est_div.starmap(get_distance_matrix, args_est_div)
-    divergencies_to_file = pandas.concat([result[1] for result in results]).reset_index(
-        drop=True
-    )
-    divergency_distribution = [
-        item for sublist in [result[0] for result in results] for item in sublist
-    ]
-    to_plot = [result[2] for result in results]
-    for el in to_plot:
-        if el is None:
-            continue
-        linear_space = el[0]
-        e = el[1]
-        sorted_current_distance_array = el[2]
-        axis.plot(linear_space, e, "k-", alpha=0.05)
-        axis.plot(
-            sorted_current_distance_array,
-            [0] * sorted_current_distance_array.shape[0],
-            marker=2,
-            color="k",
-            alpha=0.5,
+        raise FileNotFoundError(
+            f"No alignment files found in {os.path.join(data_folder, '40aln_orth_par')}"
         )
-    divergencies_to_file.to_csv(
+    args = [(f, blocklist) for f in files]
+    with multiprocessing.Pool(
+        processes=num_cores, initializer=worker_initializer, initargs=(log_queue,)
+    ) as pool:
+        async_result = pool.starmap_async(get_distance_matrix, args)
+        try:
+            results = async_result.get(timeout=600)
+        except multiprocessing.TimeoutError as e:
+            logger.error(
+                f"Timeout during divergence estimation on files: %s\n{e}", files
+            )
+            pool.terminate()
+            pool.join()
+            raise
+        except Exception as e:
+            logger.error(
+                "Error during divergence estimation on files: %s; Error: %s", files, e
+            )
+            pool.terminate()
+            pool.join()
+            raise
+    distances_df = pd.concat([r[1] for r in results]).reset_index(drop=True)
+    distances_df.to_csv(
         os.path.join(data_folder, "40aln_orth_par", "pairwise_distances.tsv"),
         sep="\t",
         index=False,
     )
-    end = axis.get_xlim()[1]
-    end = numpy.round(end, 0)
-    axis.xaxis.set_ticks(numpy.arange(0, end, 1))
-    axis.set_xlabel("Divergence (%)")
-    axis.set_ylabel("Frequency")
+    for r in results:
+        if r[2] is None:
+            continue
+        space, e, sorted_arr = r[2]
+        ax.plot(space, e, "k-", alpha=0.05)
+        ax.plot(
+            sorted_arr, np.zeros(sorted_arr.shape[0]), marker=2, color="k", alpha=0.5
+        )
+    end = np.round(ax.get_xlim()[1], 0)
+    ax.xaxis.set_ticks(np.arange(0, end, 1))
+    ax.set_xlabel("Divergence (%)")
+    ax.set_ylabel("Frequency")
     fig.savefig(
         os.path.join(data_folder, "40aln_orth_par", "individual_distributions.png"),
         dpi=300,
@@ -417,27 +517,25 @@ def estimate_divergence(data_folder, blocklist, num_cores, logger):
         dpi=300,
         format="svg",
     )
-    pyplot.close(fig)
-    divergency_distribution_array: numpy.ndarray = numpy.array(
-        [[x] for x in divergency_distribution]
+    plt.close(fig)
+    divergence_array = np.array(
+        [
+            [x]
+            for sublist in [r[0] if isinstance(r[0], list) else [r[0]] for r in results]
+            for x in sublist
+        ]
     )
-    get_plot(
-        os.path.join(data_folder, "40aln_orth_par"),
-        "pairwise_distances_distribution_1_comp",
-        divergency_distribution_array,
-        1,
-    )
-    get_plot(
-        os.path.join(data_folder, "40aln_orth_par"),
-        "pairwise_distances_distribution_2_comp",
-        divergency_distribution_array,
-        2,
-    )
-    get_plot(
-        os.path.join(data_folder, "40aln_orth_par"),
-        "pairwise_distances_distribution_3_comp",
-        divergency_distribution_array,
-        3,
-    )
+    logger.info("Fitting divergence distribution models with 1, 2, and 3 components")
+    for comp in [1, 2, 3]:
+        get_plot(
+            os.path.join(data_folder, "40aln_orth_par"),
+            f"pairwise_distances_distribution_{comp}_comp",
+            divergence_array,
+            comp,
+        )
+    logger.info("Divergence estimation complete.")
 
-    logger.info("Done\n")
+
+# -----------------------------------------------------------------------------
+# End of Module
+# -----------------------------------------------------------------------------

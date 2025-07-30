@@ -1,0 +1,19 @@
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	gene	70	1326	747	+	.	gene_id 1 ; sequence Crataegus-dahurica_S5 ; gene_orientation +
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	cds	70	125	.	+	.
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	exon	70	125	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	splice5	126	127	.	+	.	intron_id 1 ; splice_site "GA"
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	intron	126	218	.	+	.	intron_id 1
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	splice3	217	218	.	+	.	intron_id 0 ; splice_site "GG"
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	cds	219	368	.	+	.
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	exon	219	368	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	splice5	369	370	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	intron	369	833	.	+	.	intron_id 2
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	splice3	832	833	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	cds	834	954	.	+	.
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	exon	834	954	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	splice5	955	956	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	intron	955	1171	.	+	.	intron_id 3
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	splice3	1170	1171	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	cds	1174	1326	.	+	.
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	exon	1174	1326	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4889para	exonerate:protein2genome:local	similarity	70	1326	747	+	.	alignment_id 1 ; Query Crataegus-dahurica_S5 ; Align 70 1 54 ; Align 220 20 147 ; Align 835 70 120 ; Align 1174 110 153

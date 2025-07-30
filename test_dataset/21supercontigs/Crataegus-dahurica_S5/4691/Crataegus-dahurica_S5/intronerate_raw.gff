@@ -1,0 +1,71 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	gene	263	1791	1260	+	.	gene_id 1 ; sequence Crataegus-dahurica_S5 ; gene_orientation +
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	cds	263	512	.	+	.	
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	exon	263	512	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	splice5	513	514	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	intron	513	872	.	+	.	intron_id 1
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	splice3	871	872	.	+	.	intron_id 0 ; splice_site "TG"
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	cds	873	946	.	+	.	
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	exon	873	946	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	splice5	947	948	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	intron	947	1231	.	+	.	intron_id 2
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	splice3	1230	1231	.	+	.	intron_id 1 ; splice_site "AA"
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	cds	1232	1481	.	+	.	
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	exon	1232	1481	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	splice5	1482	1483	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	intron	1482	1576	.	+	.	intron_id 3
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	splice3	1575	1576	.	+	.	intron_id 2 ; splice_site "AA"
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	cds	1577	1791	.	+	.	
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	exon	1577	1791	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	similarity	263	1791	1260	+	.	alignment_id 1 ; Query Crataegus-dahurica_S5 ; Align 263 1 249 ; Align 875 85 72 ; Align 1232 109 249 ; Align 1579 193 213
+# --- END OF GFF DUMP ---
+#
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	gene	248	949	515	+	.	gene_id 2 ; sequence Crataegus-dahurica_S5 ; gene_orientation +
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	cds	248	512	.	+	.	
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	exon	248	512	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	splice5	513	514	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	intron	513	872	.	+	.	intron_id 1
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	splice3	871	872	.	+	.	intron_id 0 ; splice_site "TG"
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	cds	873	949	.	+	.	
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	exon	873	949	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	similarity	248	949	515	+	.	alignment_id 2 ; Query Crataegus-dahurica_S5 ; Align 248 104 264 ; Align 875 193 75
+# --- END OF GFF DUMP ---
+#
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	gene	1235	1480	411	+	.	gene_id 3 ; sequence Crataegus-dahurica_S5 ; gene_orientation .
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	cds	1235	1480	.	+	.	
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	exon	1235	1480	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4691	exonerate:protein2genome:local	similarity	1235	1480	411	+	.	alignment_id 3 ; Query Crataegus-dahurica_S5 ; Align 1235 2 246
+# --- END OF GFF DUMP ---
+#

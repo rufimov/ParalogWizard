@@ -1,0 +1,52 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	gene	28	2761	1095	+	.	gene_id 1 ; sequence Hesperomeles-optusif_S17 ; gene_orientation +
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	cds	28	51	.	+	.	
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	exon	28	51	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	splice5	52	53	.	+	.	intron_id 1 ; splice_site "GT"
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	intron	52	213	.	+	.	intron_id 1
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	splice3	212	213	.	+	.	intron_id 0 ; splice_site "AG"
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	cds	214	323	.	+	.	
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	exon	214	323	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	splice5	324	325	.	+	.	intron_id 2 ; splice_site "GT"
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	intron	324	415	.	+	.	intron_id 2
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	splice3	414	415	.	+	.	intron_id 1 ; splice_site "AG"
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	cds	416	530	.	+	.	
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	exon	416	530	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	splice5	531	532	.	+	.	intron_id 3 ; splice_site "GT"
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	intron	531	715	.	+	.	intron_id 3
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	splice3	714	715	.	+	.	intron_id 2 ; splice_site "AG"
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	cds	716	778	.	+	.	
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	exon	716	778	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	splice5	779	780	.	+	.	intron_id 4 ; splice_site "GT"
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	intron	779	881	.	+	.	intron_id 4
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	splice3	880	881	.	+	.	intron_id 3 ; splice_site "AG"
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	cds	882	1043	.	+	.	
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	exon	882	1043	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	splice5	1044	1045	.	+	.	intron_id 5 ; splice_site "AG"
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	intron	1044	1429	.	+	.	intron_id 5
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	splice3	1428	1429	.	+	.	intron_id 4 ; splice_site "AG"
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	cds	1430	1491	.	+	.	
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	exon	1430	1491	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	splice5	1492	1493	.	+	.	intron_id 6 ; splice_site "GT"
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	intron	1492	2034	.	+	.	intron_id 6
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	splice3	2033	2034	.	+	.	intron_id 5 ; splice_site "AC"
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	cds	2035	2095	.	+	.	
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	exon	2035	2095	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	splice5	2096	2097	.	+	.	intron_id 7 ; splice_site "GG"
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	intron	2096	2638	.	+	.	intron_id 7
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	splice3	2637	2638	.	+	.	intron_id 6 ; splice_site "AG"
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	cds	2639	2761	.	+	.	
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	exon	2639	2761	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4796	exonerate:protein2genome:local	similarity	28	2761	1095	+	.	alignment_id 1 ; Query Hesperomeles-optusif_S17 ; Align 28 1 24 ; Align 214 9 108 ; Align 417 46 114 ; Align 716 84 63 ; Align 882 105 162 ; Align 1430 159 60 ; Align 2036 180 60 ; Align 2639 200 123
+# --- END OF GFF DUMP ---
+#

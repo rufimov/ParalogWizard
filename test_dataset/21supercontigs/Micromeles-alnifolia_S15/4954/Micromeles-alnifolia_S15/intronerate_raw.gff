@@ -1,0 +1,22 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Micromeles-alnifolia_S15-4954	exonerate:protein2genome:local	gene	577	1307	833	+	.	gene_id 1 ; sequence Micromeles-alnifolia_S15 ; gene_orientation +
+Micromeles-alnifolia_S15-4954	exonerate:protein2genome:local	cds	577	996	.	+	.	
+Micromeles-alnifolia_S15-4954	exonerate:protein2genome:local	exon	577	996	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4954	exonerate:protein2genome:local	splice5	997	998	.	+	.	intron_id 1 ; splice_site "GC"
+Micromeles-alnifolia_S15-4954	exonerate:protein2genome:local	intron	997	1220	.	+	.	intron_id 1
+Micromeles-alnifolia_S15-4954	exonerate:protein2genome:local	splice3	1219	1220	.	+	.	intron_id 0 ; splice_site "AG"
+Micromeles-alnifolia_S15-4954	exonerate:protein2genome:local	cds	1221	1307	.	+	.	
+Micromeles-alnifolia_S15-4954	exonerate:protein2genome:local	exon	1221	1307	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4954	exonerate:protein2genome:local	similarity	577	1307	833	+	.	alignment_id 1 ; Query Micromeles-alnifolia_S15 ; Align 577 1 420 ; Align 1221 141 87
+# --- END OF GFF DUMP ---
+#

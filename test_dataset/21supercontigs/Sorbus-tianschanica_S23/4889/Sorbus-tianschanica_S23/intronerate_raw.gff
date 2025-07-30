@@ -1,0 +1,32 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	gene	191	1330	753	+	.	gene_id 1 ; sequence Sorbus-tianschanica_S23 ; gene_orientation +
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	cds	191	246	.	+	.	
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	exon	191	246	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	splice5	247	248	.	+	.	intron_id 1 ; splice_site "GA"
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	intron	247	335	.	+	.	intron_id 1
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	splice3	334	335	.	+	.	intron_id 0 ; splice_site "CG"
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	cds	336	485	.	+	.	
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	exon	336	485	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	splice5	486	487	.	+	.	intron_id 2 ; splice_site "AT"
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	intron	486	950	.	+	.	intron_id 2
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	splice3	949	950	.	+	.	intron_id 1 ; splice_site "AG"
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	cds	951	1071	.	+	.	
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	exon	951	1071	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	splice5	1072	1073	.	+	.	intron_id 3 ; splice_site "GT"
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	intron	1072	1175	.	+	.	intron_id 3
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	splice3	1174	1175	.	+	.	intron_id 2 ; splice_site "AG"
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	cds	1178	1330	.	+	.	
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	exon	1178	1330	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4889	exonerate:protein2genome:local	similarity	191	1330	753	+	.	alignment_id 1 ; Query Sorbus-tianschanica_S23 ; Align 191 1 54 ; Align 337 20 147 ; Align 952 70 120 ; Align 1178 110 153
+# --- END OF GFF DUMP ---
+#

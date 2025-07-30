@@ -1,0 +1,14 @@
+Crataegus-dahurica_S5-4793para	exonerate:protein2genome:local	gene	83	1308	1037	+	.	gene_id 1 ; sequence Crataegus-dahurica_S5 ; gene_orientation +
+Crataegus-dahurica_S5-4793para	exonerate:protein2genome:local	cds	83	134	.	+	.
+Crataegus-dahurica_S5-4793para	exonerate:protein2genome:local	exon	83	134	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4793para	exonerate:protein2genome:local	splice5	135	136	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-dahurica_S5-4793para	exonerate:protein2genome:local	intron	135	503	.	+	.	intron_id 1
+Crataegus-dahurica_S5-4793para	exonerate:protein2genome:local	splice3	502	503	.	+	.	intron_id 0 ; splice_site "TG"
+Crataegus-dahurica_S5-4793para	exonerate:protein2genome:local	cds	504	1045	.	+	.
+Crataegus-dahurica_S5-4793para	exonerate:protein2genome:local	exon	504	1045	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4793para	exonerate:protein2genome:local	splice5	1046	1047	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-dahurica_S5-4793para	exonerate:protein2genome:local	intron	1046	1254	.	+	.	intron_id 2
+Crataegus-dahurica_S5-4793para	exonerate:protein2genome:local	splice3	1253	1254	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-dahurica_S5-4793para	exonerate:protein2genome:local	cds	1255	1308	.	+	.
+Crataegus-dahurica_S5-4793para	exonerate:protein2genome:local	exon	1255	1308	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4793para	exonerate:protein2genome:local	similarity	83	1308	1037	+	.	alignment_id 1 ; Query Crataegus-dahurica_S5 ; Align 83 1 51 ; Align 506 19 540 ; Align 1255 199 54

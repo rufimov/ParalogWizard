@@ -1,0 +1,19 @@
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	gene	372	1480	1061	+	.	gene_id 1 ; sequence Malus-sieversii_S14 ; gene_orientation +
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	cds	372	615	.	+	.
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	exon	372	615	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	splice5	616	617	.	+	.	intron_id 1 ; splice_site "GG"
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	intron	616	689	.	+	.	intron_id 1
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	splice3	688	689	.	+	.	intron_id 0 ; splice_site "AG"
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	cds	690	765	.	+	.
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	exon	690	765	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	splice5	766	767	.	+	.	intron_id 2 ; splice_site "AT"
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	intron	766	876	.	+	.	intron_id 2
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	splice3	875	876	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	cds	877	1028	.	+	.
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	exon	877	1028	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	splice5	1029	1030	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	intron	1029	1292	.	+	.	intron_id 3
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	splice3	1291	1292	.	+	.	intron_id 2 ; splice_site "GG"
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	cds	1293	1480	.	+	.
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	exon	1293	1480	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4724	exonerate:protein2genome:local	similarity	372	1480	1061	+	.	alignment_id 1 ; Query Malus-sieversii_S14 ; Align 372 1 243 ; Align 692 83 72 ; Align 878 108 150 ; Align 1295 159 186

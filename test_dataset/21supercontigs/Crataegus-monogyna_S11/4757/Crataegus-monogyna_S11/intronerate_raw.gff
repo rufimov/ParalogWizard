@@ -1,0 +1,32 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	gene	345	2595	834	+	.	gene_id 1 ; sequence Crataegus-monogyna_S11 ; gene_orientation +
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	cds	345	506	.	+	.	
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	exon	345	506	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	splice5	507	508	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	intron	507	1184	.	+	.	intron_id 1
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	splice3	1183	1184	.	+	.	intron_id 0 ; splice_site "GA"
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	cds	1185	1358	.	+	.	
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	exon	1185	1358	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	splice5	1359	1360	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	intron	1359	2216	.	+	.	intron_id 2
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	splice3	2215	2216	.	+	.	intron_id 1 ; splice_site "GG"
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	cds	2217	2319	.	+	.	
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	exon	2217	2319	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	splice5	2320	2321	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	intron	2320	2488	.	+	.	intron_id 3
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	splice3	2487	2488	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	cds	2489	2595	.	+	.	
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	exon	2489	2595	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4757	exonerate:protein2genome:local	similarity	345	2595	834	+	.	alignment_id 1 ; Query Crataegus-monogyna_S11 ; Align 345 1 162 ; Align 1185 55 174 ; Align 2217 113 102 ; Align 2491 148 105
+# --- END OF GFF DUMP ---
+#

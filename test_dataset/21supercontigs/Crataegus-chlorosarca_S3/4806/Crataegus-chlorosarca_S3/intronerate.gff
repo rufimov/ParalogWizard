@@ -1,0 +1,19 @@
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	gene	144	1338	790	+	.	gene_id 1 ; sequence Crataegus-chlorosarca_S3 ; gene_orientation +
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	cds	144	371	.	+	.
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	exon	144	371	.	+	.	insertions 0 ; deletions 0
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	splice5	372	373	.	+	.	intron_id 1 ; splice_site "AA"
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	intron	372	509	.	+	.	intron_id 1
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	splice3	508	509	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	cds	510	621	.	+	.
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	exon	510	621	.	+	.	insertions 0 ; deletions 0
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	splice5	622	623	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	intron	622	709	.	+	.	intron_id 2
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	splice3	708	709	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	cds	710	769	.	+	.
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	exon	710	769	.	+	.	insertions 0 ; deletions 0
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	splice5	770	771	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	intron	770	1258	.	+	.	intron_id 3
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	splice3	1257	1258	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	cds	1259	1338	.	+	.
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	exon	1259	1338	.	+	.	insertions 0 ; deletions 0
+Crataegus-chlorosarca_S3-4806	exonerate:protein2genome:local	similarity	144	1338	790	+	.	alignment_id 1 ; Query Crataegus-chlorosarca_S3 ; Align 144 1 228 ; Align 510 77 111 ; Align 712 115 57 ; Align 1261 135 78

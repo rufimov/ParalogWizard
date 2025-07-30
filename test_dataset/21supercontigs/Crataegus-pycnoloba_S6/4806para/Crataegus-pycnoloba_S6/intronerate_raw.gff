@@ -1,0 +1,27 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-pycnoloba_S6-4806para	exonerate:protein2genome:local	gene	375	1172	405	+	.	gene_id 1 ; sequence Crataegus-pycnoloba_S6 ; gene_orientation +
+Crataegus-pycnoloba_S6-4806para	exonerate:protein2genome:local	cds	375	480	.	+	.	
+Crataegus-pycnoloba_S6-4806para	exonerate:protein2genome:local	exon	375	480	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4806para	exonerate:protein2genome:local	splice5	481	482	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-pycnoloba_S6-4806para	exonerate:protein2genome:local	intron	481	564	.	+	.	intron_id 1
+Crataegus-pycnoloba_S6-4806para	exonerate:protein2genome:local	splice3	563	564	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-pycnoloba_S6-4806para	exonerate:protein2genome:local	cds	565	624	.	+	.	
+Crataegus-pycnoloba_S6-4806para	exonerate:protein2genome:local	exon	565	624	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4806para	exonerate:protein2genome:local	splice5	625	626	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-pycnoloba_S6-4806para	exonerate:protein2genome:local	intron	625	1092	.	+	.	intron_id 2
+Crataegus-pycnoloba_S6-4806para	exonerate:protein2genome:local	splice3	1091	1092	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-pycnoloba_S6-4806para	exonerate:protein2genome:local	cds	1093	1172	.	+	.	
+Crataegus-pycnoloba_S6-4806para	exonerate:protein2genome:local	exon	1093	1172	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4806para	exonerate:protein2genome:local	similarity	375	1172	405	+	.	alignment_id 1 ; Query Crataegus-pycnoloba_S6 ; Align 375 1 105 ; Align 567 37 57 ; Align 1095 57 78
+# --- END OF GFF DUMP ---
+#

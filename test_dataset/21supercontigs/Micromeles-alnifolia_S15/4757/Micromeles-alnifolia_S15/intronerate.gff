@@ -1,0 +1,19 @@
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	gene	379	2646	831	+	.	gene_id 1 ; sequence Micromeles-alnifolia_S15 ; gene_orientation +
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	cds	379	540	.	+	.
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	exon	379	540	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	splice5	541	542	.	+	.	intron_id 1 ; splice_site "GT"
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	intron	541	1311	.	+	.	intron_id 1
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	splice3	1310	1311	.	+	.	intron_id 0 ; splice_site "GA"
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	cds	1312	1485	.	+	.
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	exon	1312	1485	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	splice5	1486	1487	.	+	.	intron_id 2 ; splice_site "GT"
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	intron	1486	2287	.	+	.	intron_id 2
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	splice3	2286	2287	.	+	.	intron_id 1 ; splice_site "GG"
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	cds	2288	2390	.	+	.
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	exon	2288	2390	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	splice5	2391	2392	.	+	.	intron_id 3 ; splice_site "GT"
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	intron	2391	2536	.	+	.	intron_id 3
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	splice3	2535	2536	.	+	.	intron_id 2 ; splice_site "AG"
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	cds	2537	2646	.	+	.
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	exon	2537	2646	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4757	exonerate:protein2genome:local	similarity	379	2646	831	+	.	alignment_id 1 ; Query Micromeles-alnifolia_S15 ; Align 379 1 162 ; Align 1312 55 174 ; Align 2288 113 102 ; Align 2539 148 108

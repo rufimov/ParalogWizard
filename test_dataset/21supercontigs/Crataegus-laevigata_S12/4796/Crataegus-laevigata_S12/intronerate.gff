@@ -1,0 +1,39 @@
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	gene	35	2814	1121	+	.	gene_id 1 ; sequence Crataegus-laevigata_S12 ; gene_orientation +
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	cds	35	58	.	+	.
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	exon	35	58	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	splice5	59	60	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	intron	59	219	.	+	.	intron_id 1
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	splice3	218	219	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	cds	220	329	.	+	.
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	exon	220	329	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	splice5	330	331	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	intron	330	402	.	+	.	intron_id 2
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	splice3	401	402	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	cds	403	517	.	+	.
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	exon	403	517	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	splice5	518	519	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	intron	518	699	.	+	.	intron_id 3
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	splice3	698	699	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	cds	700	762	.	+	.
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	exon	700	762	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	splice5	763	764	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	intron	763	873	.	+	.	intron_id 4
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	splice3	872	873	.	+	.	intron_id 3 ; splice_site "AG"
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	cds	874	1038	.	+	.
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	exon	874	1038	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	splice5	1039	1040	.	+	.	intron_id 5 ; splice_site "TT"
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	intron	1039	1417	.	+	.	intron_id 5
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	splice3	1416	1417	.	+	.	intron_id 4 ; splice_site "AG"
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	cds	1418	1479	.	+	.
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	exon	1418	1479	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	splice5	1480	1481	.	+	.	intron_id 6 ; splice_site "GT"
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	intron	1480	2083	.	+	.	intron_id 6
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	splice3	2082	2083	.	+	.	intron_id 5 ; splice_site "AC"
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	cds	2084	2144	.	+	.
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	exon	2084	2144	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	splice5	2145	2146	.	+	.	intron_id 7 ; splice_site "GG"
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	intron	2145	2691	.	+	.	intron_id 7
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	splice3	2690	2691	.	+	.	intron_id 6 ; splice_site "AG"
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	cds	2692	2814	.	+	.
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	exon	2692	2814	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4796	exonerate:protein2genome:local	similarity	35	2814	1121	+	.	alignment_id 1 ; Query Crataegus-laevigata_S12 ; Align 35 1 24 ; Align 220 9 108 ; Align 404 46 114 ; Align 700 84 63 ; Align 874 105 165 ; Align 1418 160 60 ; Align 2085 181 60 ; Align 2692 201 123

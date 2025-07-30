@@ -1,0 +1,4 @@
+Hesperomeles-optusif_S17-4744	exonerate:protein2genome:local	gene	465	584	205	+	.	gene_id 1 ; sequence Hesperomeles-optusif_S17 ; gene_orientation .
+Hesperomeles-optusif_S17-4744	exonerate:protein2genome:local	cds	465	584	.	+	.
+Hesperomeles-optusif_S17-4744	exonerate:protein2genome:local	exon	465	584	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4744	exonerate:protein2genome:local	similarity	465	584	205	+	.	alignment_id 1 ; Query Hesperomeles-optusif_S17 ; Align 465 1 120

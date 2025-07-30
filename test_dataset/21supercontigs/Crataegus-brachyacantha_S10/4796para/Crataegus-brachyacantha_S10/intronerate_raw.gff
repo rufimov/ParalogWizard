@@ -1,0 +1,17 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-10-10
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-brachyacantha_S10-4796para	exonerate:protein2genome:local	gene	501	641	252	+	.	gene_id 1 ; sequence Crataegus-brachyacantha_S10 ; gene_orientation .
+Crataegus-brachyacantha_S10-4796para	exonerate:protein2genome:local	cds	501	641	.	+	.	
+Crataegus-brachyacantha_S10-4796para	exonerate:protein2genome:local	exon	501	641	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4796para	exonerate:protein2genome:local	similarity	501	641	252	+	.	alignment_id 1 ; Query Crataegus-brachyacantha_S10 ; Align 501 1 141
+# --- END OF GFF DUMP ---
+#

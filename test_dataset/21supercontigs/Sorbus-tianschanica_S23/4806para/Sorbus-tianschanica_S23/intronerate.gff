@@ -1,0 +1,19 @@
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	gene	273	2055	782	+	.	gene_id 1 ; sequence Sorbus-tianschanica_S23 ; gene_orientation +
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	cds	273	505	.	+	.
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	exon	273	505	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	splice5	506	507	.	+	.	intron_id 1 ; splice_site "GT"
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	intron	506	1252	.	+	.	intron_id 1
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	splice3	1251	1252	.	+	.	intron_id 0 ; splice_site "AT"
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	cds	1253	1359	.	+	.
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	exon	1253	1359	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	splice5	1360	1361	.	+	.	intron_id 2 ; splice_site "GT"
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	intron	1360	1443	.	+	.	intron_id 2
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	splice3	1442	1443	.	+	.	intron_id 1 ; splice_site "AG"
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	cds	1444	1503	.	+	.
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	exon	1444	1503	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	splice5	1504	1505	.	+	.	intron_id 3 ; splice_site "GT"
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	intron	1504	1975	.	+	.	intron_id 3
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	splice3	1974	1975	.	+	.	intron_id 2 ; splice_site "AG"
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	cds	1976	2055	.	+	.
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	exon	1976	2055	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4806para	exonerate:protein2genome:local	similarity	273	2055	782	+	.	alignment_id 1 ; Query Sorbus-tianschanica_S23 ; Align 273 1 231 ; Align 1254 79 105 ; Align 1446 115 57 ; Align 1978 135 78

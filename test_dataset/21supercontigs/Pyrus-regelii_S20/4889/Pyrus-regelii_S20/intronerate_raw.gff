@@ -1,0 +1,32 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	gene	162	1416	742	+	.	gene_id 1 ; sequence Pyrus-regelii_S20 ; gene_orientation +
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	cds	162	217	.	+	.	
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	exon	162	217	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	splice5	218	219	.	+	.	intron_id 1 ; splice_site "GA"
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	intron	218	305	.	+	.	intron_id 1
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	splice3	304	305	.	+	.	intron_id 0 ; splice_site "CG"
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	cds	306	455	.	+	.	
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	exon	306	455	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	splice5	456	457	.	+	.	intron_id 2 ; splice_site "AT"
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	intron	456	920	.	+	.	intron_id 2
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	splice3	919	920	.	+	.	intron_id 1 ; splice_site "AG"
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	cds	921	1041	.	+	.	
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	exon	921	1041	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	splice5	1042	1043	.	+	.	intron_id 3 ; splice_site "GT"
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	intron	1042	1261	.	+	.	intron_id 3
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	splice3	1260	1261	.	+	.	intron_id 2 ; splice_site "AG"
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	cds	1264	1416	.	+	.	
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	exon	1264	1416	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4889	exonerate:protein2genome:local	similarity	162	1416	742	+	.	alignment_id 1 ; Query Pyrus-regelii_S20 ; Align 162 1 54 ; Align 307 20 147 ; Align 922 70 120 ; Align 1264 110 153
+# --- END OF GFF DUMP ---
+#

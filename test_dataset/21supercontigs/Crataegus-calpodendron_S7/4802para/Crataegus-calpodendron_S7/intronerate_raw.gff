@@ -1,0 +1,37 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	gene	359	1781	631	+	.	gene_id 1 ; sequence Crataegus-calpodendron_S7 ; gene_orientation +
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	cds	359	427	.	+	.	
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	exon	359	427	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	splice5	428	429	.	+	.	intron_id 1 ; splice_site "GA"
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	intron	428	524	.	+	.	intron_id 1
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	splice3	523	524	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	cds	525	607	.	+	.	
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	exon	525	607	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	splice5	608	609	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	intron	608	1173	.	+	.	intron_id 2
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	splice3	1172	1173	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	cds	1174	1241	.	+	.	
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	exon	1174	1241	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	splice5	1242	1243	.	+	.	intron_id 3 ; splice_site "AG"
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	intron	1242	1487	.	+	.	intron_id 3
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	splice3	1486	1487	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	cds	1488	1550	.	+	.	
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	exon	1488	1550	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	splice5	1551	1552	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	intron	1551	1671	.	+	.	intron_id 4
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	splice3	1670	1671	.	+	.	intron_id 3 ; splice_site "AG"
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	cds	1672	1781	.	+	.	
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	exon	1672	1781	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4802para	exonerate:protein2genome:local	similarity	359	1781	631	+	.	alignment_id 1 ; Query Crataegus-calpodendron_S7 ; Align 359 1 69 ; Align 525 24 81 ; Align 1175 52 66 ; Align 1490 75 60 ; Align 1674 96 108
+# --- END OF GFF DUMP ---
+#

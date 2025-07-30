@@ -1,0 +1,19 @@
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	gene	333	1455	1039	+	.	gene_id 1 ; sequence Crataegus-aronia_S4 ; gene_orientation +
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	cds	333	577	.	+	.
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	exon	333	577	.	+	.	insertions 0 ; deletions 0
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	splice5	578	579	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	intron	578	662	.	+	.	intron_id 1
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	splice3	661	662	.	+	.	intron_id 0 ; splice_site "GA"
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	cds	663	737	.	+	.
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	exon	663	737	.	+	.	insertions 0 ; deletions 0
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	splice5	738	739	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	intron	738	848	.	+	.	intron_id 2
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	splice3	847	848	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	cds	849	1000	.	+	.
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	exon	849	1000	.	+	.	insertions 0 ; deletions 0
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	splice5	1001	1002	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	intron	1001	1267	.	+	.	intron_id 3
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	splice3	1266	1267	.	+	.	intron_id 2 ; splice_site "GG"
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	cds	1268	1455	.	+	.
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	exon	1268	1455	.	+	.	insertions 0 ; deletions 0
+Crataegus-aronia_S4-4724para	exonerate:protein2genome:local	similarity	333	1455	1039	+	.	alignment_id 1 ; Query Crataegus-aronia_S4 ; Align 333 1 243 ; Align 664 83 72 ; Align 850 108 150 ; Align 1270 159 186

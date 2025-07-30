@@ -1,0 +1,32 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	gene	287	2731	834	+	.	gene_id 1 ; sequence Crataegus-laevigata_S12 ; gene_orientation +
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	cds	287	448	.	+	.	
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	exon	287	448	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	splice5	449	450	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	intron	449	1107	.	+	.	intron_id 1
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	splice3	1106	1107	.	+	.	intron_id 0 ; splice_site "GA"
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	cds	1108	1281	.	+	.	
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	exon	1108	1281	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	splice5	1282	1283	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	intron	1282	2352	.	+	.	intron_id 2
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	splice3	2351	2352	.	+	.	intron_id 1 ; splice_site "GG"
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	cds	2353	2455	.	+	.	
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	exon	2353	2455	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	splice5	2456	2457	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	intron	2456	2624	.	+	.	intron_id 3
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	splice3	2623	2624	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	cds	2625	2731	.	+	.	
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	exon	2625	2731	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4757	exonerate:protein2genome:local	similarity	287	2731	834	+	.	alignment_id 1 ; Query Crataegus-laevigata_S12 ; Align 287 1 162 ; Align 1108 55 174 ; Align 2353 113 102 ; Align 2627 148 105
+# --- END OF GFF DUMP ---
+#

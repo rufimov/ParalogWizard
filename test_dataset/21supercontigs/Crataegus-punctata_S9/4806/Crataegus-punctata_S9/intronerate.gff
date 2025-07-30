@@ -1,0 +1,24 @@
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	gene	223	1968	818	+	.	gene_id 1 ; sequence Crataegus-punctata_S9 ; gene_orientation +
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	cds	223	455	.	+	.
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	exon	223	455	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	splice5	456	457	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	intron	456	737	.	+	.	intron_id 1
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	splice3	736	737	.	+	.	intron_id 0 ; splice_site "GT"
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	cds	738	843	.	+	.
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	exon	738	843	.	+	.	insertions 0 ; deletions 0 ; frameshifts 2
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	splice5	844	845	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	intron	844	932	.	+	.	intron_id 2
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	splice3	931	932	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	cds	933	992	.	+	.
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	exon	933	992	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	splice5	993	994	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	intron	993	1476	.	+	.	intron_id 3
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	splice3	1475	1476	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	cds	1477	1557	.	+	.
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	exon	1477	1557	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	splice5	1558	1559	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	intron	1558	1900	.	+	.	intron_id 4
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	splice3	1899	1900	.	+	.	intron_id 3 ; splice_site "CA"
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	cds	1901	1968	.	+	.
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	exon	1901	1968	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4806	exonerate:protein2genome:local	similarity	223	1968	818	+	.	alignment_id 1 ; Query Crataegus-punctata_S9 ; Align 223 1 231 ; Align 739 79 57 ; Align 798 98 45 ; Align 935 114 57 ; Align 1479 134 78 ; Align 1903 161 66

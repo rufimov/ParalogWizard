@@ -1,0 +1,19 @@
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	gene	476	1488	1039	+	.	gene_id 1 ; sequence Crataegus-pinnatifida_S26 ; gene_orientation +
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	cds	476	720	.	+	.
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	exon	476	720	.	+	.	insertions 0 ; deletions 0
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	splice5	721	722	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	intron	721	804	.	+	.	intron_id 1
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	splice3	803	804	.	+	.	intron_id 0 ; splice_site "GA"
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	cds	805	879	.	+	.
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	exon	805	879	.	+	.	insertions 0 ; deletions 0
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	splice5	880	881	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	intron	880	986	.	+	.	intron_id 2
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	splice3	985	986	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	cds	987	1138	.	+	.
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	exon	987	1138	.	+	.	insertions 0 ; deletions 0
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	splice5	1139	1140	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	intron	1139	1300	.	+	.	intron_id 3
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	splice3	1299	1300	.	+	.	intron_id 2 ; splice_site "GG"
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	cds	1301	1488	.	+	.
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	exon	1301	1488	.	+	.	insertions 0 ; deletions 0
+Crataegus-pinnatifida_S26-4724para	exonerate:protein2genome:local	similarity	476	1488	1039	+	.	alignment_id 1 ; Query Crataegus-pinnatifida_S26 ; Align 476 1 243 ; Align 806 83 72 ; Align 988 108 150 ; Align 1303 159 186

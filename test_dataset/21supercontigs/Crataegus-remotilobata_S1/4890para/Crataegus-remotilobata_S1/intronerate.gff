@@ -1,0 +1,4 @@
+Crataegus-remotilobata_S1-4890para	exonerate:protein2genome:local	gene	196	324	214	+	.	gene_id 1 ; sequence Crataegus-remotilobata_S1 ; gene_orientation .
+Crataegus-remotilobata_S1-4890para	exonerate:protein2genome:local	cds	196	324	.	+	.
+Crataegus-remotilobata_S1-4890para	exonerate:protein2genome:local	exon	196	324	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4890para	exonerate:protein2genome:local	similarity	196	324	214	+	.	alignment_id 1 ; Query Crataegus-remotilobata_S1 ; Align 196 1 129

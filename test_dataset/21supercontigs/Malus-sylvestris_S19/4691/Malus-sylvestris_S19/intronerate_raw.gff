@@ -1,0 +1,22 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Malus-sylvestris_S19-4691	exonerate:protein2genome:local	gene	332	895	777	+	.	gene_id 1 ; sequence Malus-sylvestris_S19 ; gene_orientation +
+Malus-sylvestris_S19-4691	exonerate:protein2genome:local	cds	332	581	.	+	.	
+Malus-sylvestris_S19-4691	exonerate:protein2genome:local	exon	332	581	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4691	exonerate:protein2genome:local	splice5	582	583	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sylvestris_S19-4691	exonerate:protein2genome:local	intron	582	680	.	+	.	intron_id 1
+Malus-sylvestris_S19-4691	exonerate:protein2genome:local	splice3	679	680	.	+	.	intron_id 0 ; splice_site "AA"
+Malus-sylvestris_S19-4691	exonerate:protein2genome:local	cds	681	895	.	+	.	
+Malus-sylvestris_S19-4691	exonerate:protein2genome:local	exon	681	895	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4691	exonerate:protein2genome:local	similarity	332	895	777	+	.	alignment_id 1 ; Query Malus-sylvestris_S19 ; Align 332 1 249 ; Align 683 85 213
+# --- END OF GFF DUMP ---
+#

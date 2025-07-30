@@ -1,0 +1,49 @@
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	gene	651	4142	2243	+	.	gene_id 1 ; sequence Hesperomeles-optusif_S17 ; gene_orientation +
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	cds	651	688	.	+	.
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	exon	651	688	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice5	689	690	.	+	.	intron_id 1 ; splice_site "CG"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	intron	689	1106	.	+	.	intron_id 1
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice3	1105	1106	.	+	.	intron_id 0 ; splice_site "AG"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	cds	1107	1270	.	+	.
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	exon	1107	1270	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice5	1271	1272	.	+	.	intron_id 2 ; splice_site "GT"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	intron	1271	1362	.	+	.	intron_id 2
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice3	1361	1362	.	+	.	intron_id 1 ; splice_site "AG"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	cds	1363	1594	.	+	.
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	exon	1363	1594	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice5	1595	1596	.	+	.	intron_id 3 ; splice_site "CA"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	intron	1595	1744	.	+	.	intron_id 3
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice3	1743	1744	.	+	.	intron_id 2 ; splice_site "AG"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	cds	1745	1889	.	+	.
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	exon	1745	1889	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice5	1890	1891	.	+	.	intron_id 4 ; splice_site "GT"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	intron	1890	1981	.	+	.	intron_id 4
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice3	1980	1981	.	+	.	intron_id 3 ; splice_site "AG"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	cds	1982	2160	.	+	.
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	exon	1982	2160	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice5	2161	2162	.	+	.	intron_id 5 ; splice_site "GT"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	intron	2161	2255	.	+	.	intron_id 5
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice3	2254	2255	.	+	.	intron_id 4 ; splice_site "AG"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	cds	2256	2377	.	+	.
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	exon	2256	2377	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice5	2378	2379	.	+	.	intron_id 6 ; splice_site "AT"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	intron	2378	2515	.	+	.	intron_id 6
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice3	2514	2515	.	+	.	intron_id 5 ; splice_site "AG"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	cds	2516	2633	.	+	.
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	exon	2516	2633	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice5	2634	2635	.	+	.	intron_id 7 ; splice_site "GT"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	intron	2634	3105	.	+	.	intron_id 7
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice3	3104	3105	.	+	.	intron_id 6 ; splice_site "GG"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	cds	3106	3278	.	+	.
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	exon	3106	3278	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice5	3279	3280	.	+	.	intron_id 8 ; splice_site "GT"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	intron	3279	3703	.	+	.	intron_id 8
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice3	3702	3703	.	+	.	intron_id 7 ; splice_site "GG"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	cds	3704	3864	.	+	.
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	exon	3704	3864	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice5	3865	3866	.	+	.	intron_id 9 ; splice_site "GT"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	intron	3865	3956	.	+	.	intron_id 9
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	splice3	3955	3956	.	+	.	intron_id 8 ; splice_site "AA"
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	cds	3957	4142	.	+	.
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	exon	3957	4142	.	+	.	insertions 0 ; deletions 0
+Hesperomeles-optusif_S17-4992	exonerate:protein2genome:local	similarity	651	4142	2243	+	.	alignment_id 1 ; Query Hesperomeles-optusif_S17 ; Align 651 1 36 ; Align 1108 14 162 ; Align 1365 69 228 ; Align 1746 146 144 ; Align 1982 194 177 ; Align 2257 254 120 ; Align 2518 295 114 ; Align 3107 334 171 ; Align 3706 392 159 ; Align 3957 445 186

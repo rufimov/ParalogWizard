@@ -1,0 +1,9 @@
+Micromeles-alnifolia_S15-4793para	exonerate:protein2genome:local	gene	387	1194	1012	+	.	gene_id 1 ; sequence Micromeles-alnifolia_S15 ; gene_orientation +
+Micromeles-alnifolia_S15-4793para	exonerate:protein2genome:local	cds	387	935	.	+	.
+Micromeles-alnifolia_S15-4793para	exonerate:protein2genome:local	exon	387	935	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4793para	exonerate:protein2genome:local	splice5	936	937	.	+	.	intron_id 1 ; splice_site "GT"
+Micromeles-alnifolia_S15-4793para	exonerate:protein2genome:local	intron	936	1140	.	+	.	intron_id 1
+Micromeles-alnifolia_S15-4793para	exonerate:protein2genome:local	splice3	1139	1140	.	+	.	intron_id 0 ; splice_site "AG"
+Micromeles-alnifolia_S15-4793para	exonerate:protein2genome:local	cds	1141	1194	.	+	.
+Micromeles-alnifolia_S15-4793para	exonerate:protein2genome:local	exon	1141	1194	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4793para	exonerate:protein2genome:local	similarity	387	1194	1012	+	.	alignment_id 1 ; Query Micromeles-alnifolia_S15 ; Align 387 1 549 ; Align 1141 184 54

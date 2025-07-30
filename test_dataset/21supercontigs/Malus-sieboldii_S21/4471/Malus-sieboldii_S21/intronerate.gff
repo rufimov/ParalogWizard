@@ -1,0 +1,34 @@
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	gene	250	2478	989	+	.	gene_id 1 ; sequence Malus-sieboldii_S21 ; gene_orientation +
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	cds	250	304	.	+	.
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	exon	250	304	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	splice5	305	306	.	+	.	intron_id 1 ; splice_site "GG"
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	intron	305	671	.	+	.	intron_id 1
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	splice3	670	671	.	+	.	intron_id 0 ; splice_site "AG"
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	cds	672	790	.	+	.
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	exon	672	790	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	splice5	791	792	.	+	.	intron_id 2 ; splice_site "GT"
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	intron	791	1037	.	+	.	intron_id 2
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	splice3	1036	1037	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	cds	1038	1133	.	+	.
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	exon	1038	1133	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	splice5	1134	1135	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	intron	1134	1230	.	+	.	intron_id 3
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	splice3	1229	1230	.	+	.	intron_id 2 ; splice_site "AG"
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	cds	1231	1336	.	+	.
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	exon	1231	1336	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	splice5	1337	1338	.	+	.	intron_id 4 ; splice_site "TC"
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	intron	1337	1460	.	+	.	intron_id 4
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	splice3	1459	1460	.	+	.	intron_id 3 ; splice_site "AG"
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	cds	1461	1541	.	+	.
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	exon	1461	1541	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	splice5	1542	1543	.	+	.	intron_id 5 ; splice_site "GT"
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	intron	1542	1846	.	+	.	intron_id 5
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	splice3	1845	1846	.	+	.	intron_id 4 ; splice_site "AG"
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	cds	1847	1942	.	+	.
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	exon	1847	1942	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	splice5	1943	1944	.	+	.	intron_id 6 ; splice_site "GA"
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	intron	1943	2371	.	+	.	intron_id 6
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	splice3	2370	2371	.	+	.	intron_id 5 ; splice_site "AG"
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	cds	2372	2478	.	+	.
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	exon	2372	2478	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4471	exonerate:protein2genome:local	similarity	250	2478	989	+	.	alignment_id 1 ; Query Malus-sieboldii_S21 ; Align 250 1 54 ; Align 674 20 117 ; Align 1038 59 96 ; Align 1231 91 105 ; Align 1463 127 78 ; Align 1849 154 93 ; Align 2374 186 105

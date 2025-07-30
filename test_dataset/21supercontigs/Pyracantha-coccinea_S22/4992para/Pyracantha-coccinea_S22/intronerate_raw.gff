@@ -1,0 +1,17 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Pyracantha-coccinea_S22-4992para	exonerate:protein2genome:local	gene	284	390	148	+	.	gene_id 1 ; sequence Pyracantha-coccinea_S22 ; gene_orientation .
+Pyracantha-coccinea_S22-4992para	exonerate:protein2genome:local	cds	284	390	.	+	.	
+Pyracantha-coccinea_S22-4992para	exonerate:protein2genome:local	exon	284	390	.	+	.	insertions 0 ; deletions 0 ; frameshifts 5
+Pyracantha-coccinea_S22-4992para	exonerate:protein2genome:local	similarity	284	390	148	+	.	alignment_id 1 ; Query Pyracantha-coccinea_S22 ; Align 284 1 60 ; Align 349 21 42
+# --- END OF GFF DUMP ---
+#

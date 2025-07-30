@@ -1,0 +1,19 @@
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	gene	590	1701	1070	+	.	gene_id 1 ; sequence Crataegus-monogyna_S11 ; gene_orientation +
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	cds	590	838	.	+	.
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	exon	590	838	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	splice5	839	840	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	intron	839	909	.	+	.	intron_id 1
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	splice3	908	909	.	+	.	intron_id 0 ; splice_site "AT"
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	cds	910	983	.	+	.
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	exon	910	983	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	splice5	984	985	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	intron	984	1095	.	+	.	intron_id 2
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	splice3	1094	1095	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	cds	1096	1247	.	+	.
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	exon	1096	1247	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	splice5	1248	1249	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	intron	1248	1513	.	+	.	intron_id 3
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	splice3	1512	1513	.	+	.	intron_id 2 ; splice_site "GG"
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	cds	1514	1701	.	+	.
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	exon	1514	1701	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4724	exonerate:protein2genome:local	similarity	590	1701	1070	+	.	alignment_id 1 ; Query Crataegus-monogyna_S11 ; Align 590 1 249 ; Align 910 84 72 ; Align 1097 109 150 ; Align 1516 160 186

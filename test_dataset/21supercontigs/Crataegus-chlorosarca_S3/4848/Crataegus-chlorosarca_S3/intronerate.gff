@@ -1,0 +1,14 @@
+Crataegus-chlorosarca_S3-4848	exonerate:protein2genome:local	gene	322	1880	1011	+	.	gene_id 1 ; sequence Crataegus-chlorosarca_S3 ; gene_orientation +
+Crataegus-chlorosarca_S3-4848	exonerate:protein2genome:local	cds	322	596	.	+	.
+Crataegus-chlorosarca_S3-4848	exonerate:protein2genome:local	exon	322	596	.	+	.	insertions 0 ; deletions 0
+Crataegus-chlorosarca_S3-4848	exonerate:protein2genome:local	splice5	597	598	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-chlorosarca_S3-4848	exonerate:protein2genome:local	intron	597	874	.	+	.	intron_id 1
+Crataegus-chlorosarca_S3-4848	exonerate:protein2genome:local	splice3	873	874	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-chlorosarca_S3-4848	exonerate:protein2genome:local	cds	875	1095	.	+	.
+Crataegus-chlorosarca_S3-4848	exonerate:protein2genome:local	exon	875	1095	.	+	.	insertions 0 ; deletions 0
+Crataegus-chlorosarca_S3-4848	exonerate:protein2genome:local	splice5	1096	1097	.	+	.	intron_id 2 ; splice_site "GC"
+Crataegus-chlorosarca_S3-4848	exonerate:protein2genome:local	intron	1096	1755	.	+	.	intron_id 2
+Crataegus-chlorosarca_S3-4848	exonerate:protein2genome:local	splice3	1754	1755	.	+	.	intron_id 1 ; splice_site "TG"
+Crataegus-chlorosarca_S3-4848	exonerate:protein2genome:local	cds	1756	1880	.	+	.
+Crataegus-chlorosarca_S3-4848	exonerate:protein2genome:local	exon	1756	1880	.	+	.	insertions 0 ; deletions 0
+Crataegus-chlorosarca_S3-4848	exonerate:protein2genome:local	similarity	322	1880	1011	+	.	alignment_id 1 ; Query Crataegus-chlorosarca_S3 ; Align 322 1 273 ; Align 876 93 219 ; Align 1758 167 123

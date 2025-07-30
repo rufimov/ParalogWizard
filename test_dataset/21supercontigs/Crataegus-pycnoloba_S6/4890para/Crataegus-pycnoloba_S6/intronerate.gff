@@ -1,0 +1,19 @@
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	gene	132	769	478	+	.	gene_id 1 ; sequence Crataegus-pycnoloba_S6 ; gene_orientation +
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	cds	132	199	.	+	.
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	exon	132	199	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	splice5	200	201	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	intron	200	312	.	+	.	intron_id 1
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	splice3	311	312	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	cds	313	348	.	+	.
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	exon	313	348	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	splice5	349	350	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	intron	349	448	.	+	.	intron_id 2
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	splice3	447	448	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	cds	449	577	.	+	.
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	exon	449	577	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	splice5	578	579	.	+	.	intron_id 3 ; splice_site "GG"
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	intron	578	681	.	+	.	intron_id 3
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	splice3	680	681	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	cds	682	769	.	+	.
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	exon	682	769	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4890para	exonerate:protein2genome:local	similarity	132	769	478	+	.	alignment_id 1 ; Query Crataegus-pycnoloba_S6 ; Align 132 1 66 ; Align 314 24 33 ; Align 450 36 126 ; Align 683 79 87

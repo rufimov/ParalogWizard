@@ -1,0 +1,24 @@
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	gene	3	889	592	+	.	gene_id 1 ; sequence Malus-sylvestris_S19 ; gene_orientation +
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	cds	3	43	.	+	.
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	exon	3	43	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	splice5	44	45	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	intron	44	140	.	+	.	intron_id 1
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	splice3	139	140	.	+	.	intron_id 0 ; splice_site "AG"
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	cds	141	176	.	+	.
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	exon	141	176	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	splice5	177	178	.	+	.	intron_id 2 ; splice_site "GT"
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	intron	177	276	.	+	.	intron_id 2
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	splice3	275	276	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	cds	277	405	.	+	.
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	exon	277	405	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	splice5	406	407	.	+	.	intron_id 3 ; splice_site "GG"
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	intron	406	502	.	+	.	intron_id 3
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	splice3	501	502	.	+	.	intron_id 2 ; splice_site "AG"
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	cds	503	629	.	+	.
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	exon	503	629	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	splice5	630	631	.	+	.	intron_id 4 ; splice_site "GG"
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	intron	630	814	.	+	.	intron_id 4
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	splice3	813	814	.	+	.	intron_id 3 ; splice_site "AG"
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	cds	815	889	.	+	.
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	exon	815	889	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4890	exonerate:protein2genome:local	similarity	3	889	592	+	.	alignment_id 1 ; Query Malus-sylvestris_S19 ; Align 3 1 39 ; Align 142 15 33 ; Align 278 27 126 ; Align 504 70 126 ; Align 815 112 75

@@ -1,0 +1,42 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	gene	10	944	602	+	.	gene_id 1 ; sequence Crataegus-punctata_S9 ; gene_orientation +
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	cds	10	77	.	+	.	
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	exon	10	77	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	splice5	78	79	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	intron	78	172	.	+	.	intron_id 1
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	splice3	171	172	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	cds	173	208	.	+	.	
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	exon	173	208	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	splice5	209	210	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	intron	209	307	.	+	.	intron_id 2
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	splice3	306	307	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	cds	308	440	.	+	.	
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	exon	308	440	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	splice5	441	442	.	+	.	intron_id 3 ; splice_site "GC"
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	intron	441	539	.	+	.	intron_id 3
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	splice3	538	539	.	+	.	intron_id 2 ; splice_site "GG"
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	cds	540	625	.	+	.	
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	exon	540	625	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	splice5	626	627	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	intron	626	725	.	+	.	intron_id 4
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	splice3	724	725	.	+	.	intron_id 3 ; splice_site "AG"
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	cds	726	773	.	+	.	
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	exon	726	773	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	splice5	774	775	.	+	.	intron_id 5 ; splice_site "GT"
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	intron	774	877	.	+	.	intron_id 5
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	splice3	876	877	.	+	.	intron_id 4 ; splice_site "AG"
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	cds	878	944	.	+	.	
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	exon	878	944	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4890	exonerate:protein2genome:local	similarity	10	944	602	+	.	alignment_id 1 ; Query Crataegus-punctata_S9 ; Align 10 1 66 ; Align 174 24 33 ; Align 309 36 132 ; Align 540 80 84 ; Align 727 109 45 ; Align 879 125 66
+# --- END OF GFF DUMP ---
+#

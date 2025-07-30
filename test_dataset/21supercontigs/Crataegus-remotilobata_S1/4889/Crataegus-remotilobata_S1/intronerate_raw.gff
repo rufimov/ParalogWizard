@@ -1,0 +1,32 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	gene	260	1504	752	+	.	gene_id 1 ; sequence Crataegus-remotilobata_S1 ; gene_orientation +
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	cds	260	315	.	+	.	
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	exon	260	315	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	splice5	316	317	.	+	.	intron_id 1 ; splice_site "GA"
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	intron	316	404	.	+	.	intron_id 1
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	splice3	403	404	.	+	.	intron_id 0 ; splice_site "CG"
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	cds	405	554	.	+	.	
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	exon	405	554	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	splice5	555	556	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	intron	555	1009	.	+	.	intron_id 2
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	splice3	1008	1009	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	cds	1010	1130	.	+	.	
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	exon	1010	1130	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	splice5	1131	1132	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	intron	1131	1349	.	+	.	intron_id 3
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	splice3	1348	1349	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	cds	1352	1504	.	+	.	
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	exon	1352	1504	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4889	exonerate:protein2genome:local	similarity	260	1504	752	+	.	alignment_id 1 ; Query Crataegus-remotilobata_S1 ; Align 260 1 54 ; Align 406 20 147 ; Align 1011 70 120 ; Align 1352 110 153
+# --- END OF GFF DUMP ---
+#

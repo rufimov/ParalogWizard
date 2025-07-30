@@ -1,0 +1,19 @@
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	gene	428	1423	1061	+	.	gene_id 1 ; sequence Crataegus-punctata_S9 ; gene_orientation +
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	cds	428	676	.	+	.
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	exon	428	676	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	splice5	677	678	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	intron	677	747	.	+	.	intron_id 1
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	splice3	746	747	.	+	.	intron_id 0 ; splice_site "AT"
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	cds	748	821	.	+	.
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	exon	748	821	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	splice5	822	823	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	intron	822	934	.	+	.	intron_id 2
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	splice3	933	934	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	cds	935	1086	.	+	.
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	exon	935	1086	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	splice5	1087	1088	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	intron	1087	1235	.	+	.	intron_id 3
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	splice3	1234	1235	.	+	.	intron_id 2 ; splice_site "GG"
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	cds	1236	1423	.	+	.
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	exon	1236	1423	.	+	.	insertions 0 ; deletions 0
+Crataegus-punctata_S9-4724	exonerate:protein2genome:local	similarity	428	1423	1061	+	.	alignment_id 1 ; Query Crataegus-punctata_S9 ; Align 428 1 249 ; Align 748 84 72 ; Align 936 109 150 ; Align 1238 160 186

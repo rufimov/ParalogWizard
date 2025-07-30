@@ -1,0 +1,52 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	gene	369	3009	1071	+	.	gene_id 1 ; sequence Micromeles-alnifolia_S15 ; gene_orientation +
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	cds	369	392	.	+	.	
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	exon	369	392	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	splice5	393	394	.	+	.	intron_id 1 ; splice_site "GT"
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	intron	393	554	.	+	.	intron_id 1
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	splice3	553	554	.	+	.	intron_id 0 ; splice_site "AG"
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	cds	555	664	.	+	.	
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	exon	555	664	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	splice5	665	666	.	+	.	intron_id 2 ; splice_site "GT"
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	intron	665	756	.	+	.	intron_id 2
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	splice3	755	756	.	+	.	intron_id 1 ; splice_site "AG"
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	cds	757	871	.	+	.	
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	exon	757	871	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	splice5	872	873	.	+	.	intron_id 3 ; splice_site "GT"
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	intron	872	1055	.	+	.	intron_id 3
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	splice3	1054	1055	.	+	.	intron_id 2 ; splice_site "AG"
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	cds	1056	1118	.	+	.	
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	exon	1056	1118	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	splice5	1119	1120	.	+	.	intron_id 4 ; splice_site "GT"
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	intron	1119	1229	.	+	.	intron_id 4
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	splice3	1228	1229	.	+	.	intron_id 3 ; splice_site "AG"
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	cds	1230	1391	.	+	.	
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	exon	1230	1391	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	splice5	1392	1393	.	+	.	intron_id 5 ; splice_site "AG"
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	intron	1392	1774	.	+	.	intron_id 5
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	splice3	1773	1774	.	+	.	intron_id 4 ; splice_site "AG"
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	cds	1775	1827	.	+	.	
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	exon	1775	1827	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	splice5	1828	1829	.	+	.	intron_id 6 ; splice_site "GG"
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	intron	1828	2276	.	+	.	intron_id 6
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	splice3	2275	2276	.	+	.	intron_id 5 ; splice_site "AT"
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	cds	2277	2346	.	+	.	
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	exon	2277	2346	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	splice5	2347	2348	.	+	.	intron_id 7 ; splice_site "GG"
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	intron	2347	2886	.	+	.	intron_id 7
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	splice3	2885	2886	.	+	.	intron_id 6 ; splice_site "AG"
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	cds	2887	3009	.	+	.	
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	exon	2887	3009	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4796	exonerate:protein2genome:local	similarity	369	3009	1071	+	.	alignment_id 1 ; Query Micromeles-alnifolia_S15 ; Align 369 1 24 ; Align 555 9 108 ; Align 758 46 114 ; Align 1056 84 63 ; Align 1230 105 162 ; Align 1775 159 51 ; Align 2278 177 69 ; Align 2887 200 123
+# --- END OF GFF DUMP ---
+#

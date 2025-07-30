@@ -1,0 +1,39 @@
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	gene	34	2836	1090	+	.	gene_id 1 ; sequence Pyrus-regelii_S20 ; gene_orientation +
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	cds	34	57	.	+	.
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	exon	34	57	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	splice5	58	59	.	+	.	intron_id 1 ; splice_site "GT"
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	intron	58	219	.	+	.	intron_id 1
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	splice3	218	219	.	+	.	intron_id 0 ; splice_site "AG"
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	cds	220	329	.	+	.
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	exon	220	329	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	splice5	330	331	.	+	.	intron_id 2 ; splice_site "GT"
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	intron	330	421	.	+	.	intron_id 2
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	splice3	420	421	.	+	.	intron_id 1 ; splice_site "AG"
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	cds	422	536	.	+	.
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	exon	422	536	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	splice5	537	538	.	+	.	intron_id 3 ; splice_site "GT"
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	intron	537	721	.	+	.	intron_id 3
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	splice3	720	721	.	+	.	intron_id 2 ; splice_site "AG"
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	cds	722	784	.	+	.
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	exon	722	784	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	splice5	785	786	.	+	.	intron_id 4 ; splice_site "GT"
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	intron	785	895	.	+	.	intron_id 4
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	splice3	894	895	.	+	.	intron_id 3 ; splice_site "AG"
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	cds	896	1059	.	+	.
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	exon	896	1059	.	+	.	insertions 0 ; deletions 0 ; frameshifts 2
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	splice5	1060	1061	.	+	.	intron_id 5 ; splice_site "GT"
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	intron	1060	1441	.	+	.	intron_id 5
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	splice3	1440	1441	.	+	.	intron_id 4 ; splice_site "AG"
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	cds	1442	1503	.	+	.
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	exon	1442	1503	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	splice5	1504	1505	.	+	.	intron_id 6 ; splice_site "GT"
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	intron	1504	2112	.	+	.	intron_id 6
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	splice3	2111	2112	.	+	.	intron_id 5 ; splice_site "AC"
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	cds	2113	2173	.	+	.
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	exon	2113	2173	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	splice5	2174	2175	.	+	.	intron_id 7 ; splice_site "GG"
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	intron	2174	2713	.	+	.	intron_id 7
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	splice3	2712	2713	.	+	.	intron_id 6 ; splice_site "AG"
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	cds	2714	2836	.	+	.
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	exon	2714	2836	.	+	.	insertions 0 ; deletions 0
+Pyrus-regelii_S20-4796	exonerate:protein2genome:local	similarity	34	2836	1090	+	.	alignment_id 1 ; Query Pyrus-regelii_S20 ; Align 34 1 24 ; Align 220 9 108 ; Align 423 46 114 ; Align 722 84 63 ; Align 896 105 159 ; Align 1057 158 3 ; Align 1442 159 60 ; Align 2114 180 60 ; Align 2714 200 123

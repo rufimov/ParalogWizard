@@ -1,0 +1,4 @@
+Crataegus-laevigata_S12-4796para	exonerate:protein2genome:local	gene	406	546	252	+	.	gene_id 1 ; sequence Crataegus-laevigata_S12 ; gene_orientation .
+Crataegus-laevigata_S12-4796para	exonerate:protein2genome:local	cds	406	546	.	+	.
+Crataegus-laevigata_S12-4796para	exonerate:protein2genome:local	exon	406	546	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4796para	exonerate:protein2genome:local	similarity	406	546	252	+	.	alignment_id 1 ; Query Crataegus-laevigata_S12 ; Align 406 1 141

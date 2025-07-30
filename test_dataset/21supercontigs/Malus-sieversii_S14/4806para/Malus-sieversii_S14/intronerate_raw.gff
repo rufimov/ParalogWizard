@@ -1,0 +1,27 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Malus-sieversii_S14-4806para	exonerate:protein2genome:local	gene	422	1222	405	+	.	gene_id 1 ; sequence Malus-sieversii_S14 ; gene_orientation +
+Malus-sieversii_S14-4806para	exonerate:protein2genome:local	cds	422	527	.	+	.	
+Malus-sieversii_S14-4806para	exonerate:protein2genome:local	exon	422	527	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4806para	exonerate:protein2genome:local	splice5	528	529	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sieversii_S14-4806para	exonerate:protein2genome:local	intron	528	611	.	+	.	intron_id 1
+Malus-sieversii_S14-4806para	exonerate:protein2genome:local	splice3	610	611	.	+	.	intron_id 0 ; splice_site "AG"
+Malus-sieversii_S14-4806para	exonerate:protein2genome:local	cds	612	671	.	+	.	
+Malus-sieversii_S14-4806para	exonerate:protein2genome:local	exon	612	671	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4806para	exonerate:protein2genome:local	splice5	672	673	.	+	.	intron_id 2 ; splice_site "GT"
+Malus-sieversii_S14-4806para	exonerate:protein2genome:local	intron	672	1142	.	+	.	intron_id 2
+Malus-sieversii_S14-4806para	exonerate:protein2genome:local	splice3	1141	1142	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sieversii_S14-4806para	exonerate:protein2genome:local	cds	1143	1222	.	+	.	
+Malus-sieversii_S14-4806para	exonerate:protein2genome:local	exon	1143	1222	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4806para	exonerate:protein2genome:local	similarity	422	1222	405	+	.	alignment_id 1 ; Query Malus-sieversii_S14 ; Align 422 1 105 ; Align 614 37 57 ; Align 1145 57 78
+# --- END OF GFF DUMP ---
+#

@@ -1,0 +1,19 @@
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	gene	276	2549	838	+	.	gene_id 1 ; sequence Crataegus-dahurica_S5 ; gene_orientation +
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	cds	276	437	.	+	.
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	exon	276	437	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	splice5	438	439	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	intron	438	1116	.	+	.	intron_id 1
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	splice3	1115	1116	.	+	.	intron_id 0 ; splice_site "GA"
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	cds	1117	1290	.	+	.
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	exon	1117	1290	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	splice5	1291	1292	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	intron	1291	2165	.	+	.	intron_id 2
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	splice3	2164	2165	.	+	.	intron_id 1 ; splice_site "GG"
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	cds	2166	2268	.	+	.
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	exon	2166	2268	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	splice5	2269	2270	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	intron	2269	2439	.	+	.	intron_id 3
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	splice3	2438	2439	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	cds	2440	2549	.	+	.
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	exon	2440	2549	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4757	exonerate:protein2genome:local	similarity	276	2549	838	+	.	alignment_id 1 ; Query Crataegus-dahurica_S5 ; Align 276 1 162 ; Align 1117 55 174 ; Align 2166 113 102 ; Align 2442 148 108

@@ -1,0 +1,19 @@
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	gene	410	1511	1056	+	.	gene_id 1 ; sequence Pyracantha-coccinea_S22 ; gene_orientation +
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	cds	410	640	.	+	.
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	exon	410	640	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	splice5	641	642	.	+	.	intron_id 1 ; splice_site "GT"
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	intron	641	728	.	+	.	intron_id 1
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	splice3	727	728	.	+	.	intron_id 0 ; splice_site "AG"
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	cds	729	817	.	+	.
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	exon	729	817	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	splice5	818	819	.	+	.	intron_id 2 ; splice_site "AT"
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	intron	818	923	.	+	.	intron_id 2
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	splice3	922	923	.	+	.	intron_id 1 ; splice_site "AG"
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	cds	924	1075	.	+	.
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	exon	924	1075	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	splice5	1076	1077	.	+	.	intron_id 3 ; splice_site "GT"
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	intron	1076	1323	.	+	.	intron_id 3
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	splice3	1322	1323	.	+	.	intron_id 2 ; splice_site "GG"
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	cds	1324	1511	.	+	.
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	exon	1324	1511	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4724para	exonerate:protein2genome:local	similarity	410	1511	1056	+	.	alignment_id 1 ; Query Pyracantha-coccinea_S22 ; Align 410 1 231 ; Align 729 78 87 ; Align 925 108 150 ; Align 1326 159 186

@@ -1,0 +1,19 @@
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	gene	245	2259	829	+	.	gene_id 1 ; sequence Pyracantha-coccinea_S22 ; gene_orientation +
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	cds	245	407	.	+	.
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	exon	245	407	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	splice5	408	409	.	+	.	intron_id 1 ; splice_site "TT"
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	intron	408	1046	.	+	.	intron_id 1
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	splice3	1045	1046	.	+	.	intron_id 0 ; splice_site "AG"
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	cds	1047	1219	.	+	.
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	exon	1047	1219	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	splice5	1220	1221	.	+	.	intron_id 2 ; splice_site "GT"
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	intron	1220	1888	.	+	.	intron_id 2
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	splice3	1887	1888	.	+	.	intron_id 1 ; splice_site "GG"
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	cds	1889	1991	.	+	.
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	exon	1889	1991	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	splice5	1992	1993	.	+	.	intron_id 3 ; splice_site "GT"
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	intron	1992	2149	.	+	.	intron_id 3
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	splice3	2148	2149	.	+	.	intron_id 2 ; splice_site "AG"
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	cds	2150	2259	.	+	.
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	exon	2150	2259	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4757	exonerate:protein2genome:local	similarity	245	2259	829	+	.	alignment_id 1 ; Query Pyracantha-coccinea_S22 ; Align 245 1 162 ; Align 1049 56 171 ; Align 1889 113 102 ; Align 2152 148 108

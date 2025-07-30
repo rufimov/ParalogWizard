@@ -1,0 +1,32 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	gene	202	1441	744	+	.	gene_id 1 ; sequence Malus-sieboldii_S21 ; gene_orientation +
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	cds	202	257	.	+	.	
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	exon	202	257	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	splice5	258	259	.	+	.	intron_id 1 ; splice_site "GA"
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	intron	258	350	.	+	.	intron_id 1
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	splice3	349	350	.	+	.	intron_id 0 ; splice_site "GG"
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	cds	351	500	.	+	.	
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	exon	351	500	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	splice5	501	502	.	+	.	intron_id 2 ; splice_site "AT"
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	intron	501	948	.	+	.	intron_id 2
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	splice3	947	948	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	cds	949	1069	.	+	.	
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	exon	949	1069	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	splice5	1070	1071	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	intron	1070	1286	.	+	.	intron_id 3
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	splice3	1285	1286	.	+	.	intron_id 2 ; splice_site "AG"
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	cds	1289	1441	.	+	.	
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	exon	1289	1441	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4889para	exonerate:protein2genome:local	similarity	202	1441	744	+	.	alignment_id 1 ; Query Malus-sieboldii_S21 ; Align 202 1 54 ; Align 352 20 147 ; Align 950 70 120 ; Align 1289 110 153
+# --- END OF GFF DUMP ---
+#

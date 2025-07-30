@@ -1,0 +1,19 @@
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	gene	215	840	478	+	.	gene_id 1 ; sequence Crataegus-laevigata_S12 ; gene_orientation +
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	cds	215	282	.	+	.
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	exon	215	282	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	splice5	283	284	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	intron	283	383	.	+	.	intron_id 1
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	splice3	382	383	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	cds	384	419	.	+	.
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	exon	384	419	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	splice5	420	421	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	intron	420	519	.	+	.	intron_id 2
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	splice3	518	519	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	cds	520	648	.	+	.
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	exon	520	648	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	splice5	649	650	.	+	.	intron_id 3 ; splice_site "GG"
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	intron	649	752	.	+	.	intron_id 3
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	splice3	751	752	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	cds	753	840	.	+	.
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	exon	753	840	.	+	.	insertions 0 ; deletions 0
+Crataegus-laevigata_S12-4890para	exonerate:protein2genome:local	similarity	215	840	478	+	.	alignment_id 1 ; Query Crataegus-laevigata_S12 ; Align 215 1 66 ; Align 385 24 33 ; Align 521 36 126 ; Align 754 79 87

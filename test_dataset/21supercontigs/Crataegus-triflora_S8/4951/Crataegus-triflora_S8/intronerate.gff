@@ -1,0 +1,4 @@
+Crataegus-triflora_S8-4951	exonerate:protein2genome:local	gene	367	816	776	+	.	gene_id 1 ; sequence Crataegus-triflora_S8 ; gene_orientation .
+Crataegus-triflora_S8-4951	exonerate:protein2genome:local	cds	367	816	.	+	.
+Crataegus-triflora_S8-4951	exonerate:protein2genome:local	exon	367	816	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4951	exonerate:protein2genome:local	similarity	367	816	776	+	.	alignment_id 1 ; Query Crataegus-triflora_S8 ; Align 367 1 450

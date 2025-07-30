@@ -1,0 +1,17 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-pinnatifida_S26-4796para	exonerate:protein2genome:local	gene	282	422	252	+	.	gene_id 1 ; sequence Crataegus-pinnatifida_S26 ; gene_orientation .
+Crataegus-pinnatifida_S26-4796para	exonerate:protein2genome:local	cds	282	422	.	+	.	
+Crataegus-pinnatifida_S26-4796para	exonerate:protein2genome:local	exon	282	422	.	+	.	insertions 0 ; deletions 0
+Crataegus-pinnatifida_S26-4796para	exonerate:protein2genome:local	similarity	282	422	252	+	.	alignment_id 1 ; Query Crataegus-pinnatifida_S26 ; Align 282 1 141
+# --- END OF GFF DUMP ---
+#

@@ -1,0 +1,19 @@
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	gene	385	2618	829	+	.	gene_id 1 ; sequence Malus-ombrophila_S18 ; gene_orientation +
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	cds	385	546	.	+	.
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	exon	385	546	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	splice5	547	548	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	intron	547	1205	.	+	.	intron_id 1
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	splice3	1204	1205	.	+	.	intron_id 0 ; splice_site "GA"
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	cds	1206	1379	.	+	.
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	exon	1206	1379	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	splice5	1380	1381	.	+	.	intron_id 2 ; splice_site "GT"
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	intron	1380	2256	.	+	.	intron_id 2
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	splice3	2255	2256	.	+	.	intron_id 1 ; splice_site "GG"
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	cds	2257	2359	.	+	.
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	exon	2257	2359	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	splice5	2360	2361	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	intron	2360	2508	.	+	.	intron_id 3
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	splice3	2507	2508	.	+	.	intron_id 2 ; splice_site "AG"
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	cds	2509	2618	.	+	.
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	exon	2509	2618	.	+	.	insertions 0 ; deletions 0
+Malus-ombrophila_S18-4757	exonerate:protein2genome:local	similarity	385	2618	829	+	.	alignment_id 1 ; Query Malus-ombrophila_S18 ; Align 385 1 162 ; Align 1206 55 174 ; Align 2257 113 102 ; Align 2511 148 108

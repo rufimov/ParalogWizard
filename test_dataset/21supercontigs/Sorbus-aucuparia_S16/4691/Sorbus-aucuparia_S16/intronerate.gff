@@ -1,0 +1,9 @@
+Sorbus-aucuparia_S16-4691	exonerate:protein2genome:local	gene	295	857	772	+	.	gene_id 1 ; sequence Sorbus-aucuparia_S16 ; gene_orientation +
+Sorbus-aucuparia_S16-4691	exonerate:protein2genome:local	cds	295	541	.	+	.
+Sorbus-aucuparia_S16-4691	exonerate:protein2genome:local	exon	295	541	.	+	.	insertions 0 ; deletions 0
+Sorbus-aucuparia_S16-4691	exonerate:protein2genome:local	splice5	542	543	.	+	.	intron_id 1 ; splice_site "GT"
+Sorbus-aucuparia_S16-4691	exonerate:protein2genome:local	intron	542	642	.	+	.	intron_id 1
+Sorbus-aucuparia_S16-4691	exonerate:protein2genome:local	splice3	641	642	.	+	.	intron_id 0 ; splice_site "AA"
+Sorbus-aucuparia_S16-4691	exonerate:protein2genome:local	cds	643	857	.	+	.
+Sorbus-aucuparia_S16-4691	exonerate:protein2genome:local	exon	643	857	.	+	.	insertions 0 ; deletions 0
+Sorbus-aucuparia_S16-4691	exonerate:protein2genome:local	similarity	295	857	772	+	.	alignment_id 1 ; Query Sorbus-aucuparia_S16 ; Align 295 1 246 ; Align 645 84 213

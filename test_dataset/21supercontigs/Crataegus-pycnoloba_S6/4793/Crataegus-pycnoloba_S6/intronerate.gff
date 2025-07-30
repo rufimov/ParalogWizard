@@ -1,0 +1,19 @@
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	gene	529	2655	1242	+	.	gene_id 1 ; sequence Crataegus-pycnoloba_S6 ; gene_orientation +
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	cds	529	679	.	+	.
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	exon	529	679	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	splice5	680	681	.	+	.	intron_id 1 ; splice_site "GA"
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	intron	680	1206	.	+	.	intron_id 1
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	splice3	1205	1206	.	+	.	intron_id 0 ; splice_site "AT"
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	cds	1207	1239	.	+	.
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	exon	1207	1239	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	splice5	1240	1241	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	intron	1240	1608	.	+	.	intron_id 2
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	splice3	1607	1608	.	+	.	intron_id 1 ; splice_site "TG"
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	cds	1609	2150	.	+	.
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	exon	1609	2150	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	splice5	2151	2152	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	intron	2151	2601	.	+	.	intron_id 3
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	splice3	2600	2601	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	cds	2602	2655	.	+	.
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	exon	2602	2655	.	+	.	insertions 0 ; deletions 0
+Crataegus-pycnoloba_S6-4793	exonerate:protein2genome:local	similarity	529	2655	1242	+	.	alignment_id 1 ; Query Crataegus-pycnoloba_S6 ; Align 529 1 150 ; Align 1209 52 30 ; Align 1611 63 540 ; Align 2602 243 54

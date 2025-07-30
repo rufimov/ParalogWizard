@@ -1,0 +1,19 @@
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	gene	344	2588	837	+	.	gene_id 1 ; sequence Crataegus-triflora_S8 ; gene_orientation +
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	cds	344	505	.	+	.
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	exon	344	505	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	splice5	506	507	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	intron	506	1196	.	+	.	intron_id 1
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	splice3	1195	1196	.	+	.	intron_id 0 ; splice_site "GA"
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	cds	1197	1370	.	+	.
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	exon	1197	1370	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	splice5	1371	1372	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	intron	1371	2209	.	+	.	intron_id 2
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	splice3	2208	2209	.	+	.	intron_id 1 ; splice_site "GG"
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	cds	2210	2312	.	+	.
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	exon	2210	2312	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	splice5	2313	2314	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	intron	2313	2478	.	+	.	intron_id 3
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	splice3	2477	2478	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	cds	2479	2588	.	+	.
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	exon	2479	2588	.	+	.	insertions 0 ; deletions 0
+Crataegus-triflora_S8-4757	exonerate:protein2genome:local	similarity	344	2588	837	+	.	alignment_id 1 ; Query Crataegus-triflora_S8 ; Align 344 1 162 ; Align 1197 55 174 ; Align 2210 113 102 ; Align 2481 148 108

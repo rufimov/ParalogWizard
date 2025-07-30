@@ -1,0 +1,19 @@
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	gene	56	1086	760	+	.	gene_id 1 ; sequence Pourthiaea-villosa_S13 ; gene_orientation +
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	cds	56	195	.	+	.
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	exon	56	195	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	splice5	196	197	.	+	.	intron_id 1 ; splice_site "TT"
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	intron	196	490	.	+	.	intron_id 1
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	splice3	489	490	.	+	.	intron_id 0 ; splice_site "CG"
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	cds	491	598	.	+	.
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	exon	491	598	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	splice5	599	600	.	+	.	intron_id 2 ; splice_site "GT"
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	intron	599	746	.	+	.	intron_id 2
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	splice3	745	746	.	+	.	intron_id 1 ; splice_site "TG"
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	cds	747	862	.	+	.
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	exon	747	862	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	splice5	863	864	.	+	.	intron_id 3 ; splice_site "GT"
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	intron	863	958	.	+	.	intron_id 3
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	splice3	957	958	.	+	.	intron_id 2 ; splice_site "AG"
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	cds	959	1086	.	+	.
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	exon	959	1086	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4893para	exonerate:protein2genome:local	similarity	56	1086	760	+	.	alignment_id 1 ; Query Pourthiaea-villosa_S13 ; Align 56 1 138 ; Align 492 48 105 ; Align 748 84 114 ; Align 961 123 126

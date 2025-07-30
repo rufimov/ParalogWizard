@@ -1,0 +1,19 @@
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	gene	480	1595	1033	+	.	gene_id 1 ; sequence Crataegus-remotilobata_S1 ; gene_orientation +
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	cds	480	724	.	+	.
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	exon	480	724	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	splice5	725	726	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	intron	725	809	.	+	.	intron_id 1
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	splice3	808	809	.	+	.	intron_id 0 ; splice_site "GA"
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	cds	810	884	.	+	.
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	exon	810	884	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	splice5	885	886	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	intron	885	990	.	+	.	intron_id 2
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	splice3	989	990	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	cds	991	1142	.	+	.
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	exon	991	1142	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	splice5	1143	1144	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	intron	1143	1407	.	+	.	intron_id 3
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	splice3	1406	1407	.	+	.	intron_id 2 ; splice_site "GG"
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	cds	1408	1595	.	+	.
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	exon	1408	1595	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4724para	exonerate:protein2genome:local	similarity	480	1595	1033	+	.	alignment_id 1 ; Query Crataegus-remotilobata_S1 ; Align 480 1 243 ; Align 811 83 72 ; Align 992 108 150 ; Align 1410 159 186

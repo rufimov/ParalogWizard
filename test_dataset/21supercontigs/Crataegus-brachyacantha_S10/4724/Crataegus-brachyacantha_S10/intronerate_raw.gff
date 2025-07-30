@@ -1,0 +1,32 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-10-10
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	gene	497	1491	1067	+	.	gene_id 1 ; sequence Crataegus-brachyacantha_S10 ; gene_orientation +
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	cds	497	745	.	+	.	
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	exon	497	745	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	splice5	746	747	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	intron	746	816	.	+	.	intron_id 1
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	splice3	815	816	.	+	.	intron_id 0 ; splice_site "AT"
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	cds	817	890	.	+	.	
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	exon	817	890	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	splice5	891	892	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	intron	891	1002	.	+	.	intron_id 2
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	splice3	1001	1002	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	cds	1003	1154	.	+	.	
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	exon	1003	1154	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	splice5	1155	1156	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	intron	1155	1303	.	+	.	intron_id 3
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	splice3	1302	1303	.	+	.	intron_id 2 ; splice_site "GG"
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	cds	1304	1491	.	+	.	
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	exon	1304	1491	.	+	.	insertions 0 ; deletions 0
+Crataegus-brachyacantha_S10-4724	exonerate:protein2genome:local	similarity	497	1491	1067	+	.	alignment_id 1 ; Query Crataegus-brachyacantha_S10 ; Align 497 1 249 ; Align 817 84 72 ; Align 1004 109 150 ; Align 1306 160 186
+# --- END OF GFF DUMP ---
+#

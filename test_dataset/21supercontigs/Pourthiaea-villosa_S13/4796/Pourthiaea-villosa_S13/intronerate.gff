@@ -1,0 +1,39 @@
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	gene	25	2565	1089	+	.	gene_id 1 ; sequence Pourthiaea-villosa_S13 ; gene_orientation +
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	cds	25	48	.	+	.
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	exon	25	48	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	splice5	49	50	.	+	.	intron_id 1 ; splice_site "GT"
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	intron	49	210	.	+	.	intron_id 1
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	splice3	209	210	.	+	.	intron_id 0 ; splice_site "AG"
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	cds	211	320	.	+	.
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	exon	211	320	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	splice5	321	322	.	+	.	intron_id 2 ; splice_site "GT"
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	intron	321	412	.	+	.	intron_id 2
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	splice3	411	412	.	+	.	intron_id 1 ; splice_site "AG"
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	cds	413	527	.	+	.
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	exon	413	527	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	splice5	528	529	.	+	.	intron_id 3 ; splice_site "GT"
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	intron	528	689	.	+	.	intron_id 3
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	splice3	688	689	.	+	.	intron_id 2 ; splice_site "AG"
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	cds	690	752	.	+	.
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	exon	690	752	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	splice5	753	754	.	+	.	intron_id 4 ; splice_site "GT"
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	intron	753	857	.	+	.	intron_id 4
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	splice3	856	857	.	+	.	intron_id 3 ; splice_site "AG"
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	cds	858	1019	.	+	.
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	exon	858	1019	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	splice5	1020	1021	.	+	.	intron_id 5 ; splice_site "AG"
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	intron	1020	1403	.	+	.	intron_id 5
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	splice3	1402	1403	.	+	.	intron_id 4 ; splice_site "AG"
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	cds	1404	1465	.	+	.
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	exon	1404	1465	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	splice5	1466	1467	.	+	.	intron_id 6 ; splice_site "GT"
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	intron	1466	1899	.	+	.	intron_id 6
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	splice3	1898	1899	.	+	.	intron_id 5 ; splice_site "AC"
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	cds	1900	1961	.	+	.
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	exon	1900	1961	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	splice5	1962	1963	.	+	.	intron_id 7 ; splice_site "GC"
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	intron	1962	2443	.	+	.	intron_id 7
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	splice3	2442	2443	.	+	.	intron_id 6 ; splice_site "GA"
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	cds	2444	2565	.	+	.
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	exon	2444	2565	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4796	exonerate:protein2genome:local	similarity	25	2565	1089	+	.	alignment_id 1 ; Query Pourthiaea-villosa_S13 ; Align 25 1 24 ; Align 211 9 108 ; Align 414 46 114 ; Align 690 84 63 ; Align 858 105 162 ; Align 1404 159 60 ; Align 1901 180 60 ; Align 2446 201 120

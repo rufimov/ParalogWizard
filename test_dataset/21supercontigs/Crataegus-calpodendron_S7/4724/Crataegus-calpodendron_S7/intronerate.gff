@@ -1,0 +1,19 @@
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	gene	403	1398	1059	+	.	gene_id 1 ; sequence Crataegus-calpodendron_S7 ; gene_orientation +
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	cds	403	651	.	+	.
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	exon	403	651	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	splice5	652	653	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	intron	652	722	.	+	.	intron_id 1
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	splice3	721	722	.	+	.	intron_id 0 ; splice_site "AT"
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	cds	723	796	.	+	.
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	exon	723	796	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	splice5	797	798	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	intron	797	909	.	+	.	intron_id 2
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	splice3	908	909	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	cds	910	1061	.	+	.
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	exon	910	1061	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	splice5	1062	1063	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	intron	1062	1210	.	+	.	intron_id 3
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	splice3	1209	1210	.	+	.	intron_id 2 ; splice_site "GG"
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	cds	1211	1398	.	+	.
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	exon	1211	1398	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4724	exonerate:protein2genome:local	similarity	403	1398	1059	+	.	alignment_id 1 ; Query Crataegus-calpodendron_S7 ; Align 403 1 249 ; Align 723 84 72 ; Align 911 109 150 ; Align 1213 160 186

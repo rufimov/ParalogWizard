@@ -1,0 +1,19 @@
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	gene	252	1584	767	+	.	gene_id 1 ; sequence Micromeles-alnifolia_S15 ; gene_orientation +
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	cds	252	479	.	+	.
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	exon	252	479	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	splice5	480	481	.	+	.	intron_id 1 ; splice_site "AA"
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	intron	480	761	.	+	.	intron_id 1
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	splice3	760	761	.	+	.	intron_id 0 ; splice_site "AG"
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	cds	762	873	.	+	.
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	exon	762	873	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	splice5	874	875	.	+	.	intron_id 2 ; splice_site "GT"
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	intron	874	960	.	+	.	intron_id 2
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	splice3	959	960	.	+	.	intron_id 1 ; splice_site "AG"
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	cds	961	1020	.	+	.
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	exon	961	1020	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	splice5	1021	1022	.	+	.	intron_id 3 ; splice_site "GT"
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	intron	1021	1504	.	+	.	intron_id 3
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	splice3	1503	1504	.	+	.	intron_id 2 ; splice_site "AG"
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	cds	1505	1584	.	+	.
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	exon	1505	1584	.	+	.	insertions 0 ; deletions 0
+Micromeles-alnifolia_S15-4806	exonerate:protein2genome:local	similarity	252	1584	767	+	.	alignment_id 1 ; Query Micromeles-alnifolia_S15 ; Align 252 1 228 ; Align 762 77 111 ; Align 963 115 57 ; Align 1507 135 78

@@ -1,0 +1,52 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	gene	482	2464	991	+	.	gene_id 1 ; sequence Sorbus-aucuparia_S16 ; gene_orientation +
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	cds	482	583	.	+	.	
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	exon	482	583	.	+	.	insertions 0 ; deletions 0
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	splice5	584	585	.	+	.	intron_id 1 ; splice_site "GT"
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	intron	584	769	.	+	.	intron_id 1
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	splice3	768	769	.	+	.	intron_id 0 ; splice_site "AG"
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	cds	770	840	.	+	.	
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	exon	770	840	.	+	.	insertions 0 ; deletions 0
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	splice5	841	842	.	+	.	intron_id 2 ; splice_site "GT"
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	intron	841	918	.	+	.	intron_id 2
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	splice3	917	918	.	+	.	intron_id 1 ; splice_site "AG"
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	cds	919	977	.	+	.	
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	exon	919	977	.	+	.	insertions 0 ; deletions 0
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	splice5	978	979	.	+	.	intron_id 3 ; splice_site "GT"
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	intron	978	1254	.	+	.	intron_id 3
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	splice3	1253	1254	.	+	.	intron_id 2 ; splice_site "AG"
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	cds	1255	1292	.	+	.	
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	exon	1255	1292	.	+	.	insertions 0 ; deletions 0
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	splice5	1293	1294	.	+	.	intron_id 4 ; splice_site "GT"
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	intron	1293	1416	.	+	.	intron_id 4
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	splice3	1415	1416	.	+	.	intron_id 3 ; splice_site "GG"
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	cds	1417	1536	.	+	.	
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	exon	1417	1536	.	+	.	insertions 0 ; deletions 0
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	splice5	1537	1538	.	+	.	intron_id 5 ; splice_site "GT"
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	intron	1537	1640	.	+	.	intron_id 5
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	splice3	1639	1640	.	+	.	intron_id 4 ; splice_site "AG"
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	cds	1641	1709	.	+	.	
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	exon	1641	1709	.	+	.	insertions 0 ; deletions 0
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	splice5	1710	1711	.	+	.	intron_id 6 ; splice_site "GT"
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	intron	1710	1806	.	+	.	intron_id 6
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	splice3	1805	1806	.	+	.	intron_id 5 ; splice_site "AG"
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	cds	1807	1889	.	+	.	
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	exon	1807	1889	.	+	.	insertions 0 ; deletions 0
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	splice5	1890	1891	.	+	.	intron_id 7 ; splice_site "GT"
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	intron	1890	2346	.	+	.	intron_id 7
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	splice3	2345	2346	.	+	.	intron_id 6 ; splice_site "CT"
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	cds	2347	2464	.	+	.	
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	exon	2347	2464	.	+	.	insertions 0 ; deletions 0
+Sorbus-aucuparia_S16-4802para	exonerate:protein2genome:local	similarity	482	2464	991	+	.	alignment_id 1 ; Query Sorbus-aucuparia_S16 ; Align 482 1 102 ; Align 770 35 69 ; Align 920 59 57 ; Align 1257 79 36 ; Align 1417 91 120 ; Align 1641 131 69 ; Align 1807 154 81 ; Align 2348 182 117
+# --- END OF GFF DUMP ---
+#

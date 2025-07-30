@@ -1,0 +1,9 @@
+Sorbus-tianschanica_S23-4954	exonerate:protein2genome:local	gene	411	1141	832	+	.	gene_id 1 ; sequence Sorbus-tianschanica_S23 ; gene_orientation +
+Sorbus-tianschanica_S23-4954	exonerate:protein2genome:local	cds	411	830	.	+	.
+Sorbus-tianschanica_S23-4954	exonerate:protein2genome:local	exon	411	830	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4954	exonerate:protein2genome:local	splice5	831	832	.	+	.	intron_id 1 ; splice_site "GC"
+Sorbus-tianschanica_S23-4954	exonerate:protein2genome:local	intron	831	1054	.	+	.	intron_id 1
+Sorbus-tianschanica_S23-4954	exonerate:protein2genome:local	splice3	1053	1054	.	+	.	intron_id 0 ; splice_site "AG"
+Sorbus-tianschanica_S23-4954	exonerate:protein2genome:local	cds	1055	1141	.	+	.
+Sorbus-tianschanica_S23-4954	exonerate:protein2genome:local	exon	1055	1141	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4954	exonerate:protein2genome:local	similarity	411	1141	832	+	.	alignment_id 1 ; Query Sorbus-tianschanica_S23 ; Align 411 1 420 ; Align 1055 141 87

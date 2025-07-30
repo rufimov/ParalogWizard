@@ -1,0 +1,32 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	gene	237	1937	782	+	.	gene_id 1 ; sequence Malus-sieboldii_S21 ; gene_orientation +
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	cds	237	469	.	+	.	
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	exon	237	469	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	splice5	470	471	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	intron	470	1142	.	+	.	intron_id 1
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	splice3	1141	1142	.	+	.	intron_id 0 ; splice_site "AT"
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	cds	1143	1249	.	+	.	
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	exon	1143	1249	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	splice5	1250	1251	.	+	.	intron_id 2 ; splice_site "GT"
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	intron	1250	1333	.	+	.	intron_id 2
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	splice3	1332	1333	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	cds	1334	1393	.	+	.	
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	exon	1334	1393	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	splice5	1394	1395	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	intron	1394	1857	.	+	.	intron_id 3
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	splice3	1856	1857	.	+	.	intron_id 2 ; splice_site "AG"
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	cds	1858	1937	.	+	.	
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	exon	1858	1937	.	+	.	insertions 0 ; deletions 0
+Malus-sieboldii_S21-4806para	exonerate:protein2genome:local	similarity	237	1937	782	+	.	alignment_id 1 ; Query Malus-sieboldii_S21 ; Align 237 1 231 ; Align 1144 79 105 ; Align 1336 115 57 ; Align 1860 135 78
+# --- END OF GFF DUMP ---
+#

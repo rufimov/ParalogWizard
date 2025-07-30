@@ -88,6 +88,14 @@ parser.add_option(
     help="""If the reference sequence is output (-r), what name will be given to this sample
 in the alignment files? Default=Reference""",
 )
+parser.add_option(
+    "-a",
+    action="store_true",
+    dest="all_assemblies",
+    default=False,
+    help="""Take all assemblies, not just the longest. Default=False""",
+)
+
 (options, args) = parser.parse_args()
 
 # Makes sure all filenames are given
@@ -135,60 +143,120 @@ while ConLine:
     ConLine = ConfigFile.readline()
 ConfigFile.close()
 
-Names = []
-# Processing each pslx file
-for Filename in pslxFiles:
-    Name = sub("Final_Assembly_", r"", Filename)
-    Name = sub(".pslx", r"", Name)
-    Names.append(Name)
-    File = open(Filename, "r")
-    pslxLine = File.readline()
-    while pslxLine:
-        pslxLine = pslxLine.strip()
-        if not "," in pslxLine:
-            pslxLine = File.readline()
-            continue
-        Fields = pslxLine.split("\t")
-        Length = int(Fields[0]) + int(Fields[1])
-        ThisExon = Fields[13]
-        MySeq = ""
-        if int(Fields[17]) == 1 or not options.filler:
-            MySeq = Fields[21].replace(",", "")
-        else:
-            blockSizes = Fields[18].split(",")
-            blockStarts = Fields[19].split(",")
-            Blocks = Fields[21].split(",")
-            MySeq = Blocks[0]
-            for i in range(int(Fields[17]) - 1):
-                GapSize = int(blockStarts[i + 1]) - (
-                    int(blockStarts[i]) + int(blockSizes[i])
-                )
-                GapFiller = "N" * GapSize
-                MySeq = MySeq + GapFiller + Blocks[i + 1]
-        if not ThisExon in Contigs:
-            sys.exit(
-                "The contigs in the fasta file don't match those in the .pslx files. Be sure the \
-names of the contigs don't contain spaces."
-            )
-        if Name in Contigs[ThisExon]:
-            if Length > Contigs[ThisExon][Name][0]:
-                Contigs[ThisExon][Name] = [Length, MySeq]
-        else:
-            Contigs[ThisExon][Name] = [Length, MySeq]
+if options.all_assemblies:
+    Names = []
+    # Processing each pslx file
+    for Filename in pslxFiles:
+        Name = sub("Final_Assembly_", r"", Filename)
+        Name = sub(".pslx", r"", Name)
+        File = open(Filename, "r")
         pslxLine = File.readline()
-    File.close()
-
-for exon in Contigs:
-    OutExon = sub(",", r"...", exon)
-    OutName = options.dirname + "/" + "To_align_" + OutExon + ".fasta"
-    OutFile = open(OutName, "w")
-    Filler = "n" * len(ReferenceContigs[exon])
-    for Name in Names:
-        if Name in Contigs[exon]:
-            OutFile.write(">%s\n%s\n" % (Name, Contigs[exon][Name][1]))
-        else:
-            OutFile.write(">%s\n%s\n" % (Name, Filler))
-    if options.ref_out:
-        OutFile.write(">%s\n%s\n" % (options.ref_name, ReferenceContigs[exon]))
-    OutFile.close()
+        count = 1
+        while pslxLine:
+            pslxLine = pslxLine.strip()
+            if not "," in pslxLine:
+                pslxLine = File.readline()
+                continue
+            Fields = pslxLine.split("\t")
+            Length = int(Fields[0]) + int(Fields[1])
+            ThisExon = Fields[13]
+            MySeq = ""
+            if int(Fields[17]) == 1 or not options.filler:
+                MySeq = Fields[21].replace(",", "")
+            else:
+                blockSizes = Fields[18].split(",")
+                blockStarts = Fields[19].split(",")
+                Blocks = Fields[21].split(",")
+                MySeq = Blocks[0]
+                for i in range(int(Fields[17]) - 1):
+                    GapSize = int(blockStarts[i + 1]) - (
+                        int(blockStarts[i]) + int(blockSizes[i])
+                    )
+                    GapFiller = "N" * GapSize
+                    MySeq = MySeq + GapFiller + Blocks[i + 1]
+            if not ThisExon in Contigs:
+                sys.exit(
+                    "The contigs in the fasta file don't match those in the .pslx files. Be sure the \
+    names of the contigs don't contain spaces."
+                )
+            Names.append(f"{Name}_{count}")
+            Contigs[ThisExon][f"{Name}_{count}"] = [Length, MySeq]
+            count += 1
+            pslxLine = File.readline()
+        File.close()
+    for exon in Contigs:
+        OutExon = sub(",", r"...", exon)
+        OutName = options.dirname + "/" + "To_align_" + OutExon + ".fasta"
+        OutFile = open(OutName, "w")
+        Filler = "n" * len(ReferenceContigs[exon])
+        filler_not_recorded = True
+        for Name in Names:
+            names_to_check = [
+                "_".join(x.split("_")[:-1]) for x in list(Contigs[exon].keys())
+            ]
+            name_to_check = "_".join(Name.split("_")[:-1])
+            if Name in Contigs[exon]:
+                OutFile.write(">%s\n%s\n" % (Name, Contigs[exon][Name][1]))
+            elif name_to_check not in names_to_check and filler_not_recorded:
+                OutFile.write(">%s\n%s\n" % (Name, Filler))
+                filler_not_recorded = False
+        if options.ref_out:
+            OutFile.write(">%s\n%s\n" % (options.ref_name, ReferenceContigs[exon]))
+        OutFile.close()
+else:
+    Names = []
+    # Processing each pslx file
+    for Filename in pslxFiles:
+        Name = sub("Final_Assembly_", r"", Filename)
+        Name = sub(".pslx", r"", Name)
+        Names.append(Name)
+        File = open(Filename, "r")
+        pslxLine = File.readline()
+        while pslxLine:
+            pslxLine = pslxLine.strip()
+            if not "," in pslxLine:
+                pslxLine = File.readline()
+                continue
+            Fields = pslxLine.split("\t")
+            Length = int(Fields[0]) + int(Fields[1])
+            ThisExon = Fields[13]
+            MySeq = ""
+            if int(Fields[17]) == 1 or not options.filler:
+                MySeq = Fields[21].replace(",", "")
+            else:
+                blockSizes = Fields[18].split(",")
+                blockStarts = Fields[19].split(",")
+                Blocks = Fields[21].split(",")
+                MySeq = Blocks[0]
+                for i in range(int(Fields[17]) - 1):
+                    GapSize = int(blockStarts[i + 1]) - (
+                        int(blockStarts[i]) + int(blockSizes[i])
+                    )
+                    GapFiller = "N" * GapSize
+                    MySeq = MySeq + GapFiller + Blocks[i + 1]
+            if not ThisExon in Contigs:
+                sys.exit(
+                    "The contigs in the fasta file don't match those in the .pslx files. Be sure the \
+    names of the contigs don't contain spaces."
+                )
+            if Name in Contigs[ThisExon]:
+                if Length > Contigs[ThisExon][Name][0]:
+                    Contigs[ThisExon][Name] = [Length, MySeq]
+            else:
+                Contigs[ThisExon][Name] = [Length, MySeq]
+            pslxLine = File.readline()
+        File.close()
+    for exon in Contigs:
+        OutExon = sub(",", r"...", exon)
+        OutName = options.dirname + "/" + "To_align_" + OutExon + ".fasta"
+        OutFile = open(OutName, "w")
+        Filler = "n" * len(ReferenceContigs[exon])
+        for Name in Names:
+            if Name in Contigs[exon]:
+                OutFile.write(">%s\n%s\n" % (Name, Contigs[exon][Name][1]))
+            else:
+                OutFile.write(">%s\n%s\n" % (Name, Filler))
+        if options.ref_out:
+            OutFile.write(">%s\n%s\n" % (options.ref_name, ReferenceContigs[exon]))
+        OutFile.close()
 # EOF

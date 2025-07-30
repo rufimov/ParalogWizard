@@ -1,0 +1,14 @@
+Sorbus-tianschanica_S23-4932	exonerate:protein2genome:local	gene	362	1418	1456	+	.	gene_id 1 ; sequence Sorbus-tianschanica_S23 ; gene_orientation +
+Sorbus-tianschanica_S23-4932	exonerate:protein2genome:local	cds	362	847	.	+	.
+Sorbus-tianschanica_S23-4932	exonerate:protein2genome:local	exon	362	847	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4932	exonerate:protein2genome:local	splice5	848	849	.	+	.	intron_id 1 ; splice_site "GT"
+Sorbus-tianschanica_S23-4932	exonerate:protein2genome:local	intron	848	965	.	+	.	intron_id 1
+Sorbus-tianschanica_S23-4932	exonerate:protein2genome:local	splice3	964	965	.	+	.	intron_id 0 ; splice_site "AG"
+Sorbus-tianschanica_S23-4932	exonerate:protein2genome:local	cds	966	1133	.	+	.
+Sorbus-tianschanica_S23-4932	exonerate:protein2genome:local	exon	966	1133	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4932	exonerate:protein2genome:local	splice5	1134	1135	.	+	.	intron_id 2 ; splice_site "GT"
+Sorbus-tianschanica_S23-4932	exonerate:protein2genome:local	intron	1134	1220	.	+	.	intron_id 2
+Sorbus-tianschanica_S23-4932	exonerate:protein2genome:local	splice3	1219	1220	.	+	.	intron_id 1 ; splice_site "AG"
+Sorbus-tianschanica_S23-4932	exonerate:protein2genome:local	cds	1221	1418	.	+	.
+Sorbus-tianschanica_S23-4932	exonerate:protein2genome:local	exon	1221	1418	.	+	.	insertions 0 ; deletions 0
+Sorbus-tianschanica_S23-4932	exonerate:protein2genome:local	similarity	362	1418	1456	+	.	alignment_id 1 ; Query Sorbus-tianschanica_S23 ; Align 362 1 486 ; Align 966 163 168 ; Align 1221 219 198

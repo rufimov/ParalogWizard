@@ -1,0 +1,4 @@
+Crataegus-monogyna_S11-4951para	exonerate:protein2genome:local	gene	2	397	667	+	.	gene_id 1 ; sequence Crataegus-monogyna_S11 ; gene_orientation .
+Crataegus-monogyna_S11-4951para	exonerate:protein2genome:local	cds	2	397	.	+	.
+Crataegus-monogyna_S11-4951para	exonerate:protein2genome:local	exon	2	397	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4951para	exonerate:protein2genome:local	similarity	2	397	667	+	.	alignment_id 1 ; Query Crataegus-monogyna_S11 ; Align 2 1 396

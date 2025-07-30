@@ -1,0 +1,52 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	gene	329	2831	1094	+	.	gene_id 1 ; sequence Malus-sieversii_S14 ; gene_orientation +
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	cds	329	352	.	+	.	
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	exon	329	352	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	splice5	353	354	.	+	.	intron_id 1 ; splice_site "GT"
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	intron	353	521	.	+	.	intron_id 1
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	splice3	520	521	.	+	.	intron_id 0 ; splice_site "AG"
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	cds	522	631	.	+	.	
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	exon	522	631	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	splice5	632	633	.	+	.	intron_id 2 ; splice_site "GT"
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	intron	632	723	.	+	.	intron_id 2
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	splice3	722	723	.	+	.	intron_id 1 ; splice_site "AG"
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	cds	724	838	.	+	.	
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	exon	724	838	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	splice5	839	840	.	+	.	intron_id 3 ; splice_site "GT"
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	intron	839	983	.	+	.	intron_id 3
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	splice3	982	983	.	+	.	intron_id 2 ; splice_site "AG"
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	cds	984	1046	.	+	.	
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	exon	984	1046	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	splice5	1047	1048	.	+	.	intron_id 4 ; splice_site "GT"
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	intron	1047	1157	.	+	.	intron_id 4
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	splice3	1156	1157	.	+	.	intron_id 3 ; splice_site "AG"
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	cds	1158	1319	.	+	.	
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	exon	1158	1319	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	splice5	1320	1321	.	+	.	intron_id 5 ; splice_site "AG"
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	intron	1320	1703	.	+	.	intron_id 5
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	splice3	1702	1703	.	+	.	intron_id 4 ; splice_site "AG"
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	cds	1704	1765	.	+	.	
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	exon	1704	1765	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	splice5	1766	1767	.	+	.	intron_id 6 ; splice_site "GT"
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	intron	1766	2169	.	+	.	intron_id 6
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	splice3	2168	2169	.	+	.	intron_id 5 ; splice_site "AC"
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	cds	2170	2230	.	+	.	
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	exon	2170	2230	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	splice5	2231	2232	.	+	.	intron_id 7 ; splice_site "GG"
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	intron	2231	2708	.	+	.	intron_id 7
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	splice3	2707	2708	.	+	.	intron_id 6 ; splice_site "AG"
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	cds	2709	2831	.	+	.	
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	exon	2709	2831	.	+	.	insertions 0 ; deletions 0
+Malus-sieversii_S14-4796	exonerate:protein2genome:local	similarity	329	2831	1094	+	.	alignment_id 1 ; Query Malus-sieversii_S14 ; Align 329 1 24 ; Align 522 9 108 ; Align 725 46 114 ; Align 984 84 63 ; Align 1158 105 162 ; Align 1704 159 60 ; Align 2171 180 60 ; Align 2709 200 123
+# --- END OF GFF DUMP ---
+#

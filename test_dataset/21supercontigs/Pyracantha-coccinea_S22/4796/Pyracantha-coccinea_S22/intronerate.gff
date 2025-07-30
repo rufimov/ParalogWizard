@@ -1,0 +1,39 @@
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	gene	286	3027	1094	+	.	gene_id 1 ; sequence Pyracantha-coccinea_S22 ; gene_orientation +
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	cds	286	309	.	+	.
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	exon	286	309	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	splice5	310	311	.	+	.	intron_id 1 ; splice_site "GT"
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	intron	310	471	.	+	.	intron_id 1
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	splice3	470	471	.	+	.	intron_id 0 ; splice_site "AG"
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	cds	472	581	.	+	.
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	exon	472	581	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	splice5	582	583	.	+	.	intron_id 2 ; splice_site "GT"
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	intron	582	691	.	+	.	intron_id 2
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	splice3	690	691	.	+	.	intron_id 1 ; splice_site "AG"
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	cds	692	806	.	+	.
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	exon	692	806	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	splice5	807	808	.	+	.	intron_id 3 ; splice_site "GT"
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	intron	807	991	.	+	.	intron_id 3
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	splice3	990	991	.	+	.	intron_id 2 ; splice_site "AG"
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	cds	992	1054	.	+	.
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	exon	992	1054	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	splice5	1055	1056	.	+	.	intron_id 4 ; splice_site "GT"
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	intron	1055	1165	.	+	.	intron_id 4
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	splice3	1164	1165	.	+	.	intron_id 3 ; splice_site "AG"
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	cds	1166	1327	.	+	.
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	exon	1166	1327	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	splice5	1328	1329	.	+	.	intron_id 5 ; splice_site "AG"
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	intron	1328	1711	.	+	.	intron_id 5
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	splice3	1710	1711	.	+	.	intron_id 4 ; splice_site "AG"
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	cds	1712	1773	.	+	.
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	exon	1712	1773	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	splice5	1774	1775	.	+	.	intron_id 6 ; splice_site "GT"
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	intron	1774	2362	.	+	.	intron_id 6
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	splice3	2361	2362	.	+	.	intron_id 5 ; splice_site "AC"
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	cds	2363	2423	.	+	.
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	exon	2363	2423	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	splice5	2424	2425	.	+	.	intron_id 7 ; splice_site "GG"
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	intron	2424	2904	.	+	.	intron_id 7
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	splice3	2903	2904	.	+	.	intron_id 6 ; splice_site "AG"
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	cds	2905	3027	.	+	.
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	exon	2905	3027	.	+	.	insertions 0 ; deletions 0
+Pyracantha-coccinea_S22-4796	exonerate:protein2genome:local	similarity	286	3027	1094	+	.	alignment_id 1 ; Query Pyracantha-coccinea_S22 ; Align 286 1 24 ; Align 472 9 108 ; Align 693 46 114 ; Align 992 84 63 ; Align 1166 105 162 ; Align 1712 159 60 ; Align 2364 180 60 ; Align 2905 200 123

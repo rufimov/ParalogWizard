@@ -1,0 +1,24 @@
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	gene	225	1501	863	+	.	gene_id 1 ; sequence Crataegus-pentagyna_S2 ; gene_orientation +
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	cds	225	328	.	+	.
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	exon	225	328	.	+	.	insertions 0 ; deletions 0
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	splice5	329	330	.	+	.	intron_id 1 ; splice_site "GT"
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	intron	329	414	.	+	.	intron_id 1
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	splice3	413	414	.	+	.	intron_id 0 ; splice_site "GA"
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	cds	415	530	.	+	.
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	exon	415	530	.	+	.	insertions 0 ; deletions 0
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	splice5	531	532	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	intron	531	629	.	+	.	intron_id 2
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	splice3	628	629	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	cds	630	755	.	+	.
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	exon	630	755	.	+	.	insertions 0 ; deletions 0
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	splice5	756	757	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	intron	756	1198	.	+	.	intron_id 3
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	splice3	1197	1198	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	cds	1199	1297	.	+	.
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	exon	1199	1297	.	+	.	insertions 0 ; deletions 0
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	splice5	1298	1299	.	+	.	intron_id 4 ; splice_site "GT"
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	intron	1298	1400	.	+	.	intron_id 4
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	splice3	1399	1400	.	+	.	intron_id 3 ; splice_site "AG"
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	cds	1401	1501	.	+	.
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	exon	1401	1501	.	+	.	insertions 0 ; deletions 0
+Crataegus-pentagyna_S2-4893para	exonerate:protein2genome:local	similarity	225	1501	863	+	.	alignment_id 1 ; Query Crataegus-pentagyna_S2 ; Align 225 1 102 ; Align 416 36 114 ; Align 632 75 123 ; Align 1201 117 96 ; Align 1403 150 99

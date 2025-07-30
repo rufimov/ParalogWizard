@@ -1,0 +1,4 @@
+Crataegus-calpodendron_S7-4848para	exonerate:protein2genome:local	gene	37	249	402	+	.	gene_id 1 ; sequence Crataegus-calpodendron_S7 ; gene_orientation .
+Crataegus-calpodendron_S7-4848para	exonerate:protein2genome:local	cds	37	249	.	+	.
+Crataegus-calpodendron_S7-4848para	exonerate:protein2genome:local	exon	37	249	.	+	.	insertions 0 ; deletions 0
+Crataegus-calpodendron_S7-4848para	exonerate:protein2genome:local	similarity	37	249	402	+	.	alignment_id 1 ; Query Crataegus-calpodendron_S7 ; Align 37 1 213

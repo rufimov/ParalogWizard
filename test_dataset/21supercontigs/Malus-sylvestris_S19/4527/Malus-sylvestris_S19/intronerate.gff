@@ -1,0 +1,4 @@
+Malus-sylvestris_S19-4527	exonerate:protein2genome:local	gene	261	533	473	+	.	gene_id 1 ; sequence Malus-sylvestris_S19 ; gene_orientation .
+Malus-sylvestris_S19-4527	exonerate:protein2genome:local	cds	261	533	.	+	.
+Malus-sylvestris_S19-4527	exonerate:protein2genome:local	exon	261	533	.	+	.	insertions 0 ; deletions 0
+Malus-sylvestris_S19-4527	exonerate:protein2genome:local	similarity	261	533	473	+	.	alignment_id 1 ; Query Malus-sylvestris_S19 ; Align 261 1 273

@@ -1,0 +1,19 @@
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	gene	154	1348	782	+	.	gene_id 1 ; sequence Crataegus-remotilobata_S1 ; gene_orientation +
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	cds	154	381	.	+	.
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	exon	154	381	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	splice5	382	383	.	+	.	intron_id 1 ; splice_site "AA"
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	intron	382	519	.	+	.	intron_id 1
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	splice3	518	519	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	cds	520	631	.	+	.
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	exon	520	631	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	splice5	632	633	.	+	.	intron_id 2 ; splice_site "GT"
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	intron	632	719	.	+	.	intron_id 2
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	splice3	718	719	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	cds	720	779	.	+	.
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	exon	720	779	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	splice5	780	781	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	intron	780	1268	.	+	.	intron_id 3
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	splice3	1267	1268	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	cds	1269	1348	.	+	.
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	exon	1269	1348	.	+	.	insertions 0 ; deletions 0
+Crataegus-remotilobata_S1-4806	exonerate:protein2genome:local	similarity	154	1348	782	+	.	alignment_id 1 ; Query Crataegus-remotilobata_S1 ; Align 154 1 228 ; Align 520 77 111 ; Align 722 115 57 ; Align 1271 135 78

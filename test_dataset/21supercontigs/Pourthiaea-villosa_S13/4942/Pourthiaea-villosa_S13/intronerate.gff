@@ -1,0 +1,24 @@
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	gene	96	1386	711	+	.	gene_id 1 ; sequence Pourthiaea-villosa_S13 ; gene_orientation +
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	cds	96	173	.	+	.
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	exon	96	173	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	splice5	174	175	.	+	.	intron_id 1 ; splice_site "GT"
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	intron	174	311	.	+	.	intron_id 1
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	splice3	310	311	.	+	.	intron_id 0 ; splice_site "AG"
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	cds	312	366	.	+	.
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	exon	312	366	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	splice5	367	368	.	+	.	intron_id 2 ; splice_site "GT"
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	intron	367	470	.	+	.	intron_id 2
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	splice3	469	470	.	+	.	intron_id 1 ; splice_site "GT"
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	cds	471	585	.	+	.
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	exon	471	585	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	splice5	586	587	.	+	.	intron_id 3 ; splice_site "GT"
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	intron	586	730	.	+	.	intron_id 3
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	splice3	729	730	.	+	.	intron_id 2 ; splice_site "AG"
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	cds	731	891	.	+	.
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	exon	731	891	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	splice5	892	893	.	+	.	intron_id 4 ; splice_site "TG"
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	intron	892	1312	.	+	.	intron_id 4
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	splice3	1311	1312	.	+	.	intron_id 3 ; splice_site "AG"
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	cds	1313	1386	.	+	.
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	exon	1313	1386	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4942	exonerate:protein2genome:local	similarity	96	1386	711	+	.	alignment_id 1 ; Query Pourthiaea-villosa_S13 ; Align 96 1 78 ; Align 312 27 54 ; Align 473 46 111 ; Align 732 84 159 ; Align 1315 138 72

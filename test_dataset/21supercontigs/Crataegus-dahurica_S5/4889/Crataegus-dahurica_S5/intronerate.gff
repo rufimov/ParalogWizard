@@ -1,0 +1,19 @@
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	gene	155	1397	756	+	.	gene_id 1 ; sequence Crataegus-dahurica_S5 ; gene_orientation +
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	cds	155	210	.	+	.
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	exon	155	210	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	splice5	211	212	.	+	.	intron_id 1 ; splice_site "GA"
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	intron	211	299	.	+	.	intron_id 1
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	splice3	298	299	.	+	.	intron_id 0 ; splice_site "CG"
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	cds	300	449	.	+	.
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	exon	300	449	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	splice5	450	451	.	+	.	intron_id 2 ; splice_site "AT"
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	intron	450	902	.	+	.	intron_id 2
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	splice3	901	902	.	+	.	intron_id 1 ; splice_site "AG"
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	cds	903	1023	.	+	.
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	exon	903	1023	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	splice5	1024	1025	.	+	.	intron_id 3 ; splice_site "GT"
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	intron	1024	1242	.	+	.	intron_id 3
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	splice3	1241	1242	.	+	.	intron_id 2 ; splice_site "AG"
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	cds	1245	1397	.	+	.
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	exon	1245	1397	.	+	.	insertions 0 ; deletions 0
+Crataegus-dahurica_S5-4889	exonerate:protein2genome:local	similarity	155	1397	756	+	.	alignment_id 1 ; Query Crataegus-dahurica_S5 ; Align 155 1 54 ; Align 301 20 147 ; Align 904 70 120 ; Align 1245 110 153

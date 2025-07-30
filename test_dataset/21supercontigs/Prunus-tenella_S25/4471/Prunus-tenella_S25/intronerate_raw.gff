@@ -1,0 +1,47 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	gene	191	2339	995	+	.	gene_id 1 ; sequence Prunus-tenella_S25 ; gene_orientation +
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	cds	191	245	.	+	.	
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	exon	191	245	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	splice5	246	247	.	+	.	intron_id 1 ; splice_site "GG"
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	intron	246	574	.	+	.	intron_id 1
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	splice3	573	574	.	+	.	intron_id 0 ; splice_site "AG"
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	cds	575	693	.	+	.	
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	exon	575	693	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	splice5	694	695	.	+	.	intron_id 2 ; splice_site "GT"
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	intron	694	943	.	+	.	intron_id 2
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	splice3	942	943	.	+	.	intron_id 1 ; splice_site "AG"
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	cds	944	1039	.	+	.	
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	exon	944	1039	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	splice5	1040	1041	.	+	.	intron_id 3 ; splice_site "GT"
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	intron	1040	1140	.	+	.	intron_id 3
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	splice3	1139	1140	.	+	.	intron_id 2 ; splice_site "AG"
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	cds	1141	1250	.	+	.	
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	exon	1141	1250	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	splice5	1251	1252	.	+	.	intron_id 4 ; splice_site "GT"
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	intron	1251	1437	.	+	.	intron_id 4
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	splice3	1436	1437	.	+	.	intron_id 3 ; splice_site "AC"
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	cds	1438	1514	.	+	.	
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	exon	1438	1514	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	splice5	1515	1516	.	+	.	intron_id 5 ; splice_site "GT"
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	intron	1515	1814	.	+	.	intron_id 5
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	splice3	1813	1814	.	+	.	intron_id 4 ; splice_site "AG"
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	cds	1815	1910	.	+	.	
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	exon	1815	1910	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	splice5	1911	1912	.	+	.	intron_id 6 ; splice_site "GA"
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	intron	1911	2232	.	+	.	intron_id 6
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	splice3	2231	2232	.	+	.	intron_id 5 ; splice_site "AG"
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	cds	2233	2339	.	+	.	
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	exon	2233	2339	.	+	.	insertions 0 ; deletions 0
+Prunus-tenella_S25-4471	exonerate:protein2genome:local	similarity	191	2339	995	+	.	alignment_id 1 ; Query Prunus-tenella_S25 ; Align 191 1 54 ; Align 577 20 117 ; Align 944 59 96 ; Align 1141 91 108 ; Align 1439 128 75 ; Align 1817 154 93 ; Align 2235 186 105
+# --- END OF GFF DUMP ---
+#

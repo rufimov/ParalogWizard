@@ -1,0 +1,32 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	gene	411	2893	836	+	.	gene_id 1 ; sequence Sorbus-aucuparia_S16 ; gene_orientation +
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	cds	411	572	.	+	.	
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	exon	411	572	.	+	.	insertions 0 ; deletions 0
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	splice5	573	574	.	+	.	intron_id 1 ; splice_site "GT"
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	intron	573	1357	.	+	.	intron_id 1
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	splice3	1356	1357	.	+	.	intron_id 0 ; splice_site "GA"
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	cds	1358	1531	.	+	.	
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	exon	1358	1531	.	+	.	insertions 0 ; deletions 0
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	splice5	1532	1533	.	+	.	intron_id 2 ; splice_site "GT"
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	intron	1532	2565	.	+	.	intron_id 2
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	splice3	2564	2565	.	+	.	intron_id 1 ; splice_site "GG"
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	cds	2566	2668	.	+	.	
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	exon	2566	2668	.	+	.	insertions 0 ; deletions 0
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	splice5	2669	2670	.	+	.	intron_id 3 ; splice_site "GT"
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	intron	2669	2783	.	+	.	intron_id 3
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	splice3	2782	2783	.	+	.	intron_id 2 ; splice_site "AG"
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	cds	2784	2893	.	+	.	
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	exon	2784	2893	.	+	.	insertions 0 ; deletions 0
+Sorbus-aucuparia_S16-4757	exonerate:protein2genome:local	similarity	411	2893	836	+	.	alignment_id 1 ; Query Sorbus-aucuparia_S16 ; Align 411 1 162 ; Align 1358 55 174 ; Align 2566 113 102 ; Align 2786 148 108
+# --- END OF GFF DUMP ---
+#

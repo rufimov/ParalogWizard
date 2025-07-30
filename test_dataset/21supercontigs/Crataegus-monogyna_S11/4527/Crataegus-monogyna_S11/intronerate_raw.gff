@@ -1,0 +1,22 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Crataegus-monogyna_S11-4527	exonerate:protein2genome:local	gene	585	1406	981	+	.	gene_id 1 ; sequence Crataegus-monogyna_S11 ; gene_orientation +
+Crataegus-monogyna_S11-4527	exonerate:protein2genome:local	cds	585	1126	.	+	.	
+Crataegus-monogyna_S11-4527	exonerate:protein2genome:local	exon	585	1126	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4527	exonerate:protein2genome:local	splice5	1127	1128	.	+	.	intron_id 1 ; splice_site "AT"
+Crataegus-monogyna_S11-4527	exonerate:protein2genome:local	intron	1127	1354	.	+	.	intron_id 1
+Crataegus-monogyna_S11-4527	exonerate:protein2genome:local	splice3	1353	1354	.	+	.	intron_id 0 ; splice_site "AG"
+Crataegus-monogyna_S11-4527	exonerate:protein2genome:local	cds	1355	1406	.	+	.	
+Crataegus-monogyna_S11-4527	exonerate:protein2genome:local	exon	1355	1406	.	+	.	insertions 0 ; deletions 0
+Crataegus-monogyna_S11-4527	exonerate:protein2genome:local	similarity	585	1406	981	+	.	alignment_id 1 ; Query Crataegus-monogyna_S11 ; Align 585 1 540 ; Align 1356 182 51
+# --- END OF GFF DUMP ---
+#

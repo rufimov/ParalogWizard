@@ -1,0 +1,47 @@
+# --- START OF GFF DUMP ---
+#
+#
+##gff-version 2
+##source-version exonerate:protein2genome:local 2.2.0
+##date 2022-07-14
+##type DNA
+#
+#
+# seqname source feature start end score strand frame attributes
+#
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	gene	276	2167	822	+	.	gene_id 1 ; sequence Pourthiaea-villosa_S13 ; gene_orientation +
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	cds	276	330	.	+	.	
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	exon	276	330	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	splice5	331	332	.	+	.	intron_id 1 ; splice_site "GT"
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	intron	331	728	.	+	.	intron_id 1
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	splice3	727	728	.	+	.	intron_id 0 ; splice_site "AG"
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	cds	729	764	.	+	.	
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	exon	729	764	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	splice5	765	766	.	+	.	intron_id 2 ; splice_site "GT"
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	intron	765	923	.	+	.	intron_id 2
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	splice3	922	923	.	+	.	intron_id 1 ; splice_site "AT"
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	cds	924	1000	.	+	.	
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	exon	924	1000	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	splice5	1001	1002	.	+	.	intron_id 3 ; splice_site "GT"
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	intron	1001	1153	.	+	.	intron_id 3
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	splice3	1152	1153	.	+	.	intron_id 2 ; splice_site "AG"
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	cds	1154	1208	.	+	.	
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	exon	1154	1208	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	splice5	1209	1210	.	+	.	intron_id 4 ; splice_site "GT"
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	intron	1209	1301	.	+	.	intron_id 4
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	splice3	1300	1301	.	+	.	intron_id 3 ; splice_site "GT"
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	cds	1302	1416	.	+	.	
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	exon	1302	1416	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	splice5	1417	1418	.	+	.	intron_id 5 ; splice_site "GT"
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	intron	1417	1557	.	+	.	intron_id 5
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	splice3	1556	1557	.	+	.	intron_id 4 ; splice_site "AG"
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	cds	1558	1718	.	+	.	
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	exon	1558	1718	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	splice5	1719	1720	.	+	.	intron_id 6 ; splice_site "TG"
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	intron	1719	2093	.	+	.	intron_id 6
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	splice3	2092	2093	.	+	.	intron_id 5 ; splice_site "AG"
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	cds	2094	2167	.	+	.	
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	exon	2094	2167	.	+	.	insertions 0 ; deletions 0
+Pourthiaea-villosa_S13-4942para	exonerate:protein2genome:local	similarity	276	2167	822	+	.	alignment_id 1 ; Query Pourthiaea-villosa_S13 ; Align 276 1 54 ; Align 731 20 33 ; Align 926 32 75 ; Align 1154 57 54 ; Align 1304 76 111 ; Align 1559 114 159 ; Align 2096 168 72
+# --- END OF GFF DUMP ---
+#
