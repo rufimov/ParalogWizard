@@ -1,36 +1,16 @@
+import logging
 import multiprocessing
 import os
 import sys
 from typing import List
 import pandas as pd
-from ParalogWizard import setup_logging, worker_initializer
+from ParalogWizard import worker_initializer, log_exceptions
 
-# -----------------------------------------------------------------------------
-# Module-level logger configured once.
-# -----------------------------------------------------------------------------
-logger = setup_logging()
+# Get logger by name (will be configured by ParalogWizard.py)
+logger = logging.getLogger("ParalogWizard")
 
 
-# =============================================================================
-# Logging Decorator
-# =============================================================================
-def log_exceptions(func):
-    """
-    Decorator that logs function entry, exit, and any exceptions.
-    Exits with code 1 upon an exception.
-    """
-    from functools import wraps
-
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        try:
-            result = func(*args, **kwargs)
-            return result
-        except Exception as e:
-            logger.exception(f"Exception in {func.__name__}: {e}")
-            sys.exit(1)
-
-    return wrapper
+# Using unified log_exceptions decorator from ParalogWizard.__init__
 
 
 @log_exceptions

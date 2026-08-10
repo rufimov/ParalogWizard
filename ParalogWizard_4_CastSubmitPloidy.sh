@@ -1,9 +1,10 @@
 #!/bin/bash
-#PBS -l walltime=24:0:0
-#PBS -l select=1:ncpus=12:mem=16gb:scratch_local=10gb
+#PBS -l walltime=48:0:0
+#PBS -l select=1:ncpus=12:mem=128gb:scratch_local=1Tb
 #PBS -N ParalogWizard-Ploidy
 #PBS -m abe
 #PBS -j oe
+
 
 # Clean-up of SCRATCH
 trap 'clean_scratch' TERM EXIT
@@ -21,11 +22,14 @@ cpu=$TORQUE_RESC_PROC
 
 
 #Add necessary modules
-module add python-3.6.2-gcc
-module add python36-modules-gcc
-module add bwa-0.7.17 || exit 1 # bwa
-module add mafft-7.453
-module add samtools-1.10 || exit 1 # samtools
+module unload python
+module add python/3.7.7-intel-19.0.4-mgiwa7z
+export PYTHONUSERBASE=/storage/${server}/home/${LOGNAME}/python37
+export PATH=$PYTHONUSERBASE/bin:$PATH
+export PYTHONPATH=$PYTHONUSERBASE/lib/python3.7/site-packages:$PYTHONPATH
+module add bwa
+module add mafft
+module add samtools
 
 
 #Copy data to scratch
@@ -39,6 +43,8 @@ cp "${source}"/ParalogWizard.py .
 cp -r "${source}"/ParalogWizard .
 cp -r "${source}"/nQuire .
 chmod +x nQuire
+
+PATH="$(pwd):$PATH"
 
 python3 ParalogWizard.py cast_ploidy -d "${data}" -pc "${customized_probes}"  -nc "${cpu}" -e 300
 

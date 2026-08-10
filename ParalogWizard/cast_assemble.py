@@ -3,489 +3,575 @@
 Module for ParalogWizard cast_assemble command.
 
 This command conducts a BWA search against a bait file, distributes the reads,
-and runs SPAdes assembly. This version uses multiprocessing (parallel run only)
-to run SPAdes. It uses Pool as a context manager and passes a worker initializer
-and a log_queue.
+and runs SPAdes assembly.  Parallel SPAdes runs use multiprocessing.Pool.
 """
 
-import errno
-import os
-import sys
-import subprocess
-import shutil
-from contextlib import contextmanager
-from functools import partial, wraps
+from __future__ import annotations
+
+import logging
 import multiprocessing
+import os
+import shutil
+import subprocess
+from contextlib import contextmanager
+from functools import wraps
+from typing import List
 
-from ParalogWizard import setup_logging, worker_initializer
+from ParalogWizard import worker_initializer, log_exceptions
 
-# -----------------------------------------------------------------------------
-# Module-level logger configured once.
-# -----------------------------------------------------------------------------
-logger = setup_logging()
+# Get logger by name (will be configured by ParalogWizard.py)
+logger = logging.getLogger("ParalogWizard")
 
+try:
+    from Bio.SeqIO.QualityIO import FastqGeneralIterator
+except ImportError:
+    import logging
+    logging.error("BioPython not found. Please install BioPython: pip install biopython")
+    raise
 
-# =============================================================================
-# Logging Decorator
-# =============================================================================
-def log_exceptions(func):
-    """
-    Decorator that logs function entry, exit, and any exceptions.
-    Exits with code 1 upon an exception.
-    """
-    from functools import wraps
-
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        # logger.debug(f"Entering {func.__name__}")
-        try:
-            result = func(*args, **kwargs)
-            # logger.debug(f"Exiting {func.__name__}")
-            return result
-        except Exception as e:
-            logger.exception(f"Exception in {func.__name__}: {e}")
-            sys.exit(1)
-
-    return wrapper
+# --------------------------------------------------------------------------- #
+#  Helpers (using unified log_exceptions from ParalogWizard.__init__)        #
+# --------------------------------------------------------------------------- #
 
 
-# =============================================================================
-# Context Manager and Utilities
-# =============================================================================
 @contextmanager
-def change_dir(destination: str):
-    """Temporarily change the working directory to 'destination'."""
-    old_dir = os.getcwd()
-    os.chdir(destination)
+def change_dir(dest: str):
+    old = os.getcwd()
+    os.chdir(dest)
     try:
         yield
     finally:
-        os.chdir(old_dir)
+        os.chdir(old)
 
 
+# --------------------------------------------------------------------------- #
+#  Read distribution helpers                                                  #
+# --------------------------------------------------------------------------- #
 @log_exceptions
-def mkdir_p(path: str) -> None:
-    """Create a directory (and all intermediate directories) like 'mkdir -p'."""
-    try:
-        os.makedirs(path, exist_ok=True)
-    except Exception as exc:
-        logger.error("Error creating directory '%s': %s", path, exc)
-        raise
-
-
-# -----------------------------------------------------------------------------
-# BAM Parsing & Read Distribution
-# -----------------------------------------------------------------------------
-@log_exceptions
-def distribute_reads_bwa(bamfilename: str, readfiles: list) -> None:
+def distribute_reads_bwa(bamfilename: str, readfiles: list[str]) -> None:
     """
-    Run samtools on the BAM file to map read IDs to target names, then distribute
-    paired reads from two FASTQ files accordingly.
+    Distribute reads from BAM file to target directories based on BWA alignments.
+    Creates interleaved FASTA files for each target gene.
     """
-    samtools_cmd = f"samtools view -F 4 {bamfilename}"
+    if not os.path.exists(bamfilename):
+        logger.error("BAM file %s does not exist", bamfilename)
+        raise FileNotFoundError(f"BAM file {bamfilename} does not exist")
+    
+    for readfile in readfiles:
+        if not os.path.exists(readfile):
+            logger.error("Read file %s does not exist", readfile)
+            raise FileNotFoundError(f"Read file {readfile} does not exist")
+
+    logger.info("Parsing BAM file %s to extract read mappings", bamfilename)
+    samtools_cmd = ["samtools", "view", "-F", "4", bamfilename]
     try:
         result = subprocess.run(
-            samtools_cmd, shell=True, capture_output=True, text=True, check=True
+            samtools_cmd, capture_output=True, text=True, check=True
         )
     except subprocess.CalledProcessError as e:
-        logger.error("samtools command failed: %s", e)
-        sys.exit(1)
-    bwa_results = result.stdout.splitlines()
+        logger.error("samtools command failed for %s: %s", bamfilename, e.stderr)
+        raise
+
     read_hit_dict = {}
-    for line in bwa_results:
+    for line in result.stdout.splitlines():
         fields = line.split()
         if len(fields) < 3:
             logger.warning("Unexpected samtools output line: %s", line)
             continue
         read_id = fields[0]
         target = fields[2].split("-")[-1]
-        read_hit_dict.setdefault(read_id, [])
-        if target not in read_hit_dict[read_id]:
-            read_hit_dict[read_id].append(target)
+        read_hit_dict.setdefault(read_id, []).append(target)
+
+    logger.info("Found %d unique reads with hits", len(read_hit_dict))
+
+    logger.info("Processing paired read files: %s, %s", readfiles[0], readfiles[1])
     try:
-        f1 = open(readfiles[0])
-        f2 = open(readfiles[1])
+        with open(readfiles[0]) as f1, open(readfiles[1]) as f2:
+            iterator1 = FastqGeneralIterator(f1)
+            iterator2 = FastqGeneralIterator(f2)
+
+            reads_written = 0
+            for id1_long, seq1, _ in iterator1:
+                try:
+                    id2_long, seq2, _ = next(iterator2)
+                except StopIteration:
+                    logger.error("Paired read file %s ended prematurely", readfiles[1])
+                    raise ValueError("Paired read file ended prematurely")
+
+                def _strip(x: str) -> str:
+                    x = x.split()[0]
+                    return x[:-2] if x.endswith(("/1", "/2")) else x
+
+                id1 = _strip(id1_long)
+                id2 = _strip(id2_long)
+
+                chosen = read_hit_dict.get(id1) or read_hit_dict.get(id2)
+                if not chosen:
+                    continue
+
+                for target in chosen:
+                    os.makedirs(target, exist_ok=True)
+                    out_path = os.path.join(target, f"{target}_interleaved.fasta")
+                    try:
+                        with open(out_path, "a") as out:
+                            out.write(f">{id1}\n{seq1}\n>{id2}\n{seq2}\n")
+                    except Exception as e:
+                        logger.error("Error writing paired sequences to %s: %s", out_path, e)
+                        raise
+
+                reads_written += 1
+                if reads_written % 1000 == 0:
+                    logger.debug("Processed %d read pairs", reads_written)
+
     except Exception as e:
-        logger.error("Error opening read files: %s", e)
-        sys.exit(1)
-    from Bio.SeqIO.QualityIO import FastqGeneralIterator
+        logger.error("Error processing read files %s, %s: %s", readfiles[0], readfiles[1], e)
+        raise
 
-    iterator1 = FastqGeneralIterator(f1)
-    iterator2 = FastqGeneralIterator(f2)
-    reads_written = 0
-    total_reads = len(read_hit_dict)
-    logger.info("Starting read distribution for %d unique reads.", total_reads)
-    progress_logged = set()
-    for id1_long, seq1, _ in iterator1:
-        try:
-            id2_long, seq2, _ = next(iterator2)
-        except StopIteration:
-            logger.error("Paired read file ended prematurely.")
-            break
-        id1 = id1_long.split()[0]
-        if id1.endswith("/1") or id1.endswith("/2"):
-            id1 = id1[:-2]
-        id2 = id2_long.split()[0]
-        if id2.endswith("/1") or id2.endswith("/2"):
-            id2 = id2[:-2]
-        if id1 in read_hit_dict:
-            for target in read_hit_dict[id1]:
-                # Write paired sequences to target's interleaved FASTA file.
-                mkdir_p(target)
-                out_path = os.path.join(target, f"{target}_interleaved.fasta")
-                try:
-                    with open(out_path, "a") as outfile:
-                        outfile.write(f">{id1}\n{seq1}\n")
-                        outfile.write(f">{id2}\n{seq2}\n")
-                except Exception as e:
-                    logger.error(
-                        "Error writing paired sequences to %s: %s", out_path, e
-                    )
-                    sys.exit(1)
-            reads_written += 1
-        elif id2 in read_hit_dict:
-            for target in read_hit_dict[id2]:
-                mkdir_p(target)
-                out_path = os.path.join(target, f"{target}_interleaved.fasta")
-                try:
-                    with open(out_path, "a") as outfile:
-                        outfile.write(f">{id1}\n{seq1}\n")
-                        outfile.write(f">{id2}\n{seq2}\n")
-                except Exception as e:
-                    logger.error(
-                        "Error writing paired sequences to %s: %s", out_path, e
-                    )
-                    sys.exit(1)
-            reads_written += 1
-        progress = int(((reads_written + 1) / total_reads) * 100)
-        if progress % 5 == 0 and progress not in progress_logged:
-            logger.info("Distribution progress: %d%%", progress)
-            progress_logged.add(progress)
-    f1.close()
-    f2.close()
-    logger.info(
-        "Read distribution completed. Total reads distributed: %d", reads_written
-    )
+    logger.info("Read distribution completed. Processed %d read pairs", reads_written)
 
 
-# =============================================================================
-# BWA and SPAdes Functions
-# =============================================================================
+
+# --------------------------------------------------------------------------- #
+#  BWA                                                                        #
+# --------------------------------------------------------------------------- #
 @log_exceptions
-def bwa(readfiles: list, baitfile: str, basename: str, cpu: int) -> str:
+def bwa(readfiles: List[str], baitfile: str, basename: str, cpu: int) -> str:
     """
-    Conduct a BWA search of reads against the baitfile.
-    Returns the path to the resulting BAM file on success, or an empty string on error.
+    Conduct BWA search of reads against the baitfile.
+    Creates a BWA index if needed, then runs BWA mem to create a BAM file.
     """
-    dna = set("ATCGN")
     if not os.path.isfile(baitfile):
-        logger.error("Baitfile '%s' not found.", baitfile)
-        return ""
-    try:
-        with open(baitfile) as bf:
-            _ = bf.readline()  # header
-            seqline = bf.readline().rstrip().upper()
-    except Exception as e:
-        logger.error("Error reading baitfile '%s': %s", baitfile, e)
-        return ""
-    if set(seqline) - dna:
-        logger.error(
-            "Baitfile '%s' contains invalid characters. Only ACTGN allowed.", baitfile
-        )
-        return ""
+        logger.error("Baitfile '%s' not found", baitfile)
+        raise FileNotFoundError(f"Baitfile '{baitfile}' not found")
+
+    for readfile in readfiles:
+        if not os.path.exists(readfile):
+            logger.error("Read file %s does not exist", readfile)
+            raise FileNotFoundError(f"Read file {readfile} does not exist")
+
+    # Check for BWA index files
     baitfile_dir = os.path.dirname(baitfile)
     index_file = os.path.join(baitfile_dir, os.path.basename(baitfile) + ".amb")
-    if os.path.isfile(index_file):
-        db_file = baitfile
-    else:
-        logger.info("Making nucleotide BWA index in current directory.")
+    
+    if not os.path.isfile(index_file):
+        logger.info("Creating BWA index for %s", baitfile)
         if baitfile_dir and os.path.realpath(baitfile_dir) != os.path.realpath("."):
-            try:
-                shutil.copy(baitfile, ".")
-            except Exception as e:
-                logger.error("Error copying baitfile: %s", e)
-                return ""
-        db_file = os.path.basename(baitfile)
-        make_bwa_index_cmd = f"bwa index {db_file}"
-        logger.info("[CMD]: %s", make_bwa_index_cmd)
-        exitcode = subprocess.call(make_bwa_index_cmd, shell=True)
-        if exitcode:
-            logger.error("BWA index creation failed with exit code %d", exitcode)
-            return ""
+            shutil.copy(baitfile, ".")
+            baitfile = os.path.basename(baitfile)
+        
+        bwa_index_cmd = ["bwa", "index", baitfile]
+        logger.info("Running BWA index command: %s", " ".join(bwa_index_cmd))
+        try:
+            subprocess.run(bwa_index_cmd, capture_output=True, text=True, check=True)
+        except subprocess.CalledProcessError as e:
+            logger.error("BWA index creation failed for %s: %s", baitfile, e.stderr)
+            raise
+        logger.info("BWA index created successfully for %s", baitfile)
+
     if not cpu:
-        try:
-            cpu = multiprocessing.cpu_count()
-        except Exception as e:
-            logger.error("Error determining CPU count: %s", e)
-            return ""
-    bwa_fastq = " ".join(readfiles)
-    bwa_cmd = (
-        f"time bwa mem -t {cpu} {db_file} {bwa_fastq} | "
-        f"samtools view -h -b -S > {basename}.bam"
-    )
-    logger.info("[CMD]: %s", bwa_cmd)
-    exitcode = subprocess.call(bwa_cmd, shell=True)
-    if exitcode:
-        logger.error("BWA command failed with exit code %d", exitcode)
-        return ""
-    return f"{basename}.bam"
+        cpu = multiprocessing.cpu_count()
 
-
-@log_exceptions
-def distribute_bwa(bamfile: str, readfiles: list) -> int:
-    """
-    Distribute reads from the given BAM file to target directories.
-    Returns 0 on success or 1 on error.
-    """
+    output_bam = f"{basename}.bam"
+    logger.info("Running BWA mem with %d threads for %d read files", cpu, len(readfiles))
+    
+    # Build BWA mem command
+    bwa_mem_cmd = ["bwa", "mem", "-t", str(cpu), baitfile] + readfiles
+    samtools_cmd = ["samtools", "view", "-h", "-b", "-S"]
+    
+    logger.info("BWA mem command: %s", " ".join(bwa_mem_cmd))
+    logger.info("Samtools command: %s", " ".join(samtools_cmd))
+    
     try:
-        distribute_reads_bwa(bamfile, readfiles)
+        # Run BWA mem and pipe to samtools
+        with open(output_bam, "wb") as bam_out:
+            bwa_process = subprocess.Popen(
+                bwa_mem_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=False
+            )
+            samtools_process = subprocess.Popen(
+                samtools_cmd, stdin=bwa_process.stdout, stdout=bam_out, 
+                stderr=subprocess.PIPE, text=False
+            )
+            bwa_process.stdout.close()  # Allow bwa_process to receive a SIGPIPE if samtools_process exits
+            
+            # Wait for both processes to complete
+            bwa_stderr = bwa_process.communicate()[1]
+            samtools_stderr = samtools_process.communicate()[1]
+            
+            if bwa_process.returncode != 0:
+                logger.error("BWA mem failed: %s", bwa_stderr.decode())
+                raise subprocess.CalledProcessError(bwa_process.returncode, bwa_mem_cmd)
+            
+            if samtools_process.returncode != 0:
+                logger.error("Samtools view failed: %s", samtools_stderr.decode())
+                raise subprocess.CalledProcessError(samtools_process.returncode, samtools_cmd)
+                
     except Exception as e:
-        logger.error("Error distributing reads to gene directories: %s", e)
-        return 1
-    return 0
+        logger.error("BWA mapping failed for %s: %s", basename, e)
+        raise
+
+    if not os.path.exists(output_bam) or os.path.getsize(output_bam) == 0:
+        logger.error("Output BAM file %s was not created or is empty", output_bam)
+        raise RuntimeError(f"Output BAM file {output_bam} was not created or is empty")
+
+    logger.info("BWA mapping completed successfully. Output: %s", output_bam)
+    return output_bam
 
 
-# -----------------------------------------------------------------------------
-# SPAdes Assembly Functions
-# -----------------------------------------------------------------------------
+# --------------------------------------------------------------------------- #
+#  SPAdes helpers                                                             #
+# --------------------------------------------------------------------------- #
 @log_exceptions
-def run_spades_for_gene(gene: str) -> tuple:
+def run_spades_for_gene(gene: str) -> None:
     """
-    Build and run the SPAdes command for a single gene.
-    Returns a tuple (gene, True) on success and (gene, False) on failure.
+    Run SPAdes assembly for a single gene.
+    Returns gene name (success/failure determined later by checking output files).
     """
-    cmd = (
-        f"spades.py --only-assembler --threads 1 --12 {gene}/{gene}_interleaved.fasta "
-        f"-o {gene}/{gene}_spades > spades.log"
-    )
-    logger.info("Running SPAdes for gene %s with command: %s", gene, cmd)
-    exitcode = subprocess.call(cmd, shell=True)
-    if exitcode:
-        logger.error(
-            "SPAdes assembly for gene %s failed with exit code %d", gene, exitcode
+    input_file = os.path.join(gene, f"{gene}_interleaved.fasta")
+    output_dir = os.path.join(gene, f"{gene}_spades")
+    
+    if not os.path.exists(input_file):
+        logger.error("Input file %s does not exist for SPAdes assembly", input_file)
+    
+    cmd = [
+        "spades.py", "--only-assembler", "--threads", "1", 
+        "--12", input_file, "-o", output_dir
+    ]
+    
+    logger.debug("Running SPAdes for gene %s: %s", gene, " ".join(cmd))
+    try:
+        subprocess.run(
+            cmd, capture_output=True, text=True, check=True
         )
-        return gene, False
-    return gene, True
+        logger.debug("SPAdes subprocess completed for gene %s", gene)
+            
+    except subprocess.CalledProcessError as e:
+        logger.error("SPAdes assembly failed for gene %s: %s", gene, e.stderr)
+    except Exception as e:
+        logger.error("Unexpected error during SPAdes assembly for gene %s: %s", gene, e)
+    
 
 
 @log_exceptions
-def spades_initial(genelist: str, cpu: int, log_queue) -> list:
+def run_spades_redo_for_gene(gene: str) -> str:
     """
-    Run SPAdes on each gene in parallel using multiprocessing.
-    Returns a list of genes that failed assembly.
+    Run SPAdes redo assembly for a single gene with reduced k-mer set.
+    Returns gene name (success/failure determined later by checking output files).
     """
-    if os.path.isfile("spades.log"):
-        try:
-            os.remove("spades.log")
-        except Exception as e:
-            logger.error("Error removing spades.log: %s", e)
+    sp_dir = os.path.join(gene, f"{gene}_spades")
+    
+    # Get available kmers from previous run
     try:
-        with open(genelist) as f:
-            genes = [line.rstrip() for line in f if line.strip()]
+        kmers = sorted(int(x[1:]) for x in os.listdir(sp_dir) if x.startswith("K"))
     except Exception as e:
-        logger.error("Error reading genelist file '%s': %s", genelist, e)
-        sys.exit(1)
-    with multiprocessing.Pool(
+        logger.error("Cannot read k-mer directories for gene %s: %s", gene, e)
+        return gene
+    
+    if len(kmers) < 2:
+        logger.error("Not enough k-mers for redo on gene %s", gene)
+        return gene
+    
+    # Build redo command with reduced k-mer set
+    redo_kmers = ",".join(map(str, kmers[:-1]))
+    restart_k = f"k{kmers[-2]}"
+    
+    cmd = [
+        "spades.py", "--restart-from", restart_k, 
+        "-k", redo_kmers, "-o", sp_dir
+    ]
+    
+    logger.debug("Running SPAdes redo for gene %s: %s", gene, " ".join(cmd))
+    try:
+        subprocess.run(
+            cmd, capture_output=True, text=True, check=True
+        )
+        logger.debug("SPAdes redo subprocess completed for gene %s", gene)
+    except subprocess.CalledProcessError as e:
+        logger.error("SPAdes redo failed for gene %s: %s", gene, e.stderr)
+    except Exception as e:
+        logger.error("Unexpected error during SPAdes redo for gene %s: %s", gene, e)
+    
+    return gene
+
+
+@log_exceptions
+def spades_initial(genelist: str, cpu: int, log_queue) -> List[str]:
+    """
+    Run initial SPAdes assembly on all genes using multiprocessing.
+    Returns list of genes that failed assembly.
+    """
+    if not os.path.exists(genelist):
+        logger.error("Gene list file %s does not exist", genelist)
+        raise FileNotFoundError(f"Gene list file {genelist} does not exist")
+    
+    # Read gene list
+    with open(genelist) as fh:
+        genes = [ln.strip() for ln in fh if ln.strip()]
+    
+    logger.info("Starting SPAdes assembly for %d genes using %d processes", len(genes), cpu)
+    
+    pool = None
+    try:
+        pool = multiprocessing.Pool(
         processes=cpu, initializer=worker_initializer, initargs=(log_queue,)
-    ) as pool:
-        results = pool.map(run_spades_for_gene, genes)
-    spades_failed = [gene for gene, success in results if not success]
-    for gene in genes:
-        gene_failed = False
-        contigs_path = os.path.join(gene, f"{gene}_spades", "contigs.fasta")
-        if os.path.isfile(contigs_path):
-            try:
-                contig_file_size = os.stat(contigs_path).st_size
-            except Exception as e:
-                logger.error("Error getting file size for %s: %s", contigs_path, e)
-                contig_file_size = 0
-            if contig_file_size > 0:
-                dest = os.path.join(gene, f"{gene}_contigs.fasta")
-                try:
-                    shutil.copy(contigs_path, dest)
-                except Exception as e:
-                    logger.error("Error copying contigs for gene %s: %s", gene, e)
-                    gene_failed = True
-            else:
-                gene_failed = True
-        else:
-            gene_failed = True
-        if gene_failed and gene not in spades_failed:
-            logger.error("SPAdes assembly failed for gene: %s", gene)
-            spades_failed.append(gene)
+        )
+        
+        # Use map_async for better error handling
+        async_result = pool.map_async(run_spades_for_gene, genes)
+        async_result.get()  # Wait for completion without timeout
+        
+        logger.info("SPAdes subprocess calls completed, checking results...")
+            
+    except Exception as e:
+        logger.error("Error during SPAdes initial run: %s", e)
+        raise
+    finally:
+        if pool:
+            pool.close()
+            pool.join()
+    
+    # Check results following HybPiper logic: examine actual output files
+    spades_successful, spades_failed = _check_and_copy_contigs(genes)
+    
+    logger.info("SPAdes initial results: %d successful, %d failed", 
+               len(spades_successful), len(spades_failed))
+    
+    if spades_failed:
+        logger.warning("Failed genes: %s", ", ".join(spades_failed))
+    
     return spades_failed
 
 
 @log_exceptions
-def rerun_spades(genelist: str, cpu: int, log_queue) -> tuple:
+def rerun_spades(genelist: str, cpu: int, log_queue):
     """
-    Attempt to re-run SPAdes on the failed genes using alternative k-mer values.
-    Returns a tuple: (spades_failed, spades_duds).
+    Rerun failed SPAdes assemblies with reduced k-mer sets.
+    Returns tuple of (still_failed_genes, dud_genes).
     """
+    if not os.path.exists(genelist):
+        logger.error("Failed genes list file %s does not exist", genelist)
+        raise FileNotFoundError(f"Failed genes list file {genelist} does not exist")
+    
+    # Read gene list
+    with open(genelist) as fh:
+        genes = [ln.strip() for ln in fh if ln.strip()]
+    
+    logger.info("Preparing to rerun SPAdes for %d failed genes", len(genes))
+    
+    # Filter genes that can be redone (have enough k-mers)
+    redo_genes = []
+    spades_failed_initial = []
+    
+    for gene in genes:
+        sp_dir = os.path.join(gene, f"{gene}_spades")
+        try:
+            kmers = sorted(int(x[1:]) for x in os.listdir(sp_dir) if x.startswith("K"))
+            if len(kmers) >= 2:
+                redo_genes.append(gene)
+            else:
+                spades_failed_initial.append(gene)
+        except Exception:
+            spades_failed_initial.append(gene)
+    
+    logger.info("Can redo %d genes, %d genes failed initially", len(redo_genes), len(spades_failed_initial))
+    
+    if not redo_genes:
+        logger.warning("No genes can be redone - all genes failed initially")
+        # Write failed genes list
+        with open("spades_failed_final.txt", "w") as fh:
+            fh.write("\n".join(spades_failed_initial))
+        return genes, spades_failed_initial
+    
+    pool = None
     try:
-        with open(genelist) as f:
-            genes = [line.rstrip() for line in f if line.strip()]
-    except Exception as e:
-        logger.error("Error reading genelist file '%s': %s", genelist, e)
-        sys.exit(1)
-    spades_duds = []
-    genes_redos = []
-    redo_commands = []
-    try:
-        with open("redo_spades_commands.txt", "w") as redo_cmds_file:
-            for gene in genes:
-                spades_dir = os.path.join(gene, f"{gene}_spades")
-                try:
-                    kmers = [
-                        int(x[1:]) for x in os.listdir(spades_dir) if x.startswith("K")
-                    ]
-                except Exception as e:
-                    logger.error("Error listing kmers in %s: %s", spades_dir, e)
-                    spades_duds.append(gene)
-                    continue
-                kmers.sort()
-                if len(kmers) < 2:
-                    logger.warning("All kmers failed for gene %s!", gene)
-                    spades_duds.append(gene)
-                    continue
-                genes_redos.append(gene)
-                redo_kmers = [str(x) for x in kmers[:-1]]
-                restart_k = f"k{redo_kmers[-1]}"
-                kvals = ",".join(redo_kmers)
-                spades_cmd = f"spades.py --restart-from {restart_k} -k {kvals} -o {gene}/{gene}_spades"
-                redo_cmds_file.write(spades_cmd + "\n")
-                redo_commands.append(spades_cmd)
-    except Exception as e:
-        logger.error("Error writing redo_spades_commands.txt: %s", e)
-        sys.exit(1)
-    with multiprocessing.Pool(
+        pool = multiprocessing.Pool(
         processes=cpu, initializer=worker_initializer, initargs=(log_queue,)
-    ) as pool:
-        results = pool.map(
-            lambda cmd: subprocess.call(cmd, shell=True) == 0, redo_commands
         )
-    if not all(results):
-        logger.error("One or more SPAdes redo commands failed.")
+        
+        # Use map_async for better error handling
+        async_result = pool.map_async(run_spades_redo_for_gene, redo_genes)
+        async_result.get()  # Wait for completion without timeout
+        
+        logger.info("SPAdes redo subprocess calls completed")
+        
+    except Exception as e:
+        logger.error("Error during SPAdes redo run: %s", e)
+        raise
+    finally:
+        if pool:
+            pool.close()
+            pool.join()
+
+    # Check redo results following HybPiper logic: examine actual output files
+    spades_successful, redo_spades_failed = _check_and_copy_contigs(redo_genes)
+
+    logger.info("SPAdes redo results: %d successful, %d failed", 
+               len(spades_successful), len(redo_spades_failed))
+
+    # Combine failed genes from initial failure analysis and redo failures
+    all_spades_failed = list(set(spades_failed_initial + redo_spades_failed))
+    
+    # Write final failed genes list
+    with open("spades_failed_final.txt", "w") as fh:
+        fh.write("\n".join(all_spades_failed))
+    logger.info("After redo: %d genes still failed, %d total failed", 
+               len(redo_spades_failed), len(all_spades_failed))
+    
+    return redo_spades_failed, all_spades_failed
+
+
+# === utility mini-helpers (keep top-level for pickling) ======================
+def _check_and_copy_contigs(genes: List[str]) -> tuple[List[str], List[str]]:
+    """Check SPAdes results and copy contigs files. Returns (successful, failed) gene lists."""
+    spades_successful = []
     spades_failed = []
-    for gene in genes_redos:
+    
+    for gene in genes:
         gene_failed = False
         contigs_path = os.path.join(gene, f"{gene}_spades", "contigs.fasta")
+        
         if os.path.isfile(contigs_path):
-            try:
-                if os.stat(contigs_path).st_size > 0:
-                    dest = os.path.join(gene, f"{gene}_contigs.fasta")
-                    shutil.copy(contigs_path, dest)
-                else:
+            contig_file_size = os.path.getsize(contigs_path)
+            if contig_file_size > 0:
+                # Copy contigs file as in HybPiper
+                target_path = os.path.join(gene, f"{gene}_contigs.fasta")
+                try:
+                    shutil.copy(contigs_path, target_path)
+                    spades_successful.append(gene)
+                    logger.debug("SPAdes successful for gene %s, copied contigs", gene)
+                except Exception as e:
+                    logger.error("Failed to copy contigs for gene %s: %s", gene, e)
                     gene_failed = True
-            except Exception as e:
-                logger.error("Error processing contigs for gene %s: %s", gene, e)
+            else:
                 gene_failed = True
+                logger.debug("SPAdes produced empty contigs file for gene %s", gene)
         else:
             gene_failed = True
+            logger.debug("SPAdes did not produce contigs file for gene %s", gene)
+        
         if gene_failed:
-            logger.error("SPAdes assembly failed for gene after redo: %s", gene)
             spades_failed.append(gene)
-    try:
-        with open("spades_duds.txt", "w") as spades_duds_file:
-            spades_duds_file.write("\n".join(spades_duds))
-    except Exception as e:
-        logger.error("Error writing spades_duds.txt: %s", e)
-    return spades_failed, spades_duds
+    
+    return spades_successful, spades_failed
 
 
+
+
+
+# --------------------------------------------------------------------------- #
+#  Main SPAdes controller called by top-level script                          #
+# --------------------------------------------------------------------------- #
 @log_exceptions
-def run_spades_for_genes(genes: list, cpu: int, log_queue) -> list:
+def run_spades_for_genes(genes: List[str], cpu: int, log_queue, output_dir: str = None) -> List[str]:
     """
-    Write the gene list to file, run SPAdes on all genes (with a redo for failures),
-    and return a list of genes that assembled successfully.
+    Main controller for running SPAdes assembly on multiple genes.
+    Returns list of successfully assembled genes.
     """
-    try:
-        with open("spades_genelist.txt", "w") as f:
-            f.write("\n".join(genes) + "\n")
-    except Exception as e:
-        logger.error("Error writing spades_genelist.txt: %s", e)
-        sys.exit(1)
-    # Remove old log files.
-    for logfile in ["spades.log", "spades_redo.log"]:
-        if os.path.isfile(logfile):
-            try:
-                os.remove(logfile)
-            except Exception as e:
-                logger.warning("Could not remove %s: %s", logfile, e)
-    spades_failed = spades_initial("spades_genelist.txt", cpu=cpu, log_queue=log_queue)
-    if spades_failed:
-        try:
-            with open("failed_spades.txt", "w") as f:
-                f.write("\n".join(spades_failed))
-        except Exception as e:
-            logger.error("Error writing failed_spades.txt: %s", e)
-        spades_failed, spades_duds = rerun_spades(
-            "failed_spades.txt", cpu=cpu, log_queue=log_queue
-        )
-        if spades_failed:
-            logger.error(
-                "SPAdes failed for the following genes after redo: %s", spades_failed
-            )
-            sys.exit(1)
+    if not genes:
+        logger.error("No genes provided for SPAdes assembly")
+        raise ValueError("No genes provided for SPAdes assembly")
+    
+    logger.info("Starting SPAdes assembly pipeline for %d genes", len(genes))
+    
+    # Determine output directory for SPAdes files
+    if output_dir is None:
+        output_dir = "."
+    
+    # Write initial gene list
+    initial_file = os.path.join(output_dir, "spades_genes_initial.txt")
+    with open(initial_file, "w") as fh:
+        fh.write("\n".join(genes))
+
+    # Run initial SPAdes attempt
+    spades_failed_initial = spades_initial(initial_file, cpu, log_queue)
+    
+    # Handle failures with redo attempt
+    if spades_failed_initial:
+        logger.info("Running SPAdes redo for %d failed genes", len(spades_failed_initial))
+        # Write failed genes list for redo
+        failed_initial_file = os.path.join(output_dir, "spades_failed_initial.txt")
+        with open(failed_initial_file, "w") as fh:
+            fh.write("\n".join(spades_failed_initial))
+        
+        spades_failed_after_redo, spades_failed_final = rerun_spades(failed_initial_file, cpu, log_queue)
+        
+        if spades_failed_after_redo:
+            logger.error("SPAdes failed after redo for %d genes: %s", 
+                        len(spades_failed_after_redo), ", ".join(spades_failed_after_redo))
+            # Write final failures after redo
+            failed_final_file = os.path.join(output_dir, "spades_failed_final.txt")
+            with open(failed_final_file, "w") as fh:
+                fh.write("\n".join(spades_failed_after_redo) + "\n")
         else:
-            logger.info("All SPAdes re-run assemblies completed successfully!")
-    spades_duds = []
-    if os.path.isfile("spades_duds.txt"):
-        try:
-            with open("spades_duds.txt") as f:
-                spades_duds = [line.rstrip() for line in f if line.strip()]
-        except Exception as e:
-            logger.error("Error reading spades_duds.txt: %s", e)
-    successful_genes = [gene for gene in genes if gene not in set(spades_duds)]
-    if not successful_genes:
-        logger.error("No genes had assembled contigs!")
-        sys.exit(1)
-    return successful_genes
+            # Remove old file if no failures after redo
+            failed_final_file = os.path.join(output_dir, "spades_failed_final.txt")
+            if os.path.exists(failed_final_file):
+                os.remove(failed_final_file)
+    else:
+        # No initial failures, remove any existing failed files
+        failed_final_file = os.path.join(output_dir, "spades_failed_final.txt")
+        if os.path.exists(failed_final_file):
+            os.remove(failed_final_file)
+
+    # Determine successfully assembled genes
+    failed_final_file = os.path.join(output_dir, "spades_failed_final.txt")
+    if os.path.isfile(failed_final_file):
+        with open(failed_final_file) as fh:
+            spades_failed_final = [ln.strip() for ln in fh if ln.strip()]
+    else:
+        spades_failed_final = []
+    
+    spades_genelist = [g for g in genes if g not in set(spades_failed_final)]
+    
+    # Write successful genes list
+    successful_file = os.path.join(output_dir, "spades_successful.txt")
+    with open(successful_file, "w") as fh:
+        fh.write("\n".join(spades_genelist))
+    
+    if not spades_genelist:
+        logger.error("No genes produced assembled contigs! All %d genes failed", len(genes))
+        raise RuntimeError("No genes produced assembled contigs!")
+    
+    logger.info("SPAdes assembly completed: %d successful, %d failed", 
+               len(spades_genelist), len(genes) - len(spades_genelist))
+    logger.info("SPAdes output files saved to: %s", output_dir)
+    return spades_genelist
 
 
 @log_exceptions
-def spades(readfiles: list, genes: list, cpu: int, log_queue) -> None:
+def spades(readfiles: List[str], genes: List[str], cpu: int, log_queue, output_dir: str = None) -> List[str]:
     """
-    Run SPAdes assembly on genes.
-    Expects exactly two paired read files.
-    Exits if the file count is not 2 or if no assemblies were successful.
+    Main SPAdes function for assembling genes from paired read files.
+    Returns list of successfully assembled genes.
     """
     if len(readfiles) != 2:
-        logger.error("Please specify exactly two paired read files! Exiting!")
-        sys.exit(1)
-    spades_genelist = run_spades_for_genes(genes, cpu=cpu, log_queue=log_queue)
-    logger.info("SPAdes completed for %d genes.", len(spades_genelist))
+        logger.error("Expected exactly 2 paired read files, got %d", len(readfiles))
+        raise ValueError("Please specify exactly two paired read files!")
+    
+    for readfile in readfiles:
+        if not os.path.exists(readfile):
+            logger.error("Read file %s does not exist", readfile)
+            raise FileNotFoundError(f"Read file {readfile} does not exist")
+
+    logger.info("Starting SPAdes assembly with read files: %s", ", ".join(readfiles))
+    return run_spades_for_genes(genes, cpu, log_queue, output_dir)
 
 
-# =============================================================================
-# Cleanup and Directory Functions
-# =============================================================================
+# --------------------------------------------------------------------------- #
+#  Clean-up helpers                                                           #
+# --------------------------------------------------------------------------- #
 @log_exceptions
-def remove_spades() -> None:
-    """Remove directories in the current directory that end with 'spades'."""
-    for s in os.listdir("."):
-        if s.endswith("spades") and os.path.isdir(s):
-            try:
-                shutil.rmtree(s)
-                logger.info("Removed directory: %s", s)
-            except Exception as e:
-                logger.error("Error removing directory %s: %s", s, e)
+def remove_spades():
+    for d in os.listdir("."):
+        if d.endswith("spades") and os.path.isdir(d):
+            shutil.rmtree(d)
+            logger.info("Removed directory %s", d)
 
 
 @log_exceptions
-def clean_up(sample: str) -> None:
-    """
-    For each gene directory (in the current directory), remove any subdirectories ending with 'spades'.
-    """
-    # List subdirectories in current directory.
-    gene_dirs = [d for d in os.listdir(".") if os.path.isdir(d)]
-    logger.info("Found %d gene directories in '%s'.", len(gene_dirs), sample)
-    for gene in gene_dirs:
-        try:
-            with change_dir(gene):
-                for d in os.listdir("."):
-                    if d.endswith("spades") and os.path.isdir(d):
-                        shutil.rmtree(d)
-                        logger.info("Removed spades directory: %s in gene %s", d, gene)
-        except Exception as e:
-            logger.error("Error cleaning up gene directory '%s': %s", gene, e)
+def clean_up(sample: str):
+    for gene in [g for g in os.listdir(".") if os.path.isdir(g)]:
+        with change_dir(gene):
+            for d in os.listdir("."):
+                if d.endswith("spades") and os.path.isdir(d):
+                    shutil.rmtree(d)
+                    logger.info("Removed %s in gene %s", d, gene)

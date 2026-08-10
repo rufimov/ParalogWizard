@@ -6,6 +6,7 @@
 
 
 from glob import glob
+import logging
 import multiprocessing
 import os
 import re
@@ -21,14 +22,16 @@ import pandas
 from ParalogWizard.cast_analyze import mafft_align
 from Bio import SeqIO, SeqRecord
 
-from ParalogWizard import setup_logging, worker_initializer
+from ParalogWizard import worker_initializer, log_exceptions
+
+# Get logger by name (will be configured by ParalogWizard.py)
+logger = logging.getLogger("ParalogWizard")
 
 
 def run_blat(contigfile, probes, minident):
     """
     Run BLAT
     """
-    logger = setup_logging()
     file = os.path.basename(contigfile)
     data_folder = os.path.dirname(os.path.dirname(contigfile))
     if file != probes:
@@ -45,7 +48,6 @@ def correct_pslx(pslx_file):
     """
     Remove all but the best hit for each query and target.
     """
-    logger = setup_logging()
     folder50 = os.path.dirname(pslx_file)
     file = os.path.basename(pslx_file)
     with open(pslx_file) as original_pslx_file:
@@ -107,7 +109,6 @@ def correct_pslx(pslx_file):
 
 
 def generate_pslx(data_folder, probes, minident, redlist, num_cores, log_queue):
-    logger = setup_logging()
     logger.info("Generating pslx files using BLAT...\n")
     os.makedirs(os.path.join(data_folder, "50pslx"), exist_ok=True)
     files_for_blat_list = glob(os.path.join(data_folder, "31exonic_contigs", "*.fas"))
@@ -160,7 +161,6 @@ def replace_trailing(seq):
 
 
 def align(data_folder, probes, n_cpu, log_queue):
-    logger = setup_logging()
     shutil.rmtree(os.path.join(data_folder, "60mafft"), ignore_errors=True)
     with open(
         os.path.join(data_folder, "50pslx", "corrected", "list_pslx.txt"), "w"

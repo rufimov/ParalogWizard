@@ -1,8 +1,7 @@
 #!/bin/bash
-#PBS -l walltime=8:0:0
-#PBS -l select=1:ncpus=12:mem=8gb:scratch_local=2gb
+#PBS -l walltime=24:0:0
+#PBS -l select=1:ncpus=12:mem=32gb:scratch_local=50gb
 #PBS -N ParalogWizard-Analyze
-#PBS -m abe
 #PBS -j oe
 
 # Clean-up of SCRATCH
@@ -27,14 +26,16 @@ block_list=(${blocklist})
 path_to_data=/storage/"${server}/home/${LOGNAME}/${data}"
 source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
 cpu=$TORQUE_RESC_PROC
-# shellcheck disable=SC2003
-#cpu=$( expr "$TORQUE_RESC_PROC" '*' 4 )
+
 
 #Add necessary modules
-module add python-3.6.2-gcc
-module add python36-modules-gcc
-module add mafft-7.453
-module add fasttree-2.1.8
+module unload python
+module add python/3.7.7-intel-19.0.4-mgiwa7z
+export PYTHONUSERBASE=/storage/${server}/home/${LOGNAME}/python37
+export PATH=$PYTHONUSERBASE/bin:$PATH
+export PYTHONPATH=$PYTHONUSERBASE/lib/python3.7/site-packages:$PYTHONPATH
+module add mafft
+module add fasttree
 
 env echo
 
