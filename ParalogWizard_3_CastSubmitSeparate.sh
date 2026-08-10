@@ -1,8 +1,7 @@
 #!/bin/bash
-#PBS -l walltime=1:0:0
-#PBS -l select=1:ncpus=1:mem=4gb:scratch_local=8gb
+#PBS -l walltime=24:0:0
+#PBS -l select=1:ncpus=12:mem=64gb:scratch_local=50gb
 #PBS -N ParalogWizard-Separate
-#PBS -m abe
 #PBS -j oe
 
 # Clean-up of SCRATCH
@@ -21,15 +20,21 @@ source=/storage/"${server}/home/${LOGNAME}"/HybSeqSource
 cpu=$TORQUE_RESC_PROC
 
 #Add necessary modules
-module add blat-suite-34
-module add python-3.6.2-gcc
-module add python36-modules-gcc
-module add mafft-7.453
+module add blat-suite
+module add mafft
+
+module unload python
+module add python/3.7.7-intel-19.0.4-mgiwa7z
+export PYTHONUSERBASE=/storage/${server}/home/${LOGNAME}/python37
+export PATH=$PYTHONUSERBASE/bin:$PATH
+export PYTHONPATH=$PYTHONUSERBASE/lib/python3.7/site-packages:$PYTHONPATH
 
 
 #Copy fasta from home folder to scratch, reference, script for generating and correcting pslx files
 mkdir -p "${data}"
 cp -r "${path_to_data}"/31exonic_contigs "${SCRATCHDIR}"/"${data}"
+cp -r "${path_to_data}"/41detected_par "${SCRATCHDIR}"/"${data}"
+cp -r "${path_to_data}"/60mafft "${SCRATCHDIR}"/"${data}"
 cp "${source}/${customized_probes}" .
 cp "${source}"/ParalogWizard.py .
 cp -r "${source}"/ParalogWizard .

@@ -9,6 +9,7 @@ Multiprocessing is used where appropriate, and detailed logging is provided.
 """
 
 import fileinput
+import logging
 import multiprocessing
 import subprocess
 from glob import glob
@@ -23,36 +24,13 @@ import Bio.SeqRecord
 import pandas
 from Bio import SeqIO
 
-from ParalogWizard import setup_logging, worker_initializer
+from ParalogWizard import worker_initializer, log_exceptions
 
-# -----------------------------------------------------------------------------
-# Module-level logger
-# -----------------------------------------------------------------------------
-logger = setup_logging()
+# Get logger by name (will be configured by ParalogWizard.py)
+logger = logging.getLogger("ParalogWizard")
 
 
-# -----------------------------------------------------------------------------
-# Logging Decorator
-# -----------------------------------------------------------------------------
-def log_exceptions(func):
-    """
-    Decorator that logs function entry, exit, and any exceptions.
-    Exits with code 1 upon an exception.
-    """
-    from functools import wraps
-
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        # logger.debug(f"Entering {func.__name__}")
-        try:
-            result = func(*args, **kwargs)
-            # logger.debug(f"Exiting {func.__name__}")
-            return result
-        except Exception as e:
-            logger.exception(f"Exception in {func.__name__}: {e}")
-            sys.exit(1)
-
-    return wrapper
+# Using unified log_exceptions decorator from ParalogWizard.__init__
 
 
 # -----------------------------------------------------------------------------
@@ -158,7 +136,7 @@ def create_hit_tables(
     ret = subprocess.call(makeblastdb_cmd, shell=True)
     if ret:
         logger.error("makeblastdb failed for sample %s with exit code %d", sample, ret)
-        sys.exit(1)
+        raise RuntimeError(f"makeblastdb failed for sample {sample} with exit code {ret}")
 
     # Run blastn
     blast_out = os.path.join(path, f"reference_in_{sample}_contigs.txt")
@@ -172,7 +150,7 @@ def create_hit_tables(
     ret = subprocess.call(blastn_cmd, shell=True)
     if ret:
         logger.error("blastn failed for sample %s with exit code %d", sample, ret)
-        sys.exit(1)
+        raise RuntimeError(f"blastn failed for sample {sample} with exit code {ret}")
     logger.info("Hit table for sample %s is ready", sample)
 
 
@@ -311,7 +289,7 @@ def retrieve(
     raw_dir = os.path.join(data_folder, "30raw_contigs")
     if not collect and not os.path.isdir(raw_dir):
         logger.error("No raw contigs found. Run cast_retrieve with -c specified.")
-        sys.exit(1)
+        raise RuntimeError("No raw contigs found. Run cast_retrieve with -c specified.")
     elif collect:
         collect_contigs(data_folder)
     exonic_dir = os.path.join(data_folder, "31exonic_contigs")

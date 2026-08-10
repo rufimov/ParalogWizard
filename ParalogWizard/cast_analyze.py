@@ -13,6 +13,7 @@ Multiprocessing is used where appropriate, and detailed logging is provided.
 
 import glob
 import itertools
+import logging
 import multiprocessing
 import os
 import random
@@ -29,41 +30,14 @@ from scipy.signal import argrelextrema
 from sklearn.mixture import BayesianGaussianMixture
 from sklearn.neighbors import KernelDensity
 
-# Use our setup_logging from ParalogWizard.
-from ParalogWizard import setup_logging, worker_initializer
+# Use our worker_initializer and log_exceptions from ParalogWizard.
+from ParalogWizard import worker_initializer, log_exceptions
 
-# -----------------------------------------------------------------------------
-# Module-level logger
-# -----------------------------------------------------------------------------
-logger = setup_logging()
+# Get logger by name (will be configured by ParalogWizard.py)
+logger = logging.getLogger("ParalogWizard")
 
 
-# -----------------------------------------------------------------------------
-# Logging Decorator (with detailed context)
-# -----------------------------------------------------------------------------
-def log_exceptions(func):
-    """
-    Decorator that logs function entry, exit, and any exceptions.
-    It logs the function's name along with its positional and keyword arguments.
-    This way you know which file, sample, locus, etc., caused the error.
-    Instead of calling sys.exit(), it re-raises the exception so that the main process
-    can catch the error and shut down the pool gracefully.
-    """
-    from functools import wraps
-
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except Exception as e:
-            arg_str = ", ".join(str(arg) for arg in args)
-            kwarg_str = ", ".join(f"{k}={v}" for k, v in kwargs.items())
-            logger.exception(
-                f"Exception in {func.__name__} (args: {arg_str}; kwargs: {kwarg_str}): {e}"
-            )
-            raise
-
-    return wrapper
+# Using unified log_exceptions decorator from ParalogWizard.__init__
 
 
 # -----------------------------------------------------------------------------
