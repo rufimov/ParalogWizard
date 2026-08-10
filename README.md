@@ -238,7 +238,7 @@ Builds alignments for each exon with all exonic contigs retrieved for this exon 
 
 ### Assembly
 
-```ParalogWizard_1a_CastSubmitAssemble_subitter.sh``` — submits ```ParalogWizard_1a_CastSubmitAssemble.sh``` for each sample as a separate job according to the sample list in ```10deduplicated_reads```. Used as executable.
+```ParalogWizard_1a_CastSubmitAssemble_submitter.sh``` — submits ```ParalogWizard_1a_CastSubmitAssemble.sh``` for each sample as a separate job according to the sample list in ```10deduplicated_reads```. Used as executable.
 
 ```ParalogWizard_1a_CastSubmitAssemble.sh``` — executes ```cast_assemble``` command with options according to settings set in ```ParalogWizard_Settings.cfg```. Normally is not used directly. For execution over individual samples use ```-v sample="[sample]"```.
 <pre>
@@ -259,7 +259,7 @@ In case of work without paralogs, this step will create customized reference wit
 
 ### Creating orthologous alignments
 
-```ParalogWizard_2b_CastSubmitSeparate.sh``` — executes ```cast_separate``` command with options according to settings set in ```ParalogWizard_Settings.cfg```. Used with ```qsub```. 
+```ParalogWizard_3_CastSubmitSeparate.sh``` — executes ```cast_separate``` command with options according to settings set in ```ParalogWizard_Settings.cfg```. Used with ```qsub```. 
 Before this step, customized reference with or without separated paralogs must be copied to HybSeqSource folder
 
 
