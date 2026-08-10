@@ -1,0 +1,7 @@
+# Local-only cast_extend stack (not distributed via git)
+ParalogWizard/cast_extend.py
+ParalogWizard/intronerate.py
+ParalogWizard/exonerate_hits.py
+ParalogWizard/retrieve_sequences.py
+ParalogWizard_4_CastSubmitExtend.sh
+test_dataset/21supercontigs/
