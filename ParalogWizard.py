@@ -3,7 +3,7 @@
 ParalogWizard is a pipeline for paralog detection in HybSeq data.
 It consists of several steps:
     cast_assemble, cast_retrieve, cast_analyze, cast_detect, cast_separate,
-    cast_extend, cast_remap, cast_call, cast_ploidy, cast_polyploid, and cast_phase.
+    cast_remap, cast_call, cast_ploidy, cast_polyploid, and cast_phase.
 """
 
 import argparse
@@ -225,24 +225,6 @@ def setup_argparser():
         "-d", "--data_folder", required=True, help="Main data folder"
     )
     parser_separate.add_argument(
-        "-nc",
-        "--num_cores",
-        default=1,
-        type=int,
-        help="Number of cores to use (default: 1)",
-    )
-
-    # --- cast_extend ---
-    parser_extend = subparsers.add_parser(
-        "cast_extend", help="Run the cast_extend step"
-    )
-    parser_extend.add_argument(
-        "-pr", "--baitfile", required=True, help="FASTA file containing bait sequences"
-    )
-    parser_extend.add_argument(
-        "-d", "--data_folder", required=True, help="Main data folder"
-    )
-    parser_extend.add_argument(
         "-nc",
         "--num_cores",
         default=1,
@@ -668,25 +650,6 @@ def run_cast_separate(args, log_queue: multiprocessing.Queue):
 
 
 @log_command
-def run_cast_extend(args, log_queue: multiprocessing.Queue = None):
-    """
-    Execute the cast_extend step.
-    This step extends the bait sequences.
-    """
-    from ParalogWizard.cast_extend import extend
-
-    logger = setup_logging()
-    baitfile = os.path.abspath(args.baitfile)
-    if not os.path.isfile(baitfile):
-        logger.error("Bait file '%s' not found.", baitfile)
-        sys.exit(1)
-
-    logger.info("Running cast_extend with baitfile: %s", baitfile)
-    extend(args.data_folder, baitfile, args.num_cores)
-    logger.info("ParalogWizard cast_extend completed.")
-
-
-@log_command
 def run_cast_remap(args, log_queue: multiprocessing.Queue):
     """
     Execute the cast_remap step.
@@ -837,7 +800,6 @@ def main():
         "cast_analyze": run_cast_analyze,
         "cast_detect": run_cast_detect,
         "cast_separate": run_cast_separate,
-        "cast_extend": run_cast_extend,
         "cast_remap": run_cast_remap,
         "cast_call": run_cast_call,
         "cast_polyploid": run_cast_polyploid,
