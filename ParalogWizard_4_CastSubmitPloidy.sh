@@ -27,18 +27,15 @@ module add python/3.7.7-intel-19.0.4-mgiwa7z
 export PYTHONUSERBASE=/storage/${server}/home/${LOGNAME}/python37
 export PATH=$PYTHONUSERBASE/bin:$PATH
 export PYTHONPATH=$PYTHONUSERBASE/lib/python3.7/site-packages:$PYTHONPATH
-module add bwa
-module add mafft
 module add samtools
 
 
 #Copy data to scratch
 mkdir -p "${SCRATCHDIR}/${data}"/10deduplicated_reads
-mkdir -p "${SCRATCHDIR}/${data}"/41detected_par
+mkdir -p "${SCRATCHDIR}/${data}"/100remapped
 
-cp -r "${path_to_data}"/10deduplicated_reads/* "${SCRATCHDIR}/${data}"/10deduplicated_reads
-cp "${path_to_data}"/41detected_par/all_paralogs_for_reference.tsv "${SCRATCHDIR}/${data}"/41detected_par
-cp "${source}/${customized_probes}" .
+cp "${path_to_data}"/10deduplicated_reads/samples_list.txt "${SCRATCHDIR}/${data}"/10deduplicated_reads/
+cp -r "${path_to_data}"/100remapped/exons* "${SCRATCHDIR}/${data}"/100remapped/
 cp "${source}"/ParalogWizard.py .
 cp -r "${source}"/ParalogWizard .
 cp -r "${source}"/nQuire .
@@ -46,7 +43,7 @@ chmod +x nQuire
 
 PATH="$(pwd):$PATH"
 
-python3 ParalogWizard.py cast_ploidy -d "${data}" -pc "${customized_probes}"  -nc "${cpu}" -e 300
+python3 ParalogWizard.py cast_ploidy -d "${data}" -nc "${cpu}" || exit 1
 
-cp -r "${data}"/ploidy/ "${path_to_data}"/
+cp -r "${data}"/102ploidy "${path_to_data}"/
 cp *.log "${PBS_O_WORKDIR}"/

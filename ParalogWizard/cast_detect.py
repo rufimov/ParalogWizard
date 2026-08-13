@@ -1,462 +1,587 @@
-import logging
-import multiprocessing
-import os
-import sys
-from typing import List
-import pandas as pd
-from ParalogWizard import worker_initializer, log_exceptions
+#!/usr/bin/env python
+"""
+------------------------------------------------------------------------------------------------------------------------
+Copyright 2024 Roman Ufimov under the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
 
-# Get logger by name (will be configured by ParalogWizard.py)
+cast_detect — assign main/para copies and write customized references.
+
+  * Without -p: cluster by percent identity per sample×locus → 41without_par/.
+  * With -p: use pairwise distances from cast_analyze to label paralogs within
+    divergence bounds → 41detected_par/.
+
+Each run clears and rebuilds the output directory.
+------------------------------------------------------------------------------------------------------------------------
+"""
+
+from __future__ import annotations
+
+import logging
+import os
+import shutil
+from typing import Dict, List, Optional, Set, Tuple
+
+import pandas as pd
+
+from ParalogWizard import log_exceptions, managed_pool
+from ParalogWizard.cast_call import require_dir, require_file
+
 logger = logging.getLogger("ParalogWizard")
 
+DistanceIndex = Dict[Tuple[str, str], float]
 
-# Using unified log_exceptions decorator from ParalogWizard.__init__
+
+# -----------------------------------------------------------------------------
+# Helpers
+# -----------------------------------------------------------------------------
+def _clear_outdir(path: str) -> str:
+    if os.path.isdir(path):
+        shutil.rmtree(path)
+        logger.debug("Removed previous %s", path)
+    os.makedirs(path, exist_ok=True)
+    return path
 
 
-@log_exceptions
-def find_cluster(array: List[float]):
-    logger.info(f"find_cluster: Received array with {len(array)} elements")
-    array.sort()
-    gaps = [array[i] - array[i - 1] for i in range(1, len(array))]
+def _contig_from_saccver(saccver: str) -> str:
+    parts = str(saccver).split("_N_")
+    return parts[1] if len(parts) > 1 else str(saccver)
+
+
+def find_cluster(array: List[float]) -> float:
+    """Boundary at the midpoint of the largest gap in a sorted 1-D array."""
+    if len(array) < 2:
+        raise ValueError("find_cluster requires at least 2 values")
+    ordered = sorted(array)
+    gaps = [ordered[i] - ordered[i - 1] for i in range(1, len(ordered))]
     biggest_gap = max(gaps)
-    biggest_gap_middle = biggest_gap / 2
     biggest_gap_index = gaps.index(biggest_gap)
-    boundary = array[biggest_gap_index] + biggest_gap_middle
-    logger.info(f"find_cluster: Computed boundary = {boundary}")
+    boundary = ordered[biggest_gap_index] + biggest_gap / 2.0
+    logger.debug("find_cluster: boundary=%.6f (n=%d)", boundary, len(ordered))
     return boundary
 
 
+def build_distance_index(
+    pairwise_distances: pd.DataFrame,
+) -> Tuple[DistanceIndex, Set[str]]:
+    """
+    Build bidirectional (seq_a, seq_b) → dist lookup and the set of sequence names
+    present in the distance table (including single-copy placeholder rows).
+    """
+    require_columns = {"seq1", "dist", "seq2"}
+    missing = require_columns - set(pairwise_distances.columns)
+    if missing:
+        raise ValueError(
+            f"pairwise_distances.tsv missing column(s): {', '.join(sorted(missing))}"
+        )
+    index: DistanceIndex = {}
+    names: Set[str] = set()
+    for row in pairwise_distances.itertuples(index=False):
+        s1 = row.seq1
+        if isinstance(s1, str) and s1:
+            names.add(s1)
+        s2 = row.seq2
+        s2_ok = isinstance(s2, str) and bool(s2) and s2.lower() != "nan"
+        if s2_ok:
+            names.add(s2)
+        if pd.isna(row.dist) or not s2_ok:
+            continue
+        d = float(row.dist)
+        index[(s1, s2)] = d
+        index[(s2, s1)] = d
+    logger.info(
+        "Distance index: %d directed pair(s), %d sequence name(s)",
+        len(index),
+        len(names),
+    )
+    return index, names
+
+
+# -----------------------------------------------------------------------------
+# Cleaning / scoring
+# -----------------------------------------------------------------------------
 @log_exceptions
-def adjust_orphaned_main(sample_locus_dataframe):
-    logger.info("adjust_orphaned_main: Processing a sample locus dataframe")
-    copies = sample_locus_dataframe["copy"].values.tolist()
-    if "para" not in copies:
-        logger.info("adjust_orphaned_main: No 'para' copies found, returning original dataframe")
-        return sample_locus_dataframe
-    grouped_exons = sample_locus_dataframe.groupby("exon")
-    exons_needed_clustering = []
-    for group in grouped_exons:
-        if "para" not in group[1]["copy"].values.tolist():
-            exons_needed_clustering.append(group[0])
+def adjust_orphaned_main(sample_locus_dataframe: pd.DataFrame) -> pd.DataFrame:
+    """Reassign orphaned exons using a pident gap boundary when paras exist."""
+    df = sample_locus_dataframe
+    if "para" not in df["copy"].values:
+        return df
+
+    exons_needed_clustering = [
+        exon
+        for exon, g in df.groupby("exon", sort=False)
+        if "para" not in g["copy"].values
+    ]
     if not exons_needed_clustering:
-        logger.info("adjust_orphaned_main: No exons require clustering, returning original dataframe")
-        return sample_locus_dataframe
-    ident_array = sample_locus_dataframe[
-        ~sample_locus_dataframe["exon"].isin(exons_needed_clustering)
-    ]["pident"].values.tolist()
+        return df
+
+    ident_array = df.loc[~df["exon"].isin(exons_needed_clustering), "pident"].tolist()
     if len(ident_array) < 2:
         logger.warning(
-            "adjust_orphaned_main: Not enough pident values to compute a cluster boundary. "
-            "Skipping clustering for this sample.")
-        return sample_locus_dataframe
+            "Not enough pident values to cluster orphaned exons for a sample×locus; "
+            "leaving labels unchanged"
+        )
+        return df
+
     boundary = find_cluster(ident_array)
-    logger.info(f"adjust_orphaned_main: Using boundary = {boundary}")
-    pidents_main = sample_locus_dataframe[
-        (sample_locus_dataframe["copy"] == "main")
-        & (~sample_locus_dataframe["exon"].isin(exons_needed_clustering))
-        ]["pident"]
-    pidents_para = sample_locus_dataframe[sample_locus_dataframe["copy"] == "para"]["pident"]
+    pidents_main = df.loc[
+        (df["copy"] == "main") & (~df["exon"].isin(exons_needed_clustering)),
+        "pident",
+    ]
+    pidents_para = df.loc[df["copy"] == "para", "pident"]
     if (pidents_main < boundary).any() or (pidents_para > boundary).any():
-        logger.info("adjust_orphaned_main: Condition met, removing exons needing clustering")
-        sample_locus_dataframe = sample_locus_dataframe[
-            ~sample_locus_dataframe["exon"].isin(exons_needed_clustering)
-        ]
-        return sample_locus_dataframe
-    sample_locus_dataframe.loc[
-        (sample_locus_dataframe["pident"] > boundary)
-        & (sample_locus_dataframe["exon"].isin(exons_needed_clustering)),
-        "copy",
-    ] = "main"
-    sample_locus_dataframe.loc[
-        (sample_locus_dataframe["pident"] < boundary)
-        & (sample_locus_dataframe["exon"].isin(exons_needed_clustering)),
-        "copy",
-    ] = "para"
-    logger.info("adjust_orphaned_main: Clustering adjustment complete")
-    return sample_locus_dataframe
+        return df.loc[~df["exon"].isin(exons_needed_clustering)].copy()
+
+    out = df.copy()
+    mask = out["exon"].isin(exons_needed_clustering)
+    out.loc[mask & (out["pident"] > boundary), "copy"] = "main"
+    out.loc[mask & (out["pident"] < boundary), "copy"] = "para"
+    return out
 
 
 @log_exceptions
-def delete_ambiguous_contigs(contig_dataframe):
-    logger.info("delete_ambiguous_contigs: Processing contig dataframe")
-    warning_contig = ""
-    if (
-            "para" in contig_dataframe["copy"].unique()
-            and "main" in contig_dataframe["copy"].unique()
-    ):
-        warning_contig = contig_dataframe["saccver"].unique()[0]
-        logger.info(f"delete_ambiguous_contigs: Ambiguous contig detected: {warning_contig}")
-    return warning_contig
+def clean_paralogs(dataframe: pd.DataFrame, n_cpu: int, log_queue) -> pd.DataFrame:
+    """Adjust orphaned mains in parallel; drop contigs labeled both main and para."""
+    logger.info("Cleaning paralog labels")
+    groups = [g.reset_index(drop=True) for _, g in dataframe.groupby(["sample", "locus"])]
+    n_workers = max(1, min(int(n_cpu), len(groups))) if groups else 1
+    if groups:
+        with managed_pool(n_workers, log_queue) as pool:
+            results = pool.map(adjust_orphaned_main, groups)
+        dataframe = pd.concat(results, ignore_index=True)
+    else:
+        dataframe = dataframe.copy()
 
-
-@log_exceptions
-def clean_paralogs(dataframe, n_cpu, log_queue):
-    logger.info("clean_paralogs: Starting cleaning of paralogs")
-    grouped_samples = dataframe.groupby(["sample", "locus"])
-    split_sample_locus_dataframe = [group[1].reset_index(drop=True) for group in grouped_samples]
-    with multiprocessing.Pool(processes=n_cpu, initializer=worker_initializer, initargs=(log_queue,)) as pool_adjust:
-        results = pool_adjust.map(adjust_orphaned_main, split_sample_locus_dataframe)
-        dataframe = pd.concat(results).reset_index(drop=True)
-        pool_adjust.close()
-        pool_adjust.join()
-    grouped_contigs = dataframe.groupby("saccver")
-    split_contig_dataframe = [group[1] for group in grouped_contigs]
-    with multiprocessing.Pool(processes=n_cpu, initializer=worker_initializer,
-                              initargs=(log_queue,)) as pool_warning_contigs:
-        warning_contigs = pool_warning_contigs.map(delete_ambiguous_contigs, split_contig_dataframe)
-        pool_warning_contigs.close()
-        pool_warning_contigs.join()
-    dataframe = dataframe[~dataframe["saccver"].isin(warning_contigs)].reset_index(drop=True)
-    logger.info("clean_paralogs: Cleaning complete")
+    copy_sets = dataframe.groupby("saccver")["copy"].agg(lambda s: set(s.dropna()))
+    ambiguous = copy_sets.index[
+        copy_sets.map(lambda s: "main" in s and "para" in s)
+    ]
+    if len(ambiguous):
+        logger.info("Dropping %d ambiguous contig(s) labeled both main and para", len(ambiguous))
+        dataframe = dataframe.loc[~dataframe["saccver"].isin(ambiguous)].reset_index(
+            drop=True
+        )
+    logger.info("Paralog cleaning complete (%d row(s))", len(dataframe))
     return dataframe
 
 
 @log_exceptions
-def score_1_2(sample_locus_dataframe):
-    logger.info("score_1_2: Scoring a sample locus dataframe")
-    avg_ident = sample_locus_dataframe[sample_locus_dataframe["copy"] == "main"]["pident"].mean()
-    sample_locus_dataframe.loc[:, "score_1"] = avg_ident
-    n_ex = len(sample_locus_dataframe[["exon", "copy"]].drop_duplicates())
-    sample_locus_dataframe.loc[:, "score_2"] = n_ex
-    logger.info(f"score_1_2: score_1 set to {avg_ident} and score_2 set to {n_ex}")
-    return sample_locus_dataframe
-
-
-@log_exceptions
-def score_3(contig_dataframe):
-    logger.info("score_3: Scoring contig dataframe")
-    ex_contigs = contig_dataframe["exon"].unique()
-    n_ex_contigs = len(ex_contigs)
-    contig_dataframe.loc[:, "score_3"] = n_ex_contigs
-    logger.info(f"score_3: score_3 set to {n_ex_contigs}")
-    return contig_dataframe
-
-
-@log_exceptions
-def score_samples(dataframe, n_cpu, log_queue):
-    logger.info("score_samples: Starting sample scoring")
-    dataframe = dataframe.sort_values(
+def score_samples(dataframe: pd.DataFrame) -> pd.DataFrame:
+    """
+    Vectorized scores:
+      score_1 = mean main-copy pident per sample×locus
+      score_2 = n unique (exon, copy) per sample×locus
+      score_3 = n unique exons per saccver
+    """
+    logger.info("Scoring samples (%d row(s))", len(dataframe))
+    df = dataframe.sort_values(
         ["exon", "pident", "qcovhsp", "evalue", "bitscore", "k-mer_cover"],
         ascending=(True, False, False, True, False, False),
     ).reset_index(drop=True)
-    grouped_samples = dataframe.groupby(["sample", "locus"])
-    split_sample_locus_dataframe = [group[1] for group in grouped_samples]
-    with multiprocessing.Pool(processes=n_cpu, initializer=worker_initializer, initargs=(log_queue,)) as pool_score_1_2:
-        results = pool_score_1_2.map(score_1_2, split_sample_locus_dataframe)
-        all_hits_for_reference_scored_1_2 = pd.concat(results).reset_index(drop=True)
-        pool_score_1_2.close()
-        pool_score_1_2.join()
-    grouped_contigs = all_hits_for_reference_scored_1_2.groupby("saccver")
-    split_contig_dataframe = [group[1] for group in grouped_contigs]
-    with multiprocessing.Pool(processes=n_cpu, initializer=worker_initializer, initargs=(log_queue,)) as pool_score_3:
-        results = pool_score_3.map(score_3, split_contig_dataframe)
-        all_hits_for_reference_scored_3 = pd.concat(results).reset_index(drop=True)
-        pool_score_3.close()
-        pool_score_3.join()
-    all_hits_for_reference_scored_3.sort_values(
+
+    score_1 = (
+        df.loc[df["copy"] == "main"]
+        .groupby(["sample", "locus"], sort=False)["pident"]
+        .mean()
+    )
+    score_2 = (
+        df.groupby(["sample", "locus"], sort=False)[["exon", "copy"]]
+        .apply(lambda g: int(g.drop_duplicates().shape[0]))
+    )
+    df = df.copy()
+    idx = pd.MultiIndex.from_frame(df[["sample", "locus"]])
+    df["score_1"] = idx.map(score_1)
+    df["score_2"] = idx.map(score_2)
+    df["score_3"] = df.groupby("saccver", sort=False)["exon"].transform("nunique")
+
+    df.sort_values(
         ["exon", "copy", "score_2", "score_1", "sample", "score_3"],
         ascending=[True, True, False, False, True, False],
         inplace=True,
     )
-    all_hits_for_reference_scored_3.reset_index(drop=True, inplace=True)
-    logger.info(f"score_samples: Scoring complete with {len(all_hits_for_reference_scored_3)} entries")
-    return all_hits_for_reference_scored_3
+    df.reset_index(drop=True, inplace=True)
+    logger.info("Scoring complete")
+    return df
 
 
 @log_exceptions
-def phase_wo_paralog(sample_locus_dataframe):
-    logger.info("phase_wo_paralog: Phasing sample without paralogs")
-    ident_array = sample_locus_dataframe["pident"].values.tolist()
+def phase_wo_paralog(sample_locus_dataframe: pd.DataFrame) -> pd.DataFrame:
+    """Keep hits above the largest pident gap (no-paralog mode)."""
+    ident_array = sample_locus_dataframe["pident"].tolist()
     if len(ident_array) < 2:
-        logger.info("phase_wo_paralog: Not enough pident values; returning original dataframe")
         return sample_locus_dataframe
     boundary = find_cluster(ident_array)
-    logger.info(f"phase_wo_paralog: Using boundary = {boundary}")
-    sample_locus_dataframe = sample_locus_dataframe[sample_locus_dataframe["pident"] > boundary]
-    return sample_locus_dataframe
+    return sample_locus_dataframe.loc[
+        sample_locus_dataframe["pident"] > boundary
+    ].copy()
 
 
+# -----------------------------------------------------------------------------
+# Paralog detection
+# -----------------------------------------------------------------------------
 @log_exceptions
-def detect_paralogs(pairwise_distances, grouped_samples, paralog_min_divergence, paralog_max_divergence):
-    logger.info("detect_paralogs: Starting paralog detection")
-    sample = grouped_samples[0]
-    grouped_samples_as_list = []
-    grouped_samples = (
-        grouped_samples[1]
-        .sort_values(
-            ["exon", "pident", "qcovhsp", "evalue", "bitscore", "k-mer_cover"],
-            ascending=(True, False, False, True, False, False),
-        )
-        .reset_index(drop=True)
-    )
-    hits_grouped_exon = grouped_samples.groupby("exon")
-    for group_exon in hits_grouped_exon:
-        exon = group_exon[0]
-        group_exon_dataframe = group_exon[1].reset_index(drop=True)
-        main_copy = f"{exon}_N_{group_exon_dataframe.loc[0, 'contig']}_{sample}"
-        idx = 0
-        len_df = len(group_exon_dataframe)
-        while main_copy not in pairwise_distances.values:
-            if idx + 1 == len_df:
-                break
-            idx += 1
-            main_copy = f"{exon}_N_{group_exon_dataframe.loc[idx, 'contig']}_{sample}"
-        if main_copy not in pairwise_distances.values:
-            continue
-        main_copy_entry = group_exon_dataframe.iloc[[0]].reset_index(drop=True)
-        main_copy_entry.loc[0, "copy"] = "main"
-        grouped_samples_as_list.append(main_copy_entry.loc[0, :].values.tolist())
-        paralog_found = False
-        for index in range(idx + 1, len_df):
-            copy_to_compare = f"{exon}_N_{group_exon_dataframe.loc[index, 'contig']}_{sample}"
-            seq1_main_seq2_para = (
-                    (pairwise_distances["seq1"] == main_copy)
-                    & (pairwise_distances["seq2"] == copy_to_compare)
-            ).any()
-            seq2_main_seq1_para = (
-                    (pairwise_distances["seq2"] == main_copy)
-                    & (pairwise_distances["seq1"] == copy_to_compare)
-            ).any()
-            if not seq1_main_seq2_para and not seq2_main_seq1_para:
-                continue
-            if seq1_main_seq2_para:
-                div = pairwise_distances[
-                    (pairwise_distances["seq1"] == main_copy)
-                    & (pairwise_distances["seq2"] == copy_to_compare)
-                    ]["dist"]
-            else:
-                div = pairwise_distances[
-                    (pairwise_distances["seq2"] == main_copy)
-                    & (pairwise_distances["seq1"] == copy_to_compare)
-                    ]["dist"]
-            div = div.values[0]
-            secondary_copy_entry = group_exon_dataframe.iloc[[index]].reset_index(drop=True)
-            if paralog_min_divergence < div < paralog_max_divergence:
-                logger.info(f"detect_paralogs: Paralog detected in {sample} for {exon}")
-                paralog_found = True
-                secondary_copy_entry.loc[0, "copy"] = "para"
-            elif paralog_min_divergence > div:
-                secondary_copy_entry.loc[0, "copy"] = "main"
-            grouped_samples_as_list.append(secondary_copy_entry.loc[0, :].values.tolist())
-        if not paralog_found:
-            logger.info(f"detect_paralogs: Paralog not found in {sample} for {exon}")
-    paralog_for_sample = pd.DataFrame(
-        grouped_samples_as_list,
-        columns=[
-            "qaccver",
-            "saccver",
-            "pident",
-            "qcovhsp",
-            "evalue",
-            "bitscore",
-            "sstart",
-            "send",
-            "locus",
-            "k-mer_cover",
-            "exon",
-            "sample",
-            "sequence",
-            "contig",
-            "copy",
-        ],
-    )
-    logger.info(f"detect_paralogs: Detection complete for sample {sample}")
-    return paralog_for_sample
-
-
-@log_exceptions
-def locus_stats(all_paralogs_for_reference):
-    logger.info("locus_stats: Calculating locus statistics")
-    data = {}
-    grouped_sample_locus = all_paralogs_for_reference.groupby(["sample", "locus"])
-    for (sample, locus), sample_locus_dataframe in grouped_sample_locus:
-        if sample not in data:
-            data[sample] = {}
-        data[sample][locus] = "Yes" if "para" in sample_locus_dataframe["copy"].values.tolist() else "No"
-    locus_statistics = pd.DataFrame.from_dict(data, orient="index")
-    # Set the index name to "samples\locus"
-    locus_statistics.index.name = r"samples\locus"
-    logger.info("locus_stats: Completed locus statistics")
-    return locus_statistics
-
-
-def exon_stats(all_paralogs_for_reference):
-    logger.info("exon_stats: Calculating exon statistics")
-    data = {}
-    grouped_sample_exon = all_paralogs_for_reference.groupby(["sample", "exon"])
-    for (sample, exon), sample_exon_dataframe in grouped_sample_exon:
-        if sample not in data:
-            data[sample] = {}
-        data[sample][exon] = "Yes" if "para" in sample_exon_dataframe["copy"].values.tolist() else "No"
-    exon_statistics = pd.DataFrame.from_dict(data, orient="index")
-    logger.info("exon_stats: Completed exon statistics")
-    return exon_statistics
-
-
-@log_exceptions
-def paralog_stats(locus_statistics):
-    logger.info("paralog_stats: Calculating paralog statistics")
-    # Reset the index; the first column will be named "samples\locus"
-    locus_statistics = locus_statistics.reset_index()
-    paralog_statistics = pd.DataFrame([], columns=["samples\\locus", "number_of_paralogous_loci"])
-    paralog_statistics.set_index("samples\\locus", drop=True, inplace=True)
-    locus_statistics = locus_statistics.replace("Yes", 1)
-    locus_statistics = locus_statistics.replace("No", 0)
-    locus_statistics = locus_statistics.infer_objects(copy=False)
-    for idx in range(len(locus_statistics)):
-        sample = locus_statistics.loc[idx, r"samples\locus"]
-        row = locus_statistics.loc[idx:idx]
-        n_par = row.sum(axis=1, skipna=True, numeric_only=True).iloc[0]
-        paralog_statistics.loc[sample] = n_par
-    paralog_statistics["number_of_paralogous_loci"] = paralog_statistics["number_of_paralogous_loci"].replace(["0", 0],
-                                                                                                              "0/NaN")
-    logger.info("paralog_stats: Paralog statistics computed")
-    return paralog_statistics
-
-
-@log_exceptions
-def create_reference_wo_paralogs(data_folder, all_hits_for_reference, blocklist, num_cores, log_queue):
-    logger.info("create_reference_wo_paralogs: Creating customized reference without paralogs")
-    all_hits_for_reference = all_hits_for_reference.sort_values(
+def detect_paralogs(
+    sample: str,
+    sample_hits: pd.DataFrame,
+    dist_index: DistanceIndex,
+    names_in_distances: Set[str],
+    paralog_min_divergence: float,
+    paralog_max_divergence: float,
+) -> pd.DataFrame:
+    """
+    Label main/para copies for one sample using the distance index.
+    Returns a DataFrame with a 'copy' column (rows without a usable main are omitted).
+    """
+    grouped_samples = sample_hits.sort_values(
         ["exon", "pident", "qcovhsp", "evalue", "bitscore", "k-mer_cover"],
         ascending=(True, False, False, True, False, False),
     ).reset_index(drop=True)
-    grouped_samples = all_hits_for_reference.groupby(["sample", "locus"])
-    split_sample_locus_dataframe = [group[1].reset_index(drop=True) for group in grouped_samples]
-    with multiprocessing.Pool(processes=num_cores, initializer=worker_initializer,
-                              initargs=(log_queue,)) as pool_wo_para:
-        results = pool_wo_para.map(phase_wo_paralog, split_sample_locus_dataframe)
-        pool_wo_para.close()
-        pool_wo_para.join()
-    all_hits_for_reference = pd.concat(results).reset_index(drop=True)
-    all_hits_for_reference["contig"] = all_hits_for_reference["saccver"].str.split("_N_").str[1]
-    all_hits_for_reference = all_hits_for_reference[~all_hits_for_reference["sample"].isin(blocklist)]
-    all_hits_for_reference["copy"] = "main"
-    all_hits_for_reference_scored = score_samples(all_hits_for_reference, num_cores, log_queue)
-    all_paralogs_for_reference_to_write = all_hits_for_reference_scored.drop_duplicates(subset=["exon"]).reset_index(
-        drop=True)
-    all_paralogs_for_reference_to_write["exon_num"] = all_paralogs_for_reference_to_write["exon"].str.split("_").str[
-        -1].astype(int)
-    all_paralogs_for_reference_to_write = all_paralogs_for_reference_to_write.sort_values(
-        ["locus", "exon_num"]).reset_index(drop=True)
-    previous_locus = ""
-    with open(os.path.join(data_folder, "41without_par", "customized_reference_for_HybPhyloMaker.fas"),
-              "w") as customized_reference_hpm, \
-            open(os.path.join(data_folder, "41without_par",
-                              "customized_reference_for_ParalogWizard_separated_exons.fas"),
-                 "w") as customized_reference_pw_separate, \
-            open(os.path.join(data_folder, "41without_par", "customized_reference_for_HybPiper_concatenated_exons.fas"),
-                 "w") as customized_reference_hp_concat:
-        for idx in range(len(all_paralogs_for_reference_to_write)):
-            sample = all_paralogs_for_reference_to_write.loc[idx, "sample"]
-            exon_num = all_paralogs_for_reference_to_write.loc[idx, "exon"].split("_")[-1]
-            locus = all_paralogs_for_reference_to_write.loc[idx, "locus"]
-            contig = all_paralogs_for_reference_to_write.loc[idx, "contig"]
-            seq = all_paralogs_for_reference_to_write.loc[idx, "sequence"]
-            name_seq_hpm = f">Assembly_{locus}_Contig_{exon_num}_{sample}_N_{contig}"
-            name_seq_pw_separate = f">{sample.replace('-', '_')}_N_{contig}-{locus}_exon_{exon_num}"
-            customized_reference_hpm.write(f"{name_seq_hpm}\n{seq}\n")
-            customized_reference_pw_separate.write(f"{name_seq_pw_separate}\n{seq}\n")
-            if locus != previous_locus:
-                name_seq_hp_concat = f">{locus}-{locus}"
-                customized_reference_hp_concat.write(f"\n{name_seq_hp_concat}\n{seq}")
-                previous_locus = locus
+
+    rows: List[pd.Series] = []
+    n_para = 0
+    for exon, group_exon_dataframe in grouped_samples.groupby("exon", sort=False):
+        group_exon_dataframe = group_exon_dataframe.reset_index(drop=True)
+        len_df = len(group_exon_dataframe)
+        idx = 0
+        main_copy = f"{exon}_N_{group_exon_dataframe.loc[0, 'contig']}_{sample}"
+        while main_copy not in names_in_distances:
+            if idx + 1 >= len_df:
+                break
+            idx += 1
+            main_copy = (
+                f"{exon}_N_{group_exon_dataframe.loc[idx, 'contig']}_{sample}"
+            )
+        if main_copy not in names_in_distances:
+            continue
+
+        main_entry = group_exon_dataframe.iloc[idx].copy()
+        main_entry["copy"] = "main"
+        rows.append(main_entry)
+
+        paralog_found = False
+        for index in range(idx + 1, len_df):
+            copy_to_compare = (
+                f"{exon}_N_{group_exon_dataframe.loc[index, 'contig']}_{sample}"
+            )
+            div = dist_index.get((main_copy, copy_to_compare))
+            if div is None:
+                continue
+            secondary = group_exon_dataframe.iloc[index].copy()
+            if paralog_min_divergence < div < paralog_max_divergence:
+                secondary["copy"] = "para"
+                paralog_found = True
+                n_para += 1
+            elif div < paralog_min_divergence:
+                secondary["copy"] = "main"
             else:
-                customized_reference_hp_concat.write(f"{seq}")
-        with open(
-                os.path.join(data_folder, "41without_par", "customized_reference_for_HybPiper_concatenated_exons.fas"),
-                "r") as customized_reference_hp_concat:
-            data = customized_reference_hp_concat.read().splitlines(True)
-        with open(os.path.join(data_folder, "41without_par", "customized_reference_for_HybPiper_concatenate_exons.fas"),
-                  "w") as customized_reference_hp_concat:
-            customized_reference_hp_concat.writelines(data[1:])
-    logger.info("create_reference_wo_paralogs: Customized reference without paralogs created")
+                # above max divergence: leave unlabeled (dropped later via dropna)
+                continue
+            rows.append(secondary)
+        if paralog_found:
+            logger.debug("Paralog(s) in %s / %s", sample, exon)
+
+    if not rows:
+        logger.debug("No labeled copies for sample %s", sample)
+        return pd.DataFrame()
+
+    out = pd.DataFrame(rows).reset_index(drop=True)
+    logger.debug(
+        "detect_paralogs %s: %d row(s), %d para label(s)", sample, len(out), n_para
+    )
+    return out
 
 
 @log_exceptions
-def prepare_to_write(all_paralogs_for_reference_scored):
-    logger.info("prepare_to_write: Preparing paralog data to write to reference")
-    grouped_locus = all_paralogs_for_reference_scored.groupby("locus")
+def locus_stats(all_paralogs_for_reference: pd.DataFrame) -> pd.DataFrame:
+    logger.info("Computing locus statistics")
+    data: Dict[str, Dict[str, str]] = {}
+    for (sample, locus), g in all_paralogs_for_reference.groupby(
+        ["sample", "locus"], sort=False
+    ):
+        data.setdefault(sample, {})[locus] = (
+            "Yes" if "para" in g["copy"].values else "No"
+        )
+    locus_statistics = pd.DataFrame.from_dict(data, orient="index")
+    locus_statistics.index.name = r"samples\locus"
+    return locus_statistics
+
+
+def exon_stats(all_paralogs_for_reference: pd.DataFrame) -> pd.DataFrame:
+    logger.info("Computing exon statistics")
+    data: Dict[str, Dict[str, str]] = {}
+    for (sample, exon), g in all_paralogs_for_reference.groupby(
+        ["sample", "exon"], sort=False
+    ):
+        data.setdefault(sample, {})[exon] = (
+            "Yes" if "para" in g["copy"].values else "No"
+        )
+    return pd.DataFrame.from_dict(data, orient="index")
+
+
+@log_exceptions
+def paralog_stats(locus_statistics: pd.DataFrame) -> pd.DataFrame:
+    logger.info("Computing paralog statistics")
+    numeric = locus_statistics.copy()
+    numeric = numeric.where(numeric != "Yes", 1)
+    numeric = numeric.where(numeric != "No", 0)
+    numeric = numeric.apply(pd.to_numeric, errors="coerce")
+    counts = numeric.sum(axis=1, skipna=True)
+    out = counts.to_frame(name="number_of_paralogous_loci")
+    out.index.name = r"samples\locus"
+    out["number_of_paralogous_loci"] = out["number_of_paralogous_loci"].replace(
+        {0: "0/NaN", 0.0: "0/NaN"}
+    )
+    return out
+
+
+@log_exceptions
+def prepare_to_write(all_paralogs_for_reference_scored: pd.DataFrame) -> pd.DataFrame:
+    """Prefer samples that carry a para at exons where paras exist."""
+    logger.info("Preparing reference sequences for writing")
     prepared_loci = []
-    for locus_group in grouped_locus:
-        locus_dataframe = locus_group[1]
-        grouped_exons = locus_dataframe.groupby("exon")
+    for _, locus_dataframe in all_paralogs_for_reference_scored.groupby(
+        "locus", sort=False
+    ):
         prepared_exons = []
-        for exon_group in grouped_exons:
-            exon_dataframe = exon_group[1]
+        for _, exon_dataframe in locus_dataframe.groupby("exon", sort=False):
             if (exon_dataframe["copy"] == "para").any():
-                samples_w_para = set(exon_dataframe[exon_dataframe["copy"] == "para"]["sample"].unique())
-                prepared_exons.append(exon_dataframe[exon_dataframe["sample"].isin(samples_w_para)])
+                samples_w_para = set(
+                    exon_dataframe.loc[exon_dataframe["copy"] == "para", "sample"]
+                )
+                prepared_exons.append(
+                    exon_dataframe.loc[exon_dataframe["sample"].isin(samples_w_para)]
+                )
             else:
                 prepared_exons.append(exon_dataframe)
-        prepared_loci.append(pd.concat(prepared_exons))
-    all_paralogs_for_reference_to_write = pd.concat(prepared_loci)
-    all_paralogs_for_reference_to_write = all_paralogs_for_reference_to_write.drop_duplicates(subset=["sequence"])
-    all_paralogs_for_reference_to_write = all_paralogs_for_reference_to_write.drop_duplicates(
-        subset=["exon", "copy"]).reset_index(drop=True)
-    logger.info("prepare_to_write: Data prepared for writing")
-    return all_paralogs_for_reference_to_write
+        prepared_loci.append(pd.concat(prepared_exons, ignore_index=True))
+    to_write = pd.concat(prepared_loci, ignore_index=True)
+    to_write = to_write.drop_duplicates(subset=["sequence"])
+    to_write = to_write.drop_duplicates(subset=["exon", "copy"]).reset_index(drop=True)
+    logger.info("Reference write set: %d sequence(s)", len(to_write))
+    return to_write
+
+
+# -----------------------------------------------------------------------------
+# Reference writers
+# -----------------------------------------------------------------------------
+@log_exceptions
+def create_reference_wo_paralogs(
+    data_folder: str,
+    all_hits_for_reference: pd.DataFrame,
+    blocklist: Set[str],
+    num_cores: int,
+    log_queue,
+) -> None:
+    """Build customized references without paralog labeling → 41without_par/."""
+    out_dir = _clear_outdir(os.path.join(data_folder, "41without_par"))
+    logger.info("Creating reference WITHOUT paralogs → %s", out_dir)
+
+    hits = all_hits_for_reference.sort_values(
+        ["exon", "pident", "qcovhsp", "evalue", "bitscore", "k-mer_cover"],
+        ascending=(True, False, False, True, False, False),
+    ).reset_index(drop=True)
+    groups = [g.reset_index(drop=True) for _, g in hits.groupby(["sample", "locus"])]
+    n_workers = max(1, min(int(num_cores), len(groups))) if groups else 1
+    if not groups:
+        raise RuntimeError("No sample×locus groups in all_hits.tsv")
+
+    with managed_pool(n_workers, log_queue) as pool:
+        results = pool.map(phase_wo_paralog, groups)
+    hits = pd.concat(results, ignore_index=True)
+    hits["contig"] = hits["saccver"].map(_contig_from_saccver)
+    hits = hits.loc[~hits["sample"].isin(blocklist)].copy()
+    hits["copy"] = "main"
+    scored = score_samples(hits)
+    to_write = scored.drop_duplicates(subset=["exon"]).reset_index(drop=True)
+    to_write["exon_num"] = to_write["exon"].str.split("_").str[-1].astype(int)
+    to_write = to_write.sort_values(["locus", "exon_num"]).reset_index(drop=True)
+
+    path_hpm = os.path.join(out_dir, "customized_reference_for_HybPhyloMaker.fas")
+    path_pw = os.path.join(
+        out_dir, "customized_reference_for_ParalogWizard_separated_exons.fas"
+    )
+    path_hp = os.path.join(
+        out_dir, "customized_reference_for_HybPiper_concatenate_exons.fas"
+    )
+    # Keep legacy filename typo variant as a copy of the corrected name for compatibility
+    path_hp_legacy = os.path.join(
+        out_dir, "customized_reference_for_HybPiper_concatenated_exons.fas"
+    )
+
+    previous_locus = None
+    with open(path_hpm, "w") as hpm, open(path_pw, "w") as pw, open(path_hp, "w") as hp:
+        for rec in to_write.to_dict(orient="records"):
+            sample = rec["sample"]
+            exon_num = str(rec["exon"]).split("_")[-1]
+            locus = rec["locus"]
+            contig = rec["contig"]
+            seq = rec["sequence"]
+            hpm.write(
+                f">Assembly_{locus}_Contig_{exon_num}_{sample}_N_{contig}\n{seq}\n"
+            )
+            pw.write(
+                f">{sample.replace('-', '_')}_N_{contig}-{locus}_exon_{exon_num}\n{seq}\n"
+            )
+            header = f">{locus}-{locus}"
+            if locus != previous_locus:
+                if previous_locus is None:
+                    hp.write(f"{header}\n{seq}")
+                else:
+                    hp.write(f"\n{header}\n{seq}")
+                previous_locus = locus
+            else:
+                hp.write(seq)
+
+    shutil.copyfile(path_hp, path_hp_legacy)
+    logger.info(
+        "Wrote references without paralogs (%d exon(s)) under %s",
+        len(to_write),
+        out_dir,
+    )
 
 
 @log_exceptions
-def create_reference_w_paralogs(data_folder, all_hits_for_reference, paralog_min_divergence, paralog_max_divergence,
-                                blocklist, num_cores, log_queue):
-    logger.info("create_reference_w_paralogs: Creating customized reference with paralogs")
-    pairwise_distances = pd.read_csv(os.path.join(data_folder, "40aln_orth_par", "pairwise_distances.tsv"), sep="\t")
-    all_hits_for_reference["contig"] = all_hits_for_reference["saccver"].str.split("_N_").str[1]
-    grouped_samples = all_hits_for_reference.groupby("sample")
-    list_groupes = [group for group in grouped_samples]
-    args_detect = list(
-        zip(
-            [pairwise_distances] * len(list_groupes),
-            list_groupes,
-            [paralog_min_divergence] * len(list_groupes),
-            [paralog_max_divergence] * len(list_groupes),
-        )
+def create_reference_w_paralogs(
+    data_folder: str,
+    all_hits_for_reference: pd.DataFrame,
+    paralog_min_divergence: float,
+    paralog_max_divergence: float,
+    blocklist: Set[str],
+    num_cores: int,
+    log_queue,
+) -> None:
+    """Detect paralogs from distances and write customized reference → 41detected_par/."""
+    out_dir = _clear_outdir(os.path.join(data_folder, "41detected_par"))
+    logger.info(
+        "Creating reference WITH paralogs (min=%.3f, max=%.3f) → %s",
+        paralog_min_divergence,
+        paralog_max_divergence,
+        out_dir,
     )
-    with multiprocessing.Pool(processes=num_cores, initializer=worker_initializer,
-                              initargs=(log_queue,)) as pool_detect:
-        results = pool_detect.starmap(detect_paralogs, args_detect)
-        all_paralogs_for_reference = pd.concat(results).reset_index(drop=True)
-        pool_detect.close()
-        pool_detect.join()
-    all_paralogs_for_reference.dropna(subset=["copy"], inplace=True)
-    all_paralogs_for_reference.to_csv(os.path.join(data_folder, "41detected_par", "all_paralogs_for_reference.tsv"),
-                                      sep="\t", index=False)
-    all_paralogs_for_reference_cleaned = clean_paralogs(all_paralogs_for_reference, num_cores, log_queue)
-    all_paralogs_for_reference_cleaned.to_csv(
-        os.path.join(data_folder, "41detected_par", "all_paralogs_for_reference_cleaned.tsv"), sep="\t", index=False)
-    all_paralogs_for_reference_scored = score_samples(all_paralogs_for_reference_cleaned, num_cores, log_queue)
-    all_paralogs_for_reference_scored.to_csv(
-        os.path.join(data_folder, "41detected_par", "all_paralogs_for_reference_scored.tsv"), sep="\t", index=False)
-    all_paralogs_for_reference_scored = all_paralogs_for_reference_scored[
-        ~all_paralogs_for_reference_scored["sample"].isin(blocklist)].reset_index(drop=True)
-    all_paralogs_for_reference_to_write = prepare_to_write(all_paralogs_for_reference_scored)
-    with open(os.path.join(data_folder, "41detected_par",
-                           f"customized_reference_div_{paralog_min_divergence}_{paralog_max_divergence}.fas"),
-              "w") as customized_reference:
-        for idx in range(len(all_paralogs_for_reference_to_write)):
-            sample = all_paralogs_for_reference_to_write.loc[idx, "sample"]
-            exon_num = all_paralogs_for_reference_to_write.loc[idx, "exon"].split("_")[-1]
-            locus = all_paralogs_for_reference_to_write.loc[idx, "locus"]
-            contig = all_paralogs_for_reference_to_write.loc[idx, "contig"]
-            copy = all_paralogs_for_reference_to_write.loc[idx, "copy"]
-            seq = all_paralogs_for_reference_to_write.loc[idx, "sequence"]
-            if copy == "main":
-                copy = ""
-            name_seq = f">Assembly_{locus}{copy}_Contig_{exon_num}_{sample}_N_{contig}"
-            customized_reference.write(f"{name_seq}\n{seq}\n")
-    locus_statistics = locus_stats(all_paralogs_for_reference)
-    locus_statistics.to_csv(os.path.join(data_folder, "41detected_par",
-                                         f"locus_statistics_div_{paralog_min_divergence}_{paralog_max_divergence}.tsv"),
-                            sep="\t", na_rep="NaN")
-    exon_statistics = exon_stats(all_paralogs_for_reference)
-    exon_statistics.to_csv(os.path.join(data_folder, "41detected_par",
-                                        f"exon_statistics_div_{paralog_min_divergence}_{paralog_max_divergence}.tsv"),
-                           sep="\t", na_rep="NaN")
-    paralog_statistics = paralog_stats(locus_statistics)
-    paralog_statistics.to_csv(os.path.join(data_folder, "41detected_par",
-                                           f"paralog_statistics_div_{paralog_min_divergence}_"
-                                           f"{paralog_max_divergence}.tsv"),
-                              sep="\t", na_rep="NaN")
-    logger.info("create_reference_w_paralogs: Customized reference with paralogs created")
+
+    dist_path = require_file(
+        os.path.join(data_folder, "40aln_orth_par", "pairwise_distances.tsv"),
+        "pairwise_distances.tsv",
+    )
+    pairwise_distances = pd.read_csv(dist_path, sep="\t")
+    dist_index, names_in_distances = build_distance_index(pairwise_distances)
+
+    hits = all_hits_for_reference.copy()
+    hits["contig"] = hits["saccver"].map(_contig_from_saccver)
+    sample_groups = [(sample, g.copy()) for sample, g in hits.groupby("sample", sort=False)]
+    if not sample_groups:
+        raise RuntimeError("No samples in all_hits.tsv")
+
+    n_workers = max(1, min(int(num_cores), len(sample_groups)))
+    logger.info(
+        "Paralog detection: %d sample(s), %d worker(s)",
+        len(sample_groups),
+        n_workers,
+    )
+    with managed_pool(n_workers, log_queue) as pool:
+        async_results = [
+            (
+                sample,
+                pool.apply_async(
+                    detect_paralogs,
+                    (
+                        sample,
+                        sample_df,
+                        dist_index,
+                        names_in_distances,
+                        paralog_min_divergence,
+                        paralog_max_divergence,
+                    ),
+                ),
+            )
+            for sample, sample_df in sample_groups
+        ]
+        failures: List[Tuple[str, Exception]] = []
+        results: List[pd.DataFrame] = []
+        total = len(async_results)
+        for i, (sample, async_result) in enumerate(async_results, start=1):
+            try:
+                results.append(async_result.get())
+                if i == total or i % 10 == 0:
+                    logger.info("Detect progress: %d / %d", i, total)
+            except Exception as e:
+                logger.error("detect_paralogs failed for %s: %s", sample, e)
+                failures.append((sample, e))
+    if failures:
+        preview = ", ".join(s for s, _ in failures[:20])
+        raise RuntimeError(
+            f"cast_detect aborted: {len(failures)} sample(s) failed ({preview}). See log."
+        )
+
+    frames = [r for r in results if r is not None and not r.empty]
+    if not frames:
+        raise RuntimeError("Paralog detection produced no labeled copies.")
+    all_paralogs = pd.concat(frames, ignore_index=True)
+    all_paralogs.dropna(subset=["copy"], inplace=True)
+
+    all_paralogs.to_csv(
+        os.path.join(out_dir, "all_paralogs_for_reference.tsv"), sep="\t", index=False
+    )
+    cleaned = clean_paralogs(all_paralogs, num_cores, log_queue)
+    cleaned.to_csv(
+        os.path.join(out_dir, "all_paralogs_for_reference_cleaned.tsv"),
+        sep="\t",
+        index=False,
+    )
+    scored = score_samples(cleaned)
+    scored.to_csv(
+        os.path.join(out_dir, "all_paralogs_for_reference_scored.tsv"),
+        sep="\t",
+        index=False,
+    )
+    scored = scored.loc[~scored["sample"].isin(blocklist)].reset_index(drop=True)
+    to_write = prepare_to_write(scored)
+
+    ref_path = os.path.join(
+        out_dir,
+        f"customized_reference_div_{paralog_min_divergence}_{paralog_max_divergence}.fas",
+    )
+    with open(ref_path, "w") as customized_reference:
+        for rec in to_write.to_dict(orient="records"):
+            sample = rec["sample"]
+            exon_num = str(rec["exon"]).split("_")[-1]
+            locus = rec["locus"]
+            contig = rec["contig"]
+            copy = rec["copy"]
+            seq = rec["sequence"]
+            copy_tag = "" if copy == "main" else str(copy)
+            customized_reference.write(
+                f">Assembly_{locus}{copy_tag}_Contig_{exon_num}_{sample}_N_{contig}\n{seq}\n"
+            )
+
+    loc_stats = locus_stats(all_paralogs)
+    loc_stats.to_csv(
+        os.path.join(
+            out_dir,
+            f"locus_statistics_div_{paralog_min_divergence}_{paralog_max_divergence}.tsv",
+        ),
+        sep="\t",
+        na_rep="NaN",
+    )
+    ex_stats = exon_stats(all_paralogs)
+    ex_stats.to_csv(
+        os.path.join(
+            out_dir,
+            f"exon_statistics_div_{paralog_min_divergence}_{paralog_max_divergence}.tsv",
+        ),
+        sep="\t",
+        na_rep="NaN",
+    )
+    par_stats = paralog_stats(loc_stats)
+    par_stats.to_csv(
+        os.path.join(
+            out_dir,
+            f"paralog_statistics_div_{paralog_min_divergence}_{paralog_max_divergence}.tsv",
+        ),
+        sep="\t",
+        na_rep="NaN",
+    )
+    logger.info(
+        "Wrote paralog reference (%d sequence(s)) and statistics under %s",
+        len(to_write),
+        out_dir,
+    )

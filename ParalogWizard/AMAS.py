@@ -32,6 +32,8 @@ and counts of all characters present in the relevant (nucleotide or amino acid) 
 """
 
 
+from __future__ import annotations
+
 import argparse, multiprocessing as mp, re, sys
 from random import sample
 from os import path, remove

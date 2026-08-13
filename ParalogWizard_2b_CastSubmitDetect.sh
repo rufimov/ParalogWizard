@@ -60,10 +60,10 @@ env echo 'Copying data to scratch'
 if [[ "${paralogs}" =~ "yes" ]]; then
   cp "${path_to_data}"/40aln_orth_par/pairwise_distances.tsv "${SCRATCHDIR}"/"${data}"/40aln_orth_par/
   if [[ -z "${block_list}"  ]]; then
-    python3 ParalogWizard.py cast_detect -d "${data}" -p -mi "${paralog_min_divergence}" -ma "${paralog_max_divergence}" -pe "${probe_exons_split}" -nc "${cpu}"|| exit 1
+    python3 ParalogWizard.py cast_detect -d "${data}" -p -mi "${paralog_min_divergence}" -ma "${paralog_max_divergence}" -nc "${cpu}"|| exit 1
     env echo
   else
-    python3 ParalogWizard.py cast_detect -d "${data}" -b "${block_list[@]}" -p -mi "${paralog_min_divergence}" -ma "${paralog_max_divergence}" -pe "${probe_exons_split}" -nc "${cpu}" || exit 1
+    python3 ParalogWizard.py cast_detect -d "${data}" -b "${block_list[@]}" -p -mi "${paralog_min_divergence}" -ma "${paralog_max_divergence}" -nc "${cpu}" || exit 1
     env echo
   fi
   env echo 'Copying results back to working directory'
@@ -76,10 +76,10 @@ if [[ "${paralogs}" =~ "yes" ]]; then
   env echo
 else
   if [[ -z "${block_list}"  ]]; then
-    python3 ParalogWizard.py cast_detect -d "${data}" -pe "${probe_exons_split}" -nc "${cpu}" || exit 1
+    python3 ParalogWizard.py cast_detect -d "${data}" -nc "${cpu}" || exit 1
     env echo
   else
-    python3 ParalogWizard.py cast_detect -d "${data}" -b "${block_list[@]}" -pe "${probe_exons_split}" -nc "${cpu}" || exit 1
+    python3 ParalogWizard.py cast_detect -d "${data}" -b "${block_list[@]}" -nc "${cpu}" || exit 1
     env echo
   fi
 

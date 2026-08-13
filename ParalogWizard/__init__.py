@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gzip
 import logging
 import logging.handlers
@@ -42,48 +44,34 @@ def _make_file_handler(path, min_level, max_level=logging.CRITICAL):
 
 def log_paths_from_base(log_file, debug=False):
     """
-    Derive split log paths from the run base name.
+    Single combined log path from the run base name.
 
-    Example base ParalogWizard_cast_call_10.Aug.26_12:00.log yields:
-      .log, .errors.log, and optionally .debug.log
+    Example ParalogWizard_cast_assemble_10.Aug.26_12:00.log → same .log file.
+    INFO/WARNING/ERROR always; DEBUG is included in that file only when debug=True.
     """
     base, ext = os.path.splitext(log_file)
     if ext.lower() != ".log":
         base = log_file
-    paths = {
-        "info": f"{base}.log",
-        "errors": f"{base}.errors.log",
-    }
-    if debug:
-        paths["debug"] = f"{base}.debug.log"
-    return paths
+    return {"info": f"{base}.log"}
 
 
 def listener_configurer(log_file: str, debug: bool = False):
     """
     Configure the logging listener process.
 
-    Always writes:
-      <base>.log         — INFO and WARNING (normal run log)
-      <base>.errors.log  — ERROR and CRITICAL
-    With debug=True also writes:
-      <base>.debug.log   — DEBUG and above (full detail)
+    Always writes one file:
+      <base>.log — INFO and above (ERROR included)
+    With debug=True the same file also receives DEBUG lines.
     """
     root = logging.getLogger()
     root.handlers = []
-    root.setLevel(logging.DEBUG if debug else logging.INFO)
+    min_level = logging.DEBUG if debug else logging.INFO
+    root.setLevel(min_level)
 
     paths = log_paths_from_base(log_file, debug=debug)
     root.addHandler(
-        _make_file_handler(paths["info"], logging.INFO, logging.WARNING)
+        _make_file_handler(paths["info"], min_level, logging.CRITICAL)
     )
-    root.addHandler(
-        _make_file_handler(paths["errors"], logging.ERROR, logging.CRITICAL)
-    )
-    if debug:
-        root.addHandler(
-            _make_file_handler(paths["debug"], logging.DEBUG, logging.CRITICAL)
-        )
 
 
 def listener_process(
@@ -149,15 +137,8 @@ def setup_logging():
         log_file = os.environ.get("PARALOGWIZARD_LOGFILE", "ParalogWizard.log")
         paths = log_paths_from_base(log_file, debug=_debug_enabled())
         logger.addHandler(
-            _make_file_handler(paths["info"], logging.INFO, logging.WARNING)
+            _make_file_handler(paths["info"], level, logging.CRITICAL)
         )
-        logger.addHandler(
-            _make_file_handler(paths["errors"], logging.ERROR, logging.CRITICAL)
-        )
-        if "debug" in paths:
-            logger.addHandler(
-                _make_file_handler(paths["debug"], logging.DEBUG, logging.CRITICAL)
-            )
 
         stream_handler = logging.StreamHandler()
         stream_handler.setLevel(level)

@@ -2,8 +2,10 @@
 # Input: 31exonic_contigs/*.fas, 50pslx/corrected/*.pslx
 # Output: 50pslx/*.pslx, 50pslx/corrected/*.pslx, 60mafft/*.fasta, 60mafft/*.mafft,
 #         70concatenated_exon_alignments/*.phylip, 70concatenated_exon_alignments/*.part
-# Dependencies: ParalogWizard/cast_analyze.py, ParalogWizard/assembled_exons_to_fastas.py, ParalogWizard/AMAS.py
+# Dependencies: ParalogWizard/cast_analyze.py, ParalogWizard/AMAS.py
 
+
+from __future__ import annotations
 
 from glob import glob
 import logging
@@ -14,7 +16,7 @@ import shutil
 
 # import subprocess
 import fileinput
-from typing import Dict
+from typing import Dict, List, Optional, Sequence, Tuple
 
 import Bio
 import pandas
@@ -26,6 +28,185 @@ from ParalogWizard import worker_initializer, log_exceptions
 
 # Get logger by name (will be configured by ParalogWizard.py)
 logger = logging.getLogger("ParalogWizard")
+
+
+# -----------------------------------------------------------------------------
+# PSLX → per-exon FASTAs (formerly assembled_exons_to_fastas.py; Weitemier 2014)
+# -----------------------------------------------------------------------------
+def _read_two_line_fasta(faname: str) -> Dict[str, str]:
+    """Read a FASTA where each record is exactly two lines (ID + sequence)."""
+    reference: Dict[str, str] = {}
+    with open(faname) as fasta_file:
+        line = fasta_file.readline()
+        while line:
+            line = line.strip()
+            if not line.startswith(">"):
+                raise ValueError(
+                    "The fasta file is not formatted correctly. Please be sure that "
+                    "each entry is given on exactly two lines: the ID line and the "
+                    "sequence line."
+                )
+            record_id = line.lstrip(">")
+            seq_line = fasta_file.readline()
+            if not seq_line:
+                raise ValueError(f"Missing sequence line after >{record_id}")
+            reference[record_id] = seq_line.strip()
+            line = fasta_file.readline()
+    return reference
+
+
+def _parse_pslx_hit_seq(fields: List[str], filler: bool) -> Tuple[str, int, str]:
+    """From a PSLX data row, return (exon_name, match_length, sequence)."""
+    length = int(fields[0]) + int(fields[1])
+    this_exon = fields[13]
+    if int(fields[17]) == 1 or not filler:
+        my_seq = fields[21].replace(",", "")
+    else:
+        block_sizes = fields[18].split(",")
+        block_starts = fields[19].split(",")
+        blocks = fields[21].split(",")
+        my_seq = blocks[0]
+        for i in range(int(fields[17]) - 1):
+            gap_size = int(block_starts[i + 1]) - (
+                int(block_starts[i]) + int(block_sizes[i])
+            )
+            my_seq = my_seq + ("N" * gap_size) + blocks[i + 1]
+    return this_exon, length, my_seq
+
+
+def _sample_name_from_pslx_path(filename: str) -> str:
+    name = re.sub("Final_Assembly_", r"", filename)
+    return re.sub(".pslx", r"", name)
+
+
+def assembled_exons_to_fastas(
+    probe_fasta: str,
+    out_dir: str,
+    pslx_files: Optional[Sequence[str]] = None,
+    pslx_list_file: Optional[str] = None,
+    *,
+    filler: bool = False,
+    ref_out: bool = False,
+    ref_name: str = "Reference",
+    all_assemblies: bool = False,
+) -> List[str]:
+    """
+    Build per-exon FASTAs under out_dir from BLAT .pslx files.
+
+    Provide either pslx_files (list of paths) or pslx_list_file (one path per line).
+    """
+    if not probe_fasta:
+        raise ValueError("probe_fasta is required")
+    if pslx_files is None and not pslx_list_file:
+        raise ValueError("Provide pslx_files or pslx_list_file")
+    if pslx_files is not None and pslx_list_file:
+        raise ValueError("Provide only one of pslx_files or pslx_list_file")
+    if os.path.exists(out_dir):
+        raise FileExistsError(
+            f"The output directory already exists: {out_dir}. "
+            "Remove it first or choose a new name."
+        )
+
+    if pslx_list_file:
+        with open(pslx_list_file) as fh:
+            pslx_files = [ln.strip() for ln in fh if ln.strip()]
+    assert pslx_files is not None
+
+    reference_contigs = _read_two_line_fasta(probe_fasta)
+    contigs: Dict[str, Dict[str, List]] = {exon: {} for exon in reference_contigs}
+    os.makedirs(out_dir)
+    logger.info(
+        "Building per-exon FASTAs: %d probe(s), %d pslx file(s) → %s",
+        len(reference_contigs),
+        len(pslx_files),
+        out_dir,
+    )
+
+    if all_assemblies:
+        names: List[str] = []
+        for filename in pslx_files:
+            name = _sample_name_from_pslx_path(filename)
+            with open(filename) as file:
+                count = 1
+                for pslx_line in file:
+                    pslx_line = pslx_line.strip()
+                    if "," not in pslx_line:
+                        continue
+                    fields = pslx_line.split("\t")
+                    this_exon, length, my_seq = _parse_pslx_hit_seq(fields, filler)
+                    if this_exon not in contigs:
+                        raise KeyError(
+                            "The contigs in the fasta file don't match those in the "
+                            ".pslx files. Be sure the names of the contigs don't "
+                            "contain spaces."
+                        )
+                    sample_key = f"{name}_{count}"
+                    names.append(sample_key)
+                    contigs[this_exon][sample_key] = [length, my_seq]
+                    count += 1
+
+        written: List[str] = []
+        for exon in contigs:
+            out_exon = re.sub(",", r"...", exon)
+            out_name = os.path.join(out_dir, f"To_align_{out_exon}.fasta")
+            filler_seq = "n" * len(reference_contigs[exon])
+            filler_not_recorded = True
+            with open(out_name, "w") as out_file:
+                for name in names:
+                    names_to_check = [
+                        "_".join(x.split("_")[:-1]) for x in contigs[exon].keys()
+                    ]
+                    name_to_check = "_".join(name.split("_")[:-1])
+                    if name in contigs[exon]:
+                        out_file.write(f">{name}\n{contigs[exon][name][1]}\n")
+                    elif name_to_check not in names_to_check and filler_not_recorded:
+                        out_file.write(f">{name}\n{filler_seq}\n")
+                        filler_not_recorded = False
+                if ref_out:
+                    out_file.write(f">{ref_name}\n{reference_contigs[exon]}\n")
+            written.append(out_name)
+        logger.info("Wrote %d exon FASTA(s) (all assemblies)", len(written))
+        return written
+
+    names = []
+    for filename in pslx_files:
+        name = _sample_name_from_pslx_path(filename)
+        names.append(name)
+        with open(filename) as file:
+            for pslx_line in file:
+                pslx_line = pslx_line.strip()
+                if "," not in pslx_line:
+                    continue
+                fields = pslx_line.split("\t")
+                this_exon, length, my_seq = _parse_pslx_hit_seq(fields, filler)
+                if this_exon not in contigs:
+                    raise KeyError(
+                        "The contigs in the fasta file don't match those in the "
+                        ".pslx files. Be sure the names of the contigs don't "
+                        "contain spaces."
+                    )
+                if name in contigs[this_exon]:
+                    if length > contigs[this_exon][name][0]:
+                        contigs[this_exon][name] = [length, my_seq]
+                else:
+                    contigs[this_exon][name] = [length, my_seq]
+
+    written = []
+    for exon in contigs:
+        out_exon = re.sub(",", r"...", exon)
+        out_name = os.path.join(out_dir, f"To_align_{out_exon}.fasta")
+        filler_seq = "n" * len(reference_contigs[exon])
+        with open(out_name, "w") as out_file:
+            for name in names:
+                if name in contigs[exon]:
+                    out_file.write(f">{name}\n{contigs[exon][name][1]}\n")
+                else:
+                    out_file.write(f">{name}\n{filler_seq}\n")
+            if ref_out:
+                out_file.write(f">{ref_name}\n{reference_contigs[exon]}\n")
+        written.append(out_name)
+    logger.info("Wrote %d exon FASTA(s)", len(written))
+    return written
 
 
 def run_blat(contigfile, probes, minident):
@@ -161,30 +342,28 @@ def replace_trailing(seq):
 
 
 def align(data_folder, probes, n_cpu, log_queue):
-    shutil.rmtree(os.path.join(data_folder, "60mafft"), ignore_errors=True)
-    with open(
-        os.path.join(data_folder, "50pslx", "corrected", "list_pslx.txt"), "w"
-    ) as list_pslx:
-        for pslx_file in glob(
-            os.path.join(data_folder, "50pslx", "corrected", "*.pslx")
-        ):
+    mafft_dir = os.path.join(data_folder, "60mafft")
+    shutil.rmtree(mafft_dir, ignore_errors=True)
+    pslx_corrected = glob(os.path.join(data_folder, "50pslx", "corrected", "*.pslx"))
+    if not pslx_corrected:
+        raise FileNotFoundError(
+            f"No corrected .pslx files under {os.path.join(data_folder, '50pslx', 'corrected')}"
+        )
+    list_pslx_path = os.path.join(data_folder, "50pslx", "corrected", "list_pslx.txt")
+    with open(list_pslx_path, "w") as list_pslx:
+        for pslx_file in pslx_corrected:
             list_pslx.write(pslx_file + "\n")
-    #     subprocess.call(
-    #         f"python3 ParalogWizard/assembled_exons_to_fastas.py \
-    # -l {os.path.join(data_folder, '50pslx', 'corrected', 'list_pslx.txt')} -f {probes} \
-    # -d {os.path.join(data_folder, '60mafft')}",
-    #         shell=True,
-    #     )
 
-    exons_to_fastas_output = os.popen(
-        f"python3 ParalogWizard/assembled_exons_to_fastas.py \
--l {os.path.join(data_folder, '50pslx', 'corrected', 'list_pslx.txt')} -f {probes} \
--d {os.path.join(data_folder, '60mafft')}"
-    ).read()
-    logger.info(exons_to_fastas_output)
+    logger.info("Building per-exon FASTAs from %d pslx file(s)", len(pslx_corrected))
+    assembled_exons_to_fastas(
+        probe_fasta=probes,
+        out_dir=mafft_dir,
+        pslx_files=pslx_corrected,
+    )
+
     all_loci = set()
     files_to_align = []
-    for file in glob(os.path.join(data_folder, "60mafft", "*.fasta")):
+    for file in glob(os.path.join(mafft_dir, "*.fasta")):
         with fileinput.FileInput(file, inplace=True) as file_to_correct:
             for line in file_to_correct:
                 line = re.sub(r">.+/", ">", line)
@@ -213,7 +392,7 @@ def align(data_folder, probes, n_cpu, log_queue):
         processes=n_cpu, initializer=worker_initializer, initargs=(log_queue,)
     ) as pool_aln:
         pool_aln.map(mafft_align, files_to_align)
-    for file in glob(os.path.join(data_folder, "60mafft", "*.mafft")):
+    for file in glob(os.path.join(mafft_dir, "*.mafft")):
         fasta = list(SeqIO.parse(file, "fasta"))
         SeqIO.write(fasta, file, "fasta-2line")
         with fileinput.FileInput(file, inplace=True) as file_to_correct:

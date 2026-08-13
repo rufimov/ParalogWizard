@@ -22,9 +22,12 @@ Variant calling is done separately by cast_call.
 ------------------------------------------------------------------------------------------------------------------------
 """
 
+from __future__ import annotations
+
 import logging
 import os
 import subprocess
+import tempfile
 from math import ceil
 
 import pandas as pd
@@ -98,24 +101,63 @@ def trim_ends(seq1: str, seq2: str):
 @log_exceptions
 def mafft_align(file: str) -> None:
     """
-    Align a FASTA with MAFFT --auto.
-    Writes <basename>.mafft.fasta next to the input file.
+    Align a FASTA with MAFFT --auto --adjustdirectionaccurately.
+    Writes <basename>.mafft.fasta next to the input file. Strips MAFFT '_R_' marks.
+
+    Runs in a private temp cwd so parallel MAFFT jobs do not collide on
+    makedirectionlist scratch files.
     """
     if not os.path.exists(file):
         logger.error("Input file %s does not exist", file)
         raise FileNotFoundError(f"Input file {file} does not exist")
 
+    abs_file = os.path.abspath(file)
     out_file = f"{os.path.splitext(file)[0]}.mafft.fasta"
-    cmd = ["mafft", "--auto", file]
     logger.info("Running MAFFT on %s", file)
-    logger.debug("MAFFT command: %s", " ".join(cmd))
+
+    def _run(adjust: bool) -> subprocess.CompletedProcess:
+        cmd = ["mafft", "--quiet"]
+        if adjust:
+            cmd.append("--adjustdirectionaccurately")
+        cmd.extend(["--auto", abs_file])
+        logger.debug("MAFFT command: %s", " ".join(cmd))
+        with tempfile.TemporaryDirectory(prefix="mafft_") as tmp:
+            return subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                check=True,
+                cwd=tmp,
+            )
+
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-        with open(out_file, "w") as aligned:
-            aligned.write(result.stdout)
-    except subprocess.CalledProcessError as e:
-        logger.error("MAFFT alignment failed for %s: %s", file, e.stderr)
-        raise
+        result = _run(adjust=True)
+    except subprocess.CalledProcessError:
+        logger.warning(
+            "MAFFT --adjustdirectionaccurately failed for %s; retrying without it",
+            os.path.basename(file),
+        )
+        try:
+            result = _run(adjust=False)
+        except subprocess.CalledProcessError as e2:
+            logger.error("MAFFT alignment failed for %s: %s", file, e2.stderr)
+            raise
+
+    n_rev = result.stdout.count(">_R_")
+    lines = []
+    for line in result.stdout.splitlines(keepends=True):
+        if line.startswith(">_R_"):
+            line = ">" + line[4:]
+        lines.append(line)
+    aligned = "".join(lines)
+    if n_rev:
+        logger.info(
+            "MAFFT reverse-complemented %d sequence(s) in %s",
+            n_rev,
+            os.path.basename(file),
+        )
+    with open(out_file, "w") as fh:
+        fh.write(aligned)
     logger.info(
         "MAFFT alignment completed for %s; output written to %s", file, out_file
     )
@@ -196,7 +238,6 @@ def bwa_map(
     sample: str,
     main_data_folder: str,
     n_threads: int = 1,
-    force: bool = False,
 ) -> None:
     """
     Map one sample to one reference chunk under 100remapped/<chunk>/.
@@ -204,37 +245,21 @@ def bwa_map(
     Pipeline: bwa mem (-R RG/SM=<sample>) | samtools view (-q 3 -F 0x90C) |
     samtools sort → {sample}_filtered_uniq_sorted.bam (+ index).
 
-    Skips if a non-empty BAM and .bai already exist, unless force=True.
+    Always maps (overwrites BAM if present).
     exon here is a chunk id (e.g. exons3), not a single locus name.
     """
     output_path = os.path.join(main_data_folder, "100remapped", exon)
     os.makedirs(output_path, exist_ok=True)
     logger.debug(
-        "bwa_map sample=%s chunk=%s threads=%d force=%s out=%s",
+        "bwa_map sample=%s chunk=%s threads=%d out=%s",
         sample,
         exon,
         n_threads,
-        force,
         output_path,
     )
 
     sorted_bam = os.path.join(output_path, f"{sample}_filtered_uniq_sorted.bam")
     sorted_bai = sorted_bam + ".bai"
-    if (
-        not force
-        and os.path.isfile(sorted_bam)
-        and os.path.isfile(sorted_bai)
-        and os.path.getsize(sorted_bam) > 0
-    ):
-        logger.info(
-            "Skipping sample %s / exon %s: sorted BAM already exists", sample, exon
-        )
-        logger.debug(
-            "Skip existing BAM %s (%d bytes)",
-            sorted_bam,
-            os.path.getsize(sorted_bam),
-        )
-        return
 
     reference_to_map_to = require_file(
         os.path.join(output_path, f"reference_{exon}.fas"),
@@ -253,8 +278,8 @@ def bwa_map(
         f"R2 reads for {sample}",
     )
 
-    # SM matches samples_list.txt so cast_call / bcftools sample names stay clean.
-    read_group = f"@RG\tID:{sample}\tSM:{sample}\tPL:ILLUMINA"
+    # BWA expects escaped \t in -R (literal backslash-t), not real tab characters.
+    read_group = f"@RG\\tID:{sample}\\tSM:{sample}\\tPL:ILLUMINA"
     map_log = os.path.join(output_path, f"{sample}_bwa_map.log")
     logger.debug("Read group: %r", read_group)
 
@@ -478,7 +503,6 @@ def remap(
     num_cores: int,
     read_length: int,
     log_queue,
-    force: bool = False,
 ) -> None:
     """
     Run cast_remap: select exons, build ~10 reference chunks, BWA-index them,
@@ -493,15 +517,13 @@ def remap(
     :param num_cores: CPUs to use (from -nc / cluster reservation)
     :param read_length: drop reference exons shorter than this
     :param log_queue: multiprocessing logging queue
-    :param force: remap even when sorted BAM+.bai already exist
     """
-    logger.info("Starting cast_remap (force=%s, min exon length=%d)", force, read_length)
+    logger.info("Starting cast_remap (min exon length=%d)", read_length)
     logger.debug(
-        "remap args: reference=%s data_folder=%s num_cores=%d force=%s",
+        "remap args: reference=%s data_folder=%s num_cores=%d",
         reference_file,
         data_folder,
         num_cores,
-        force,
     )
     require_tools(REQUIRED_TOOLS)
     require_dir(data_folder, "data folder")
@@ -724,7 +746,7 @@ def remap(
                 pool_bwa.apply_async(
                     bwa_map,
                     args,
-                    {"n_threads": threads_per_map, "force": force},
+                    {"n_threads": threads_per_map},
                 ),
             )
             for args in mapping_args

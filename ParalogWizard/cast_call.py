@@ -18,9 +18,11 @@ chunk directory exons*, a {sample}_filtered_uniq_sorted.bam must exist.
   3. bcftools concat all chunk VCFs → 100remapped/all_variants.vcf.gz (+ index).
 
 num_cores (-nc) is split into chunk workers × bcftools threads for local or
-cluster use. Complete per-chunk outputs are skipped unless --force.
+cluster use. Each run calls all chunks fresh (may overwrite existing VCFs).
 ------------------------------------------------------------------------------------------------------------------------
 """
+
+from __future__ import annotations
 
 import gzip
 import logging
@@ -207,42 +209,6 @@ def check_all_samples_have_bams(data_folder, exons, desired_samples):
         )
 
 
-def _vcf_samples(vcf_path):
-    result = subprocess.run(
-        ["bcftools", "query", "-l", vcf_path],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    samples = [line.strip() for line in result.stdout.splitlines() if line.strip()]
-    logger.debug("bcftools query -l %s -> %d sample(s)", vcf_path, len(samples))
-    return samples
-
-
-def _output_is_complete(vcf_path, desired_samples):
-    """True if vcf_path exists and its sample order exactly matches desired_samples."""
-    if not os.path.isfile(vcf_path) or os.path.getsize(vcf_path) == 0:
-        logger.debug("Output incomplete (missing/empty): %s", vcf_path)
-        return False
-    try:
-        samples = _vcf_samples(vcf_path)
-    except (subprocess.CalledProcessError, OSError) as e:
-        logger.warning("Could not read samples from %s (%s); will redo", vcf_path, e)
-        return False
-    ok = samples == desired_samples
-    logger.debug(
-        "Output complete check %s: %s (have %d, want %d)",
-        vcf_path,
-        ok,
-        len(samples),
-        len(desired_samples),
-    )
-    if not ok:
-        logger.debug("  have: %s", ", ".join(samples[:20]))
-        logger.debug("  want: %s", ", ".join(desired_samples[:20]))
-    return ok
-
-
 def _open_vcf(path, mode):
     if path.endswith(".gz"):
         return gzip.open(path, mode + "t")
@@ -401,15 +367,14 @@ def _index_vcf(vcf_path):
 # Per-chunk and all-chunk calling
 # -----------------------------------------------------------------------------
 @log_exceptions
-def variant_call(exon, main_data_folder, n_threads=1, force=False):
+def variant_call(exon, main_data_folder, n_threads=1):
     """
     Call and filter variants for one remapped chunk (e.g. exons2).
 
     Uses bam_list.txt in samples_list order, runs
     bcftools mpileup | call | filter → {exon}_variants_filtered.vcf.gz, then
     writes {exon}_variants_filtered_corrected.vcf.gz with samples reordered and
-    indexed. Skips if that corrected VCF already has the expected sample set
-    unless force=True.
+    indexed. Always calls (overwrites existing outputs).
     """
     samples_list_dst = os.path.join(main_data_folder, "100remapped", "samples_list.txt")
     desired_samples = _read_samples_list(samples_list_dst)
@@ -419,20 +384,11 @@ def variant_call(exon, main_data_folder, n_threads=1, force=False):
         f"chunk directory for {exon}",
     )
     logger.debug(
-        "variant_call start chunk=%s force=%s threads=%d out=%s",
+        "variant_call start chunk=%s threads=%d out=%s",
         exon,
-        force,
         n_threads,
         corrected_vcf_file,
     )
-
-    if not force and _output_is_complete(corrected_vcf_file, desired_samples):
-        logger.info(
-            "Skipping chunk %s: complete output already exists (%s)",
-            exon,
-            corrected_vcf_file,
-        )
-        return
 
     reference_file = require_file(
         os.path.join(exon_dir, f"reference_{exon}.fas"),
@@ -512,21 +468,19 @@ def variant_call(exon, main_data_folder, n_threads=1, force=False):
 
 
 @log_exceptions
-def call_variants(data_folder, num_cores, log_queue, force=False):
+def call_variants(data_folder, num_cores, log_queue):
     """
     Run cast_call for all 100remapped/exons* chunks, then concat to all_variants.vcf.gz.
 
     :param data_folder: pipeline data root
     :param num_cores: CPUs from -nc (split across chunk workers and bcftools threads)
     :param log_queue: multiprocessing logging queue
-    :param force: redo chunks even when corrected VCFs are already complete
     """
     logger.info("Starting cast_call")
     logger.debug(
-        "call_variants args: data_folder=%s num_cores=%d force=%s",
+        "call_variants args: data_folder=%s num_cores=%d",
         data_folder,
         num_cores,
-        force,
     )
     require_tools(REQUIRED_TOOLS)
     require_dir(data_folder, "data folder")
@@ -569,12 +523,11 @@ def call_variants(data_folder, num_cores, log_queue, force=False):
     n_workers, threads_per_worker = allocate_workers_and_threads(num_cores, len(exons))
     logger.info(
         "Parallelism: %d chunk worker(s) x %d bcftools thread(s) "
-        "(requested cores=%d, chunks=%d, force=%s)",
+        "(requested cores=%d, chunks=%d)",
         n_workers,
         threads_per_worker,
         num_cores,
         len(exons),
-        force,
     )
     logger.debug(
         "Pool plan: workers=%d threads_per_worker=%d tasks=%d",
@@ -590,7 +543,7 @@ def call_variants(data_folder, num_cores, log_queue, force=False):
                 pool_call.apply_async(
                     variant_call,
                     (exon, data_folder),
-                    {"n_threads": threads_per_worker, "force": force},
+                    {"n_threads": threads_per_worker},
                 ),
             )
             for exon in exons
